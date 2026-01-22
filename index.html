@@ -81,17 +81,20 @@
         /* FORMS */
         .form-group { margin-bottom: 1.5rem; }
         label { display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: 0.9rem; }
-        input[type="text"], input[type="password"], input[type="number"], select, textarea {
+        input[type="text"], input[type="password"], input[type="tel"], select, textarea {
             width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px;
             background: var(--light-bg); color: var(--text-main); font-size: 1rem;
         }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--primary); }
 
         /* BUTTONS */
-        .btn { flex: 1; padding: 12px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; transition: var(--transition); display: flex; justify-content: center; align-items: center; gap: 8px; }
+        .btn { flex: 1; padding: 12px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; transition: var(--transition); display: flex; justify-content: center; align-items: center; gap: 8px; font-size: 0.95rem; }
         .btn-primary { background: var(--primary); color: white; }
         .btn-primary:hover { background: var(--primary-dark); }
         .btn-secondary { background: #64748b; color: white; }
         .btn-secondary:hover { background: #475569; }
+        .btn-whatsapp { background: #25D366; color: white; }
+        .btn-whatsapp:hover { background: #1ebc57; }
         .btn-success { background: var(--secondary); color: white; }
         
         .nav-buttons { display: flex; justify-content: space-between; margin-top: 2rem; gap: 1rem; }
@@ -99,6 +102,7 @@
 
         /* HERO SPECIFIC */
         .hero-section { text-align: center; padding: 2rem 1.5rem; }
+        .hero-icon { font-size: 3rem; color: var(--primary); margin-bottom: 1rem; }
         .cta-btn { background: var(--primary); color: white; padding: 1rem 2rem; border: none; border-radius: 50px; font-size: 1rem; font-weight: 600; cursor: pointer; width: 100%; display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 1rem; }
         
         /* ADMIN RECEIPT STYLES */
@@ -110,12 +114,20 @@
             background: white; color: black; width: 100%; max-width: 380px;
             padding: 20px; font-family: 'Courier New', Courier, monospace;
             border: 1px solid #ccc; margin: 20px auto; border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: block; /* Selalu tampilkan saat edit */
         }
-        .show-receipt #receiptPreview { display: block; }
         
         .receipt-header { text-align: center; border-bottom: 2px dashed #000; padding-bottom: 15px; margin-bottom: 15px; }
-        .receipt-logo { font-size: 2rem; color: #2563eb; margin-bottom: 5px; }
+        /* PERBAIKAN ICON: Pakai style khusus untuk Font Awesome di dalam struk */
+        .receipt-logo { 
+            font-size: 2.5rem; 
+            color: #2563eb !important; /* Warna paksa biru */
+            display: inline-block; 
+            margin-bottom: 5px; 
+            /* Agar saat dicetak ikonnya tetap ada dan terlihat */
+            -webkit-print-color-adjust: exact; 
+            print-color-adjust: exact; 
+        }
         .receipt-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem; }
         .receipt-divider { border-top: 2px dashed #000; margin: 15px 0; }
         .receipt-total { font-weight: bold; font-size: 1.1rem; display: flex; justify-content: space-between; }
@@ -124,11 +136,22 @@
         .toast { position: fixed; top: 20px; right: 20px; background: #ef4444; color: white; padding: 1rem; border-radius: 8px; z-index: 200; display: none; animation: slideIn 0.3s; }
         @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
 
-        /* PRINT MEDIA */
+        /* PRINT MEDIA - Perbaikan agar ikon dan layout benar */
         @media print {
             body * { visibility: hidden; }
             #receiptPreview, #receiptPreview * { visibility: visible; }
-            #receiptPreview { position: absolute; left: 0; top: 0; width: 100%; max-width: 100%; margin: 0; padding: 0; box-shadow: none; border: none; }
+            #receiptPreview { 
+                position: absolute; 
+                left: 0; 
+                top: 0; 
+                width: 100%; 
+                max-width: 100%; 
+                margin: 0; 
+                padding: 0; 
+                box-shadow: none; 
+                border: none; 
+                color: black !important;
+            }
             .no-print { display: none !important; }
         }
 
@@ -169,7 +192,6 @@
                 <button class="btn btn-secondary" onclick="logout()" style="padding:5px 10px; font-size:0.8rem;">Keluar</button>
             </div>
             
-            <!-- Form Isi Manual -->
             <div class="admin-grid">
                 <div class="form-group full-col">
                     <label>Nomor Order / Resi</label>
@@ -200,12 +222,11 @@
                     <textarea id="resIssue" rows="2" placeholder="Deskripsi kerusakan..." oninput="updateLivePreview()"></textarea>
                 </div>
                 <div class="form-group full-col">
-                    <label>Layanan & Biaya (Pisahkan dengan Enter)</label>
+                    <label>Layanan & Biaya (Pisahkan baris dengan Enter)</label>
                     <textarea id="resServices" rows="3" placeholder="Ganti LCD - 500000&#10;Ganti Baterai - 250000" oninput="updateLivePreview()"></textarea>
                 </div>
             </div>
 
-            <!-- Tombol Aksi -->
             <div style="margin-top: 2rem; display: flex; flex-direction: column; gap: 10px;">
                 <button class="btn btn-primary full-width" onclick="printReceipt()">
                     <i class="fa-solid fa-print"></i> Cetak Resi (Printer)
@@ -215,13 +236,13 @@
                 </button>
             </div>
 
-            <!-- Live Preview -->
             <div class="receipt-divider"></div>
             <h4 style="text-align:center; color:var(--text-light);">Preview Tampilan:</h4>
             
             <!-- Ini yang akan dicetak/didownload -->
             <div id="receiptPreview">
                 <div class="receipt-header">
+                    <!-- Perbaikan Ikon: class receipt-logo memastikan warna dan ukuran tetap -->
                     <i class="fa-solid fa-screwdriver-wrench receipt-logo"></i>
                     <div style="font-weight:bold; font-size:1.2rem; text-transform:uppercase;">MALIK SERVICE</div>
                     <div style="font-size:0.8rem;">Jl. Teknisi No. 12, Jakarta</div>
@@ -260,7 +281,6 @@
                 <div class="receipt-divider"></div>
                 <div style="font-weight:bold; margin-bottom:5px;">Rincian Layanan:</div>
                 <div id="prevServices">
-                    <!-- List items will go here -->
                     <div style="font-size:0.8rem; text-align:center;">Belum ada data</div>
                 </div>
                 <div class="receipt-divider"></div>
@@ -278,7 +298,7 @@
 
         <!-- 3. CUSTOMER ORDER HERO -->
         <section id="customer-hero" class="step-section hero-section">
-            <i class="fa-solid fa-microchip hero-icon" style="font-size:3rem; color:var(--primary);"></i>
+            <i class="fa-solid fa-microchip hero-icon"></i>
             <h1>Malik Service Center</h1>
             <p class="subtitle">Solusi perbaikan HP, Laptop & Elektronik Terpercaya.</p>
             
@@ -290,23 +310,33 @@
             </button>
         </section>
         
-        <!-- Placeholder untuk Form Order Pelanggan (Ringkas untuk contoh ini) -->
+        <!-- 4. FORM ORDER PELANGGAN (DIPERBAIKI) -->
         <section id="customer-form" class="step-section">
-            <h2>Form Order Pelanggan</h2>
-            <p>Fitur ini sudah Anda miliki sebelumnya. Untuk kode lengkapnya, Anda bisa menggabungkannya.</p>
+            <h2><i class="fa-solid fa-user"></i> Data Diri</h2>
             <div class="form-group">
-                <label>Nama</label>
-                <input type="text" placeholder="Nama Anda">
+                <label>Nama Lengkap</label>
+                <input type="text" id="custName" placeholder="Contoh: Budi Santoso">
+            </div>
+            <div class="form-group">
+                <label>Nomor WhatsApp</label>
+                <input type="tel" id="custWA" placeholder="0812...">
+            </div>
+            <div class="form-group">
+                <label>Alamat</label>
+                <textarea id="custAddress" placeholder="Alamat lengkap..."></textarea>
             </div>
             <div class="nav-buttons">
-                <button class="btn btn-secondary" onclick="goToCustomerView()">Kembali</button>
-                <button class="btn btn-primary">Kirim WA</button>
+                <button class="btn btn-secondary" onclick="goToCustomerView()">Batal</button>
+                <!-- Button ini memanggil fungsi kirim WA -->
+                <button class="btn btn-whatsapp" onclick="sendCustomerOrder()">
+                    <i class="fa-brands fa-whatsapp"></i> Kirim Order ke WA
+                </button>
             </div>
         </section>
 
     </main>
 
-    <!-- Library untuk Download Gambar (html2canvas) -->
+    <!-- Library html2canvas untuk Download Gambar -->
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
     <script>
@@ -319,6 +349,7 @@
 
         function showLogin() { showSection('login-section'); }
         function goToCustomerView() { showSection('customer-hero'); }
+        function startCustomerOrder() { showSection('customer-form'); }
 
         // --- LOGIN LOGIC ---
         function handleLogin() {
@@ -327,7 +358,6 @@
 
             if (user === 'admin' && pass === '1234') {
                 showToast("Login Berhasil", true);
-                // Set default date
                 document.getElementById('resDate').valueAsDate = new Date();
                 updateLivePreview();
                 showSection('admin-panel');
@@ -343,8 +373,22 @@
             showToast("Anda telah keluar", true);
         }
 
-        function startCustomerOrder() {
-            showSection('customer-form');
+        // --- CUSTOMER ORDER LOGIC (Diperbaiki) ---
+        function sendCustomerOrder() {
+            const name = document.getElementById('custName').value;
+            const wa = document.getElementById('custWA').value;
+            const address = document.getElementById('custAddress').value;
+
+            if(!name || !wa) {
+                showToast("Nama dan Nomor WA wajib diisi!");
+                return;
+            }
+
+            const message = `Halo Admin, saya ingin order servis.\n\nNama: ${name}\nNo WA: ${wa}\nAlamat: ${address}\n\nMohon info lebih lanjut.`;
+            const encodedMsg = encodeURIComponent(message);
+            const adminNumber = "6285713087659"; // Ganti dengan nomor Anda
+            
+            window.open(`https://wa.me/${adminNumber}?text=${encodedMsg}`, '_blank');
         }
 
         // --- TOAST NOTIFICATION ---
@@ -358,7 +402,6 @@
 
         // --- LIVE PREVIEW UPDATE ---
         function updateLivePreview() {
-            // Ambil nilai dari form
             const id = document.getElementById('resOrderId').value || '-';
             const date = document.getElementById('resDate').value || '-';
             const name = document.getElementById('resName').value || '-';
@@ -368,7 +411,6 @@
             const issue = document.getElementById('resIssue').value || '-';
             const servicesRaw = document.getElementById('resServices').value;
 
-            // Update text preview
             document.getElementById('prevId').innerText = id;
             document.getElementById('prevDate').innerText = date;
             document.getElementById('prevName').innerText = name;
@@ -377,7 +419,6 @@
             document.getElementById('prevModel').innerText = model;
             document.getElementById('prevIssue').innerText = issue;
 
-            // Parse Services & Calculate Total
             const container = document.getElementById('prevServices');
             container.innerHTML = '';
             let total = 0;
@@ -391,10 +432,9 @@
                         let price = 0;
                         let priceStr = '';
 
-                        // Coba format "Nama - Harga"
                         if (parts.length >= 2) {
-                            serviceName = parts.slice(0, -1).join('-').trim(); // Ambil bagian sebelum harga terakhir
-                            const priceVal = parts[parts.length - 1].replace(/\D/g, ''); // Ambil angka saja
+                            serviceName = parts.slice(0, -1).join('-').trim();
+                            const priceVal = parts[parts.length - 1].replace(/\D/g, '');
                             price = parseInt(priceVal) || 0;
                             priceStr = `Rp ${price.toLocaleString('id-ID')}`;
                         }
@@ -408,7 +448,7 @@
                     }
                 });
             } else {
-                container.innerHTML = '<div style="font-size:0.8rem; text-align:center;">Belum ada data layanan</div>';
+                container.innerHTML = '<div style="font-size:0.8rem; text-align:center;">Belum ada data</div>';
             }
 
             document.getElementById('prevTotal').innerText = `Rp ${total.toLocaleString('id-ID')}`;
@@ -428,9 +468,7 @@
 
             const element = document.getElementById("receiptPreview");
             
-            // Gunakan html2canvas
             html2canvas(element, { scale: 2 }).then(canvas => {
-                // Buat link download
                 const link = document.createElement('a');
                 link.download = `Resi-${id}.png`;
                 link.href = canvas.toDataURL("image/png");
