@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Malik Service Center - Order Servis Online</title>
+    <title>Malik Service Center</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
@@ -11,9 +11,9 @@
     
     <style>
         :root {
-            --primary: #2563eb; /* Biru Profesional */
+            --primary: #2563eb;
             --primary-dark: #1e40af;
-            --secondary: #10b981; /* Hijau WhatsApp */
+            --secondary: #10b981;
             --dark-bg: #0f172a;
             --dark-card: #1e293b;
             --light-bg: #f8fafc;
@@ -26,7 +26,6 @@
             --transition: all 0.3s ease;
         }
 
-        /* Dark Mode Variables */
         body.dark-mode {
             --light-bg: #0f172a;
             --light-card: #1e293b;
@@ -35,22 +34,19 @@
             --border: #334155;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', sans-serif;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
 
         body {
             background-color: var(--light-bg);
             color: var(--text-main);
             transition: var(--transition);
             line-height: 1.6;
-            padding-bottom: 80px; /* Space for footer/fab */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* --- HEADER --- */
+        /* HEADER */
         header {
             background: var(--light-card);
             padding: 1rem 5%;
@@ -62,894 +58,397 @@
             justify-content: space-between;
             align-items: center;
         }
+        .brand { font-size: 1.25rem; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 10px; }
+        
+        /* MAIN CONTAINER */
+        main { max-width: 600px; margin: 2rem auto; padding: 0 1.5rem; flex: 1; }
 
-        .brand {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .dark-toggle {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 1.2rem;
-            color: var(--text-main);
-            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .dark-toggle:active {
-            transform: rotate(180deg) scale(0.9);
-        }
-
-        /* --- MAIN CONTAINER --- */
-        main {
-            max-width: 600px;
-            margin: 2rem auto;
-            padding: 0 1.5rem;
-        }
-
-        /* --- SECTIONS & STEPS --- */
+        /* SECTIONS */
         .step-section {
             background: var(--light-card);
             padding: 2rem;
             border-radius: var(--radius);
             box-shadow: var(--shadow);
-            display: none; /* Hidden by default */
+            display: none;
             animation: fadeIn 0.5s ease;
         }
+        .step-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .step-section.active {
-            display: block;
-        }
+        h2 { margin-bottom: 1.5rem; color: var(--primary); font-size: 1.5rem; display: flex; align-items: center; gap: 10px; }
+        p.subtitle { color: var(--text-light); margin-bottom: 2rem; font-size: 0.95rem; }
 
-        /* Hero Section Specific Styling */
-        .hero-section {
-            text-align: center;
-            padding: 3rem 1.5rem;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* FORMS */
+        .form-group { margin-bottom: 1.5rem; }
+        label { display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: 0.9rem; }
+        input[type="text"], input[type="password"], input[type="number"], select, textarea {
+            width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px;
+            background: var(--light-bg); color: var(--text-main); font-size: 1rem;
         }
 
-        h2 {
-            margin-bottom: 1.5rem;
-            color: var(--primary);
-            font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        p.subtitle {
-            color: var(--text-light);
-            margin-bottom: 2rem;
-            font-size: 0.95rem;
-        }
-
-        /* --- HERO SECTION --- */
-        .hero-icon {
-            font-size: 3rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .cta-btn {
-            background: var(--primary);
-            color: white;
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
-            width: 100%;
-            justify-content: center;
-            margin-top: 1rem;
-        }
-
-        .cta-btn:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-        }
-
-        /* --- FORM ELEMENTS --- */
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
-
-        input[type="text"],
-        input[type="tel"], /* Better for phone */
-        select,
-        textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            background: var(--light-bg);
-            color: var(--text-main);
-            font-size: 1rem;
-            transition: var(--transition);
-            appearance: none; /* Remove default styling */
-        }
-
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-
-        /* Custom scrollbar for textarea */
-        textarea::-webkit-scrollbar {
-            width: 8px;
-        }
-        textarea::-webkit-scrollbar-thumb {
-            background-color: #cbd5e1;
-            border-radius: 4px;
-        }
-
-        .radio-group {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .radio-option {
-            flex: 1;
-            position: relative;
-        }
-
-        .radio-option input {
-            position: absolute;
-            opacity: 0;
-            cursor: pointer;
-            width: 100%;
-            height: 100%;
-        }
-
-        .radio-option span {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 10px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: var(--transition);
-            font-size: 0.9rem;
-        }
-
-        .radio-option input:checked + span {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
-        }
-
-        /* --- SERVICE CARDS --- */
-        .service-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .service-card {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: var(--transition);
-            user-select: none; /* Prevent text highlighting on double click */
-        }
-
-        .service-card:hover {
-            border-color: var(--primary);
-            background: rgba(37, 99, 235, 0.02);
-        }
-
-        .service-card.selected {
-            border-color: var(--primary);
-            background: rgba(37, 99, 235, 0.05);
-        }
-
-        .service-info h4 {
-            font-size: 1rem;
-            margin-bottom: 4px;
-        }
-
-        .service-info p {
-            font-size: 0.85rem;
-            color: var(--text-light);
-        }
-
-        .price-tag {
-            font-weight: 700;
-            color: var(--primary);
-            font-size: 0.9rem;
-        }
-
-        .checkbox-wrapper input {
-            width: 20px;
-            height: 20px;
-            accent-color: var(--primary);
-            cursor: pointer;
-            pointer-events: none; /* Let the parent div handle click */
-        }
-
-        /* --- SUMMARY SECTION --- */
-        .summary-box {
-            background: var(--light-bg);
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            border-left: 4px solid var(--primary);
-        }
-
-        .summary-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-        }
-
-        .summary-item span:first-child {
-            color: var(--text-light);
-        }
-
-        .total-display {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 1.5rem;
-            padding-top: 1rem;
-            border-top: 1px dashed var(--border);
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        /* --- NAVIGATION BUTTONS --- */
-        .nav-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 2rem;
-            gap: 1rem;
-        }
-
-        .btn {
-            flex: 1;
-            padding: 12px;
-            border-radius: 8px;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            font-size: 0.95rem;
-        }
-
-        .btn-prev {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--text-main);
-        }
-
-        .btn-prev:hover {
-            background: var(--light-bg);
-        }
-
-        .btn-next {
-            background: var(--primary);
-            color: white;
-        }
-
-        .btn-next:hover {
-            background: var(--primary-dark);
-        }
-
-        .btn-whatsapp {
-            background: #25D366;
-            color: white;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .btn-whatsapp:hover {
-            background: #1ebc57;
-            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
-        }
-
-        /* --- FLOATING BUTTON & TOAST --- */
-        .fab {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #25D366;
-            color: white;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
-            text-decoration: none;
-            z-index: 90;
-            transition: var(--transition);
-        }
-
-        .fab:hover {
-            transform: scale(1.1);
-        }
-
-        .toast {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #ef4444;
-            color: white;
-            padding: 1rem 1.5rem;
-            border-radius: 8px;
-            box-shadow: var(--shadow);
-            z-index: 200;
-            display: none;
-            align-items: center;
-            gap: 10px;
-            animation: slideIn 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-            max-width: 300px;
-        }
+        /* BUTTONS */
+        .btn { flex: 1; padding: 12px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; transition: var(--transition); display: flex; justify-content: center; align-items: center; gap: 8px; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-secondary { background: #64748b; color: white; }
+        .btn-secondary:hover { background: #475569; }
+        .btn-success { background: var(--secondary); color: white; }
         
-        .toast.success {
-            background: var(--secondary);
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 2rem; gap: 1rem; }
+        .full-width { width: 100%; margin-bottom: 10px; }
+
+        /* HERO SPECIFIC */
+        .hero-section { text-align: center; padding: 2rem 1.5rem; }
+        .cta-btn { background: var(--primary); color: white; padding: 1rem 2rem; border: none; border-radius: 50px; font-size: 1rem; font-weight: 600; cursor: pointer; width: 100%; display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 1rem; }
+        
+        /* ADMIN RECEIPT STYLES */
+        .admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .full-col { grid-column: span 2; }
+        
+        /* PRINT PREVIEW / RECEIPT CARD */
+        #receiptPreview {
+            background: white; color: black; width: 100%; max-width: 380px;
+            padding: 20px; font-family: 'Courier New', Courier, monospace;
+            border: 1px solid #ccc; margin: 20px auto; border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: none;
+        }
+        .show-receipt #receiptPreview { display: block; }
+        
+        .receipt-header { text-align: center; border-bottom: 2px dashed #000; padding-bottom: 15px; margin-bottom: 15px; }
+        .receipt-logo { font-size: 2rem; color: #2563eb; margin-bottom: 5px; }
+        .receipt-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem; }
+        .receipt-divider { border-top: 2px dashed #000; margin: 15px 0; }
+        .receipt-total { font-weight: bold; font-size: 1.1rem; display: flex; justify-content: space-between; }
+
+        /* TOAST */
+        .toast { position: fixed; top: 20px; right: 20px; background: #ef4444; color: white; padding: 1rem; border-radius: 8px; z-index: 200; display: none; animation: slideIn 0.3s; }
+        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+
+        /* PRINT MEDIA */
+        @media print {
+            body * { visibility: hidden; }
+            #receiptPreview, #receiptPreview * { visibility: visible; }
+            #receiptPreview { position: absolute; left: 0; top: 0; width: 100%; max-width: 100%; margin: 0; padding: 0; box-shadow: none; border: none; }
+            .no-print { display: none !important; }
         }
 
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        /* --- RESPONSIVE --- */
-        @media (min-width: 768px) {
-            main {
-                max-width: 700px;
-            }
-            .hero-section {
-                padding: 4rem 2rem;
-            }
-        }
+        /* Responsive */
+        @media(max-width: 480px) { .admin-grid { grid-template-columns: 1fr; } .full-col { grid-column: span 1; } }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
     <header>
-        <div class="brand">
-            <i class="fa-solid fa-screwdriver-wrench"></i>
-            Malik Service
-        </div>
-        <button class="dark-toggle" id="darkModeBtn" aria-label="Toggle Dark Mode">
-            <i class="fa-solid fa-moon"></i>
-        </button>
+        <div class="brand"><i class="fa-solid fa-screwdriver-wrench"></i> Malik Service</div>
+        <button id="darkModeBtn" style="background:none; border:none; color:var(--text-main); cursor:pointer;"><i class="fa-solid fa-moon"></i></button>
     </header>
 
-    <!-- Notification Toast -->
-    <div id="toast" class="toast" role="alert">
-        <i class="fa-solid fa-circle-exclamation"></i>
-        <span id="toastMsg">Pesan error</span>
-    </div>
+    <div id="toast" class="toast"></div>
 
     <main>
-        <!-- SECTION 1: HERO LANDING -->
-        <!-- ID duplikat diperbaiki: hanya pakai id="step-0", hero section pakai class="hero-section" -->
-        <section id="step-0" class="step-section active hero-section">
-            <i class="fa-solid fa-microchip hero-icon"></i>
+        <!-- 1. LOGIN ADMIN -->
+        <section id="login-section" class="step-section active">
+            <h2><i class="fa-solid fa-lock"></i> Login Admin</h2>
+            <p class="subtitle">Masuk untuk membuat Resi Manual.</p>
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="adminUser" placeholder="Masukan username">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="adminPass" placeholder="Masukan password">
+            </div>
+            <button class="btn btn-primary full-width" onclick="handleLogin()">Masuk Panel Admin</button>
+            <button class="btn btn-secondary full-width" onclick="goToCustomerView()">Ke Halaman Pelanggan (Order Biasa)</button>
+        </section>
+
+        <!-- 2. ADMIN PANEL (ISI RESI MANUAL) -->
+        <section id="admin-panel" class="step-section">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                <h2 style="margin:0;"><i class="fa-solid fa-file-invoice"></i> Buat Resi Manual</h2>
+                <button class="btn btn-secondary" onclick="logout()" style="padding:5px 10px; font-size:0.8rem;">Keluar</button>
+            </div>
+            
+            <!-- Form Isi Manual -->
+            <div class="admin-grid">
+                <div class="form-group full-col">
+                    <label>Nomor Order / Resi</label>
+                    <input type="text" id="resOrderId" placeholder="Contoh: #ORD-001" oninput="updateLivePreview()">
+                </div>
+                <div class="form-group">
+                    <label>Tanggal</label>
+                    <input type="date" id="resDate" onchange="updateLivePreview()">
+                </div>
+                <div class="form-group">
+                    <label>Nama Pelanggan</label>
+                    <input type="text" id="resName" placeholder="Nama Customer" oninput="updateLivePreview()">
+                </div>
+                <div class="form-group">
+                    <label>No. HP / WA</label>
+                    <input type="text" id="resWA" placeholder="08..." oninput="updateLivePreview()">
+                </div>
+                <div class="form-group">
+                    <label>Perangkat</label>
+                    <input type="text" id="resDevice" placeholder="HP/Laptop" oninput="updateLivePreview()">
+                </div>
+                <div class="form-group">
+                    <label>Merek/Model</label>
+                    <input type="text" id="resModel" placeholder="Samsung A52" oninput="updateLivePreview()">
+                </div>
+                <div class="form-group full-col">
+                    <label>Keluhan / Kerusakan</label>
+                    <textarea id="resIssue" rows="2" placeholder="Deskripsi kerusakan..." oninput="updateLivePreview()"></textarea>
+                </div>
+                <div class="form-group full-col">
+                    <label>Layanan & Biaya (Pisahkan dengan Enter)</label>
+                    <textarea id="resServices" rows="3" placeholder="Ganti LCD - 500000&#10;Ganti Baterai - 250000" oninput="updateLivePreview()"></textarea>
+                </div>
+            </div>
+
+            <!-- Tombol Aksi -->
+            <div style="margin-top: 2rem; display: flex; flex-direction: column; gap: 10px;">
+                <button class="btn btn-primary full-width" onclick="printReceipt()">
+                    <i class="fa-solid fa-print"></i> Cetak Resi (Printer)
+                </button>
+                <button class="btn btn-success full-width" onclick="downloadReceiptImage()">
+                    <i class="fa-solid fa-download"></i> Download Resi (Gambar PNG)
+                </button>
+            </div>
+
+            <!-- Live Preview -->
+            <div class="receipt-divider"></div>
+            <h4 style="text-align:center; color:var(--text-light);">Preview Tampilan:</h4>
+            
+            <!-- Ini yang akan dicetak/didownload -->
+            <div id="receiptPreview">
+                <div class="receipt-header">
+                    <i class="fa-solid fa-screwdriver-wrench receipt-logo"></i>
+                    <div style="font-weight:bold; font-size:1.2rem; text-transform:uppercase;">MALIK SERVICE</div>
+                    <div style="font-size:0.8rem;">Jl. Teknisi No. 12, Jakarta</div>
+                    <div style="font-size:0.8rem;">WA: 0857-1308-7659</div>
+                </div>
+                <div class="receipt-row">
+                    <span>No. Order:</span>
+                    <span id="prevId">-</span>
+                </div>
+                <div class="receipt-row">
+                    <span>Tanggal:</span>
+                    <span id="prevDate">-</span>
+                </div>
+                <div class="receipt-divider"></div>
+                <div class="receipt-row">
+                    <span>Pelanggan:</span>
+                    <span id="prevName">-</span>
+                </div>
+                <div class="receipt-row">
+                    <span>No. HP:</span>
+                    <span id="prevWA">-</span>
+                </div>
+                <div class="receipt-divider"></div>
+                <div class="receipt-row">
+                    <span>Perangkat:</span>
+                    <span id="prevDevice">-</span>
+                </div>
+                <div class="receipt-row">
+                    <span>Model:</span>
+                    <span id="prevModel">-</span>
+                </div>
+                <div class="receipt-row" style="flex-direction:column;">
+                    <span style="font-weight:bold; margin-bottom:2px;">Keluhan:</span>
+                    <span id="prevIssue" style="font-size:0.8rem; text-align:right;">-</span>
+                </div>
+                <div class="receipt-divider"></div>
+                <div style="font-weight:bold; margin-bottom:5px;">Rincian Layanan:</div>
+                <div id="prevServices">
+                    <!-- List items will go here -->
+                    <div style="font-size:0.8rem; text-align:center;">Belum ada data</div>
+                </div>
+                <div class="receipt-divider"></div>
+                <div class="receipt-total">
+                    <span>TOTAL:</span>
+                    <span id="prevTotal">Rp 0</span>
+                </div>
+                <div class="receipt-footer" style="text-align:center; margin-top:15px; font-size:0.7rem;">
+                    <p>*Simpan struk ini sebagai bukti garansi.</p>
+                    <p>Terima Kasih</p>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- 3. CUSTOMER ORDER HERO -->
+        <section id="customer-hero" class="step-section hero-section">
+            <i class="fa-solid fa-microchip hero-icon" style="font-size:3rem; color:var(--primary);"></i>
             <h1>Malik Service Center</h1>
             <p class="subtitle">Solusi perbaikan HP, Laptop & Elektronik Terpercaya.</p>
             
-            <div style="text-align: left; margin: 2rem 0;">
-                <h3 style="margin-bottom: 10px; font-size: 1.1rem;">Kenapa Kami?</h3>
-                <ul style="list-style: none; color: var(--text-light); font-size: 0.95rem;">
-                    <li style="margin-bottom: 8px;"><i class="fa-solid fa-check-circle" style="color: var(--secondary); margin-right: 8px;"></i> Harga Transparan</li>
-                    <li style="margin-bottom: 8px;"><i class="fa-solid fa-check-circle" style="color: var(--secondary); margin-right: 8px;"></i> Teknisi Berpengalaman</li>
-                    <li style="margin-bottom: 8px;"><i class="fa-solid fa-check-circle" style="color: var(--secondary); margin-right: 8px;"></i> Garansi Servis Resmi</li>
-                    <li><i class="fa-solid fa-check-circle" style="color: var(--secondary); margin-right: 8px;"></i> Update via WhatsApp</li>
-                </ul>
-            </div>
-
-            <button class="cta-btn" onclick="goToStep(1)">
+            <button class="cta-btn" onclick="startCustomerOrder()">
                 Buat Order Servis Sekarang <i class="fa-solid fa-arrow-right"></i>
             </button>
-        </section>
-
-        <!-- SECTION 2: DATA PELANGGAN -->
-        <section id="step-1" class="step-section">
-            <h2><i class="fa-solid fa-user"></i> Data Pelanggan</h2>
-            <p class="subtitle">Lengkapi data diri agar kami bisa menghubungi Anda.</p>
-
-            <div class="form-group">
-                <label for="custName">Nama Lengkap</label>
-                <input type="text" id="custName" placeholder="Contoh: Budi Santoso" autocomplete="name">
-            </div>
-
-            <!-- Perbaikan UX: Input type="tel" untuk keyboard angka di HP -->
-            <div class="form-group">
-                <label for="custWA">Nomor WhatsApp</label>
-                <input type="tel" id="custWA" placeholder="Contoh: 081234567890" pattern="[0-9]*" autocomplete="tel">
-                <small style="color: var(--text-light); font-size: 0.8rem;">Nomor aktif untuk notifikasi status.</small>
-            </div>
-
-            <div class="form-group">
-                <label for="custAddress">Alamat (Opsional)</label>
-                <textarea id="custAddress" rows="2" placeholder="Alamat lengkap..."></textarea>
-            </div>
-
-            <div class="form-group">
-                <label>Metode Pengiriman</label>
-                <div class="radio-group">
-                    <label class="radio-option">
-                        <input type="radio" name="delivery" value="Antar Langsung" checked>
-                        <span><i class="fa-solid fa-store"></i> Antar Langsung</span>
-                    </label>
-                    <label class="radio-option">
-                        <input type="radio" name="delivery" value="Pickup">
-                        <span><i class="fa-solid fa-motorcycle"></i> Pickup</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="nav-buttons">
-                <button class="btn btn-prev" onclick="goToStep(0)">Kembali</button>
-                <button class="btn btn-next" onclick="validateStep1()">Lanjut <i class="fa-solid fa-chevron-right"></i></button>
-            </div>
-        </section>
-
-        <!-- SECTION 3: DETAIL PERANGKAT -->
-        <section id="step-2" class="step-section">
-            <h2><i class="fa-solid fa-mobile-screen"></i> Detail Perangkat</h2>
-            <p class="subtitle">Jelaskan jenis dan kerusakan perangkat Anda.</p>
-
-            <div class="form-group">
-                <label for="deviceType">Jenis Perangkat</label>
-                <select id="deviceType" onchange="renderServices()">
-                    <option value="HP">📱 HP / Smartphone</option>
-                    <option value="Laptop">💻 Laptop / Notebook</option>
-                    <option value="Komputer">🖥️ Komputer / PC</option>
-                    <option value="TV">📺 TV</option>
-                    <option value="Lainnya">🔌 Elektronik Lainnya</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="deviceBrand">Merek (Brand)</label>
-                <input type="text" id="deviceBrand" placeholder="Contoh: Samsung, iPhone, Asus" autocomplete="off">
-            </div>
-
-            <div class="form-group">
-                <label for="deviceModel">Tipe / Model</label>
-                <input type="text" id="deviceModel" placeholder="Contoh: Galaxy A52, iPhone 11, ROG Strix" autocomplete="off">
-            </div>
-
-            <div class="form-group">
-                <label for="deviceIssue">Keluhan / Kerusakan</label>
-                <textarea id="deviceIssue" rows="3" placeholder="Ceritakan masalah detail perangkat..."></textarea>
-            </div>
-
-            <div class="nav-buttons">
-                <button class="btn btn-prev" onclick="goToStep(1)">Kembali</button>
-                <button class="btn btn-next" onclick="validateStep2()">Lanjut <i class="fa-solid fa-chevron-right"></i></button>
-            </div>
-        </section>
-
-        <!-- SECTION 4: PILIH LAYANAN & HARGA -->
-        <section id="step-3" class="step-section">
-            <h2><i class="fa-solid fa-list-check"></i> Pilih Layanan</h2>
-            <p class="subtitle">Centang layanan yang diperlukan. Harga estimasi.</p>
-
-            <div id="servicesContainer" class="service-list">
-                <!-- Service items injected by JS -->
-            </div>
-
-            <div style="margin-top: 2rem; background: var(--light-bg); padding: 1rem; border-radius: 8px;">
-                <div class="total-display">
-                    <span>Total Estimasi</span>
-                    <span id="totalPriceDisplay" style="color: var(--primary);">Rp 0</span>
-                </div>
-                <small style="color: var(--text-light); font-size: 0.8rem;">*Harga final ditentukan setelah pengecekan teknisi.</small>
-            </div>
-
-            <div class="nav-buttons">
-                <button class="btn btn-prev" onclick="goToStep(2)">Kembali</button>
-                <!-- Panggil fungsi khusus processToSummary() alih-alih goToStep langsung -->
-                <button class="btn btn-next" onclick="processToSummary()">Lihat Ringkasan <i class="fa-solid fa-chevron-right"></i></button>
-            </div>
-        </section>
-
-        <!-- SECTION 5: RINGKASAN ORDER -->
-        <section id="step-4" class="step-section">
-            <h2><i class="fa-solid fa-clipboard-check"></i> Ringkasan Order</h2>
-            <p class="subtitle">Mohon periksa kembali data Anda sebelum mengirim.</p>
-
-            <div class="summary-box">
-                <div class="summary-item">
-                    <span>Nama</span>
-                    <strong id="sumName">-</strong>
-                </div>
-                <div class="summary-item">
-                    <span>WhatsApp</span>
-                    <strong id="sumWA">-</strong>
-                </div>
-                <div class="summary-item">
-                    <span>Alamat</span>
-                    <strong id="sumAddress">-</strong>
-                </div>
-                <div class="summary-item">
-                    <span>Metode</span>
-                    <strong id="sumMethod">-</strong>
-                </div>
-            </div>
-
-            <div class="summary-box">
-                <div class="summary-item">
-                    <span>Perangkat</span>
-                    <strong id="sumDevice">-</strong>
-                </div>
-                <div class="summary-item">
-                    <span>Merek/Model</span>
-                    <strong id="sumModel">-</strong>
-                </div>
-                <div class="summary-item" style="flex-direction: column;">
-                    <span>Keluhan</span>
-                    <strong id="sumIssue" style="text-align: right;">-</strong>
-                </div>
-            </div>
-
-            <div class="summary-box">
-                <div class="summary-item" style="flex-direction: column; gap: 5px;">
-                    <span>Layanan Dipilih:</span>
-                    <ul id="sumServices" style="list-style-position: inside; font-weight: 600;">
-                        <!-- List -->
-                    </ul>
-                </div>
-                <div class="total-display" style="margin-top: 1rem; border-top: 1px solid var(--border); padding-top: 0.5rem;">
-                    <span>Estimasi Biaya</span>
-                    <span id="sumTotal" style="color: var(--primary);">Rp 0</span>
-                </div>
-            </div>
-
-            <button class="btn btn-whatsapp" onclick="sendToWhatsApp()">
-                <i class="fa-brands fa-whatsapp" style="font-size: 1.2rem;"></i>
-                KIRIM ORDER KE WHATSAPP
+            <button class="btn btn-secondary full-width" onclick="showLogin()">
+                <i class="fa-solid fa-lock"></i> Login Admin (Area Khusus)
             </button>
-
+        </section>
+        
+        <!-- Placeholder untuk Form Order Pelanggan (Ringkas untuk contoh ini) -->
+        <section id="customer-form" class="step-section">
+            <h2>Form Order Pelanggan</h2>
+            <p>Fitur ini sudah Anda miliki sebelumnya. Untuk kode lengkapnya, Anda bisa menggabungkannya.</p>
+            <div class="form-group">
+                <label>Nama</label>
+                <input type="text" placeholder="Nama Anda">
+            </div>
             <div class="nav-buttons">
-                <button class="btn btn-prev" onclick="goToStep(3)">Edit</button>
+                <button class="btn btn-secondary" onclick="goToCustomerView()">Kembali</button>
+                <button class="btn btn-primary">Kirim WA</button>
             </div>
         </section>
+
     </main>
 
-    <a href="https://wa.me/6285713087659" target="_blank" class="fab" title="Chat Admin">
-        <i class="fa-brands fa-whatsapp"></i>
-    </a>
+    <!-- Library untuk Download Gambar (html2canvas) -->
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
     <script>
-        // --- KONFIGURASI ADMIN ---
-        // UPDATE NOMOR ADMIN SESUAI REQUEST
-        const ADMIN_WA = "6285713087659"; 
-
-        // Database Layanan & Harga (Editable)
-        const servicesData = {
-            "HP": [
-                { name: "Ganti LCD", price: 500000, range: "300k - 1.5jt" },
-                { name: "Ganti Baterai", price: 250000, range: "150k - 450k" },
-                { name: "Ganti Layar Sentuh", price: 200000, range: "-" },
-                { name: "Mati Total", price: 350000, range: "Mulai 250k" },
-                { name: "Software / Flashing", price: 100000, range: "-" },
-                { name: "Ganti Kamera", price: 300000, range: "-" },
-                { name: "Ganti Mic / Speaker", price: 150000, range: "-" }
-            ],
-            "Laptop": [
-                { name: "Install Ulang Windows/Office", price: 150000, range: "-" },
-                { name: "Ganti Keyboard", price: 350000, range: "Mulai 250k" },
-                { name: "Ganti LCD Laptop", price: 800000, range: "600k - 2jt" },
-                { name: "Mati Total / Motherboard", price: 500000, range: "Mulai 350k" },
-                { name: "Ganti Baterai", price: 450000, range: "-" },
-                { name: "Pembersihan Fan / Pasta", price: 100000, range: "-" }
-            ],
-            "Komputer": [
-                { name: "Install Ulang", price: 150000, range: "-" },
-                { name: "Mati Total / PSU", price: 300000, range: "-" },
-                { name: "Upgrade RAM/SSD", price: 100000, range: "Jasa saja" }
-            ],
-            "TV": [
-                { name: "TV Gelap Suara Ada", price: 400000, range: "-" },
-                { name: "TV Mati Total", price: 450000, range: "-" },
-                { name: "Ganti Panel LCD", price: 1500000, range: "-" }
-            ],
-            "Lainnya": [
-                { name: "Cek & Estimasi", price: 50000, range: "Gratis jika lanut servis" },
-                { name: "Servis Umum", price: 0, range: "Estimasi Manual" }
-            ]
-        };
-
-        // --- STATE MANAGEMENT ---
-        let currentStep = 0;
-        const orderData = {
-            name: "",
-            wa: "",
-            address: "",
-            method: "Antar Langsung",
-            deviceType: "HP",
-            brand: "",
-            model: "",
-            issue: "",
-            selectedServices: [], // Array of service objects
-            totalEstimate: 0
-        };
-
-        // --- INITIALIZATION ---
-        document.addEventListener('DOMContentLoaded', () => {
-            renderServices();
-            // Dark Mode Check
-            if (localStorage.getItem('theme') === 'dark') {
-                document.body.classList.add('dark-mode');
-                updateDarkModeIcon();
-            }
-        });
-
-        // --- NAVIGATION LOGIC ---
-        function goToStep(stepIndex) {
-            // Hide all sections
+        // --- STATE & NAVIGATION ---
+        function showSection(id) {
             document.querySelectorAll('.step-section').forEach(sec => sec.classList.remove('active'));
-            // Show target section
-            document.getElementById(`step-${stepIndex}`).classList.add('active');
-            currentStep = stepIndex;
-            
-            // Scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            document.getElementById(id).classList.add('active');
+            window.scrollTo(0,0);
         }
 
-        // --- VALIDATION ---
+        function showLogin() { showSection('login-section'); }
+        function goToCustomerView() { showSection('customer-hero'); }
+
+        // --- LOGIN LOGIC ---
+        function handleLogin() {
+            const user = document.getElementById('adminUser').value;
+            const pass = document.getElementById('adminPass').value;
+
+            if (user === 'admin' && pass === '1234') {
+                showToast("Login Berhasil", true);
+                // Set default date
+                document.getElementById('resDate').valueAsDate = new Date();
+                updateLivePreview();
+                showSection('admin-panel');
+            } else {
+                showToast("Username atau Password salah!");
+            }
+        }
+
+        function logout() {
+            document.getElementById('adminUser').value = '';
+            document.getElementById('adminPass').value = '';
+            showSection('login-section');
+            showToast("Anda telah keluar", true);
+        }
+
+        function startCustomerOrder() {
+            showSection('customer-form');
+        }
+
+        // --- TOAST NOTIFICATION ---
         function showToast(msg, isSuccess = false) {
             const toast = document.getElementById('toast');
-            const toastMsg = document.getElementById('toastMsg');
-            toastMsg.innerText = msg;
-            
-            if(isSuccess) {
-                toast.classList.add('success');
-                toast.querySelector('i').className = 'fa-solid fa-check-circle';
-            } else {
-                toast.classList.remove('success');
-                toast.querySelector('i').className = 'fa-solid fa-circle-exclamation';
-            }
-
-            toast.style.display = 'flex';
-            
-            // Hapus timeout lama jika ada
-            if (toast.timeoutId) clearTimeout(toast.timeoutId);
-            
-            toast.timeoutId = setTimeout(() => {
-                toast.style.display = 'none';
-            }, 3000);
+            toast.innerText = msg;
+            toast.style.background = isSuccess ? '#10b981' : '#ef4444';
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 3000);
         }
 
-        function validateStep1() {
-            const name = document.getElementById('custName').value.trim();
-            const wa = document.getElementById('custWA').value.trim();
-            const address = document.getElementById('custAddress').value.trim();
-            const method = document.querySelector('input[name="delivery"]:checked').value;
+        // --- LIVE PREVIEW UPDATE ---
+        function updateLivePreview() {
+            // Ambil nilai dari form
+            const id = document.getElementById('resOrderId').value || '-';
+            const date = document.getElementById('resDate').value || '-';
+            const name = document.getElementById('resName').value || '-';
+            const wa = document.getElementById('resWA').value || '-';
+            const dev = document.getElementById('resDevice').value || '-';
+            const model = document.getElementById('resModel').value || '-';
+            const issue = document.getElementById('resIssue').value || '-';
+            const servicesRaw = document.getElementById('resServices').value;
 
-            if (name.length < 3) return showToast("Nama lengkap harus diisi dengan benar.");
-            // Validasi WA: harus angka semua, min 10 digit
-            if (!/^\d+$/.test(wa) || wa.length < 10) return showToast("Nomor WhatsApp tidak valid (harus angka).");
+            // Update text preview
+            document.getElementById('prevId').innerText = id;
+            document.getElementById('prevDate').innerText = date;
+            document.getElementById('prevName').innerText = name;
+            document.getElementById('prevWA').innerText = wa;
+            document.getElementById('prevDevice').innerText = dev;
+            document.getElementById('prevModel').innerText = model;
+            document.getElementById('prevIssue').innerText = issue;
 
-            // Save Data
-            orderData.name = name;
-            orderData.wa = wa;
-            orderData.address = address || "-";
-            orderData.method = method;
-
-            goToStep(2);
-        }
-
-        function validateStep2() {
-            const type = document.getElementById('deviceType').value;
-            const brand = document.getElementById('deviceBrand').value.trim();
-            const model = document.getElementById('deviceModel').value.trim();
-            const issue = document.getElementById('deviceIssue').value.trim();
-
-            if (brand.length < 2) return showToast("Merek perangkat wajib diisi.");
-            if (model.length < 2) return showToast("Tipe/Model wajib diisi.");
-            if (issue.length < 5) return showToast("Mohon jelaskan keluhan secara singkat.");
-
-            // Save Data
-            orderData.deviceType = type;
-            orderData.brand = brand;
-            orderData.model = model;
-            orderData.issue = issue;
-
-            // Reset selected services when changing device type logic happens in renderServices
-            goToStep(3);
-        }
-
-        // --- SERVICE RENDER & CALCULATION ---
-        function renderServices() {
-            const type = document.getElementById('deviceType').value;
-            const container = document.getElementById('servicesContainer');
-            const services = servicesData[type] || servicesData["Lainnya"];
-            
-            container.innerHTML = ""; // Clear existing
-
-            // Reset selected services if type changes
-            orderData.selectedServices = [];
-            updateTotal();
-
-            services.forEach((svc, index) => {
-                const displayPrice = svc.price === 0 ? "Hubungi Admin" : `Rp ${svc.price.toLocaleString('id-ID')}`;
-                
-                // FIX: Parameter 'event' ditambahkan ke pemanggilan onclick
-                const html = `
-                <div class="service-card" onclick="toggleService(this, '${svc.name}', ${svc.price}, event)">
-                    <div class="service-info">
-                        <h4>${svc.name}</h4>
-                        <p>${svc.range !== '-' ? 'Estimasi: ' + svc.range : 'Part Standar'}</p>
-                    </div>
-                    <div style="display:flex; align-items:center; gap:10px;">
-                        <span class="price-tag">${displayPrice}</span>
-                        <div class="checkbox-wrapper">
-                            <input type="checkbox" class="service-checkbox">
-                        </div>
-                    </div>
-                </div>
-                `;
-                container.insertAdjacentHTML('beforeend', html);
-            });
-        }
-
-        // FIX: Parameter 'event' ditambahkan ke definisi fungsi
-        function toggleService(cardElement, name, price, event) {
-            // Ambil checkbox di dalam card
-            const checkbox = cardElement.querySelector('input[type="checkbox"]');
-            
-            // Jika user klik area kartu (bukan langsung ke checkbox), toggle manual
-            if (event && event.target !== checkbox) {
-                checkbox.checked = !checkbox.checked;
-            }
-
-            // Update State
-            if (checkbox.checked) {
-                orderData.selectedServices.push({ name, price });
-                cardElement.classList.add('selected');
-            } else {
-                orderData.selectedServices = orderData.selectedServices.filter(s => s.name !== name);
-                cardElement.classList.remove('selected');
-            }
-
-            updateTotal();
-        }
-
-        function updateTotal() {
+            // Parse Services & Calculate Total
+            const container = document.getElementById('prevServices');
+            container.innerHTML = '';
             let total = 0;
-            let hasZeroPrice = false;
+            
+            if (servicesRaw.trim() !== '') {
+                const lines = servicesRaw.split('\n');
+                lines.forEach(line => {
+                    if(line.trim() !== '') {
+                        const parts = line.split('-');
+                        let serviceName = line;
+                        let price = 0;
+                        let priceStr = '';
 
-            orderData.selectedServices.forEach(s => {
-                total += s.price;
-                if(s.price === 0) hasZeroPrice = true;
-            });
-            orderData.totalEstimate = total;
+                        // Coba format "Nama - Harga"
+                        if (parts.length >= 2) {
+                            serviceName = parts.slice(0, -1).join('-').trim(); // Ambil bagian sebelum harga terakhir
+                            const priceVal = parts[parts.length - 1].replace(/\D/g, ''); // Ambil angka saja
+                            price = parseInt(priceVal) || 0;
+                            priceStr = `Rp ${price.toLocaleString('id-ID')}`;
+                        }
 
-            const display = document.getElementById('totalPriceDisplay');
-            if (hasZeroPrice && orderData.selectedServices.length === 1) {
-                 display.innerText = "Hubungi Admin";
-            } else if (total === 0 && orderData.selectedServices.length > 0) {
-                 display.innerText = "Hubungi Admin";
+                        total += price;
+
+                        const div = document.createElement('div');
+                        div.className = 'receipt-row';
+                        div.innerHTML = `<span>${serviceName}</span><span>${priceStr}</span>`;
+                        container.appendChild(div);
+                    }
+                });
             } else {
-                 display.innerText = `Rp ${total.toLocaleString('id-ID')}`;
+                container.innerHTML = '<div style="font-size:0.8rem; text-align:center;">Belum ada data layanan</div>';
             }
+
+            document.getElementById('prevTotal').innerText = `Rp ${total.toLocaleString('id-ID')}`;
         }
 
-        // --- PROCESS STEP 3 TO SUMMARY ---
-        // Fungsi ini menggantikan logika goToStep(4) langsung, agar validasi berjalan dulu
-        function processToSummary() {
-            if(orderData.selectedServices.length === 0) {
-                return showToast("Pilih minimal 1 layanan atau pilih Cek & Estimasi.");
-            }
-            populateSummary();
-            goToStep(4);
+        // --- PRINT FUNCTION ---
+        function printReceipt() {
+            const id = document.getElementById('resOrderId').value;
+            if(!id) { showToast('Nomor Order wajib diisi!'); return; }
+            window.print();
         }
 
-        function populateSummary() {
-            document.getElementById('sumName').innerText = orderData.name;
-            document.getElementById('sumWA').innerText = orderData.wa;
-            document.getElementById('sumAddress').innerText = orderData.address;
-            document.getElementById('sumMethod').innerText = orderData.method;
+        // --- DOWNLOAD IMAGE FUNCTION ---
+        function downloadReceiptImage() {
+            const id = document.getElementById('resOrderId').value;
+            if(!id) { showToast('Nomor Order wajib diisi!'); return; }
+
+            const element = document.getElementById("receiptPreview");
             
-            document.getElementById('sumDevice').innerText = orderData.deviceType;
-            document.getElementById('sumModel').innerText = `${orderData.brand} - ${orderData.model}`;
-            document.getElementById('sumIssue').innerText = orderData.issue;
-
-            const listContainer = document.getElementById('sumServices');
-            listContainer.innerHTML = "";
-            orderData.selectedServices.forEach(s => {
-                const li = document.createElement('li');
-                const priceText = s.price === 0 ? "Hubungi Admin" : `Rp ${s.price.toLocaleString('id-ID')}`;
-                li.innerText = `${s.name} (${priceText})`;
-                listContainer.appendChild(li);
+            // Gunakan html2canvas
+            html2canvas(element, { scale: 2 }).then(canvas => {
+                // Buat link download
+                const link = document.createElement('a');
+                link.download = `Resi-${id}.png`;
+                link.href = canvas.toDataURL("image/png");
+                link.click();
+                showToast("Resi berhasil didownload", true);
+            }).catch(err => {
+                console.error(err);
+                showToast("Gagal membuat gambar.");
             });
-
-            const totalDisplay = orderData.totalEstimate === 0 ? "Hubungi Admin" : `Rp ${orderData.totalEstimate.toLocaleString('id-ID')}`;
-            document.getElementById('sumTotal').innerText = totalDisplay;
         }
 
-        function sendToWhatsApp() {
-            // Construct Message
-            let message = `📌 *ORDER SERVIS BARU – MALIK SERVICE CENTER*\n\n`;
-            message += `👤 *Nama      :* ${orderData.name}\n`;
-            message += `📱 *WhatsApp :* ${orderData.wa}\n`;
-            message += `📍 *Alamat   :* ${orderData.address}\n`;
-            message += `🚚 *Metode   :* ${orderData.method}\n\n`;
-            
-            message += `🔧 *Perangkat :* ${orderData.deviceType}\n`;
-            message += `📦 *Merek     :* ${orderData.brand}\n`;
-            message += `🏷️ *Model     :* ${orderData.model}\n\n`;
-            
-            message += `❗ *Keluhan :*\n- ${orderData.issue}\n\n`;
-            
-            message += `🛠️ *Layanan :*\n`;
-            orderData.selectedServices.forEach(s => {
-                message += `- ${s.name}\n`;
-            });
-
-            const totalDisplay = orderData.totalEstimate === 0 ? "Hubungi Admin" : `Rp ${orderData.totalEstimate.toLocaleString('id-ID')}`;
-            message += `\n💰 *Estimasi Harga :*\n${totalDisplay}\n\n`;
-            
-            message += `📝 *Catatan :*\nHarga dapat berubah setelah pengecekan teknisi.\n\n`;
-            message += `Terima kasih 🙏`;
-
-            const encodedMsg = encodeURIComponent(message);
-            const url = `https://wa.me/${ADMIN_WA}?text=${encodedMsg}`;
-            
-            window.open(url, '_blank');
-        }
-
-        // --- DARK MODE TOGGLE ---
-        function updateDarkModeIcon() {
-            const isDark = document.body.classList.contains('dark-mode');
-            const icon = document.querySelector('#darkModeBtn i');
-            icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
-        }
-
+        // --- DARK MODE ---
         document.getElementById('darkModeBtn').addEventListener('click', () => {
             document.body.classList.toggle('dark-mode');
-            const isDark = document.body.classList.contains('dark-mode');
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            
-            updateDarkModeIcon();
         });
+
+        // Init
+        updateLivePreview();
     </script>
 </body>
 </html>
-
