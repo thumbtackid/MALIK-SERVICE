@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Charlie Service Center - Order Servis Online</title>
+    <!-- Font Awesome untuk Ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #2563eb; /* Biru Profesional */
+            --primary-dark: #1e40af;
+            --secondary: #10b981; /* Hijau WhatsApp */
+            --dark-bg: #0f172a;
+            --dark-card: #1e293b;
+            --light-bg: #f8fafc;
+            --light-card: #ffffff;
+            --text-main: #334155;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        /* Dark Mode Variables */
+        body.dark-mode {
+            --light-bg: #0f172a;
+            --light-card: #1e293b;
+            --text-main: #f1f5f9;
+            --text-light: #94a3b8;
+            --border: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-main);
+            transition: var(--transition);
+            line-height: 1.6;
+            padding-bottom: 80px; /* Space for footer/fab */
+        }
+
+        /* --- HEADER --- */
+        header {
+            background: var(--light-card);
+            padding: 1rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dark-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--text-main);
+            transition: var(--transition);
+        }
+
+        .dark-toggle:hover {
+            color: var(--primary);
+            transform: rotate(15deg);
+        }
+
+        /* --- MAIN CONTAINER --- */
+        main {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        /* --- SECTIONS & STEPS --- */
+        .step-section {
+            background: var(--light-card);
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            display: none; /* Hidden by default */
+            animation: fadeIn 0.5s ease;
+        }
+
+        .step-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        p.subtitle {
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        /* --- HERO SECTION --- */
+        #hero {
+            text-align: center;
+            padding: 3rem 1.5rem;
+        }
+
+        .hero-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .cta-btn {
+            background: var(--primary);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+            width: 100%;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .cta-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* --- FORM ELEMENTS --- */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--light-bg);
+            color: var(--text-main);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .radio-option {
+            flex: 1;
+            position: relative;
+        }
+
+        .radio-option input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .radio-option span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .radio-option input:checked + span {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* --- SERVICE CARDS --- */
+        .service-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .service-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .service-card:hover {
+            border-color: var(--primary);
+            background: rgba(37, 99, 235, 0.05);
+        }
+
+        .service-info h4 {
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+
+        .service-info p {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .price-tag {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+
+        .checkbox-wrapper input {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        /* --- SUMMARY SECTION --- */
+        .summary-box {
+            background: var(--light-bg);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--primary);
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .summary-item span:first-child {
+            color: var(--text-light);
+        }
+
+        .total-display {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px dashed var(--border);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        /* --- NAVIGATION BUTTONS --- */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            gap: 1rem;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-prev {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+        }
+
+        .btn-prev:hover {
+            background: var(--light-bg);
+        }
+
+        .btn-next {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-next:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-whatsapp {
+            background: #25D366;
+            color: white;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-whatsapp:hover {
+            background: #1ebc57;
+        }
+
+        /* --- FLOATING BUTTON & TOAST --- */
+        .fab {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #25D366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+            text-decoration: none;
+            z-index: 90;
+            transition: var(--transition);
+        }
+
+        .fab:hover {
+            transform: scale(1.1);
+        }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #ef4444;
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            z-index: 200;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .toast.success {
+            background: var(--secondary);
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (min-width: 768px) {
+            main {
+                max-width: 700px;
+            }
+            #hero {
+                padding: 4rem 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="brand">
+            <i class="fa-solid fa-screwdriver-wrench"></i>
+            Charlie Service
+        </div>
+        <button class="dark-toggle" id="darkModeBtn">
+            <i class="fa-solid fa-moon"></i>
+        </button>
+    </header>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        <span id="toastMsg">Pesan error</span>
+    </div>
+
+    <main>
+        <!-- SECTION 1: HERO LANDING -->
+        <section id="step-0" class="step-section active" id="hero">
+            <i class="fa-solid fa-microchip hero-icon"></i>
+            <h1>Charlie Service Center</h1>
+            <p class="subtitle">Solusi perbaikan HP, Laptop & Elektronik Terpercaya.</p>
+            
+            <div style="text-align: left; margin: 2rem 0;">
+                <h3 style="margin-bottom: 10px; font-size: 1.1rem;">Kenapa Kami?</h3>
+                <ul style="list-style: none; color: var(--text-light); font-size: 0.95rem;">
+                    <li style="margin-bottom: 8px;"><i class="fa-solid fa-check-circle" style="color: var(--secondary); margin-right: 8px;"></i> Harga Transparan</li>
+                    <li style="margin-bottom: 8px;"><i class="fa-solid fa-check-circle" style="color: var(--secondary); margin-right: 8px;"></i> Teknisi Berpengalaman</li>
+                    <li style="margin-bottom: 8px;"><i class="fa-solid fa-check-circle" style="color: var(--secondary); margin-right: 8px;"></i> Garansi Servis Resmi</li>
+                    <li><i class="fa-solid fa-check-circle" style="color: var(--secondary); margin-right: 8px;"></i> Update via WhatsApp</li>
+                </ul>
+            </div>
+
+            <button class="cta-btn" onclick="goToStep(1)">
+                Buat Order Servis Sekarang <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </section>
+
+        <!-- SECTION 2: DATA PELANGGAN -->
+        <section id="step-1" class="step-section">
+            <h2><i class="fa-solid fa-user"></i> Data Pelanggan</h2>
+            <p class="subtitle">Lengkapi data diri agar kami bisa menghubungi Anda.</p>
+
+            <div class="form-group">
+                <label>Nama Lengkap</label>
+                <input type="text" id="custName" placeholder="Contoh: Budi Santoso">
+            </div>
+
+            <div class="form-group">
+                <label>Nomor WhatsApp</label>
+                <input type="number" id="custWA" placeholder="Contoh: 081234567890">
+                <small style="color: var(--text-light); font-size: 0.8rem;">Nomor aktif untuk notifikasi status.</small>
+            </div>
+
+            <div class="form-group">
+                <label>Alamat (Opsional)</label>
+                <textarea id="custAddress" rows="2" placeholder="Alamat lengkap..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Metode Pengiriman</label>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="delivery" value="Antar Langsung" checked>
+                        <span><i class="fa-solid fa-store"></i> Antar Langsung</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="delivery" value="Pickup">
+                        <span><i class="fa-solid fa-motorcycle"></i> Pickup</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="btn btn-prev" onclick="goToStep(0)">Kembali</button>
+                <button class="btn btn-next" onclick="validateStep1()">Lanjut <i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </section>
+
+        <!-- SECTION 3: DETAIL PERANGKAT -->
+        <section id="step-2" class="step-section">
+            <h2><i class="fa-solid fa-mobile-screen"></i> Detail Perangkat</h2>
+            <p class="subtitle">Jelaskan jenis dan kerusakan perangkat Anda.</p>
+
+            <div class="form-group">
+                <label>Jenis Perangkat</label>
+                <select id="deviceType" onchange="renderServices()">
+                    <option value="HP">📱 HP / Smartphone</option>
+                    <option value="Laptop">💻 Laptop / Notebook</option>
+                    <option value="Komputer">🖥️ Komputer / PC</option>
+                    <option value="TV">📺 TV</option>
+                    <option value="Lainnya">🔌 Elektronik Lainnya</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Merek (Brand)</label>
+                <input type="text" id="deviceBrand" placeholder="Contoh: Samsung, iPhone, Asus">
+            </div>
+
+            <div class="form-group">
+                <label>Tipe / Model</label>
+                <input type="text" id="deviceModel" placeholder="Contoh: Galaxy A52, iPhone 11, ROG Strix">
+            </div>
+
+            <div class="form-group">
+                <label>Keluhan / Kerusakan</label>
+                <textarea id="deviceIssue" rows="3" placeholder="Ceritakan masalah detail perangkat..."></textarea>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="btn btn-prev" onclick="goToStep(1)">Kembali</button>
+                <button class="btn btn-next" onclick="validateStep2()">Lanjut <i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </section>
+
+        <!-- SECTION 4: PILIH LAYANAN & HARGA -->
+        <section id="step-3" class="step-section">
+            <h2><i class="fa-solid fa-list-check"></i> Pilih Layanan</h2>
+            <p class="subtitle">Centang layanan yang diperlukan. Harga estimasi.</p>
+
+            <div id="servicesContainer" class="service-list">
+                <!-- Service items injected by JS -->
+            </div>
+
+            <div style="margin-top: 2rem; background: var(--light-bg); padding: 1rem; border-radius: 8px;">
+                <div class="total-display">
+                    <span>Total Estimasi</span>
+                    <span id="totalPriceDisplay" style="color: var(--primary);">Rp 0</span>
+                </div>
+                <small style="color: var(--text-light); font-size: 0.8rem;">*Harga final ditentukan setelah pengecekan teknisi.</small>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="btn btn-prev" onclick="goToStep(2)">Kembali</button>
+                <button class="btn btn-next" onclick="goToStep(4)">Lihat Ringkasan <i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </section>
+
+        <!-- SECTION 5: RINGKASAN ORDER -->
+        <section id="step-4" class="step-section">
+            <h2><i class="fa-solid fa-clipboard-check"></i> Ringkasan Order</h2>
+            <p class="subtitle">Mohon periksa kembali data Anda sebelum mengirim.</p>
+
+            <div class="summary-box">
+                <div class="summary-item">
+                    <span>Nama</span>
+                    <strong id="sumName">-</strong>
+                </div>
+                <div class="summary-item">
+                    <span>WhatsApp</span>
+                    <strong id="sumWA">-</strong>
+                </div>
+                <div class="summary-item">
+                    <span>Alamat</span>
+                    <strong id="sumAddress">-</strong>
+                </div>
+                <div class="summary-item">
+                    <span>Metode</span>
+                    <strong id="sumMethod">-</strong>
+                </div>
+            </div>
+
+            <div class="summary-box">
+                <div class="summary-item">
+                    <span>Perangkat</span>
+                    <strong id="sumDevice">-</strong>
+                </div>
+                <div class="summary-item">
+                    <span>Merek/Model</span>
+                    <strong id="sumModel">-</strong>
+                </div>
+                <div class="summary-item" style="flex-direction: column;">
+                    <span>Keluhan</span>
+                    <strong id="sumIssue" style="text-align: right;">-</strong>
+                </div>
+            </div>
+
+            <div class="summary-box">
+                <div class="summary-item" style="flex-direction: column; gap: 5px;">
+                    <span>Layanan Dipilih:</span>
+                    <ul id="sumServices" style="list-style-position: inside; font-weight: 600;">
+                        <!-- List -->
+                    </ul>
+                </div>
+                <div class="total-display" style="margin-top: 1rem; border-top: 1px solid var(--border); padding-top: 0.5rem;">
+                    <span>Estimasi Biaya</span>
+                    <span id="sumTotal" style="color: var(--primary);">Rp 0</span>
+                </div>
+            </div>
+
+            <button class="btn btn-whatsapp" onclick="sendToWhatsApp()">
+                <i class="fa-brands fa-whatsapp" style="font-size: 1.2rem;"></i>
+                KIRIM ORDER KE WHATSAPP
+            </button>
+
+            <div class="nav-buttons">
+                <button class="btn btn-prev" onclick="goToStep(3)">Edit</button>
+            </div>
+        </section>
+    </main>
+
+    <a href="https://wa.me/6281234567890" target="_blank" class="fab" title="Chat Admin">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <script>
+        // --- KONFIGURASI ADMIN ---
+        // Ganti nomor ini dengan nomor WhatsApp Admin (Format: 628...)
+        const ADMIN_WA = "6281234567890"; 
+
+        // Database Layanan & Harga (Editable)
+        const servicesData = {
+            "HP": [
+                { name: "Ganti LCD", price: 500000, range: "300k - 1.5jt" },
+                { name: "Ganti Baterai", price: 250000, range: "150k - 450k" },
+                { name: "Ganti Layar Sentuh", price: 200000, range: "-" },
+                { name: "Mati Total", price: 350000, range: "Mulai 250k" },
+                { name: "Software / Flashing", price: 100000, range: "-" },
+                { name: "Ganti Kamera", price: 300000, range: "-" },
+                { name: "Ganti Mic / Speaker", price: 150000, range: "-" }
+            ],
+            "Laptop": [
+                { name: "Install Ulang Windows/Office", price: 150000, range: "-" },
+                { name: "Ganti Keyboard", price: 350000, range: "Mulai 250k" },
+                { name: "Ganti LCD Laptop", price: 800000, range: "600k - 2jt" },
+                { name: "Mati Total / Motherboard", price: 500000, range: "Mulai 350k" },
+                { name: "Ganti Baterai", price: 450000, range: "-" },
+                { name: "Pembersihan Fan / Pasta", price: 100000, range: "-" }
+            ],
+            "Komputer": [
+                { name: "Install Ulang", price: 150000, range: "-" },
+                { name: "Mati Total / PSU", price: 300000, range: "-" },
+                { name: "Upgrade RAM/SSD", price: 100000, range: "Jasa saja" }
+            ],
+            "TV": [
+                { name: "TV Gelap Suara Ada", price: 400000, range: "-" },
+                { name: "TV Mati Total", price: 450000, range: "-" },
+                { name: "Ganti Panel LCD", price: 1500000, range: "-" }
+            ],
+            "Lainnya": [
+                { name: "Cek & Estimasi", price: 50000, range: "Gratis jika lanut servis" },
+                { name: "Servis Umum", price: 0, range: "Estimasi Manual" }
+            ]
+        };
+
+        // --- STATE MANAGEMENT ---
+        let currentStep = 0;
+        const orderData = {
+            name: "",
+            wa: "",
+            address: "",
+            method: "Antar Langsung",
+            deviceType: "HP",
+            brand: "",
+            model: "",
+            issue: "",
+            selectedServices: [], // Array of service names
+            totalEstimate: 0
+        };
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderServices();
+            // Dark Mode Check
+            if (localStorage.getItem('theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+            }
+        });
+
+        // --- NAVIGATION LOGIC ---
+        function goToStep(stepIndex) {
+            // Hide all sections
+            document.querySelectorAll('.step-section').forEach(sec => sec.classList.remove('active'));
+            // Show target section
+            document.getElementById(`step-${stepIndex}`).classList.add('active');
+            currentStep = stepIndex;
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- VALIDATION ---
+        function showToast(msg, isSuccess = false) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMsg');
+            toastMsg.innerText = msg;
+            
+            if(isSuccess) {
+                toast.classList.add('success');
+                toast.querySelector('i').className = 'fa-solid fa-check-circle';
+            } else {
+                toast.classList.remove('success');
+                toast.querySelector('i').className = 'fa-solid fa-circle-exclamation';
+            }
+
+            toast.style.display = 'flex';
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
+        }
+
+        function validateStep1() {
+            const name = document.getElementById('custName').value.trim();
+            const wa = document.getElementById('custWA').value.trim();
+            const address = document.getElementById('custAddress').value.trim();
+            const method = document.querySelector('input[name="delivery"]:checked').value;
+
+            if (name.length < 3) return showToast("Nama lengkap harus diisi dengan benar.");
+            if (wa.length < 10) return showToast("Nomor WhatsApp tidak valid.");
+
+            // Save Data
+            orderData.name = name;
+            orderData.wa = wa;
+            orderData.address = address || "-";
+            orderData.method = method;
+
+            goToStep(2);
+        }
+
+        function validateStep2() {
+            const type = document.getElementById('deviceType').value;
+            const brand = document.getElementById('deviceBrand').value.trim();
+            const model = document.getElementById('deviceModel').value.trim();
+            const issue = document.getElementById('deviceIssue').value.trim();
+
+            if (brand.length < 2) return showToast("Merek perangkat wajib diisi.");
+            if (model.length < 2) return showToast("Tipe/Model wajib diisi.");
+            if (issue.length < 5) return showToast("Mohon jelaskan keluhan secara singkat.");
+
+            // Save Data
+            orderData.deviceType = type;
+            orderData.brand = brand;
+            orderData.model = model;
+            orderData.issue = issue;
+
+            // Reset selections when changing device type logic happens in renderServices, 
+            // but let's make sure total is updated before moving
+            goToStep(3);
+        }
+
+        // --- SERVICE RENDER & CALCULATION ---
+        function renderServices() {
+            const type = document.getElementById('deviceType').value;
+            const container = document.getElementById('servicesContainer');
+            const services = servicesData[type] || servicesData["Lainnya"];
+            
+            container.innerHTML = ""; // Clear existing
+
+            // Reset selected services if type changes (Optional UX choice)
+            orderData.selectedServices = [];
+            updateTotal();
+
+            services.forEach((svc, index) => {
+                const displayPrice = svc.price === 0 ? "Hubungi Admin" : `Rp ${svc.price.toLocaleString('id-ID')}`;
+                
+                const html = `
+                <div class="service-card" onclick="toggleService(this, '${svc.name}', ${svc.price})">
+                    <div class="service-info">
+                        <h4>${svc.name}</h4>
+                        <p>${svc.range !== '-' ? 'Estimasi: ' + svc.range : 'Part Standar'}</p>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <span class="price-tag">${displayPrice}</span>
+                        <div class="checkbox-wrapper">
+                            <input type="checkbox" class="service-checkbox">
+                        </div>
+                    </div>
+                </div>
+                `;
+                container.insertAdjacentHTML('beforeend', html);
+            });
+        }
+
+        function toggleService(cardElement, name, price) {
+            const checkbox = cardElement.querySelector('input[type="checkbox"]');
+            // If user clicked the card but not the checkbox directly, toggle it
+            if (event.target !== checkbox) {
+                checkbox.checked = !checkbox.checked;
+            }
+
+            // Update State
+            if (checkbox.checked) {
+                orderData.selectedServices.push({ name, price });
+                cardElement.style.borderColor = "var(--primary)";
+                cardElement.style.background = "rgba(37, 99, 235, 0.1)";
+            } else {
+                orderData.selectedServices = orderData.selectedServices.filter(s => s.name !== name);
+                cardElement.style.borderColor = "var(--border)";
+                cardElement.style.background = "transparent";
+            }
+
+            updateTotal();
+        }
+
+        function updateTotal() {
+            let total = 0;
+            orderData.selectedServices.forEach(s => {
+                total += s.price;
+            });
+            orderData.totalEstimate = total;
+
+            const display = document.getElementById('totalPriceDisplay');
+            display.innerText = total === 0 ? "Hubungi Admin" : `Rp ${total.toLocaleString('id-ID')}`;
+        }
+
+        // --- SUMMARY & WHATSAPP ---
+        goToStep(4); // Override listener to populate summary first
+        // We need to modify the button logic slightly to inject data before showing step 4
+        const originalNextBtn = document.querySelector(`button[onclick="goToStep(4)"]`);
+        
+        // Hook into the transition logic dynamically
+        document.querySelector('.btn-next[onclick*="goToStep(4)"]')?.removeAttribute('onclick'); 
+        
+        // Re-attach logic properly
+        document.querySelector('#step-3 .btn-next').onclick = function() {
+            if(orderData.selectedServices.length === 0) {
+                return showToast("Pilih minimal 1 layanan atau pilih Cek & Estimasi.");
+            }
+            populateSummary();
+            goToStep(4);
+        };
+
+        function populateSummary() {
+            document.getElementById('sumName').innerText = orderData.name;
+            document.getElementById('sumWA').innerText = orderData.wa;
+            document.getElementById('sumAddress').innerText = orderData.address;
+            document.getElementById('sumMethod').innerText = orderData.method;
+            
+            document.getElementById('sumDevice').innerText = orderData.deviceType;
+            document.getElementById('sumModel').innerText = `${orderData.brand} - ${orderData.model}`;
+            document.getElementById('sumIssue').innerText = orderData.issue;
+
+            const listContainer = document.getElementById('sumServices');
+            listContainer.innerHTML = "";
+            orderData.selectedServices.forEach(s => {
+                const li = document.createElement('li');
+                li.innerText = `${s.name} (Rp ${s.price.toLocaleString('id-ID')})`;
+                listContainer.appendChild(li);
+            });
+
+            document.getElementById('sumTotal').innerText = `Rp ${orderData.totalEstimate.toLocaleString('id-ID')}`;
+        }
+
+        function sendToWhatsApp() {
+            // Construct Message
+            let message = `📌 *ORDER SERVIS BARU – CHARLIE SERVICE CENTER*\n\n`;
+            message += `👤 *Nama      :* ${orderData.name}\n`;
+            message += `📱 *WhatsApp :* ${orderData.wa}\n`;
+            message += `📍 *Alamat   :* ${orderData.address}\n`;
+            message += `🚚 *Metode   :* ${orderData.method}\n\n`;
+            
+            message += `🔧 *Perangkat :* ${orderData.deviceType}\n`;
+            message += `📦 *Merek     :* ${orderData.brand}\n`;
+            message += `🏷️ *Model     :* ${orderData.model}\n\n`;
+            
+            message += `❗ *Keluhan :*\n- ${orderData.issue}\n\n`;
+            
+            message += `🛠️ *Layanan :*\n`;
+            orderData.selectedServices.forEach(s => {
+                message += `- ${s.name}\n`;
+            });
+
+            message += `\n💰 *Estimasi Harga :*\nRp ${orderData.totalEstimate.toLocaleString('id-ID')}\n\n`;
+            
+            message += `📝 *Catatan :*\nHarga dapat berubah setelah pengecekan teknisi.\n\n`;
+            message += `Terima kasih 🙏`;
+
+            const encodedMsg = encodeURIComponent(message);
+            const url = `https://wa.me/${ADMIN_WA}?text=${encodedMsg}`;
+            
+            window.open(url, '_blank');
+        }
+
+        // --- DARK MODE TOGGLE ---
+        document.getElementById('darkModeBtn').addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            
+            const icon = document.querySelector('#darkModeBtn i');
+            icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+        });
+
+    </script>
+</body>
+</html>
