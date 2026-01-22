@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Charlie Service Center - Order Servis Online</title>
-    <!-- Font Awesome untuk Ikon -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -78,12 +78,14 @@
             cursor: pointer;
             font-size: 1.2rem;
             color: var(--text-main);
-            transition: var(--transition);
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .dark-toggle:hover {
-            color: var(--primary);
-            transform: rotate(15deg);
+        .dark-toggle:active {
+            transform: rotate(180deg) scale(0.9);
         }
 
         /* --- MAIN CONTAINER --- */
@@ -107,6 +109,12 @@
             display: block;
         }
 
+        /* Hero Section Specific Styling */
+        .hero-section {
+            text-align: center;
+            padding: 3rem 1.5rem;
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -128,11 +136,6 @@
         }
 
         /* --- HERO SECTION --- */
-        #hero {
-            text-align: center;
-            padding: 3rem 1.5rem;
-        }
-
         .hero-icon {
             font-size: 3rem;
             color: var(--primary);
@@ -176,7 +179,7 @@
         }
 
         input[type="text"],
-        input[type="number"],
+        input[type="tel"], /* Better for phone */
         select,
         textarea {
             width: 100%;
@@ -187,12 +190,22 @@
             color: var(--text-main);
             font-size: 1rem;
             transition: var(--transition);
+            appearance: none; /* Remove default styling */
         }
 
         input:focus, select:focus, textarea:focus {
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Custom scrollbar for textarea */
+        textarea::-webkit-scrollbar {
+            width: 8px;
+        }
+        textarea::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 4px;
         }
 
         .radio-group {
@@ -209,6 +222,8 @@
             position: absolute;
             opacity: 0;
             cursor: pointer;
+            width: 100%;
+            height: 100%;
         }
 
         .radio-option span {
@@ -227,6 +242,7 @@
             background: var(--primary);
             color: white;
             border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
         }
 
         /* --- SERVICE CARDS --- */
@@ -245,9 +261,15 @@
             border-radius: 8px;
             cursor: pointer;
             transition: var(--transition);
+            user-select: none; /* Prevent text highlighting on double click */
         }
 
         .service-card:hover {
+            border-color: var(--primary);
+            background: rgba(37, 99, 235, 0.02);
+        }
+
+        .service-card.selected {
             border-color: var(--primary);
             background: rgba(37, 99, 235, 0.05);
         }
@@ -273,6 +295,7 @@
             height: 20px;
             accent-color: var(--primary);
             cursor: pointer;
+            pointer-events: none; /* Let the parent div handle click */
         }
 
         /* --- SUMMARY SECTION --- */
@@ -322,6 +345,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
+            font-size: 0.95rem;
         }
 
         .btn-prev {
@@ -355,6 +379,7 @@
 
         .btn-whatsapp:hover {
             background: #1ebc57;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
         }
 
         /* --- FLOATING BUTTON & TOAST --- */
@@ -387,14 +412,15 @@
             right: 20px;
             background: #ef4444;
             color: white;
-            padding: 1rem;
+            padding: 1rem 1.5rem;
             border-radius: 8px;
             box-shadow: var(--shadow);
             z-index: 200;
             display: none;
             align-items: center;
             gap: 10px;
-            animation: slideIn 0.3s ease;
+            animation: slideIn 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            max-width: 300px;
         }
         
         .toast.success {
@@ -411,7 +437,7 @@
             main {
                 max-width: 700px;
             }
-            #hero {
+            .hero-section {
                 padding: 4rem 2rem;
             }
         }
@@ -425,20 +451,21 @@
             <i class="fa-solid fa-screwdriver-wrench"></i>
             Charlie Service
         </div>
-        <button class="dark-toggle" id="darkModeBtn">
+        <button class="dark-toggle" id="darkModeBtn" aria-label="Toggle Dark Mode">
             <i class="fa-solid fa-moon"></i>
         </button>
     </header>
 
     <!-- Notification Toast -->
-    <div id="toast" class="toast">
+    <div id="toast" class="toast" role="alert">
         <i class="fa-solid fa-circle-exclamation"></i>
         <span id="toastMsg">Pesan error</span>
     </div>
 
     <main>
         <!-- SECTION 1: HERO LANDING -->
-        <section id="step-0" class="step-section active" id="hero">
+        <!-- ID duplikat diperbaiki: hanya pakai id="step-0", hero section pakai class="hero-section" -->
+        <section id="step-0" class="step-section active hero-section">
             <i class="fa-solid fa-microchip hero-icon"></i>
             <h1>Charlie Service Center</h1>
             <p class="subtitle">Solusi perbaikan HP, Laptop & Elektronik Terpercaya.</p>
@@ -464,18 +491,19 @@
             <p class="subtitle">Lengkapi data diri agar kami bisa menghubungi Anda.</p>
 
             <div class="form-group">
-                <label>Nama Lengkap</label>
-                <input type="text" id="custName" placeholder="Contoh: Budi Santoso">
+                <label for="custName">Nama Lengkap</label>
+                <input type="text" id="custName" placeholder="Contoh: Budi Santoso" autocomplete="name">
             </div>
 
+            <!-- Perbaikan UX: Input type="tel" untuk keyboard angka di HP -->
             <div class="form-group">
-                <label>Nomor WhatsApp</label>
-                <input type="number" id="custWA" placeholder="Contoh: 081234567890">
+                <label for="custWA">Nomor WhatsApp</label>
+                <input type="tel" id="custWA" placeholder="Contoh: 081234567890" pattern="[0-9]*" autocomplete="tel">
                 <small style="color: var(--text-light); font-size: 0.8rem;">Nomor aktif untuk notifikasi status.</small>
             </div>
 
             <div class="form-group">
-                <label>Alamat (Opsional)</label>
+                <label for="custAddress">Alamat (Opsional)</label>
                 <textarea id="custAddress" rows="2" placeholder="Alamat lengkap..."></textarea>
             </div>
 
@@ -505,7 +533,7 @@
             <p class="subtitle">Jelaskan jenis dan kerusakan perangkat Anda.</p>
 
             <div class="form-group">
-                <label>Jenis Perangkat</label>
+                <label for="deviceType">Jenis Perangkat</label>
                 <select id="deviceType" onchange="renderServices()">
                     <option value="HP">📱 HP / Smartphone</option>
                     <option value="Laptop">💻 Laptop / Notebook</option>
@@ -516,17 +544,17 @@
             </div>
 
             <div class="form-group">
-                <label>Merek (Brand)</label>
-                <input type="text" id="deviceBrand" placeholder="Contoh: Samsung, iPhone, Asus">
+                <label for="deviceBrand">Merek (Brand)</label>
+                <input type="text" id="deviceBrand" placeholder="Contoh: Samsung, iPhone, Asus" autocomplete="off">
             </div>
 
             <div class="form-group">
-                <label>Tipe / Model</label>
-                <input type="text" id="deviceModel" placeholder="Contoh: Galaxy A52, iPhone 11, ROG Strix">
+                <label for="deviceModel">Tipe / Model</label>
+                <input type="text" id="deviceModel" placeholder="Contoh: Galaxy A52, iPhone 11, ROG Strix" autocomplete="off">
             </div>
 
             <div class="form-group">
-                <label>Keluhan / Kerusakan</label>
+                <label for="deviceIssue">Keluhan / Kerusakan</label>
                 <textarea id="deviceIssue" rows="3" placeholder="Ceritakan masalah detail perangkat..."></textarea>
             </div>
 
@@ -555,7 +583,8 @@
 
             <div class="nav-buttons">
                 <button class="btn btn-prev" onclick="goToStep(2)">Kembali</button>
-                <button class="btn btn-next" onclick="goToStep(4)">Lihat Ringkasan <i class="fa-solid fa-chevron-right"></i></button>
+                <!-- Panggil fungsi khusus processToSummary() alih-alih goToStep langsung -->
+                <button class="btn btn-next" onclick="processToSummary()">Lihat Ringkasan <i class="fa-solid fa-chevron-right"></i></button>
             </div>
         </section>
 
@@ -622,14 +651,14 @@
         </section>
     </main>
 
-    <a href="https://wa.me/6281234567890" target="_blank" class="fab" title="Chat Admin">
+    <a href="https://wa.me/6285713087659" target="_blank" class="fab" title="Chat Admin">
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
     <script>
         // --- KONFIGURASI ADMIN ---
-        // Ganti nomor ini dengan nomor WhatsApp Admin (Format: 628...)
-        const ADMIN_WA = "6281234567890"; 
+        // UPDATE NOMOR ADMIN SESUAI REQUEST
+        const ADMIN_WA = "6285713087659"; 
 
         // Database Layanan & Harga (Editable)
         const servicesData = {
@@ -677,7 +706,7 @@
             brand: "",
             model: "",
             issue: "",
-            selectedServices: [], // Array of service names
+            selectedServices: [], // Array of service objects
             totalEstimate: 0
         };
 
@@ -687,6 +716,7 @@
             // Dark Mode Check
             if (localStorage.getItem('theme') === 'dark') {
                 document.body.classList.add('dark-mode');
+                updateDarkModeIcon();
             }
         });
 
@@ -717,7 +747,11 @@
             }
 
             toast.style.display = 'flex';
-            setTimeout(() => {
+            
+            // Hapus timeout lama jika ada
+            if (toast.timeoutId) clearTimeout(toast.timeoutId);
+            
+            toast.timeoutId = setTimeout(() => {
                 toast.style.display = 'none';
             }, 3000);
         }
@@ -729,7 +763,8 @@
             const method = document.querySelector('input[name="delivery"]:checked').value;
 
             if (name.length < 3) return showToast("Nama lengkap harus diisi dengan benar.");
-            if (wa.length < 10) return showToast("Nomor WhatsApp tidak valid.");
+            // Validasi WA: harus angka semua, min 10 digit
+            if (!/^\d+$/.test(wa) || wa.length < 10) return showToast("Nomor WhatsApp tidak valid (harus angka).");
 
             // Save Data
             orderData.name = name;
@@ -756,8 +791,7 @@
             orderData.model = model;
             orderData.issue = issue;
 
-            // Reset selections when changing device type logic happens in renderServices, 
-            // but let's make sure total is updated before moving
+            // Reset selected services when changing device type logic happens in renderServices
             goToStep(3);
         }
 
@@ -769,15 +803,16 @@
             
             container.innerHTML = ""; // Clear existing
 
-            // Reset selected services if type changes (Optional UX choice)
+            // Reset selected services if type changes
             orderData.selectedServices = [];
             updateTotal();
 
             services.forEach((svc, index) => {
                 const displayPrice = svc.price === 0 ? "Hubungi Admin" : `Rp ${svc.price.toLocaleString('id-ID')}`;
                 
+                // FIX: Parameter 'event' ditambahkan ke pemanggilan onclick
                 const html = `
-                <div class="service-card" onclick="toggleService(this, '${svc.name}', ${svc.price})">
+                <div class="service-card" onclick="toggleService(this, '${svc.name}', ${svc.price}, event)">
                     <div class="service-info">
                         <h4>${svc.name}</h4>
                         <p>${svc.range !== '-' ? 'Estimasi: ' + svc.range : 'Part Standar'}</p>
@@ -794,22 +829,23 @@
             });
         }
 
-        function toggleService(cardElement, name, price) {
+        // FIX: Parameter 'event' ditambahkan ke definisi fungsi
+        function toggleService(cardElement, name, price, event) {
+            // Ambil checkbox di dalam card
             const checkbox = cardElement.querySelector('input[type="checkbox"]');
-            // If user clicked the card but not the checkbox directly, toggle it
-            if (event.target !== checkbox) {
+            
+            // Jika user klik area kartu (bukan langsung ke checkbox), toggle manual
+            if (event && event.target !== checkbox) {
                 checkbox.checked = !checkbox.checked;
             }
 
             // Update State
             if (checkbox.checked) {
                 orderData.selectedServices.push({ name, price });
-                cardElement.style.borderColor = "var(--primary)";
-                cardElement.style.background = "rgba(37, 99, 235, 0.1)";
+                cardElement.classList.add('selected');
             } else {
                 orderData.selectedServices = orderData.selectedServices.filter(s => s.name !== name);
-                cardElement.style.borderColor = "var(--border)";
-                cardElement.style.background = "transparent";
+                cardElement.classList.remove('selected');
             }
 
             updateTotal();
@@ -817,31 +853,33 @@
 
         function updateTotal() {
             let total = 0;
+            let hasZeroPrice = false;
+
             orderData.selectedServices.forEach(s => {
                 total += s.price;
+                if(s.price === 0) hasZeroPrice = true;
             });
             orderData.totalEstimate = total;
 
             const display = document.getElementById('totalPriceDisplay');
-            display.innerText = total === 0 ? "Hubungi Admin" : `Rp ${total.toLocaleString('id-ID')}`;
+            if (hasZeroPrice && orderData.selectedServices.length === 1) {
+                 display.innerText = "Hubungi Admin";
+            } else if (total === 0 && orderData.selectedServices.length > 0) {
+                 display.innerText = "Hubungi Admin";
+            } else {
+                 display.innerText = `Rp ${total.toLocaleString('id-ID')}`;
+            }
         }
 
-        // --- SUMMARY & WHATSAPP ---
-        goToStep(4); // Override listener to populate summary first
-        // We need to modify the button logic slightly to inject data before showing step 4
-        const originalNextBtn = document.querySelector(`button[onclick="goToStep(4)"]`);
-        
-        // Hook into the transition logic dynamically
-        document.querySelector('.btn-next[onclick*="goToStep(4)"]')?.removeAttribute('onclick'); 
-        
-        // Re-attach logic properly
-        document.querySelector('#step-3 .btn-next').onclick = function() {
+        // --- PROCESS STEP 3 TO SUMMARY ---
+        // Fungsi ini menggantikan logika goToStep(4) langsung, agar validasi berjalan dulu
+        function processToSummary() {
             if(orderData.selectedServices.length === 0) {
                 return showToast("Pilih minimal 1 layanan atau pilih Cek & Estimasi.");
             }
             populateSummary();
             goToStep(4);
-        };
+        }
 
         function populateSummary() {
             document.getElementById('sumName').innerText = orderData.name;
@@ -857,11 +895,13 @@
             listContainer.innerHTML = "";
             orderData.selectedServices.forEach(s => {
                 const li = document.createElement('li');
-                li.innerText = `${s.name} (Rp ${s.price.toLocaleString('id-ID')})`;
+                const priceText = s.price === 0 ? "Hubungi Admin" : `Rp ${s.price.toLocaleString('id-ID')}`;
+                li.innerText = `${s.name} (${priceText})`;
                 listContainer.appendChild(li);
             });
 
-            document.getElementById('sumTotal').innerText = `Rp ${orderData.totalEstimate.toLocaleString('id-ID')}`;
+            const totalDisplay = orderData.totalEstimate === 0 ? "Hubungi Admin" : `Rp ${orderData.totalEstimate.toLocaleString('id-ID')}`;
+            document.getElementById('sumTotal').innerText = totalDisplay;
         }
 
         function sendToWhatsApp() {
@@ -883,7 +923,8 @@
                 message += `- ${s.name}\n`;
             });
 
-            message += `\n💰 *Estimasi Harga :*\nRp ${orderData.totalEstimate.toLocaleString('id-ID')}\n\n`;
+            const totalDisplay = orderData.totalEstimate === 0 ? "Hubungi Admin" : `Rp ${orderData.totalEstimate.toLocaleString('id-ID')}`;
+            message += `\n💰 *Estimasi Harga :*\n${totalDisplay}\n\n`;
             
             message += `📝 *Catatan :*\nHarga dapat berubah setelah pengecekan teknisi.\n\n`;
             message += `Terima kasih 🙏`;
@@ -895,15 +936,19 @@
         }
 
         // --- DARK MODE TOGGLE ---
+        function updateDarkModeIcon() {
+            const isDark = document.body.classList.contains('dark-mode');
+            const icon = document.querySelector('#darkModeBtn i');
+            icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+        }
+
         document.getElementById('darkModeBtn').addEventListener('click', () => {
             document.body.classList.toggle('dark-mode');
             const isDark = document.body.classList.contains('dark-mode');
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
             
-            const icon = document.querySelector('#darkModeBtn i');
-            icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            updateDarkModeIcon();
         });
-
     </script>
 </body>
 </html>
