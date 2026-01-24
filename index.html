@@ -573,7 +573,8 @@
                            `Mohon info lebih lanjut. Terima kasih.`;
 
             const encodedMsg = encodeURIComponent(messageBody);
-            const adminNumber = "6285713087659"; // Nomor Admin
+            const adminNumber = "6285713087659";
+openWhatsApp(adminNumber, messageBody);
             
             window.location.href = `https://wa.me/${adminNumber}?text=${encodedMsg}`;
         }
@@ -684,6 +685,18 @@
                 showToast("Gagal membuat gambar.");
             });
         }
+        function openWhatsApp(number, message) {
+    const encoded = encodeURIComponent(message);
+    const isAndroid = /Android/i.test(navigator.userAgent);
+
+    if (isAndroid) {
+        window.location.href =
+            `intent://send?phone=${number}&text=${encoded}` +
+            `#Intent;scheme=smsto;package=com.whatsapp;end`;
+    } else {
+        window.open(`https://wa.me/${number}?text=${encoded}`, '_blank');
+    }
+}
 
         document.getElementById('darkModeBtn').addEventListener('click', () => {
             document.body.classList.toggle('dark-mode');
@@ -694,4 +707,5 @@
     </script>
 </body>
 </html>
+
 
