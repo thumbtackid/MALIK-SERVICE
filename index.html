@@ -532,51 +532,50 @@
 
         // --- 5. WA SENDING LOGIC ---
         function sendCustomerOrder() {
-            // Data Diri
-            const name = document.getElementById('custName').value;
-            const wa = document.getElementById('custWA').value;
-            const address = document.getElementById('custAddress').value;
+    const name = document.getElementById('custName').value;
+    const wa = document.getElementById('custWA').value;
+    const address = document.getElementById('custAddress').value;
 
-            // Validasi Data Diri
-            if(!name || !wa) {
-                showToast("Nama dan Nomor WA wajib diisi!");
-                return;
-            }
+    if (!name || !wa) {
+        showToast("Nama dan Nomor WA wajib diisi!");
+        return;
+    }
 
-            // Data Kerusakan
-            const servSelect = document.getElementById('custService');
-            let messageBody = "";
+    const servSelect = document.getElementById('custService');
+    let messageBody = "";
 
-            if (servSelect.value !== "") {
-                // Jika memilih dari database
-                const data = JSON.parse(servSelect.value);
-                const total = data.sparepart + data.jasa;
-                
-                messageBody = `Halo Admin, saya ingin order servis.\n\n` +
-                              `*DETAIL KERUSAKAN:*\n` +
-                              `Kategori: ${data.cat}\n` +
-                              `Komponen: ${data.comp}\n` +
-                              `Masalah: ${data.issue}\n\n` +
-                              `*ESTIMASI BIAYA:*\n` +
-                              `Sparepart: ${formatRupiah(data.sparepart)}\n` +
-                              `Jasa Servis: ${formatRupiah(data.jasa)}\n` +
-                              `TOTAL: ${formatRupiah(total)}\n\n`;
-            } else {
-                // Jika tidak memilih (manual request)
-                messageBody = `Halo Admin, saya ingin konsultasi servis.\n`;
-            }
+    if (servSelect.value !== "") {
+        const data = JSON.parse(servSelect.value);
+        const total = data.sparepart + data.jasa;
 
-            messageBody += `*DATA DIRI PELANGGAN:*\n` +
-                           `Nama: ${name}\n` +
-                           `No WA: ${wa}\n` +
-                           `Alamat: ${address}\n\n` +
-                           `Mohon info lebih lanjut. Terima kasih.`;
+        messageBody =
+`Halo Admin, saya ingin order servis.
 
-            const encodedMsg = encodeURIComponent(messageBody);
-            const adminNumber = "6285713087659";
-openWhatsApp(adminNumber, messageBody);
-            
-        }
+DETAIL KERUSAKAN:
+Kategori: ${data.cat}
+Komponen: ${data.comp}
+Masalah: ${data.issue}
+
+ESTIMASI BIAYA:
+Sparepart: ${formatRupiah(data.sparepart)}
+Jasa: ${formatRupiah(data.jasa)}
+TOTAL: ${formatRupiah(total)}
+
+DATA PELANGGAN:
+Nama: ${name}
+No WA: ${wa}
+Alamat: ${address}`;
+    } else {
+        messageBody =
+`Halo Admin, saya ingin konsultasi servis.
+
+Nama: ${name}
+No WA: ${wa}
+Alamat: ${address}`;
+    }
+
+    openWhatsApp("6285713087659", messageBody);
+}
 
         // --- 6. ADMIN & EXISTING LOGIC (Login, Print, etc) ---
         function handleLogin() {
@@ -706,6 +705,7 @@ openWhatsApp(adminNumber, messageBody);
     </script>
 </body>
 </html>
+
 
 
 
