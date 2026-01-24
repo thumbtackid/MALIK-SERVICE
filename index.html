@@ -575,7 +575,7 @@
             const encodedMsg = encodeURIComponent(messageBody);
             const adminNumber = "6285713087659"; // Nomor Admin
             
-            window.open(`https://wa.me/${adminNumber}?text=${encodedMsg}`, '_blank');
+            window.location.href = `https://wa.me/${adminNumber}?text=${encodedMsg}`;
         }
 
         // --- 6. ADMIN & EXISTING LOGIC (Login, Print, etc) ---
@@ -694,3 +694,4 @@
     </script>
 </body>
 </html>
+
