@@ -243,7 +243,7 @@
                     <i class="fa-solid fa-print"></i> Cetak Resi (Printer)
                 </button>
                 <button id="btnDownload" class="btn btn-success full-width" onclick="downloadReceiptImage()">
-                    <i class="fa-solid fa-download"></i> Download Resi (Gambar PNG)
+                    <i class="fa-solid fa-download"></i> Download Resi (Gambar)
                 </button>
             </div>
 
@@ -821,7 +821,7 @@ Alamat: ${address}`;
             window.print();
         }
 
-        // --- DOWNLOAD RESI (FIXED FOR INSTAGRAM & APK) ---
+        // --- DOWNLOAD RESI (FINAL FIX APK & INSTAGRAM) ---
         function downloadReceiptImage() {
             const id = document.getElementById('resOrderId').value;
             const btn = document.getElementById('btnDownload');
@@ -835,19 +835,24 @@ Alamat: ${address}`;
             btn.disabled = true;
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Memproses...';
 
-            // FIX: Mengubah Scale dari 2 menjadi 1.
-            // Browser Instagram (In-App) memblokir data gambar yang terlalu besar.
-            // Scale 1 cukup tajam untuk layar HP dan memperkecil ukuran file drastis.
             html2canvas(element, { scale: 1 }).then(canvas => {
-                // Metode Klasik: toDataURL() + click()
+                // SOLUSI 1: Ubah format ke JPEG (Lebih kecil dari PNG)
+                // Ini sangat membantu menghindari crash di Android WebView / Instagram
+                const jpegUrl = canvas.toDataURL("image/jpeg", 0.9);
+                
+                // SOLUSI 2: Gunakan target="_blank"
+                // Ini memaksa APK membuka gambar di Browser Eksternal (Chrome)
+                // yang biasanya memiliki izin download lebih baik.
                 const link = document.createElement('a');
-                link.download = `Resi-${id}.png`;
-                link.href = canvas.toDataURL("image/png");
+                link.href = jpegUrl;
+                link.download = `Resi-${id}.jpg`; // Perpanjangan JPG
+                link.target = "_blank"; // Kunci utama untuk APK
+                
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
 
-                showToast("Resi berhasil didownload", true);
+                showToast("Membuka file...", true);
                 
                 // Reset Tombol
                 btn.disabled = false;
