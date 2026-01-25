@@ -821,7 +821,7 @@ Alamat: ${address}`;
             window.print();
         }
 
-        // --- UPDATE: DOWNLOAD LANGSUNG (ONE CLICK) ---
+        // --- DOWNLOAD RESI (KLASIK & KOMPATIBEL APK) ---
         function downloadReceiptImage() {
             const id = document.getElementById('resOrderId').value;
             const btn = document.getElementById('btnDownload');
@@ -836,29 +836,20 @@ Alamat: ${address}`;
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Memproses...';
 
             html2canvas(element, { scale: 2 }).then(canvas => {
-                // Metode Baru: Menggunakan toBlob (Binary) agar lebih kompatibel dengan Download Manager Android
-                canvas.toBlob(function(blob) {
-                    // Buat URL sementara dari Blob
-                    const url = window.URL.createObjectURL(blob);
-                    
-                    // Buat elemen link download
-                    const link = document.createElement('a');
-                    link.href = url;
-                    link.download = `Resi-${id}.png`; // Nama file
-                    
-                    // Tambahkan ke body, klik, lalu hapus
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                    
-                    // Bersihkan memory
-                    window.URL.revokeObjectURL(url);
+                // Metode Klasik: toDataURL() + click()
+                // Ini metode yang paling standar dan biasanya bekerja di APK
+                const link = document.createElement('a');
+                link.download = `Resi-${id}.png`;
+                link.href = canvas.toDataURL("image/png");
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
 
-                    // Feedback & Reset Tombol
-                    showToast("Download dimulai...", true);
-                    btn.disabled = false;
-                    btn.innerHTML = originalText;
-                }, 'image/png');
+                showToast("Resi berhasil didownload", true);
+                
+                // Reset Tombol
+                btn.disabled = false;
+                btn.innerHTML = originalText;
 
             }).catch(err => {
                 console.error(err);
