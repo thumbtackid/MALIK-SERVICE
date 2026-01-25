@@ -91,6 +91,7 @@
         .btn { flex: 1; padding: 12px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; transition: var(--transition); display: flex; justify-content: center; align-items: center; gap: 8px; font-size: 0.95rem; }
         .btn-primary { background: var(--primary); color: white; }
         .btn-primary:hover { background: var(--primary-dark); }
+        .btn-primary:disabled { background: #94a3b8; cursor: not-allowed; }
         .btn-secondary { background: #64748b; color: white; }
         .btn-secondary:hover { background: #475569; }
         .btn-whatsapp { background: #25D366; color: white; }
@@ -172,7 +173,7 @@
         <!-- 1. LOGIN ADMIN -->
         <section id="login-section" class="step-section active">
             <h2><i class="fa-solid fa-lock"></i> Login Admin</h2>
-            <p class="subtitle">Masuk untuk membuat Resi Manual.</p>
+            <p class="subtitle">Masuk untuk membuat Resi Manual. (Cek via Spreadsheet)</p>
             <div class="form-group">
                 <label>Username</label>
                 <input type="text" id="adminUser" placeholder="Masukan username">
@@ -181,7 +182,10 @@
                 <label>Password</label>
                 <input type="password" id="adminPass" placeholder="Masukan password">
             </div>
-            <button class="btn btn-primary full-width" onclick="handleLogin()">Masuk Panel Admin</button>
+            <!-- ID btnLogin ditambahkan untuk manipulasi loading -->
+            <button id="btnLogin" class="btn btn-primary full-width" onclick="handleLogin()">
+                <span>Masuk Panel Admin</span>
+            </button>
             <button class="btn btn-secondary full-width" onclick="goToCustomerView()">Ke Halaman Pelanggan (Order Biasa)</button>
         </section>
 
@@ -359,7 +363,15 @@
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
     <script>
-        // --- 1. DATABASE LAYANAN (DATA DARI USER) ---
+        // ==========================================
+        // KONFIGURASI BACKEND SPREADSHEET
+        // ==========================================
+        // Link Google Sheets yang sudah diberikan user
+        const SPREADSHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSMPwDhdP3zSLLz_VZrOUeLzWImUq2_aoc06Pwwe_t-5UAEBDnmClxXZ3FjJGm-p7bDFznhQ2CF74me/pub?gid=0&single=true&output=csv"; 
+
+        // ==========================================
+        // 1. DATABASE LAYANAN (DATA DARI USER)
+        // ==========================================
         const serviceDatabase = [
             { cat: "HP", comp: "LCD", issue: "Layar pecah / blank", sparepart: 250000, jasa: 80000 },
             { cat: "HP", comp: "Touchscreen", issue: "Sentuh tidak responsif", sparepart: 150000, jasa: 70000 },
@@ -532,23 +544,23 @@
 
         // --- 5. WA SENDING LOGIC ---
         function sendCustomerOrder() {
-    const name = document.getElementById('custName').value;
-    const wa = document.getElementById('custWA').value;
-    const address = document.getElementById('custAddress').value;
+            const name = document.getElementById('custName').value;
+            const wa = document.getElementById('custWA').value;
+            const address = document.getElementById('custAddress').value;
 
-    if (!name || !wa) {
-        showToast("Nama dan Nomor WA wajib diisi!");
-        return;
-    }
+            if (!name || !wa) {
+                showToast("Nama dan Nomor WA wajib diisi!");
+                return;
+            }
 
-    const servSelect = document.getElementById('custService');
-    let messageBody = "";
+            const servSelect = document.getElementById('custService');
+            let messageBody = "";
 
-    if (servSelect.value !== "") {
-        const data = JSON.parse(servSelect.value);
-        const total = data.sparepart + data.jasa;
+            if (servSelect.value !== "") {
+                const data = JSON.parse(servSelect.value);
+                const total = data.sparepart + data.jasa;
 
-        messageBody =
+                messageBody =
 `Halo Admin, saya ingin order servis.
 
 DETAIL KERUSAKAN:
@@ -565,31 +577,83 @@ DATA PELANGGAN:
 Nama: ${name}
 No WA: ${wa}
 Alamat: ${address}`;
-    } else {
-        messageBody =
+            } else {
+                messageBody =
 `Halo Admin, saya ingin konsultasi servis.
 
 Nama: ${name}
 No WA: ${wa}
 Alamat: ${address}`;
-    }
-
-    openWhatsApp("6285713087659", messageBody);
-}
-
-        // --- 6. ADMIN & EXISTING LOGIC (Login, Print, etc) ---
-        function handleLogin() {
-            const user = document.getElementById('adminUser').value;
-            const pass = document.getElementById('adminPass').value;
-
-            if (user === 'admin' && pass === '1234') {
-                showToast("Login Berhasil", true);
-                document.getElementById('resDate').valueAsDate = new Date();
-                updateLivePreview();
-                showSection('admin-panel');
-            } else {
-                showToast("Username atau Password salah!");
             }
+
+            openWhatsApp("6285713087659", messageBody);
+        }
+
+        // --- 6. LOGIN & SECURITY LOGIC (BACKEND SPREADSHEET) ---
+        async function handleLogin() {
+            const user = document.getElementById('adminUser').value.trim();
+            const pass = document.getElementById('adminPass').value.trim();
+            const btn = document.getElementById('btnLogin');
+
+            if (!user || !pass) {
+                showToast("Username dan Password wajib diisi!");
+                return;
+            }
+
+            // Set loading state
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mengecek Data...';
+
+            try {
+                // Ambil data dari Google Sheets
+                const response = await fetch(SPREADSHEET_URL);
+                if (!response.ok) throw new Error("Gagal mengambil data");
+                
+                const csvData = await response.text();
+                const isValid = validateCredentials(csvData, user, pass);
+
+                if (isValid) {
+                    showToast("Login Berhasil", true);
+                    document.getElementById('resDate').valueAsDate = new Date();
+                    updateLivePreview();
+                    showSection('admin-panel');
+                } else {
+                    showToast("Username atau Password salah!");
+                }
+
+            } catch (error) {
+                console.error(error);
+                showToast("Gagal koneksi ke server login.");
+            } finally {
+                // Reset loading state
+                btn.disabled = false;
+                btn.innerHTML = '<span>Masuk Panel Admin</span>';
+            }
+        }
+
+        // Fungsi untuk mem-parsing CSV dan mengecek login
+        function validateCredentials(csvText, inputUser, inputPass) {
+            const rows = csvText.split('\n');
+            // Mulai dari index 1 karena index 0 adalah header
+            for (let i = 1; i < rows.length; i++) {
+                const row = rows[i].trim();
+                if (!row) continue; // Lewati baris kosong
+
+                // Kita asumsikan format CSV sederhana: username,password
+                // Jika password ada koma, split ini bisa bermasalah, 
+                // tapi untuk login sederhana cukup aman asal tidak pakai koma di password.
+                const cols = row.split(',');
+                
+                if (cols.length >= 2) {
+                    const dbUser = cols[0].trim();
+                    const dbPass = cols[1].trim();
+
+                    if (dbUser === inputUser && dbPass === inputPass) {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         function logout() {
@@ -683,14 +747,14 @@ Alamat: ${address}`;
                 showToast("Gagal membuat gambar.");
             });
         }
-       function openWhatsApp(number, message) {
-    const encoded = encodeURIComponent(message);
-    // Pastikan menggunakan https://wa.me
-    const url = `https://wa.me/${number}?text=${encoded}`;
-    
-    // Gunakan window.location.href agar WebViewClient di Kotlin bisa menangkapnya dengan mudah
-    window.location.href = url;
-}
+        function openWhatsApp(number, message) {
+            const encoded = encodeURIComponent(message);
+            // Pastikan menggunakan https://wa.me
+            const url = `https://wa.me/${number}?text=${encoded}`;
+            
+            // Gunakan window.location.href agar WebViewClient di Kotlin bisa menangkapnya dengan mudah
+            window.location.href = url;
+        }
 
         document.getElementById('darkModeBtn').addEventListener('click', () => {
             document.body.classList.toggle('dark-mode');
@@ -701,9 +765,3 @@ Alamat: ${address}`;
     </script>
 </body>
 </html>
-
-
-
-
-
-
