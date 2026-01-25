@@ -358,7 +358,8 @@
 
             <div class="nav-buttons">
                 <button class="btn btn-secondary" onclick="goToCustomerView()">Batal</button>
-                <button class="btn btn-whatsapp" onclick="sendCustomerOrder()">
+                <!-- ID btnSendWA ditambahkan agar bisa diberi efek loading saat simpan data -->
+                <button id="btnSendWA" class="btn btn-whatsapp" onclick="sendCustomerOrder(event)">
                     <i class="fa-brands fa-whatsapp"></i> Kirim Order ke WA
                 </button>
             </div>
@@ -373,8 +374,11 @@
         // ==========================================
         // KONFIGURASI BACKEND SPREADSHEET
         // ==========================================
-        // Link Google Sheets yang sudah diberikan user
+        // 1. Link Google Sheets (CSV) untuk cek LOGIN
         const SPREADSHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSMPwDhdP3zSLLz_VZrOUeLzWImUq2_aoc06Pwwe_t-5UAEBDnmClxXZ3FjJGm-p7bDFznhQ2CF74me/pub?gid=0&single=true&output=csv"; 
+
+        // 2. URL APPS SCRIPT untuk SIMPAN ORDER (Disiapkan oleh User)
+        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxIVdXLb9UPX2LbG9wMe5eb_-W0rhxRGJF-TMbxgeNjH07UQI6j3AAW3ROBlc-9mmRU/exec";
 
         // ==========================================
         // 1. DATABASE LAYANAN (DATA DARI USER)
@@ -549,8 +553,14 @@
             priceDisplay.style.display = 'block';
         }
 
-        // --- 5. WA SENDING LOGIC ---
-        function sendCustomerOrder() {
+        // --- 5. WA SENDING & SPREADSHEET LOGIC (UPDATED) ---
+        async function sendCustomerOrder(event) {
+            // Mencegah double click jika tombol tidak disabled
+            if(event) event.preventDefault();
+
+            const btn = document.getElementById('btnSendWA');
+            const originalBtnContent = btn.innerHTML;
+
             const name = document.getElementById('custName').value;
             const wa = document.getElementById('custWA').value;
             const address = document.getElementById('custAddress').value;
@@ -562,10 +572,22 @@
 
             const servSelect = document.getElementById('custService');
             let messageBody = "";
+            let serviceData = {
+                cat: "-",
+                comp: "-",
+                issue: "Konsultasi Umum",
+                total: "0"
+            };
 
             if (servSelect.value !== "") {
                 const data = JSON.parse(servSelect.value);
                 const total = data.sparepart + data.jasa;
+                serviceData = {
+                    cat: data.cat,
+                    comp: data.comp,
+                    issue: data.issue,
+                    total: total
+                };
 
                 messageBody =
 `Halo Admin, saya ingin order servis.
@@ -593,7 +615,52 @@ No WA: ${wa}
 Alamat: ${address}`;
             }
 
-            openWhatsApp("6285713087659", messageBody);
+            // 1. Set Loading UI
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan Data...';
+
+            // 2. Siapkan Data untuk Spreadsheet
+            const payload = {
+                name: name,
+                wa: wa,
+                address: address,
+                cat: serviceData.cat,
+                comp: serviceData.comp,
+                issue: serviceData.issue,
+                total: serviceData.total
+            };
+
+            try {
+                // 3. Kirim ke Google Apps Script
+                const response = await fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error("Gagal koneksi ke database");
+                }
+
+                const result = await response.json();
+                
+                // 4. Jika Sukses Simpan, Buka WhatsApp
+                showToast("Data berhasil disimpan!", true);
+                setTimeout(() => {
+                    openWhatsApp("6285713087659", messageBody);
+                }, 1000); // Jeda sebentar agar user melihat notifikasi sukses
+
+            } catch (error) {
+                console.error("Error:", error);
+                // Jika gagal simpan database, tetap buat WA agar order tidak hilang
+                showToast("Gagal simpan ke Database, tapi tetap kirim ke WA.", false);
+                setTimeout(() => {
+                    openWhatsApp("6285713087659", messageBody);
+                }, 1500);
+            } finally {
+                // 5. Reset Tombol
+                btn.disabled = false;
+                btn.innerHTML = originalBtnContent;
+            }
         }
 
         // --- 6. LOGIN & SECURITY LOGIC (BACKEND SPREADSHEET) ---
@@ -789,6 +856,3 @@ Alamat: ${address}`;
     </script>
 </body>
 </html>
-
-
-
