@@ -86,6 +86,12 @@
             background: var(--light-bg); color: var(--text-main); font-size: 1rem;
         }
         input:focus, select:focus, textarea:focus { outline: none; border-color: var(--primary); }
+        /* Readonly style */
+        input[readonly] {
+            background-color: #e2e8f0;
+            color: #64748b;
+            cursor: default;
+        }
 
         /* BUTTONS */
         .btn { flex: 1; padding: 12px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; transition: var(--transition); display: flex; justify-content: center; align-items: center; gap: 8px; font-size: 0.95rem; }
@@ -199,7 +205,8 @@
             <div class="admin-grid">
                 <div class="form-group full-col">
                     <label>Nomor Order / Resi</label>
-                    <input type="text" id="resOrderId" placeholder="Contoh: #ORD-001" oninput="updateLivePreview()">
+                    <!-- Added readonly attribute -->
+                    <input type="text" id="resOrderId" placeholder="Otomatis saat Login" readonly>
                 </div>
                 <div class="form-group">
                     <label>Tanggal</label>
@@ -614,7 +621,13 @@ Alamat: ${address}`;
 
                 if (isValid) {
                     showToast("Login Berhasil", true);
+                    
+                    // Set tanggal hari ini
                     document.getElementById('resDate').valueAsDate = new Date();
+                    
+                    // --- GENERATE NOMOR RESI OTOMATIS ---
+                    document.getElementById('resOrderId').value = generateOrderId();
+                    
                     updateLivePreview();
                     showSection('admin-panel');
                 } else {
@@ -631,6 +644,20 @@ Alamat: ${address}`;
             }
         }
 
+        // --- BARU: Fungsi Generate Order ID ---
+        function generateOrderId() {
+            const now = new Date();
+            const yyyy = now.getFullYear();
+            const mm = String(now.getMonth() + 1).padStart(2, '0');
+            const dd = String(now.getDate()).padStart(2, '0');
+            const hh = String(now.getHours()).padStart(2, '0');
+            const min = String(now.getMinutes()).padStart(2, '0');
+            const ss = String(now.getSeconds()).padStart(2, '0');
+            
+            // Format: ORD-YYYYMMDD-HHMMSS
+            return `ORD-${yyyy}${mm}${dd}-${hh}${min}${ss}`;
+        }
+
         // Fungsi untuk mem-parsing CSV dan mengecek login
         function validateCredentials(csvText, inputUser, inputPass) {
             const rows = csvText.split('\n');
@@ -639,9 +666,6 @@ Alamat: ${address}`;
                 const row = rows[i].trim();
                 if (!row) continue; // Lewati baris kosong
 
-                // Kita asumsikan format CSV sederhana: username,password
-                // Jika password ada koma, split ini bisa bermasalah, 
-                // tapi untuk login sederhana cukup aman asal tidak pakai koma di password.
                 const cols = row.split(',');
                 
                 if (cols.length >= 2) {
