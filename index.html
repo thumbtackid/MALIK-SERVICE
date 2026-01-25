@@ -821,7 +821,7 @@ Alamat: ${address}`;
             window.print();
         }
 
-        // --- DOWNLOAD RESI (KLASIK & KOMPATIBEL APK) ---
+        // --- DOWNLOAD RESI (FIXED FOR INSTAGRAM & APK) ---
         function downloadReceiptImage() {
             const id = document.getElementById('resOrderId').value;
             const btn = document.getElementById('btnDownload');
@@ -835,9 +835,11 @@ Alamat: ${address}`;
             btn.disabled = true;
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Memproses...';
 
-            html2canvas(element, { scale: 2 }).then(canvas => {
+            // FIX: Mengubah Scale dari 2 menjadi 1.
+            // Browser Instagram (In-App) memblokir data gambar yang terlalu besar.
+            // Scale 1 cukup tajam untuk layar HP dan memperkecil ukuran file drastis.
+            html2canvas(element, { scale: 1 }).then(canvas => {
                 // Metode Klasik: toDataURL() + click()
-                // Ini metode yang paling standar dan biasanya bekerja di APK
                 const link = document.createElement('a');
                 link.download = `Resi-${id}.png`;
                 link.href = canvas.toDataURL("image/png");
