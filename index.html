@@ -151,7 +151,7 @@
         .receipt-total { font-weight: bold; font-size: 1.1rem; display: flex; justify-content: space-between; }
 
         /* TOAST */
-        .toast { position: fixed; top: 20px; right: 20px; background: #ef4444; color: white; padding: 1rem; border-radius: 8px; z-index: 200; display: none; animation: slideIn 0.3s; }
+        .toast { position: fixed; top: 20px; right: 20px; background: #ef4444; color: white; padding: 1rem; border-radius: 8px; z-index: 200; display: none; animation: slideIn 0.3s; text-align:center; }
         @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
 
         /* PRINT MEDIA */
@@ -759,7 +759,7 @@ Alamat: ${address}`;
             toast.innerText = msg;
             toast.style.background = isSuccess ? '#10b981' : '#ef4444';
             toast.style.display = 'block';
-            setTimeout(() => { toast.style.display = 'none'; }, 3000);
+            setTimeout(() => { toast.style.display = 'none'; }, 4000); // Diperpanjang sedikit untuk membaca pesan panjang
         }
 
         function updateLivePreview() {
@@ -821,7 +821,7 @@ Alamat: ${address}`;
             window.print();
         }
 
-        // --- DOWNLOAD RESI (FINAL FIX APK & INSTAGRAM) ---
+        // --- DOWNLOAD RESI (FIXED FOR AP DOWNLOAD FOLDER ISSUE) ---
         function downloadReceiptImage() {
             const id = document.getElementById('resOrderId').value;
             const btn = document.getElementById('btnDownload');
@@ -836,23 +836,32 @@ Alamat: ${address}`;
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Memproses...';
 
             html2canvas(element, { scale: 1 }).then(canvas => {
-                // SOLUSI 1: Ubah format ke JPEG (Lebih kecil dari PNG)
-                // Ini sangat membantu menghindari crash di Android WebView / Instagram
+                // Gunakan JPEG agar ukuran kecil
                 const jpegUrl = canvas.toDataURL("image/jpeg", 0.9);
                 
-                // SOLUSI 2: Gunakan target="_blank"
-                // Ini memaksa APK membuka gambar di Browser Eksternal (Chrome)
-                // yang biasanya memiliki izin download lebih baik.
+                // Buat link
                 const link = document.createElement('a');
+                // Nama file tanpa spasi agar lebih aman
+                link.download = `Resi-${id.replace(/[^a-zA-Z0-9]/g, '')}.jpg`;
                 link.href = jpegUrl;
-                link.download = `Resi-${id}.jpg`; // Perpanjangan JPG
-                link.target = "_blank"; // Kunci utama untuk APK
                 
+                // Append ke body agar terdeteksi DOM
                 document.body.appendChild(link);
-                link.click();
+
+                // Gunakan MouseEvent dispatch yang lebih 'native' untuk Android WebView
+                const event = new MouseEvent('click', {
+                    view: window,
+                    bubbles: true,
+                    cancelable: true
+                });
+                
+                link.dispatchEvent(event);
+
+                // Hapus link
                 document.body.removeChild(link);
 
-                showToast("Membuka file...", true);
+                // Toast Message yang lebih jelas tentang lokasi file
+                showToast("Berhasil! Cek folder 'Download' di File Manager", true);
                 
                 // Reset Tombol
                 btn.disabled = false;
