@@ -154,6 +154,37 @@
         .toast { position: fixed; top: 20px; right: 20px; background: #ef4444; color: white; padding: 1rem; border-radius: 8px; z-index: 200; display: none; animation: slideIn 0.3s; }
         @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
 
+        /* IMAGE MODAL (FIX DOWNLOAD) */
+        #imageModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+        #modalImg {
+            max-width: 100%;
+            max-height: 80vh;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+        #modalText {
+            color: #fff;
+            margin-top: 15px;
+            text-align: center;
+            font-size: 0.9rem;
+            background: rgba(255,255,255,0.1);
+            padding: 10px;
+            border-radius: 8px;
+        }
+
         /* PRINT MEDIA */
         @media print {
             body * { visibility: hidden; }
@@ -366,6 +397,15 @@
         </section>
 
     </main>
+
+    <!-- MODAL GAMBAR (FIX DOWNLOAD) -->
+    <div id="imageModal">
+        <img id="modalImg" src="" alt="Receipt Preview">
+        <div id="modalText">
+            <i class="fa-solid fa-hand-pointer"></i> <b>Tahan (Long Press)</b> gambar ini untuk menyimpan ke galeri.
+        </div>
+        <button class="btn btn-primary" onclick="closeImageModal()" style="margin-top:20px; max-width: 200px;">Tutup</button>
+    </div>
 
     <!-- Library html2canvas -->
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
@@ -821,6 +861,7 @@ Alamat: ${address}`;
             window.print();
         }
 
+        // --- UPDATE: FIX DOWNLOAD RESI ---
         function downloadReceiptImage() {
             const id = document.getElementById('resOrderId').value;
             if(!id) { showToast('Nomor Order wajib diisi!'); return; }
@@ -828,16 +869,22 @@ Alamat: ${address}`;
             const element = document.getElementById("receiptPreview");
             
             html2canvas(element, { scale: 2 }).then(canvas => {
-                const link = document.createElement('a');
-                link.download = `Resi-${id}.png`;
-                link.href = canvas.toDataURL("image/png");
-                link.click();
-                showToast("Resi berhasil didownload", true);
+                // FIX: Tampilkan gambar di Modal agar bisa Long Press di APK
+                const dataUrl = canvas.toDataURL("image/png");
+                document.getElementById('modalImg').src = dataUrl;
+                document.getElementById('imageModal').style.display = 'flex';
+                showToast("Gambar ditampilkan, silakan simpan manual.", true);
             }).catch(err => {
                 console.error(err);
                 showToast("Gagal membuat gambar.");
             });
         }
+
+        // Fungsi baru untuk menutup pop-up
+        function closeImageModal() {
+            document.getElementById('imageModal').style.display = 'none';
+        }
+
         function openWhatsApp(number, message) {
             const encoded = encodeURIComponent(message);
             // Pastikan menggunakan https://wa.me
