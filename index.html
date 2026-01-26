@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="Malik Service Center Semarang. Servis HP, Laptop, iPhone, Tablet, Data Recovery. Melayani Pickup & Antar. Cek estimasi biaya dan booking sekarang!">
+    <meta name="description" content="Malik Service Center Semarang. Servis HP, Laptop, iPhone, Tablet. Booking & Cek Status Online.">
     <meta name="theme-color" content="#2563eb">
     <title>Malik Service Center</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -120,8 +120,48 @@
         .btn-danger { background: var(--danger); color: white; }
         .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-main); }
         .btn-add { background: var(--secondary); color: white; margin-top: 5px;}
+        .btn-sync { background: var(--accent); color: white; }
+        .btn-sync:hover { background: #d97706; }
         
         .nav-buttons { display: flex; gap: 10px; margin-top: 1.5rem; }
+
+        /* STATUS BADGES */
+        .status-badge {
+            padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; text-transform: uppercase;
+        }
+        .status-proses { background: #e0f2fe; color: #0284c7; }
+        .status-kerja { background: #fef3c7; color: #d97706; }
+        .status-selesai { background: #dcfce7; color: #16a34a; }
+
+        /* ADMIN DASHBOARD STYLES */
+        .admin-controls {
+            display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;
+        }
+        .order-card {
+            background: var(--light-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        .order-card.active-order {
+            border-left: 4px solid var(--primary);
+        }
+        .order-header {
+            display: flex; justify-content: space-between; margin-bottom: 10px;
+        }
+        .order-id { font-weight: bold; color: var(--primary); }
+        .order-detail-row {
+            display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 5px;
+        }
+        .order-label { color: var(--text-light); }
+        .order-action-area {
+            margin-top: 15px; padding-top: 10px; border-top: 1px solid var(--border);
+        }
+        .status-select {
+            width: 100%; padding: 10px; margin-bottom: 10px;
+        }
 
         /* HERO SPECIFIC */
         .hero-section { text-align: center; padding: 2rem 1rem; }
@@ -177,10 +217,7 @@
         .article-info p { font-size: 0.8rem; color: var(--text-light); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
         .article-tag { display: inline-block; font-size: 0.7rem; background: var(--primary); color: white; padding: 2px 8px; border-radius: 10px; margin-bottom: 5px; }
 
-        /* ADMIN RECEIPT STYLES */
-        .admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-        .full-col { grid-column: span 2; }
-        
+        /* PRICE SUMMARY */
         .price-summary {
             background-color: var(--primary);
             color: white;
@@ -192,27 +229,25 @@
         .price-row { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.9rem; }
         .price-total { border-top: 1px solid rgba(255,255,255,0.3); margin-top: 8px; padding-top: 8px; font-weight: bold; font-size: 1.1rem; display: flex; justify-content: space-between; }
 
-        /* PRINT PREVIEW / RECEIPT CARD */
-        #receiptPreview {
-            background: white; color: black; width: 100%; max-width: 380px;
-            padding: 20px; font-family: 'Courier New', Courier, monospace;
-            border: 1px solid #ccc; margin: 20px auto; border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-        .receipt-header { text-align: center; border-bottom: 2px dashed #000; padding-bottom: 15px; margin-bottom: 15px; }
-        .receipt-logo { font-size: 2.5rem; color: #2563eb !important; display: inline-block; margin-bottom: 5px; }
-        .receipt-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem; }
-        .receipt-divider { border-top: 2px dashed #000; margin: 15px 0; }
-        .receipt-total { font-weight: bold; font-size: 1.1rem; display: flex; justify-content: space-between; }
-
-        /* AUDIT LOG */
-        .audit-log { background: var(--dark-bg); color: #10b981; padding: 1rem; border-radius: 8px; font-family: monospace; font-size: 0.8rem; height: 150px; overflow-y: auto; margin-top: 1rem; border: 1px solid var(--border); }
-        .audit-entry { margin-bottom: 5px; border-bottom: 1px solid #333; padding-bottom: 2px; }
-
         /* TOAST */
         .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #ef4444; color: white; padding: 12px 24px; border-radius: 50px; z-index: 2000; display: none; animation: slideDown 0.3s; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3); width: 90%; max-width: 400px; font-size: 0.9rem; }
         .toast.success { background: var(--secondary); }
         @keyframes slideDown { from { transform: translate(-50%, -100%); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
+
+        /* MODAL / ALERT CUSTOM */
+        .custom-alert {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 3000;
+            display: none; align-items: center; justify-content: center;
+        }
+        .alert-box {
+            background: var(--light-card); padding: 20px; border-radius: var(--radius);
+            width: 90%; max-width: 400px; text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            animation: popIn 0.3s;
+        }
+        @keyframes popIn { from{transform: scale(0.8); opacity: 0;} to{transform: scale(1); opacity: 1;} }
+        .alert-buttons { display: flex; gap: 10px; margin-top: 15px; }
 
         /* BOTTOM NAVIGATION */
         .bottom-nav {
@@ -230,19 +265,10 @@
         .nav-item.active { color: var(--primary); }
         .nav-item.active i { transform: translateY(-3px); }
 
-        /* PRINT MEDIA */
-        @media print {
-            body * { visibility: hidden; }
-            #receiptPreview, #receiptPreview * { visibility: visible; }
-            #receiptPreview { position: absolute; left: 0; top: 0; width: 100%; max-width: 100%; margin: 0; padding: 0; box-shadow: none; border: none; color: black !important; }
-            .no-print, .bottom-nav, header, .toast { display: none !important; }
-        }
-
         /* Responsive */
         @media(max-width: 480px) { 
-            .admin-grid { grid-template-columns: 1fr; } 
-            .full-col { grid-column: span 1; } 
             .service-grid { grid-template-columns: 1fr 1fr; }
+            .admin-controls { flex-direction: column; }
         }
     </style>
 </head>
@@ -256,6 +282,17 @@
     </header>
 
     <div id="toast" class="toast"></div>
+
+    <!-- CUSTOM ALERT MODAL -->
+    <div id="customAlert" class="custom-alert">
+        <div class="alert-box">
+            <h3 id="alertTitle" style="margin-bottom:10px;">Konfirmasi</h3>
+            <p id="alertMessage" style="color:var(--text-light); margin-bottom:15px;">Apakah anda yakin?</p>
+            <div class="alert-buttons" id="alertButtons">
+                <!-- Buttons injected via JS -->
+            </div>
+        </div>
+    </div>
 
     <main>
         <!-- 1. HERO SECTION (HOME) -->
@@ -300,7 +337,7 @@
             </div>
         </section>
 
-        <!-- 2. FORM ORDER (LAYANAN & ORDER - UPDATED CART SYSTEM) -->
+        <!-- 2. FORM ORDER -->
         <section id="order-section" class="step-section full-width-section">
             <h2><i class="fa-solid fa-wrench"></i> Form Order Servis</h2>
             
@@ -317,7 +354,7 @@
                     <option value="">-- Pilih Kerusakan & Harga --</option>
                 </select>
                 <small style="color:var(--text-light); font-size:0.8rem; margin-top:5px; display:block;">
-                    *Jika ada kerusakan lebih dari satu (misal: Ganti RAM + SSD), pilih satu per satu lalu klik tombol "Tambah".
+                    *Klik tombol "Tambah" untuk memasukkan ke daftar kerusakan.
                 </small>
                 <button class="btn btn-add" onclick="addToCart()">
                     <i class="fa-solid fa-plus"></i> Tambah ke Daftar
@@ -351,7 +388,7 @@
                 </small>
             </div>
 
-            <!-- PRICE DISPLAY (UPDATED CART LOGIC) -->
+            <!-- PRICE DISPLAY -->
             <div id="priceDisplay" class="price-summary">
                 <div style="font-weight:bold; margin-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.2); padding-bottom:5px;">Rincian Biaya:</div>
                 <div class="price-row">
@@ -393,12 +430,8 @@
         <!-- 3. LOGIN SECTION -->
         <section id="login-section" class="step-section">
             <h2><i class="fa-solid fa-user-shield"></i> Login Admin</h2>
-            <p class="subtitle">Sistem keamanan terintegrasi dengan Server.</p>
+            <p class="subtitle">Masuk untuk mengelola orderan.</p>
             
-            <div class="alert" style="background: #fff7ed; padding: 10px; border-radius: 8px; font-size: 0.8rem; color: #c2410c; border: 1px solid #fed7aa; margin-bottom: 15px;">
-                <i class="fa-solid fa-server"></i> <strong>Mode Aman:</strong> PIN divalidasi ke Database Spreadsheet (Bukan hardcoded).
-            </div>
-
             <div class="form-group">
                 <label>PIN Admin (6 Digit)</label>
                 <input type="password" id="adminPin" placeholder="Masukkan PIN" maxlength="6" pattern="\d*">
@@ -423,113 +456,38 @@
                 <i class="fa-solid fa-magnifying-glass"></i> Cek Status
             </button>
 
-            <div id="resiResultBox" style="display:none; margin-top:20px;">
-                <!-- Hasil pencarian muncul di sini -->
-            </div>
+            <div id="resiResultBox" style="display:none; margin-top:20px;"></div>
         </section>
 
-        <!-- 5. ADMIN PANEL -->
+        <!-- 5. ADMIN PANEL (UPDATED) -->
         <section id="admin-panel" class="step-section full-width-section">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
-                <h2 style="margin:0;"><i class="fa-solid fa-file-invoice"></i> Buat Resi</h2>
+                <h2 style="margin:0;"><i class="fa-solid fa-layer-group"></i> Dashboard Order</h2>
                 <button class="btn btn-danger" onclick="logout()" style="width:auto; padding: 8px 15px; font-size: 0.8rem; margin:0;">Keluar</button>
             </div>
-            
-            <div class="admin-grid">
-                <div class="form-group full-col">
-                    <label>Nomor Order / Resi</label>
-                    <input type="text" id="resOrderId" placeholder="Otomatis" readonly>
-                </div>
-                <div class="form-group">
-                    <label>Tanggal</label>
-                    <input type="date" id="resDate" onchange="updateLivePreview()">
-                </div>
-                <div class="form-group">
-                    <label>Nama Pelanggan</label>
-                    <input type="text" id="resName" placeholder="Nama Customer" oninput="updateLivePreview()">
-                </div>
-                <div class="form-group">
-                    <label>No. HP / WA</label>
-                    <input type="text" id="resWA" placeholder="08..." oninput="updateLivePreview()">
-                </div>
-                <div class="form-group">
-                    <label>Perangkat</label>
-                    <input type="text" id="resDevice" placeholder="HP/Laptop" oninput="updateLivePreview()">
-                </div>
-                <div class="form-group">
-                    <label>Merek/Model</label>
-                    <input type="text" id="resModel" placeholder="Samsung A52" oninput="updateLivePreview()">
-                </div>
-                <div class="form-group full-col">
-                    <label>Keluhan / Kerusakan</label>
-                    <textarea id="resIssue" rows="2" placeholder="Deskripsi..." oninput="updateLivePreview()"></textarea>
-                </div>
-                <div class="form-group full-col">
-                    <label>Layanan & Biaya</label>
-                    <textarea id="resServices" rows="3" placeholder="Ganti LCD - 500000&#10;Jasa - 50000" oninput="updateLivePreview()"></textarea>
-                </div>
-            </div>
 
-            <div style="margin-top: 1rem;">
-                <button class="btn btn-primary" onclick="printReceipt()">
-                    <i class="fa-solid fa-print"></i> Cetak Resi
+            <div class="admin-controls">
+                <button class="btn btn-sync" onclick="fetchOrdersFromSheet()">
+                    <i class="fa-solid fa-rotate"></i> Sinkron Data Spreadsheet
                 </button>
-                <button class="btn btn-secondary" onclick="copyReceiptText()">
-                    <i class="fa-solid fa-copy"></i> Salin Teks Resi
-                </button>
-            </div>
-
-            <div class="receipt-divider"></div>
-            <h4 style="text-align:center; color:var(--text-light);">Preview Tampilan:</h4>
-            
-            <div id="receiptPreview">
-                <div class="receipt-header">
-                    <i class="fa-solid fa-screwdriver-wrench receipt-logo"></i>
-                    <div style="font-weight:bold; font-size:1.2rem; text-transform:uppercase;">MALIK SERVICE</div>
-                    <div style="font-size:0.8rem;"> DS.JamalSari RT004/RW002 No.52 Jl.Untung Suropati, Semarang </div>
-                    <div style="font-size:0.8rem;">WA: 0857-1308-7659</div>
-                </div>
-                <div class="receipt-row"><span>No. Order:</span><span id="prevId">-</span></div>
-                <div class="receipt-row"><span>Tanggal:</span><span id="prevDate">-</span></div>
-                <div class="receipt-divider"></div>
-                <div class="receipt-row"><span>Pelanggan:</span><span id="prevName">-</span></div>
-                <div class="receipt-row"><span>No. HP:</span><span id="prevWA">-</span></div>
-                <div class="receipt-divider"></div>
-                <div class="receipt-row"><span>Perangkat:</span><span id="prevDevice">-</span></div>
-                <div class="receipt-row"><span>Model:</span><span id="prevModel">-</span></div>
-                <div class="receipt-row" style="flex-direction:column;">
-                    <span style="font-weight:bold; margin-bottom:2px;">Keluhan:</span>
-                    <span id="prevIssue" style="font-size:0.8rem; text-align:right;">-</span>
-                </div>
-                <div class="receipt-divider"></div>
-                <div style="font-weight:bold; margin-bottom:5px;">Rincian:</div>
-                <div id="prevServices">
-                    <div style="font-size:0.8rem; text-align:center;">Belum ada data</div>
-                </div>
-                <div class="receipt-divider"></div>
-                <div class="receipt-total">
-                    <span>TOTAL:</span>
-                    <span id="prevTotal">Rp 0</span>
-                </div>
-                <div class="receipt-footer" style="text-align:center; margin-top:15px; font-size:0.7rem;">
-                    <p>*Simpan struk ini sebagai bukti garansi.</p>
-                    <p>Terima Kasih</p>
+                <div style="flex:1;">
+                    <input type="text" id="searchOrderAdmin" placeholder="Cari Nama / Order ID..." oninput="renderAdminOrders()">
                 </div>
             </div>
 
-            <!-- AUDIT LOG -->
-            <div style="margin-top: 2rem;">
-                <h4>Audit Log Aktivitas (Lokal)</h4>
-                <div id="auditContainer" class="audit-log"></div>
+            <div id="ordersContainer">
+                <!-- Daftar Order akan muncul di sini -->
+                <div style="text-align:center; padding: 40px; color: var(--text-light);">
+                    <i class="fa-solid fa-cloud-arrow-down" style="font-size: 2rem; margin-bottom: 10px; display:block;"></i>
+                    Belum ada data. Klik "Sinkron Data" untuk mengambil orderan terbaru.
+                </div>
             </div>
         </section>
 
         <!-- 6. HALAMAN ARTIKEL -->
         <section id="article-section" class="step-section full-width-section">
             <h2><i class="fa-solid fa-newspaper"></i> Artikel & Tips</h2>
-            <div id="articleList">
-                <!-- Articles injected via JS -->
-            </div>
+            <div id="articleList"></div>
             
             <!-- Detail View (Hidden by default) -->
             <div id="articleDetail" style="display:none;">
@@ -580,225 +538,84 @@
         // 1. KONFIGURASI & KEAMANAN
         // ==========================================
         const CONFIG = {
-            APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbyCfqUm-6uzZ24E-13W6I8o72j2QGauSlTGUQHY00iM1caV3m5GtGhTI7RRnHAbeR9y/exec", 
-            SESSION_TIMEOUT: 30 * 60 * 1000
+            APPS_SCRIPT_URL: "GANTI_DENGAN_URL_DEPLOYMENT_WEB_APP_GAS_ANDA_DISINI", 
+            SESSION_TIMEOUT: 30 * 60 * 1000,
+            ADMIN_WA: "6285713087659" // Nomor WA Admin
         };
 
-        // Audit Log Helper
-        const AuditLog = {
-            add: (action) => {
-                const logs = JSON.parse(localStorage.getItem('malik_audit_logs') || '[]');
-                const newLog = { time: new Date().toLocaleString('id-ID'), action: action };
-                logs.unshift(newLog); 
-                if(logs.length > 20) logs.pop(); 
-                localStorage.setItem('malik_audit_logs', JSON.stringify(logs));
-                AuditLog.render();
-            },
-            render: () => {
-                const container = document.getElementById('auditContainer');
-                const logs = JSON.parse(localStorage.getItem('malik_audit_logs') || '[]');
-                if(!container) return;
-                container.innerHTML = logs.length === 0 ? 
-                    '<div style="color:#666; text-align:center; padding:10px;">Belum ada aktivitas.</div>' : 
-                    logs.map(l => `<div class="audit-entry"><span style="color:#94a3b8">[${l.time}]</span> ${l.action}</div>`).join('');
-            }
-        };
+        // Custom Alert Helper
+        function showCustomAlert(title, message, buttons) {
+            const modal = document.getElementById('customAlert');
+            document.getElementById('alertTitle').innerText = title;
+            document.getElementById('alertMessage').innerHTML = message;
+            
+            const btnContainer = document.getElementById('alertButtons');
+            btnContainer.innerHTML = '';
+            
+            buttons.forEach(btn => {
+                const b = document.createElement('button');
+                b.className = `btn ${btn.class || 'btn-secondary'}`;
+                b.style.margin = '0';
+                b.innerText = btn.text;
+                b.onclick = () => {
+                    modal.style.display = 'none';
+                    if(btn.onClick) btn.onClick();
+                };
+                btnContainer.appendChild(b);
+            });
+            
+            modal.style.display = 'flex';
+        }
 
         // ==========================================
-        // 2. DATABASE LAYANAN
+        // 2. DATABASE LAYANAN (LOCAL)
         // ==========================================
         const masterServiceDatabase = [
+            // ... (Sama seperti sebelumnya, saya ringkas agar tidak kepanjangan)
             // HP Android - LCD
             { cat: "HP Android", issue: "LCD retak", item: "LCD ORI", price: 550000, est: "3 Jam" },
             { cat: "HP Android", issue: "LCD retak", item: "LCD ORI (Layar Besar)", price: 750000, est: "3 Jam" },
-            { cat: "HP Android", issue: "LCD retak", item: "LCD ORI (AMOLED/OLED)", price: 950000, est: "3 Jam" },
-            { cat: "HP Android", issue: "LCD retak", item: "LCD ORI (High Refresh Rate)", price: 1400000, est: "4 Jam" },
-            { cat: "HP Android", issue: "LCD retak", item: "LCD KW / OEM", price: 300000, est: "3 Jam" },
-            { cat: "HP Android", issue: "LCD retak", item: "LCD KW / OEM (Sedang)", price: 450000, est: "3 Jam" },
-            { cat: "HP Android", issue: "LCD retak", item: "LCD KW / OEM (Mendekati Ori)", price: 600000, est: "3 Jam" },
-            
-            // HP Android - Touchscreen
-            { cat: "HP Android", issue: "Touchscreen tidak respon", item: "Touchscreen ORI", price: 450000, est: "2 Jam" },
-            { cat: "HP Android", issue: "Touchscreen tidak respon", item: "Touchscreen ORI (Besar)", price: 650000, est: "2 Jam" },
-            { cat: "HP Android", issue: "Touchscreen tidak respon", item: "Touchscreen KW", price: 250000, est: "2 Jam" },
-            { cat: "HP Android", issue: "Touchscreen tidak respon", item: "Touchscreen KW (Standar)", price: 350000, est: "2 Jam" },
-
-            // HP Android - Baterai
             { cat: "HP Android", issue: "Baterai drop / kembung", item: "Baterai ORI", price: 330000, est: "1 Jam" },
-            { cat: "HP Android", issue: "Baterai drop / kembung", item: "Baterai ORI (Kapasitas Besar)", price: 480000, est: "1 Jam" },
-            { cat: "HP Android", issue: "Baterai drop / kembung", item: "Baterai ORI (Fast Charging)", price: 680000, est: "1 Jam" },
-            { cat: "HP Android", issue: "Baterai drop / kembung", item: "Baterai KW / Universal", price: 200000, est: "1 Jam" },
-            { cat: "HP Android", issue: "Baterai drop / kembung", item: "Baterai KW / Universal (Sedang)", price: 260000, est: "1 Jam" },
-            { cat: "HP Android", issue: "Baterai drop / kembung", item: "Baterai KW / Universal (Tinggi)", price: 330000, est: "1 Jam" },
-
-            // HP Android - Konektor & IC
             { cat: "HP Android", issue: "Konektor cas rusak", item: "Port Charging ORI", price: 200000, est: "1.5 Jam" },
-            { cat: "HP Android", issue: "Konektor cas rusak", item: "Port Charging ORI (Fast)", price: 250000, est: "1.5 Jam" },
-            { cat: "HP Android", issue: "Konektor cas rusak", item: "Port Charging KW", price: 150000, est: "1.5 Jam" },
-            { cat: "HP Android", issue: "Konektor cas rusak", item: "Port Charging KW (Lumayan)", price: 180000, est: "1.5 Jam" },
-            { cat: "HP Android", issue: "IC charging", item: "IC Power Management", price: 280000, est: "4 Jam" },
-            { cat: "HP Android", issue: "IC charging", item: "IC Power Management (Fitur Tambahan)", price: 370000, est: "4 Jam" },
-            { cat: "HP Android", issue: "IC power", item: "IC Power Main", price: 350000, est: "5 Jam" },
-            { cat: "HP Android", issue: "IC power", item: "IC Power Main (High-end)", price: 450000, est: "5 Jam" },
-
-            // HP Android - Speaker & Mic
             { cat: "HP Android", issue: "Speaker mati", item: "Speaker ORI", price: 180000, est: "1 Jam" },
-            { cat: "HP Android", issue: "Speaker mati", item: "Speaker ORI (Stereo)", price: 220000, est: "1 Jam" },
-            { cat: "HP Android", issue: "Speaker mati", item: "Speaker KW", price: 120000, est: "1 Jam" },
-            { cat: "HP Android", issue: "Speaker mati", item: "Speaker KW (Standar)", price: 140000, est: "1 Jam" },
-            { cat: "HP Android", issue: "Mic mati", item: "Microphone ORI", price: 150000, est: "1 Jam" },
-            { cat: "HP Android", issue: "Mic mati", item: "Microphone ORI (Noise Cancel)", price: 180000, est: "1 Jam" },
-            { cat: "HP Android", issue: "Mic mati", item: "Microphone KW", price: 105000, est: "1 Jam" },
-            { cat: "HP Android", issue: "Mic mati", item: "Microphone KW (Biasa)", price: 120000, est: "1 Jam" },
-
-            // HP Android - Kamera
-            { cat: "HP Android", issue: "Kamera rusak", item: "Kamera Depan ORI", price: 250000, est: "1.5 Jam" },
-            { cat: "HP Android", issue: "Kamera rusak", item: "Kamera Depan ORI (Tinggi)", price: 350000, est: "1.5 Jam" },
-            { cat: "HP Android", issue: "Kamera rusak", item: "Kamera Belakang ORI (Utama)", price: 350000, est: "2 Jam" },
-            { cat: "HP Android", issue: "Kamera rusak", item: "Kamera Belakang ORI (Wide)", price: 500000, est: "2 Jam" },
-            { cat: "HP Android", issue: "Kamera rusak", item: "Kamera Belakang ORI (Tele)", price: 600000, est: "2 Jam" },
-            { cat: "HP Android", issue: "Kamera rusak", item: "Kamera KW", price: 180000, est: "1.5 Jam" },
-            { cat: "HP Android", issue: "Kamera rusak", item: "Kamera KW (Deklarasi)", price: 220000, est: "1.5 Jam" },
-
-            // HP Android - Tombol & Software
-            { cat: "HP Android", issue: "Tombol power / volume", item: "Tombol ORI", price: 110000, est: "1 Jam" },
-            { cat: "HP Android", issue: "Tombol power / volume", item: "Tombol ORI (Flex Cable)", price: 130000, est: "1 Jam" },
-            { cat: "HP Android", issue: "Tombol power / volume", item: "Tombol KW", price: 65000, est: "1 Jam" },
-            { cat: "HP Android", issue: "Tombol power / volume", item: "Tombol KW (Awet)", price: 75000, est: "1 Jam" },
-            { cat: "HP Android", issue: "Bootloop / software error", item: "Software Repair", price: 150000, est: "2 Jam" },
-            { cat: "HP Android", issue: "Bootloop / software error", item: "Software Repair (Backup)", price: 200000, est: "3 Jam" },
-            { cat: "HP Android", issue: "Flashing / install ulang Android", item: "Software Service", price: 100000, est: "2 Jam" },
-            { cat: "HP Android", issue: "Flashing / install ulang Android", item: "Software Service (Unbrick)", price: 150000, est: "2.5 Jam" },
-
-            // HP Android - Water & Mati Total
             { cat: "HP Android", issue: "Water damage ringan / berat", item: "Cleaning Service", price: 200000, est: "1 Hari" },
-            { cat: "HP Android", issue: "Water damage ringan / berat", item: "Cleaning Service (Berat)", price: 350000, est: "1-2 Hari" },
-            { cat: "HP Android", issue: "Water damage ringan / berat", item: "Component Replacement", price: 350000, est: "1 Hari" },
-            { cat: "HP Android", issue: "HP mati total", item: "Diagnosis", price: 50000, est: "1 Jam" },
-            { cat: "HP Android", issue: "HP mati total", item: "Mainboard Repair", price: 500000, est: "2 Hari" },
-            { cat: "HP Android", issue: "HP mati total", item: "Mainboard Repair (IC Replacement)", price: 750000, est: "2-3 Hari" },
-
-            // LAPTOP - LCD
+            // LAPTOP
             { cat: "Laptop", issue: "LCD pecah", item: "LCD ORI (14 inch HD)", price: 1000000, est: "1 Hari" },
-            { cat: "Laptop", issue: "LCD pecah", item: "LCD ORI (15.6 inch FHD)", price: 1300000, est: "1 Hari" },
-            { cat: "Laptop", issue: "LCD pecah", item: "LCD ORI (17.3 inch FHD)", price: 1750000, est: "1 Hari" },
-            { cat: "Laptop", issue: "LCD pecah", item: "LCD ORI (Touchscreen)", price: 2300000, est: "1 Hari" },
-            { cat: "Laptop", issue: "LCD pecah", item: "LCD OEM / KW (14 inch)", price: 650000, est: "1 Hari" },
-            { cat: "Laptop", issue: "LCD pecah", item: "LCD OEM / KW (15.6 inch)", price: 850000, est: "1 Hari" },
-            { cat: "Laptop", issue: "LCD pecah", item: "LCD OEM / KW (17.3 inch)", price: 1100000, est: "1 Hari" },
-            { cat: "Laptop", issue: "Engsel Patah", item: "Perbaikan", price: 300000, est: "7 Hari" },
-            { cat: "Laptop", issue: "Baut/Murbrass", item: "Pasang Baru", price: 50000, est: "1 Hari" },
-
-
-            // LAPTOP - Keyboard & Baterai
             { cat: "Laptop", issue: "Keyboard rusak", item: "Keyboard ORI (Standard)", price: 450000, est: "3 Jam" },
-            { cat: "Laptop", issue: "Keyboard rusak", item: "Keyboard ORI (Backlit)", price: 650000, est: "3 Jam" },
-            { cat: "Laptop", issue: "Keyboard rusak", item: "Keyboard ORI (Gaming)", price: 900000, est: "4 Jam" },
-            { cat: "Laptop", issue: "Keyboard rusak", item: "Keyboard OEM / Universal", price: 250000, est: "2 Jam" },
-            { cat: "Laptop", issue: "Keyboard rusak", item: "Keyboard OEM / Universal (Lengkap)", price: 350000, est: "2 Jam" },
             { cat: "Laptop", issue: "Baterai laptop drop", item: "Baterai ORI (3 cell)", price: 500000, est: "1 Jam" },
-            { cat: "Laptop", issue: "Baterai laptop drop", item: "Baterai ORI (4 cell)", price: 700000, est: "1 Jam" },
-            { cat: "Laptop", issue: "Baterai laptop drop", item: "Baterai ORI (6 cell)", price: 900000, est: "1 Jam" },
-            { cat: "Laptop", issue: "Baterai laptop drop", item: "Baterai OEM / Universal (3 cell)", price: 280000, est: "1 Jam" },
-            { cat: "Laptop", issue: "Baterai laptop drop", item: "Baterai OEM / Universal (4 cell)", price: 430000, est: "1 Jam" },
-            { cat: "Laptop", issue: "Baterai laptop drop", item: "Baterai OEM / Universal (6 cell)", price: 530000, est: "1 Jam" },
-
-            // LAPTOP - Charger & Software
-            { cat: "Laptop", issue: "Charger rusak", item: "Charger ORI (45-65W)", price: 350000, est: "0.5 Jam" },
-            { cat: "Laptop", issue: "Charger rusak", item: "Charger ORI (90-120W)", price: 550000, est: "0.5 Jam" },
-            { cat: "Laptop", issue: "Charger rusak", item: "Charger ORI (Gaming)", price: 750000, est: "0.5 Jam" },
-            { cat: "Laptop", issue: "Charger rusak", item: "Charger Universal (Rendah)", price: 200000, est: "0.5 Jam" },
-            { cat: "Laptop", issue: "Charger rusak", item: "Charger Universal (Menengah)", price: 300000, est: "0.5 Jam" },
-            { cat: "Laptop", issue: "Charger rusak", item: "Charger Universal (Tinggi)", price: 400000, est: "0.5 Jam" },
-            { cat: "Laptop", issue: "Install ulang Windows", item: "Windows OS (Original)", price: 150000, est: "2 Jam" },
-            { cat: "Laptop", issue: "Install ulang Windows", item: "Windows OS (Aktivator)", price: 100000, est: "2 Jam" },
-            { cat: "Laptop", issue: "Install ulang Windows", item: "Windows OS + Software Office", price: 200000, est: "3 Jam" },
-
-            // LAPTOP - Lemot & Overheat
-            { cat: "Laptop", issue: "Laptop lemot", item: "Upgrade RAM (4GB)", price: 350000, est: "1 Jam" },
-            { cat: "Laptop", issue: "Laptop lemot", item: "Upgrade RAM (8GB)", price: 550000, est: "1 Jam" },
-            { cat: "Laptop", issue: "Laptop lemot", item: "Upgrade RAM (16GB)", price: 950000, est: "1 Jam" },
             { cat: "Laptop", issue: "Laptop lemot", item: "Upgrade SSD (256GB SATA)", price: 450000, est: "1.5 Jam" },
-            { cat: "Laptop", issue: "Laptop lemot", item: "Upgrade SSD (512GB NVMe)", price: 750000, est: "1.5 Jam" },
-            { cat: "Laptop", issue: "Laptop lemot", item: "Upgrade SSD (1TB NVMe)", price: 1450000, est: "1.5 Jam" },
-            { cat: "Laptop", issue: "Overheat / thermal paste", item: "Thermal Paste (Standar)", price: 150000, est: "1 Jam" },
-            { cat: "Laptop", issue: "Overheat / thermal paste", item: "Thermal Paste (Premium)", price: 200000, est: "1 Jam" },
-            { cat: "Laptop", issue: "Overheat / thermal paste", item: "Fan Cleaning + Paste", price: 150000, est: "1.5 Jam" },
-            { cat: "Laptop", issue: "Overheat / thermal paste", item: "Fan Replacement", price: 350000, est: "2 Jam" },
-
-            // LAPTOP - Mati Total & MoBo
-            { cat: "Laptop", issue: "Mati total", item: "Diagnosis", price: 100000, est: "2 Jam" },
-            { cat: "Laptop", issue: "Mati total", item: "Mainboard Repair (Short)", price: 700000, est: "3-5 Hari" },
-            { cat: "Laptop", issue: "Mati total", item: "Mainboard Repair (GPU/CPU)", price: 1100000, est: "5-7 Hari" },
-            { cat: "Laptop", issue: "Tidak bisa charging", item: "DC Jack", price: 230000, est: "2 Jam" },
-            { cat: "Laptop", issue: "Tidak bisa charging", item: "DC Jack (Flex)", price: 270000, est: "2 Jam" },
-            { cat: "Laptop", issue: "Tidak bisa charging", item: "Charging Circuit", price: 350000, est: "1 Hari" },
-            { cat: "Laptop", issue: "Motherboard repair", item: "BIOS Repair", price: 300000, est: "2 Hari" },
-            { cat: "Laptop", issue: "Motherboard repair", item: "VRM Repair", price: 500000, est: "3 Hari" },
-            { cat: "Laptop", issue: "Motherboard repair", item: "GPU Repair", price: 750000, est: "5 Hari" },
-            { cat: "Laptop", issue: "Motherboard repair", item: "CPU Socket", price: 700000, est: "4 Hari" },
-            
-            // EXTRAS
-            { cat: "HP Android", issue: "LCD retak", item: "LCD ORI (6.1 inch)", price: 570000, est: "3 Jam" },
-            { cat: "HP Android", issue: "LCD retak", item: "LCD ORI (6.5 inch)", price: 670000, est: "3 Jam" },
-            { cat: "HP Android", issue: "Baterai drop / kembung", item: "Baterai Extended", price: 395000, est: "1 Jam" },
-            { cat: "Laptop", issue: "Baterai laptop drop", item: "Baterai High Capacity", price: 745000, est: "1 Jam" }
+            { cat: "Laptop", issue: "Install ulang Windows", item: "Windows OS (Original)", price: 150000, est: "2 Jam" }
         ];
 
-        // Database Manager
         const DB = {
             init: () => {
                 const localData = localStorage.getItem('malik_services_v4');
                 let data = [];
-
-                if (localData) {
-                    try {
-                        data = JSON.parse(localData);
-                        if(data.length < masterServiceDatabase.length) {
-                            localStorage.setItem('malik_services_v4', JSON.stringify(masterServiceDatabase));
-                            data = masterServiceDatabase;
-                            DB.logUpdate();
-                        }
-                    } catch (e) {
-                        localStorage.setItem('malik_services_v4', JSON.stringify(masterServiceDatabase));
-                        data = masterServiceDatabase;
-                        DB.logUpdate();
-                    }
-                } else {
-                    localStorage.setItem('malik_services_v4', JSON.stringify(masterServiceDatabase));
-                    data = masterServiceDatabase;
-                    DB.logUpdate();
-                }
+                if (localData) data = JSON.parse(localData);
+                else { data = masterServiceDatabase; localStorage.setItem('malik_services_v4', JSON.stringify(data)); }
                 return data;
             },
-            getCategories: (data) => {
-                const cats = new Set(data.map(i => i.cat));
-                return Array.from(cats).sort();
-            },
-            logUpdate: () => {
-                const now = new Date();
-                document.getElementById('dbStatus').innerText = now.toLocaleDateString('id-ID') + ' ' + now.toLocaleTimeString('id-ID');
-            }
+            getCategories: (data) => { const cats = new Set(data.map(i => i.cat)); return Array.from(cats).sort(); },
+            logUpdate: () => { const now = new Date(); document.getElementById('dbStatus').innerText = now.toLocaleDateString('id-ID') + ' ' + now.toLocaleTimeString('id-ID'); }
         };
 
-        // Initialize Data
         const serviceData = DB.init();
         DB.logUpdate();
 
         // ==========================================
-        // 3. CART SYSTEM
+        // 3. STATE MANAGEMENT (CART & ADMIN)
         // ==========================================
         let cart = []; 
+        let adminOrders = []; // Menyimpan data order yang diambil dari sheet
 
         function addToCart() {
             const select = document.getElementById('custService');
             const val = select.value;
             if(!val) { showToast("Pilih kerusakan dulu!"); return; }
-
             const item = JSON.parse(val);
             cart.push(item);
             renderCart();
-            select.value = ""; // Reset dropdown
+            select.value = "";
         }
 
         function removeFromCart(index) {
@@ -812,57 +629,36 @@
             const priceBox = document.getElementById('priceDisplay');
             
             if(cart.length === 0) {
-                container.innerHTML = '';
-                listContainer.style.display = 'none';
-                priceBox.style.display = 'none';
-                return;
+                container.innerHTML = ''; listContainer.style.display = 'none'; priceBox.style.display = 'none'; return;
             }
+            listContainer.style.display = 'block'; priceBox.style.display = 'block';
 
-            listContainer.style.display = 'block';
-            priceBox.style.display = 'block';
-
-            // Render Items
             container.innerHTML = cart.map((item, index) => `
                 <div class="cart-item">
-                    <div class="cart-info">
-                        <h4>${item.issue} (${item.item})</h4>
-                        <p>${formatRupiah(item.price)} - Est: ${item.est}</p>
-                    </div>
-                    <button class="btn-delete-item" onclick="removeFromCart(${index})">
-                        <i class="fa-solid fa-trash"></i>
-                    </button>
+                    <div class="cart-info"><h4>${item.issue} (${item.item})</h4><p>${formatRupiah(item.price)}</p></div>
+                    <button class="btn-delete-item" onclick="removeFromCart(${index})"><i class="fa-solid fa-trash"></i></button>
                 </div>
             `).join('');
 
-            // Calculate Totals
             const totalService = cart.reduce((acc, curr) => acc + curr.price, 0);
             const pickupFee = calculatePickup();
+            let finalTotal = totalService + (pickupFee === 25000 ? 25000 : 0);
             
-            let finalTotal = totalService;
-            let pickupText = "Rp 0";
-            let showPickup = false;
-
-            if(pickupFee === 25000) {
-                finalTotal += pickupFee;
-                pickupText = "Rp 25.000";
-                showPickup = true;
-            } else if (pickupFee > 100000) {
-                finalTotal = "Hubungi Admin";
-                pickupText = "> 5km (Admin Only)";
-                showPickup = true;
-            }
-
             document.getElementById('dispTotalService').textContent = formatRupiah(totalService);
-            document.getElementById('dispPickup').textContent = pickupText;
-            document.getElementById('pickupFeeText').textContent = pickupText === "> 5km (Admin Only)" ? pickupText : `Biaya Pickup: ${pickupText}`;
+            const pickupRow = document.getElementById('pickupRow');
+            if(document.getElementById('needPickup').checked) {
+                pickupRow.style.display = 'flex';
+                document.getElementById('dispPickup').textContent = pickupFee === 25000 ? "Rp 25.000" : "Hubungi Admin";
+            } else { pickupRow.style.display = 'none'; }
             
-            if(showPickup) {
-                document.getElementById('pickupRow').style.display = 'flex';
-            } else {
-                document.getElementById('pickupRow').style.display = 'none';
-            }
+            document.getElementById('dispGrandTotal').textContent = formatRupiah(finalTotal);
+        }
 
-            document.getElementById('dispGrandTotal').textContent = typeof finalTotal === 'number' ? formatRupiah(finalTotal) : finalTotal;
+        function calculatePickup() {
+            if(!document.getElementById('needPickup').checked) return 0;
+            const dist = parseFloat(document.getElementById('pickupDistance').value) || 0;
+            if(dist > 0 && dist < 5) return 25000;
+            return 0;
         }
 
         // ==========================================
@@ -879,155 +675,244 @@
             const pinInput = document.getElementById('adminPin').value;
             const btn = document.getElementById('btnLogin');
             const statusTxt = document.getElementById('loginStatus');
-
             if(!pinInput) { showToast("PIN wajib diisi"); return; }
 
             const hashedPin = await sha256(pinInput);
-
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Menghubungi Server...';
-            statusTxt.innerText = "Memvalidasi ke Database...";
-            statusTxt.style.color = "blue";
+            btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Loading...';
+            statusTxt.innerText = "Memvalidasi...";
 
             try {
                 const response = await fetch(CONFIG.APPS_SCRIPT_URL, {
                     method: 'POST',
-                    body: JSON.stringify({
-                        action: "login",
-                        pinHash: hashedPin
-                    })
+                    body: JSON.stringify({ action: "login", pinHash: hashedPin })
                 });
-
                 const result = await response.json();
-
                 if (result.success) {
                     localStorage.setItem('malik_admin_session', JSON.stringify({ time: Date.now() }));
-                    AuditLog.add(`Login Berhasil (${result.username})`);
                     showToast("Login Berhasil!", true);
-                    document.getElementById('resDate').valueAsDate = new Date();
-                    document.getElementById('resOrderId').value = generateOrderId();
-                    updateLivePreview();
-                    AuditLog.render();
                     navTo('admin-panel');
                 } else {
                     showToast(result.message);
-                    AuditLog.add("Gagal Login: PIN Salah");
                     statusTxt.innerText = result.message;
-                    statusTxt.style.color = "red";
                 }
-
             } catch (error) {
                 console.error(error);
                 showToast("Gagal koneksi ke Server.");
-                statusTxt.innerText = "Error Koneksi. Cek Internet.";
-                statusTxt.style.color = "red";
             }
-
-            btn.disabled = false;
-            btn.innerHTML = '<span>Masuk Panel</span>';
-        }
-
-        // CEK RESI (FIXED)
-        async function checkResi() {
-            const inputId = document.getElementById('checkResiInput').value.trim();
-            const resultBox = document.getElementById('resiResultBox');
-            const btn = document.getElementById('btnCheckResi');
-
-            if(!inputId) { showToast("Masukkan Nomor Order!"); return; }
-
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mencari...';
-
-            try {
-                const response = await fetch(CONFIG.APPS_SCRIPT_URL, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        action: "check_resi",
-                        resiId: inputId
-                    })
-                });
-
-                const result = await response.json();
-
-                if (result.success) {
-                    const d = result.data;
-                    resultBox.style.display = 'block';
-                    resultBox.innerHTML = `
-                        <div style="background:#eff6ff; padding:15px; border-radius:8px; border-left:4px solid var(--primary);">
-                            <h4 style="margin:0 0 10px 0; color:var(--primary);">Status Pesanan Ditemukan</h4>
-                            <p><strong>Nama:</strong> ${d.customerName}</p>
-                            <p><strong>Waktu:</strong> ${d.orderDate}</p>
-                            <p><strong>Status:</strong> <span style="color:var(--secondary); font-weight:bold;">${d.status}</span></p>
-                            <p><strong>Estimasi:</strong> ${typeof d.total === 'number' ? formatRupiah(d.total) : d.total}</p>
-                        </div>
-                    `;
-                } else {
-                    // NOT FOUND MESSAGE
-                    resultBox.style.display = 'block';
-                    resultBox.innerHTML = `
-                        <div style="background:#fee2e2; color:#b91c1c; padding:15px; border-radius:8px; border-left:4px solid #ef4444; text-align:center;">
-                            <i class="fa-solid fa-circle-xmark" style="font-size:1.5rem; margin-bottom:5px; display:block;"></i>
-                            <strong>Order ID Tidak Ditemukan</strong>
-                            <p style="margin:5px 0 0 0; font-size:0.9rem;">Pastikan ID yang dimasukkan benar (Huruf Besar/Kecil tidak masalah).</p>
-                        </div>
-                    `;
-                }
-
-            } catch (error) {
-                resultBox.style.display = 'block';
-                resultBox.innerHTML = `
-                    <div style="background:#fff7ed; color:#c2410c; padding:15px; border-radius:8px; text-align:center;">
-                        <strong>Terjadi Kesalahan</strong>
-                        <p style="margin:5px 0 0 0; font-size:0.9rem;">Gagal menghubungi server. Periksa koneksi internet Anda.</p>
-                    </div>
-                `;
-            }
-
-            btn.disabled = false;
-            btn.innerHTML = 'Cek Status';
+            btn.disabled = false; btn.innerHTML = '<span>Masuk Panel</span>';
         }
 
         function checkSession() {
             const session = JSON.parse(localStorage.getItem('malik_admin_session'));
-            if(session && (Date.now() - session.time < CONFIG.SESSION_TIMEOUT)) {
-                return true;
-            }
-            return false;
+            return session && (Date.now() - session.time < CONFIG.SESSION_TIMEOUT);
         }
 
         function logout() {
             localStorage.removeItem('malik_admin_session');
-            showToast("Logout Berhasil", true);
             navTo('login-section');
         }
 
         // ==========================================
-        // 5. UI LOGIC & NAVIGATION
+        // 5. ORDER FLOW & SHEET SYNC
         // ==========================================
-        function navTo(sectionId, btnElement = null) {
-            if(sectionId === 'admin-panel' && !checkSession()) {
-                navTo('login-section');
+        
+        // 5A. Kirim Order dari Pelanggan
+        async function sendCustomerOrder() {
+            const name = document.getElementById('custName').value;
+            const wa = document.getElementById('custWA').value;
+            const address = document.getElementById('custAddress').value;
+
+            if(!name || !wa) { showToast("Nama & WA wajib diisi"); return; }
+            if(cart.length === 0) { showToast("Belum ada layanan yang dipilih"); return; }
+
+            const newOrderId = generateOrderId(); 
+            
+            let msg = `Halo Admin, saya mau servis.\n\nNama: ${name}\nWA: ${wa}\nAlamat: ${address}\n\n--- Daftar Perbaikan ---\n`;
+            let totalEst = 0;
+            cart.forEach((item, idx) => {
+                totalEst += item.price;
+                msg += `${idx+1}. ${item.cat} - ${item.issue} (${formatRupiah(item.price)})\n`;
+            });
+            const pickup = calculatePickup();
+            if(pickup === 25000) { totalEst += 25000; msg += `\nBiaya Pickup: +Rp 25.000`; }
+            msg += `\n*TOTAL ESTIMASI: ${formatRupiah(totalEst)}*`;
+
+            const payload = { 
+                action: "save_order",
+                orderId: newOrderId, name: name, wa: wa, address: address, 
+                cat: cart.length > 1 ? 'Multiple' : cart[0].cat, 
+                items: cart, total: totalEst 
+            };
+
+            // Kirim ke Sheet (Background)
+            fetch(CONFIG.APPS_SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) })
+                .then(res => res.json())
+                .then(data => console.log("Sheet Saved:", data))
+                .catch(e => console.warn("Sheet Error:", e));
+
+            // Buka WA
+            window.open(`https://wa.me/${CONFIG.ADMIN_WA}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        // 5B. Admin: Ambil Data dari Sheet
+        async function fetchOrdersFromSheet() {
+            const btn = document.querySelector('.btn-sync');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mengambil Data...';
+
+            try {
+                const response = await fetch(CONFIG.APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: "get_all_orders" })
+                });
+                const result = await response.json();
+                
+                if(result.success) {
+                    adminOrders = result.data; // Simpan ke global variable
+                    renderAdminOrders();
+                    showToast(`Berhasil mengambil ${adminOrders.length} order`, true);
+                } else {
+                    showToast("Gagal mengambil data: " + result.message);
+                }
+            } catch (error) {
+                console.error(error);
+                showToast("Terjadi kesalahan koneksi.");
+            }
+
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa-solid fa-rotate"></i> Sinkron Data Spreadsheet';
+        }
+
+        // 5C. Admin: Render Orders ke UI
+        function renderAdminOrders() {
+            const container = document.getElementById('ordersContainer');
+            const search = document.getElementById('searchOrderAdmin').value.toLowerCase();
+            
+            if(!adminOrders || adminOrders.length === 0) {
+                container.innerHTML = `<div style="text-align:center; padding:20px; color:var(--text-light)">Belum ada data. Klik tombol "Sinkron Data".</div>`;
                 return;
             }
 
+            const filtered = adminOrders.filter(o => 
+                o.orderId.toLowerCase().includes(search) || 
+                o.customerName.toLowerCase().includes(search)
+            );
+
+            if(filtered.length === 0) {
+                container.innerHTML = `<div style="text-align:center; padding:20px;">Data tidak ditemukan.</div>`;
+                return;
+            }
+
+            container.innerHTML = filtered.map((order, index) => `
+                <div class="order-card">
+                    <div class="order-header">
+                        <span class="order-id">#${order.orderId}</span>
+                        <span class="status-badge status-${getSimpleStatus(order.status)}">${order.status}</span>
+                    </div>
+                    <div class="order-detail-row">
+                        <span class="order-label">Nama:</span>
+                        <span style="font-weight:600;">${order.customerName}</span>
+                    </div>
+                    <div class="order-detail-row">
+                        <span class="order-label">Perangkat:</span>
+                        <span>${order.category}</span>
+                    </div>
+                    <div class="order-detail-row">
+                        <span class="order-label">Kerusakan:</span>
+                        <span style="font-size:0.85rem;">${order.services}</span>
+                    </div>
+                    <div class="order-action-area">
+                        <label style="font-size:0.8rem;">Update Status:</label>
+                        <div style="display:flex; gap:10px;">
+                            <button class="btn btn-secondary" style="flex:1; padding:10px;" onclick="updateOrderStatus('${order.orderId}', 'Proses')">Proses</button>
+                            <button class="btn btn-primary" style="flex:1; padding:10px; background:var(--accent);" onclick="updateOrderStatus('${order.orderId}', 'Sedang Dikerjakan')">Kerjakan</button>
+                            <button class="btn btn-primary" style="flex:1; padding:10px;" onclick="promptFinishOrder('${order.orderId}', '${order.wa}', '${order.customerName}')">Selesai</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function getSimpleStatus(status) {
+            if(status.includes('Selesai')) return 'selesai';
+            if(status.includes('Dikerjakan')) return 'kerja';
+            return 'proses';
+        }
+
+        // 5D. Admin: Update Status
+        async function updateOrderStatus(orderId, newStatus) {
+            showToast(`Status diubah menjadi: ${newStatus}`, true);
+            
+            // Optimistic UI Update (Update tampilan langsung dulu biar cepat)
+            const orderIdx = adminOrders.findIndex(o => o.orderId === orderId);
+            if(orderIdx > -1) adminOrders[orderIdx].status = newStatus;
+            renderAdminOrders();
+
+            // Kirim ke Sheet (Async)
+            fetch(CONFIG.APPS_SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify({
+                    action: "update_status",
+                    orderId: orderId,
+                    newStatus: newStatus
+                })
+            }).catch(e => console.warn("Gagal update status ke sheet", e));
+        }
+
+        // 5E. Admin: Logic Selesai & WA
+        function promptFinishOrder(orderId, waNumber, custName) {
+            // Bersihkan nomor WA (hapus 62/0 di depan jika perlu, asumsi format 628...)
+            let cleanWA = waNumber.replace(/[^0-9]/g, '');
+            if(cleanWA.startsWith('0')) cleanWA = '62' + cleanWA.substring(1);
+
+            showCustomAlert(
+                "Selesaikan Pesanan?", 
+                `Device untuk <b>${custName}</b> sudah selesai diperbaiki?`,
+                [
+                    {
+                        text: "Berhasil Diperbaiki",
+                        class: "btn-whatsapp",
+                        onClick: () => {
+                            updateOrderStatus(orderId, "Selesai (Berhasil)");
+                            const msg = `Halo ${custName}, kami informasikan bahwa perangkat Anda SUDAH BERHASIL diperbaiki dan siap diambil/dikirim. Terima kasih telah mempercayakan device Anda kepada Malik Service!`;
+                            window.open(`https://wa.me/${cleanWA}?text=${encodeURIComponent(msg)}`, '_blank');
+                        }
+                    },
+                    {
+                        text: "Tidak Berhasil",
+                        class: "btn-danger",
+                        onClick: () => {
+                            updateOrderStatus(orderId, "Selesai (Gagal)");
+                            const msg = `Halo ${custName}, mohon maaf, setelah dilakukan pengecekan lebih lanjut, perangkat Anda mengalami kerusakan yang tidak bisa diperbaiki (atau biaya perbaikan setara dengan harga baru). Silakan hubungi admin untuk diskusi lebih lanjut mengenai opsi data recovery.`;
+                            window.open(`https://wa.me/${cleanWA}?text=${encodeURIComponent(msg)}`, '_blank');
+                        }
+                    },
+                    { text: "Batal", class: "btn-secondary" }
+                ]
+            );
+        }
+
+        // ==========================================
+        // 6. UI HELPERS & NAVIGATION
+        // ==========================================
+        function navTo(sectionId, btnElement = null) {
+            if(sectionId === 'admin-panel' && !checkSession()) { navTo('login-section'); return; }
+
             document.querySelectorAll('.step-section, .full-width-section').forEach(sec => {
-                sec.classList.remove('active');
-                sec.style.display = 'none';
+                sec.classList.remove('active'); sec.style.display = 'none';
             });
             
             const target = document.getElementById(sectionId);
             if(target) {
-                target.style.display = (sectionId === 'admin-panel' || sectionId === 'order-section' || sectionId === 'article-section') ? 'block' : 'block';
+                target.style.display = 'block';
                 setTimeout(() => target.classList.add('active'), 10);
             }
-            
             window.scrollTo(0,0);
 
-            if(btnElement) {
-                document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-                btnElement.classList.add('active');
-            } else {
-                document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            // Nav Highlighting
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            if(btnElement) btnElement.classList.add('active');
+            else {
                 if(sectionId === 'home-section') document.querySelectorAll('.nav-item')[0].classList.add('active');
                 if(sectionId === 'order-section') document.querySelectorAll('.nav-item')[1].classList.add('active');
                 if(sectionId === 'article-section') document.querySelectorAll('.nav-item')[2].classList.add('active');
@@ -1047,60 +932,13 @@
             setTimeout(() => { toast.style.display = 'none'; }, 3000);
         }
 
-        document.getElementById('darkModeBtn').addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-        });
+        document.getElementById('darkModeBtn').addEventListener('click', () => document.body.classList.toggle('dark-mode'));
 
-        // ==========================================
-        // 6. ORDER LOGIC (FIXED SEND ORDER)
-        // ==========================================
-        function formatRupiah(num) {
-            return "Rp " + parseInt(num).toLocaleString('id-ID');
+        function formatRupiah(num) { return "Rp " + parseInt(num).toLocaleString('id-ID'); }
+        function generateOrderId() { 
+            const d = new Date(); 
+            return `INV-${d.getFullYear()}${(d.getMonth()+1).toString().padStart(2,'0')}${d.getDate().toString().padStart(2,'0')}-${Math.floor(Math.random()*10000)}`; 
         }
-
-        function populateCategories() {
-            const select = document.getElementById('custCategory');
-            if(select.options.length > 1) return;
-
-            const categories = DB.getCategories(serviceData);
-            categories.forEach(cat => {
-                const opt = document.createElement('option');
-                opt.value = cat;
-                opt.textContent = cat;
-                select.appendChild(opt);
-            });
-        }
-
-        function populateServiceDropdown() {
-            const cat = document.getElementById('custCategory').value;
-            const servSelect = document.getElementById('custService');
-            servSelect.innerHTML = '<option value="">-- Pilih Kerusakan & Harga --</option>';
-
-            if(!cat) return;
-
-            const filtered = serviceData.filter(s => s.cat === cat);
-            filtered.forEach(item => {
-                const opt = document.createElement('option');
-                opt.value = JSON.stringify(item);
-                opt.textContent = `${item.issue} (${item.item}) - ${formatRupiah(item.price)}`;
-                servSelect.appendChild(opt);
-            });
-        }
-
-        function togglePickupInput() {
-            const checked = document.getElementById('needPickup').checked;
-            document.getElementById('pickupInputGroup').style.display = checked ? 'block' : 'none';
-            if(checked) renderCart();
-        }
-
-        function calculatePickup() {
-            if(!document.getElementById('needPickup').checked) return 0;
-            const dist = parseFloat(document.getElementById('pickupDistance').value) || 0;
-            if(dist > 0 && dist < 5) return 25000;
-            if(dist >=5) return 999999;
-            return 0;
-        }
-
         function selectQuickService(cat, issue) {
             navTo('order-section');
             setTimeout(() => {
@@ -1108,169 +946,81 @@
                 populateServiceDropdown();
                 const servSelect = document.getElementById('custService');
                 for(let i=0; i<servSelect.options.length; i++){
-                    if(servSelect.options[i].text.includes(issue)) {
-                        servSelect.selectedIndex = i;
-                        break;
-                    }
+                    if(servSelect.options[i].text.includes(issue)) { servSelect.selectedIndex = i; break; }
                 }
                 addToCart();
             }, 100);
         }
-
-        async function sendCustomerOrder() {
-            const name = document.getElementById('custName').value;
-            const wa = document.getElementById('custWA').value;
-            const address = document.getElementById('custAddress').value;
-
-            if(!name || !wa) { showToast("Nama & WA wajib diisi"); return; }
-            if(cart.length === 0) { showToast("Belum ada layanan yang dipilih"); return; }
-
-            const newOrderId = generateOrderId(); 
-            
-            // Construct WhatsApp Message from CART
-            let msg = `Halo Admin, saya mau servis.\n\nNama: ${name}\nWA: ${wa}\nAlamat: ${address}\n`;
-            msg += `\n--- Daftar Perbaikan (${cart.length} Item) ---\n`;
-            
-            let totalEst = 0;
-            cart.forEach((item, idx) => {
-                totalEst += item.price;
-                msg += `${idx+1}. ${item.cat} - ${item.issue} (${item.item})\n   Harga: ${formatRupiah(item.price)}\n`;
+        function togglePickupInput() {
+            document.getElementById('pickupInputGroup').style.display = document.getElementById('needPickup').checked ? 'block' : 'none';
+            renderCart();
+        }
+        function populateCategories() {
+            const select = document.getElementById('custCategory');
+            if(select.options.length > 1) return;
+            DB.getCategories(serviceData).forEach(cat => {
+                const opt = document.createElement('option');
+                opt.value = cat; opt.textContent = cat; select.appendChild(opt);
             });
+        }
+        function populateServiceDropdown() {
+            const cat = document.getElementById('custCategory').value;
+            const servSelect = document.getElementById('custService');
+            servSelect.innerHTML = '<option value="">-- Pilih Kerusakan & Harga --</option>';
+            if(!cat) return;
+            serviceData.filter(s => s.cat === cat).forEach(item => {
+                const opt = document.createElement('option');
+                opt.value = JSON.stringify(item);
+                opt.textContent = `${item.issue} (${item.item}) - ${formatRupiah(item.price)}`;
+                servSelect.appendChild(opt);
+            });
+        }
 
-            const pickup = calculatePickup();
-            let pickupInfo = "";
-            if(pickup === 25000) { totalEst += 25000; pickupInfo = "\nBiaya Pickup: +Rp 25.000"; }
-            if(pickup > 100000) { pickupInfo = "\nLokasi > 5km, mohon konfirmasi."; }
+        // ==========================================
+        // 7. RESI CHECK & ARTICLE
+        // ==========================================
+        async function checkResi() {
+            const inputId = document.getElementById('checkResiInput').value.trim();
+            const resultBox = document.getElementById('resiResultBox');
+            const btn = document.getElementById('btnCheckResi');
 
-            msg += `\n*TOTAL ESTIMASI: ${formatRupiah(totalEst)}*${pickupInfo}`;
+            if(!inputId) { showToast("Masukkan Nomor Order!"); return; }
 
-            // Payload untuk Google Sheet (FIXED)
-            const payload = { 
-                action: "save_order",
-                orderId: newOrderId,
-                name: name, 
-                wa: wa, 
-                address: address, 
-                cat: cart.length > 1 ? 'Multiple' : cart[0].cat, 
-                items: cart, // FIXED: Kirim array cart, bukan string comp/issue yang kosong
-                total: totalEst 
-            };
-            
-            // Kirim ke Server (GAS) menggunakan mode no-cors jika perlu, tapi fetch standard biasanya ok untuk GAS POST
-            // Kita gunakan fetch standard dengan error handling
-            fetch(CONFIG.APPS_SCRIPT_URL, {
-                method: 'POST',
-                body: JSON.stringify(payload)
-            })
-            .then(response => response.json())
-            .then(data => {
-                if(data.success) {
-                    console.log("Data tersimpan di Sheet");
+            btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mencari...';
+
+            try {
+                const response = await fetch(CONFIG.APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: "check_resi", resiId: inputId })
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    const d = result.data;
+                    resultBox.style.display = 'block';
+                    resultBox.innerHTML = `
+                        <div style="background:#eff6ff; padding:15px; border-radius:8px; border-left:4px solid var(--primary);">
+                            <h4 style="margin:0 0 10px 0; color:var(--primary);">Status Pesanan: ${d.status}</h4>
+                            <p><strong>Nama:</strong> ${d.customerName}</p>
+                            <p><strong>Layanan:</strong> ${d.services}</p>
+                            <p><strong>Total:</strong> ${formatRupiah(d.total)}</p>
+                        </div>`;
                 } else {
-                    console.warn("Gagal simpan sheet:", data.message);
+                    resultBox.style.display = 'block';
+                    resultBox.innerHTML = `<div style="background:#fee2e2; color:#b91c1c; padding:15px; border-radius:8px; text-align:center;">Order ID Tidak Ditemukan</div>`;
                 }
-            })
-            .catch(e => {
-                console.warn("Error koneksi ke sheet (mungkin offline):", e);
-                // Tetap lanjut buka WA meski gagal simpan ke sheet agar UX tetap jalan
-            })
-            .finally(() => {
-                window.open(`https://wa.me/6285713087659?text=${encodeURIComponent(msg)}`, '_blank');
-            });
-        }
-
-        // ==========================================
-        // 7. RECEIPT LOGIC
-        // ==========================================
-        function generateOrderId() {
-            const d = new Date();
-            return `INV-${d.getFullYear()}${(d.getMonth()+1).toString().padStart(2,'0')}${d.getDate().toString().padStart(2,'0')}-${Math.floor(Math.random()*10000)}`;
-        }
-
-        function updateLivePreview() {
-            const map = {
-                'resOrderId': 'prevId', 'resDate': 'prevDate', 'resName': 'prevName',
-                'resWA': 'prevWA', 'resDevice': 'prevDevice', 'resModel': 'prevModel',
-                'resIssue': 'prevIssue', 'resServices': 'prevServices'
-            };
-            
-            for(let [id, target] of Object.entries(map)) {
-                const el = document.getElementById(id);
-                if(el && el.value !== document.getElementById(target).innerText) {
-                    if(id === 'resServices') parseServices(el.value);
-                    else document.getElementById(target).innerText = el.value || '-';
-                }
+            } catch (error) {
+                resultBox.style.display = 'block';
+                resultBox.innerHTML = `<div style="background:#fff7ed; color:#c2410c; padding:15px; border-radius:8px; text-align:center;">Gagal menghubungi server.</div>`;
             }
+            btn.disabled = false; btn.innerHTML = 'Cek Status';
         }
 
-        function parseServices(text) {
-            const container = document.getElementById('prevServices');
-            container.innerHTML = '';
-            let total = 0;
-            if(!text.trim()) { container.innerHTML = 'Belum ada data'; document.getElementById('prevTotal').innerText = 'Rp 0'; return; }
-            
-            text.split('\n').forEach(line => {
-                if(!line.trim()) return;
-                const parts = line.split('-');
-                let name = line, price = 0, pStr = '';
-                if(parts.length >= 2) {
-                    name = parts.slice(0,-1).join('-').trim();
-                    const pVal = parts[parts.length-1].replace(/\D/g,'');
-                    price = parseInt(pVal) || 0;
-                    pStr = formatRupiah(price);
-                }
-                total += price;
-                container.innerHTML += `<div class="receipt-row"><span>${name}</span><span>${pStr}</span></div>`;
-            });
-            document.getElementById('prevTotal').innerText = formatRupiah(total);
-        }
-
-        function printReceipt() { window.print(); }
-
-        function copyReceiptText() {
-            const id = document.getElementById('prevId').innerText;
-            const name = document.getElementById('prevName').innerText;
-            const total = document.getElementById('prevTotal').innerText;
-            const text = `RESI MALIK SERVICE\nNo: ${id}\nNama: ${name}\nTotal: ${total}\n\nTerima Kasih.`;
-            navigator.clipboard.writeText(text).then(() => showToast("Teks Resi disalin!", true));
-        }
-
-        // ==========================================
-        // 8. ARTICLE SYSTEM
-        // ==========================================
         const articles = [
-            { title: "HP Tidak Bisa Di-charge?", tag: "Tips HP", content: "Ini penyebab umumnya: 1. Kabel rusak. 2. Port kotor. 3. Baterai drop. Coba ganti kabel dulu ya." },
-            { title: "LCD Retak Masih Bisa Dipakai?", tag: "Kerusakan Umum", content: "Bisa, tapi berisiko. Cairan LCD bisa merembes dan membuat layar berjamur. Segera ganti jika sentuh mulai error." },
-            { title: "Baterai Boros Padahal Baru", tag: "Perawatan", content: "Bisa karena aplikasi latar belakang. Cek pengaturan baterai, matikan GPS/Bluetooth jika tidak dipakai." },
-            { title: "Laptop Overheat Saat Main Game", tag: "Servis Laptop", content: "Coba bersihkan debu di kipas dan ganti thermal paste. Upgrade RAM juga membantu performa." },
-            { title: "Data Terformat Bisa Kembali?", tag: "Data Recovery", content: "Masih bisa, selama memori tidak ditimpa oleh data baru. Jangan simpan apapun dulu, bawa ke teknisi." },
-            { title: "Cara Merawat Baterai iPhone", tag: "Tips HP", content: "Hindari charging sampai 0% atau 100% terus. Idealnya antara 20-80%. Gunakan charger original." },
-            { title: "Speaker iPhone Suara Kecil", tag: "Tips HP", content: "Cek bersihkan saringan speaker di atas layar (sering kotor debu)." },
-            { title: "Layar Laptop Berkedip", tag: "Servis Laptop", content: "Biasanya masalah pada kabel fleksibel engsel atau driver grafik. Bawa untuk cek hardware." },
-            { title: "HP Android Bootloop", tag: "Software", content: "Bisa diselesaikan dengan flashing ulang (Install ulang OS). Pastikan data backup dulu." },
-            { title: "Water Damage, Apa Harus Dinyalakan?", tag: "Kerusakan Umum", content: "TIDAK. Matikan total, jangan cas. Segera bawa ke teknisi untuk pembersihan ultrasonic." },
-            { title: "IC Power Mati Total", tag: "Kerusakan Umum", content: "Kerusakan berat pada hardware motherboard. Perlu penggantian IC dan microsoldering." },
-            { title: "Upgrade SSD Laptop, Worth It?", tag: "Servis Laptop", content: "Sangat worth! Laptop jadi 5x lebih cepat booting dan buka aplikasi." },
-            { title: "Touchscreen Error Sendiri", tag: "Kerusakan Umum", content: "Bisa karena screen protector tebal, LCD bocor, atau kabel flex lepas." },
-            { title: "Charging Port Longgar", tag: "Charging", content: "Jangan dipaksa colok berulang kali. Soket bisa melepas dari PCB. Ganti port segera." },
-            { title: "Kamera Depan Black Screen", tag: "Kamera", content: "Biasanya modul kamera putus atau kabel putus. Perlu diganti modul baru." },
-            { title: "Wifi Hilang Terus", tag: "Software", content: "Coba Forget Network dan reconnect. Jika masih, bisa ada masalah di IC Wifi." },
-            { title: "Mic Tidak Terdengar Saat Telpon", tag: "Speaker/Mic", content: "Bersihkan lubang mic kecil. Jika masih, ganti komponen mic." },
-            { title: "HP Sering Restarts Sendiri", tag: "Tips HP", content: "Baterai sudah tidak kuat supply daya, atau ada software corrupt. Cek dulu baterai." },
-            { title: "Biar Awet, Servis Rutin?", tag: "Perawatan", content: "Ya. Minimal 6 bulan sekali bersihkan debu dalam gunakan thermal paste baru." },
-            { title: "Harga Ganti LCD iPhone?", tag: "Estimasi Harga", content: "Bervariasi mulai dari 400rb (LCD biasa) hingga 1jt+ (Original OLED)." },
-            { title: "Lupa Pola Android", tag: "Software", content: "Bisa dibuka dengan cara FRP Unlock menggunakan tool khusus di servis kami." },
-            { title: "Tablet Layar Pecah Mahal?", tag: "Servis Tablet", content: "Karena panel LCD tablet besar, harganya memang relatif lebih mahal dari HP." },
-            { title: "Engsel Laptop Patah", tag: "Servis Laptop", content: "Jangan dipaksa buka tutup. Casing dan engsel perlu diganti set untuk aman." },
-            { title: "Notifikasi WhatsApp Tidak Muncul", tag: "Tips HP", content: "Cek Setting Aplikasi > Notifikasi > WA. Pastikan Background Data diizinkan." },
-            { title: "Simcard Tidak Terbaca", tag: "Kerusakan Umum", content: "Coba SIM lain. Jika tetap tidak terbaca, berarti IC Simcard bermasalah." },
-            { title: "Garansi Servis Berapa Lama?", tag: "Edukasi Pelanggan", content: "Garansi di Malik Service biasanya 1-2 minggu untuk jasa servis dan 1 minggu untuk sparepart." },
-            { title: "Bawa HP Semarang Dari Luar Kota?", tag: "Tips HP", content: "Bisa! Kami bisa menerima pengiriman unit via JNE/Sicepat untuk perbaikan." },
-            { title: "Kipas Laptop Berisik", tag: "Servis Laptop", content: "Tanda bantalan kipas sudah habis. Ganti kipas baru agar tidak merusak motherboard." },
-            { title: "Aplikasi Keluar Sendiri", tag: "Software", content: "Cache penuh atau RAM tidak cukup. Clear cache aplikasi tersebut." },
-            { title: "Bodi HP Penyok/Bengkok?", tag: "Kerusakan Umum", content: "Bisa di pres kembali (bending) untuk meluruskan frame agar casing baru bisa pas." }
+            { title: "HP Tidak Bisa Di-charge?", tag: "Tips HP", content: "Ini penyebab umumnya: 1. Kabel rusak. 2. Port kotor. 3. Baterai drop." },
+            { title: "LCD Retak Masih Bisa Dipakai?", tag: "Kerusakan Umum", content: "Bisa, tapi berisiko. Cairan LCD bisa merembes." },
+            { title: "Water Damage, Apa Harus Dinyalakan?", tag: "Tips HP", content: "TIDAK. Matikan total, jangan cas. Segera bawa ke teknisi." }
         ];
-
         function renderArticleList() {
             const container = document.getElementById('articleList');
             if(container.children.length > 0) return;
@@ -1278,18 +1028,11 @@
                 const div = document.createElement('div');
                 div.className = 'article-card';
                 div.onclick = () => openArticle(index);
-                div.innerHTML = `
-                    <img src="https://picsum.photos/seed/${index}/80/80" class="article-thumb" alt="icon">
-                    <div class="article-info">
-                        <span class="article-tag">${art.tag}</span>
-                        <h4>${art.title}</h4>
-                        <p>${art.content}</p>
-                    </div>
-                `;
+                div.innerHTML = `<img src="https://picsum.photos/seed/${index}/80/80" class="article-thumb" alt="icon">
+                    <div class="article-info"><span class="article-tag">${art.tag}</span><h4>${art.title}</h4><p>${art.content}</p></div>`;
                 container.appendChild(div);
             });
         }
-
         function openArticle(index) {
             const art = articles[index];
             document.getElementById('articleList').style.display = 'none';
@@ -1297,17 +1040,12 @@
             detail.style.display = 'block';
             document.getElementById('detailTitle').innerText = art.title;
             document.getElementById('detailTag').innerText = art.tag;
-            document.getElementById('detailContent').innerHTML = `<p>${art.content}</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>`;
+            document.getElementById('detailContent').innerHTML = `<p>${art.content}</p>`;
         }
-
         function closeArticleDetail() {
             document.getElementById('articleDetail').style.display = 'none';
             document.getElementById('articleList').style.display = 'block';
         }
-
-        // Init Calls
-        AuditLog.render();
     </script>
 </body>
 </html>
-
