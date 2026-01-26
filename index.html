@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- SEO Meta Description -->
-    <meta name="description" content="Butuh servis elektronik cepat di Semarang? Malik Service ahli perbaikan AC, Kulkas, Mesin Cuci, HP & Laptop. Cek estimasi biaya dan booking sekarang!">
+    <meta name="description" content="Butuh servis elektronik cepat di Semarang? Malik Service ahli perbaikan AC, Kulkas, Mesin Cuci, HP & Laptop. Melayani Pickup & Antar. Cek estimasi biaya dan booking sekarang!">
     <title>Malik Service Center</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -46,6 +46,7 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            padding-bottom: 80px; /* Space for floating button if needed */
         }
 
         /* HEADER */
@@ -83,7 +84,7 @@
         /* FORMS */
         .form-group { margin-bottom: 1.5rem; }
         label { display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: 0.9rem; }
-        input[type="text"], input[type="password"], input[type="tel"], input[type="date"], select, textarea {
+        input[type="text"], input[type="password"], input[type="tel"], input[type="date"], input[type="number"], select, textarea {
             width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px;
             background: var(--light-bg); color: var(--text-main); font-size: 1rem;
         }
@@ -108,6 +109,30 @@
         .hero-section { text-align: center; padding: 2rem 1.5rem; }
         .hero-icon { font-size: 3rem; color: var(--primary); margin-bottom: 1rem; }
         .cta-btn { background: var(--primary); color: white; padding: 1rem 2rem; border: none; border-radius: 50px; font-size: 1rem; font-weight: 600; cursor: pointer; width: 100%; display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 1rem; }
+        
+        /* SERVICE GRID (Updated) */
+        .service-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .service-card { 
+            background: var(--light-bg); border: 1px solid var(--border); padding: 15px; 
+            border-radius: 8px; text-align: center; cursor: pointer; transition: 0.2s;
+        }
+        .service-card:hover { border-color: var(--primary); background: #eff6ff; }
+        .service-card i { font-size: 1.5rem; color: var(--primary); margin-bottom: 8px; display: block; }
+        .service-card span { font-size: 0.85rem; font-weight: 600; }
+
+        /* PICKUP BOX */
+        .pickup-box {
+            background-color: #e0f2fe;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+            margin-bottom: 15px;
+            display: none; /* Hidden by default */
+        }
+        body.dark-mode .pickup-box {
+            background-color: #1e3a8a;
+            border-left-color: #60a5fa;
+        }
         
         /* ARTICLE SECTION STYLES */
         #article-section { max-width: 800px; } /* Lebih lebar untuk bacaan */
@@ -173,8 +198,29 @@
         .receipt-total { font-weight: bold; font-size: 1.1rem; display: flex; justify-content: space-between; }
 
         /* TOAST */
-        .toast { position: fixed; top: 20px; right: 20px; background: #ef4444; color: white; padding: 1rem; border-radius: 8px; z-index: 200; display: none; animation: slideIn 0.3s; text-align:center; }
+        .toast { position: fixed; top: 20px; right: 20px; background: #ef4444; color: white; padding: 1rem; border-radius: 8px; z-index: 200; display: none; animation: slideIn 0.3s; text-align:center; box-shadow: 0 4px 10px rgba(0,0,0,0.2); max-width: 80%; }
         @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+
+        /* FLOATING WA BUTTON */
+        .fab-wa {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: #25D366;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            z-index: 999;
+            text-decoration: none;
+            transition: transform 0.2s;
+        }
+        .fab-wa:hover { transform: scale(1.1); }
 
         /* PRINT MEDIA */
         @media print {
@@ -182,6 +228,7 @@
             #receiptPreview, #receiptPreview * { visibility: visible; }
             #receiptPreview { position: absolute; left: 0; top: 0; width: 100%; max-width: 100%; margin: 0; padding: 0; box-shadow: none; border: none; color: black !important; }
             .no-print { display: none !important; }
+            .fab-wa { display: none !important; }
         }
 
         /* Responsive */
@@ -199,13 +246,18 @@
         <button id="darkModeBtn" style="background:none; border:none; color:var(--text-main); cursor:pointer;"><i class="fa-solid fa-moon"></i></button>
     </header>
 
+    <!-- FLOATING WA -->
+    <a href="https://wa.me/6285713087659" class="fab-wa" target="_blank">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
     <div id="toast" class="toast"></div>
 
     <main>
         <!-- 1. LOGIN ADMIN -->
         <section id="login-section" class="step-section active">
             <h2><i class="fa-solid fa-lock"></i> Login Admin</h2>
-            <p class="subtitle">Masuk untuk membuat Resi Manual. (Cek via Spreadsheet)</p>
+            <p class="subtitle">Masuk untuk membuat Resi Manual.</p>
             <div class="form-group">
                 <label>Username</label>
                 <input type="text" id="adminUser" placeholder="Masukan username">
@@ -217,7 +269,7 @@
             <button id="btnLogin" class="btn btn-primary full-width" onclick="handleLogin()">
                 <span>Masuk Panel Admin</span>
             </button>
-            <button class="btn btn-secondary full-width" onclick="goToCustomerView()">Ke Halaman Pelanggan (Order Biasa)</button>
+            <button class="btn btn-secondary full-width" onclick="goToCustomerView()">Ke Halaman Pelanggan</button>
         </section>
 
         <!-- 2. ADMIN PANEL -->
@@ -269,6 +321,10 @@
                 <button id="btnDownload" class="btn btn-success full-width" onclick="downloadReceiptImage()">
                     <i class="fa-solid fa-download"></i> Download Resi (Gambar)
                 </button>
+                <!-- Tombol Cadangan Jika Download Gagal -->
+                <button class="btn btn-secondary full-width" onclick="copyReceiptText()">
+                    <i class="fa-solid fa-copy"></i> Salin Teks Resi (Cadangan)
+                </button>
             </div>
 
             <div class="receipt-divider"></div>
@@ -316,16 +372,35 @@
             <h1>Malik Service Center</h1>
             <p class="subtitle">Solusi perbaikan HP, Laptop & Elektronik Terpercaya.</p>
             
+            <!-- Quick Service Grid -->
+            <div class="service-grid">
+                <div class="service-card" onclick="selectQuickService('HP', 'Layar pecah / blank')">
+                    <i class="fa-solid fa-mobile-screen"></i>
+                    <span>Ganti LCD</span>
+                </div>
+                <div class="service-card" onclick="selectQuickService('HP', 'Baterai Drop')">
+                    <i class="fa-solid fa-battery-full"></i>
+                    <span>Baterai Baru</span>
+                </div>
+                <div class="service-card" onclick="selectQuickService('Laptop', 'Overheat / Mati')">
+                    <i class="fa-solid fa-laptop"></i>
+                    <span>Servis Laptop</span>
+                </div>
+                <div class="service-card" onclick="selectQuickService('HP', 'Kena Air')">
+                    <i class="fa-solid fa-droplet"></i>
+                    <span>Water Damage</span>
+                </div>
+            </div>
+            
             <button class="cta-btn" onclick="startCustomerOrder()">
                 Buat Order Servis Sekarang <i class="fa-solid fa-arrow-right"></i>
             </button>
             
-            <!-- Tombol Baru: Artikel -->
             <button class="btn btn-secondary full-width" onclick="showArticle()">
                 <i class="fa-solid fa-book-open"></i> Baca Artikel & Tips
             </button>
 
-            <button class="btn btn-secondary full-width" onclick="showLogin()">
+            <button class="btn btn-secondary full-width" onclick="showLogin()" style="margin-top:10px;">
                 <i class="fa-solid fa-lock"></i> Login Admin (Area Khusus)
             </button>
         </section>
@@ -352,6 +427,25 @@
                 </select>
             </div>
 
+            <!-- PICKUP & ANTAR SECTION (BARU) -->
+            <div class="form-group">
+                <label style="display:flex; align-items:center; gap:10px; cursor:pointer;">
+                    <input type="checkbox" id="needPickup" style="width:auto;" onchange="togglePickupInput()">
+                    Butuh Jemput Unit (Pickup & Antar)?
+                </label>
+            </div>
+
+            <div id="pickupInputGroup" class="pickup-box">
+                <label>Jarak Lokasi (km)</label>
+                <input type="number" id="pickupDistance" placeholder="Contoh: 3" oninput="updatePriceSummary()">
+                <small id="pickupFeeText" style="display:block; margin-top:5px; color:var(--primary); font-weight:600;">
+                    Biaya Pickup: Rp 0
+                </small>
+                <small style="display:block; margin-top:2px; font-size:0.75rem;">
+                    *Biaya tetap Rp 25.000 untuk jarak < 5km. > 5km hubungi admin.
+                </small>
+            </div>
+
             <!-- PRICE SUMMARY DISPLAY -->
             <div id="priceDisplay" class="price-summary">
                 <div style="font-weight:bold; margin-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.2); padding-bottom:5px;">Rincian Biaya:</div>
@@ -362,6 +456,10 @@
                 <div class="price-row">
                     <span>Biaya Jasa:</span>
                     <span id="dispService">Rp 0</span>
+                </div>
+                <div class="price-row" id="pickupRow" style="display:none; color:#fef08a;">
+                    <span>Biaya Pickup:</span>
+                    <span id="dispPickup">Rp 0</span>
                 </div>
                 <div class="price-total">
                     <span>ESTIMASI TOTAL:</span>
@@ -399,7 +497,7 @@
             <h2 style="justify-content: center;"><i class="fa-solid fa-newspaper"></i> Artikel & Tips</h2>
             
             <div class="article-content">
-                <h1>Jasa Servis Elektronik Panggilan & Workshop Terbaik di Semarang: Solusi Cerdas untuk Barang Elektronik Anda</h1>
+                <h1>Jasa Servis Elektronik Panggilan & Workshop Terbaik di Semarang</h1>
 
                 <p>Pernahkah Anda mengalami kepanikan saat AC tiba-tiba mati di siang hari yang panas, atau mesin cuci berhenti bekerja saat tumpukan pakaian menumpuk? Masalah pada perangkat elektronik seringkali datang tak terduga dan mengganggu kenyamanan rumah Anda. Jangan biarkan kerusakan kecil mengganggu produktivitas dan kenyamanan keluarga. <strong>Malik Service</strong> hadir sebagai solusi terpercaya untuk segala kebutuhan perbaikan elektronik Anda di Semarang.</p>
 
@@ -568,6 +666,8 @@
             document.getElementById('custCategory').value = "";
             document.getElementById('custService').innerHTML = '<option value="">-- Pilih Kerusakan --</option>';
             document.getElementById('priceDisplay').style.display = 'none';
+            document.getElementById('pickupInputGroup').style.display = 'none';
+            document.getElementById('needPickup').checked = false;
             document.getElementById('custName').value = '';
             document.getElementById('custWA').value = '';
             document.getElementById('custAddress').value = '';
@@ -576,9 +676,23 @@
             showSection('customer-form'); 
             populateCategories(); 
         }
-        // Baru: Fungsi untuk menampilkan artikel
         function showArticle() {
             showSection('article-section');
+        }
+        // Quick Select Service
+        function selectQuickService(cat, issue) {
+            startCustomerOrder();
+            document.getElementById('custCategory').value = cat;
+            populateServiceDropdown();
+            // Try to find matching issue in dropdown
+            const servSelect = document.getElementById('custService');
+            for(let i=0; i<servSelect.options.length; i++) {
+                if(servSelect.options[i].text.includes(issue)) {
+                    servSelect.selectedIndex = i;
+                    break;
+                }
+            }
+            updatePriceSummary();
         }
 
         // --- DATABASE LOGIC ---
@@ -619,9 +733,30 @@
             });
         }
 
+        // --- PICKUP LOGIC (BARU) ---
+        function togglePickupInput() {
+            const isChecked = document.getElementById('needPickup').checked;
+            const group = document.getElementById('pickupInputGroup');
+            if(isChecked) {
+                group.style.display = 'block';
+            } else {
+                group.style.display = 'none';
+            }
+            updatePriceSummary();
+        }
+
+        function calculatePickupFee() {
+            if(!document.getElementById('needPickup').checked) return 0;
+            const dist = parseFloat(document.getElementById('pickupDistance').value) || 0;
+            if(dist > 0 && dist < 5) return 25000;
+            if(dist >= 5) return 9999999; // Flag high number for Admin Contact logic
+            return 0;
+        }
+
         function updatePriceSummary() {
             const servSelect = document.getElementById('custService');
             const priceDisplay = document.getElementById('priceDisplay');
+            const pickupRow = document.getElementById('pickupRow');
             
             if (servSelect.value === "") {
                 priceDisplay.style.display = 'none';
@@ -629,12 +764,34 @@
             }
 
             const data = JSON.parse(servSelect.value);
-            const total = data.sparepart + data.jasa;
+            let serviceTotal = data.sparepart + data.jasa;
+            let pickupFee = calculatePickupFee();
+            let pickupText = "Rp 0";
+            let showPickup = false;
+
+            if(pickupFee === 25000) {
+                pickupText = "Rp 25.000";
+                showPickup = true;
+            } else if(pickupFee > 100000) {
+                pickupText = "Hubungi Admin (>5km)";
+                showPickup = true;
+                serviceTotal = "Hubungi Admin"; // Override total display text
+            }
+
+            const finalTotalDisplay = (typeof serviceTotal === 'number') ? serviceTotal + (pickupFee > 0 && pickupFee < 100000 ? pickupFee : 0) : serviceTotal;
 
             document.getElementById('dispSparepart').textContent = formatRupiah(data.sparepart);
             document.getElementById('dispService').textContent = formatRupiah(data.jasa);
-            document.getElementById('dispTotal').textContent = formatRupiah(total);
+            document.getElementById('dispPickup').textContent = pickupText;
+            document.getElementById('pickupFeeText').textContent = pickupText === "Hubungi Admin (>5km)" ? pickupText : `Biaya Pickup: ${pickupText}`;
 
+            if(showPickup) {
+                pickupRow.style.display = 'flex';
+            } else {
+                pickupRow.style.display = 'none';
+            }
+
+            document.getElementById('dispTotal').textContent = (typeof finalTotalDisplay === 'number') ? formatRupiah(finalTotalDisplay) : finalTotalDisplay;
             priceDisplay.style.display = 'block';
         }
 
@@ -665,7 +822,21 @@
 
             if (servSelect.value !== "") {
                 const data = JSON.parse(servSelect.value);
-                const total = data.sparepart + data.jasa;
+                const pickupFee = calculatePickupFee();
+                const isPickup = document.getElementById('needPickup').checked;
+                const dist = document.getElementById('pickupDistance').value;
+
+                let total = data.sparepart + data.jasa;
+                let pickupInfo = "";
+                if(isPickup) {
+                    if(pickupFee === 25000) {
+                        total += pickupFee;
+                        pickupInfo = `\n\n*PICKUP & ANTAR*\nJarak: ${dist} km\nBiaya Jemput: +Rp 25.000`;
+                    } else if (pickupFee > 100000) {
+                        pickupInfo = `\n\n*PICKUP & ANTAR*\nJarak: ${dist} km\n(Need Admin Quote karena > 5km)`;
+                    }
+                }
+
                 serviceData = {
                     cat: data.cat,
                     comp: data.comp,
@@ -684,7 +855,7 @@ Masalah: ${data.issue}
 ESTIMASI BIAYA:
 Sparepart: ${formatRupiah(data.sparepart)}
 Jasa: ${formatRupiah(data.jasa)}
-TOTAL: ${formatRupiah(total)}
+TOTAL: ${formatRupiah(total)}${pickupInfo}
 
 DATA PELANGGAN:
 Nama: ${name}
@@ -883,9 +1054,6 @@ Alamat: ${address}`;
             window.print();
         }
 
-        // ======================================================
-        // FUNGSI DOWNLOAD BARU (PERBAIKAN AKHIR UNTUK ANDROID)
-        // ======================================================
         function downloadReceiptImage() {
             const id = document.getElementById("resOrderId").value;
             const btn = document.getElementById("btnDownload");
@@ -901,16 +1069,13 @@ Alamat: ${address}`;
             btn.disabled = true;
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Memproses...';
 
-            // Kita gunakan scale: 2 agar kualitas tajam di layar HP
-            // backgroundColor: '#ffffff' penting agar tidak transparan/hitam
+            // Scale 2 for sharpness on mobile
             html2canvas(element, { 
                 scale: 2, 
                 backgroundColor: "#ffffff",
                 useCORS: true 
             }).then(canvas => {
-                
-                // Langkah 1: Ubah Canvas menjadi Binary Object (Blob)
-                // Ini lebih dikenali oleh Android/Chrome sebagai file asli dibanding Data URI (Base64)
+                // Convert to Blob for better Android download handling
                 canvas.toBlob(function(blob) {
                     if (!blob) {
                         showToast("Gagal membuat gambar (Browser error).");
@@ -919,21 +1084,14 @@ Alamat: ${address}`;
                         return;
                     }
 
-                    // Langkah 2: Buat URL Objek Sementara
                     const url = URL.createObjectURL(blob);
-                    
-                    // Langkah 3: Trigger Download "Native"
                     const link = document.createElement('a');
                     link.href = url;
-                    link.download = `Resi-MalikService-${id}.jpg`;
+                    link.download = `Resi-${id.replace(/[^a-zA-Z0-9]/g, '')}.jpg`;
                     document.body.appendChild(link);
-                    
-                    // Gunakan click() langsung, bukan dispatchEvent
                     link.click();
-                    
                     document.body.removeChild(link);
 
-                    // Langkah 4: Bersihkan memori URL setelah 100ms
                     setTimeout(() => {
                         URL.revokeObjectURL(url);
                         showToast("Sedang mengunduh file...", true);
@@ -941,13 +1099,30 @@ Alamat: ${address}`;
                         btn.innerHTML = originalText;
                     }, 100);
 
-                }, 'image/jpeg', 0.95); // Kualitas JPEG 95%
+                }, 'image/jpeg', 0.95);
 
             }).catch(err => {
                 console.error(err);
                 showToast("Terjadi kesalahan saat render gambar.");
                 btn.disabled = false;
                 btn.innerHTML = originalText;
+            });
+        }
+
+        // New: Copy Receipt Text as Fallback
+        function copyReceiptText() {
+            const name = document.getElementById('resName').value || '-';
+            const device = document.getElementById('resDevice').value || '-';
+            const issue = document.getElementById('resIssue').value || '-';
+            const services = document.getElementById('resServices').value || '-';
+            const price = document.getElementById('prevTotal').innerText;
+
+            const text = `RESI MALIK SERVICE\n\nNama: ${name}\nPerangkat: ${device}\nMasalah: ${issue}\n\nRincian:\n${services}\n\nTOTAL: ${price}\n\nTerima Kasih.`;
+
+            navigator.clipboard.writeText(text).then(() => {
+                showToast("Teks Resi berhasil disalin!");
+            }).catch(err => {
+                showToast("Gagal menyalin teks.");
             });
         }
 
