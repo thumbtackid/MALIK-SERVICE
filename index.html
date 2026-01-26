@@ -3,13 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <!-- SEO Meta Description -->
     <meta name="description" content="Malik Service Center Semarang. Servis HP, Laptop, iPhone, Tablet, Data Recovery. Melayani Pickup & Antar. Cek estimasi biaya dan booking sekarang!">
     <meta name="theme-color" content="#2563eb">
     <title>Malik Service Center</title>
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
@@ -141,7 +138,7 @@
         .service-card i { font-size: 1.8rem; color: var(--primary); margin-bottom: 10px; display: block; }
         .service-card span { font-size: 0.85rem; font-weight: 600; }
 
-        /* CART ITEM STYLE (NEW) */
+        /* CART ITEM STYLE */
         .cart-item {
             display: flex; justify-content: space-between; align-items: center;
             background: var(--light-bg); padding: 10px; border-radius: 8px; margin-bottom: 8px;
@@ -413,7 +410,7 @@
             <button class="btn btn-secondary" onclick="navTo('home-section')">Kembali</button>
         </section>
 
-        <!-- 4. RESI SECTION (UPDATED NOT FOUND LOGIC) -->
+        <!-- 4. RESI SECTION -->
         <section id="resi-section" class="step-section">
             <h2><i class="fa-solid fa-search"></i> Cek Status Pesanan</h2>
             <p class="subtitle">Masukkan Nomor Order (Resi) yang tertera di struk.</p>
@@ -577,7 +574,7 @@
         </button>
     </nav>
 
-    <!-- JAVASCRIPT (UPDATED CART SYSTEM) -->
+    <!-- JAVASCRIPT -->
     <script>
         // ==========================================
         // 1. KONFIGURASI & KEAMANAN
@@ -608,7 +605,7 @@
         };
 
         // ==========================================
-        // 2. DATABASE LAYANAN (SAME AS BEFORE)
+        // 2. DATABASE LAYANAN
         // ==========================================
         const masterServiceDatabase = [
             // HP Android - LCD
@@ -789,9 +786,9 @@
         DB.logUpdate();
 
         // ==========================================
-        // 3. CART SYSTEM (NEW)
+        // 3. CART SYSTEM
         // ==========================================
-        let cart = []; // Array to store selected services
+        let cart = []; 
 
         function addToCart() {
             const select = document.getElementById('custService');
@@ -930,7 +927,7 @@
             btn.innerHTML = '<span>Masuk Panel</span>';
         }
 
-        // CEK RESI (UPDATED FOR NOT FOUND)
+        // CEK RESI (FIXED)
         async function checkResi() {
             const inputId = document.getElementById('checkResiInput').value.trim();
             const resultBox = document.getElementById('resiResultBox');
@@ -961,17 +958,17 @@
                             <p><strong>Nama:</strong> ${d.customerName}</p>
                             <p><strong>Waktu:</strong> ${d.orderDate}</p>
                             <p><strong>Status:</strong> <span style="color:var(--secondary); font-weight:bold;">${d.status}</span></p>
-                            <p><strong>Estimasi:</strong> ${d.total}</p>
+                            <p><strong>Estimasi:</strong> ${typeof d.total === 'number' ? formatRupiah(d.total) : d.total}</p>
                         </div>
                     `;
                 } else {
-                    // EXPLICIT NOT FOUND MESSAGE
+                    // NOT FOUND MESSAGE
                     resultBox.style.display = 'block';
                     resultBox.innerHTML = `
                         <div style="background:#fee2e2; color:#b91c1c; padding:15px; border-radius:8px; border-left:4px solid #ef4444; text-align:center;">
                             <i class="fa-solid fa-circle-xmark" style="font-size:1.5rem; margin-bottom:5px; display:block;"></i>
                             <strong>Order ID Tidak Ditemukan</strong>
-                            <p style="margin:5px 0 0 0; font-size:0.9rem;">Pastikan ID yang dimasukkan benar dan sesuai dengan struk.</p>
+                            <p style="margin:5px 0 0 0; font-size:0.9rem;">Pastikan ID yang dimasukkan benar (Huruf Besar/Kecil tidak masalah).</p>
                         </div>
                     `;
                 }
@@ -1055,7 +1052,7 @@
         });
 
         // ==========================================
-        // 6. ORDER LOGIC (UPDATED FOR CART)
+        // 6. ORDER LOGIC (FIXED SEND ORDER)
         // ==========================================
         function formatRupiah(num) {
             return "Rp " + parseInt(num).toLocaleString('id-ID');
@@ -1078,7 +1075,6 @@
             const cat = document.getElementById('custCategory').value;
             const servSelect = document.getElementById('custService');
             servSelect.innerHTML = '<option value="">-- Pilih Kerusakan & Harga --</option>';
-            // Don't hide cart if empty, keep it visible or handled by renderCart
 
             if(!cat) return;
 
@@ -1094,7 +1090,7 @@
         function togglePickupInput() {
             const checked = document.getElementById('needPickup').checked;
             document.getElementById('pickupInputGroup').style.display = checked ? 'block' : 'none';
-            if(checked) renderCart(); // Re-render to update pickup price
+            if(checked) renderCart();
         }
 
         function calculatePickup() {
@@ -1117,7 +1113,6 @@
                         break;
                     }
                 }
-                // Auto add to cart
                 addToCart();
             }, 100);
         }
@@ -1149,19 +1144,39 @@
 
             msg += `\n*TOTAL ESTIMASI: ${formatRupiah(totalEst)}*${pickupInfo}`;
 
+            // Payload untuk Google Sheet (FIXED)
             const payload = { 
+                action: "save_order",
                 orderId: newOrderId,
-                name, wa, address, 
-                cat: 'Multiple (Lihat WA)', // Karena kerusakan banyak
+                name: name, 
+                wa: wa, 
+                address: address, 
+                cat: cart.length > 1 ? 'Multiple' : cart[0].cat, 
+                items: cart, // FIXED: Kirim array cart, bukan string comp/issue yang kosong
                 total: totalEst 
             };
             
+            // Kirim ke Server (GAS) menggunakan mode no-cors jika perlu, tapi fetch standard biasanya ok untuk GAS POST
+            // Kita gunakan fetch standard dengan error handling
             fetch(CONFIG.APPS_SCRIPT_URL, {
                 method: 'POST',
                 body: JSON.stringify(payload)
-            }).catch(e => console.log("Offline or Error sending to DB"));
-
-            window.open(`https://wa.me/6285713087659?text=${encodeURIComponent(msg)}`, '_blank');
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success) {
+                    console.log("Data tersimpan di Sheet");
+                } else {
+                    console.warn("Gagal simpan sheet:", data.message);
+                }
+            })
+            .catch(e => {
+                console.warn("Error koneksi ke sheet (mungkin offline):", e);
+                // Tetap lanjut buka WA meski gagal simpan ke sheet agar UX tetap jalan
+            })
+            .finally(() => {
+                window.open(`https://wa.me/6285713087659?text=${encodeURIComponent(msg)}`, '_blank');
+            });
         }
 
         // ==========================================
@@ -1295,5 +1310,3 @@
     </script>
 </body>
 </html>
-
-
