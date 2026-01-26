@@ -367,26 +367,45 @@
             </button>
         </section>
 
-        <!-- 3. LOGIN ADMIN -->
+        <!-- 3. LOGIN SECTION (UPDATED SERVER SIDE) -->
         <section id="login-section" class="step-section">
             <h2><i class="fa-solid fa-user-shield"></i> Login Admin</h2>
-            <p class="subtitle">Masuk untuk membuat Resi & Kelola Data.</p>
+            <p class="subtitle">Sistem keamanan terintegrasi dengan Server.</p>
             
-            <div class="alert" style="background: #e0f2fe; padding: 10px; border-radius: 8px; font-size: 0.8rem; color: #0369a1; margin-bottom: 15px;">
-                <i class="fa-solid fa-circle-info"></i> <strong>Security Update:</strong> Gunakan PIN (6 digit) untuk login. Default: 123456.
+            <div class="alert" style="background: #fff7ed; padding: 10px; border-radius: 8px; font-size: 0.8rem; color: #c2410c; border: 1px solid #fed7aa; margin-bottom: 15px;">
+                <i class="fa-solid fa-server"></i> <strong>Mode Aman:</strong> PIN divalidasi ke Database Spreadsheet (Bukan hardcoded).
             </div>
 
             <div class="form-group">
-                <label>PIN Admin</label>
+                <label>PIN Admin (6 Digit)</label>
                 <input type="password" id="adminPin" placeholder="Masukkan PIN" maxlength="6" pattern="\d*">
+                <small id="loginStatus" style="display:block; margin-top:5px; font-size:0.8rem;"></small>
             </div>
             <button id="btnLogin" class="btn btn-primary" onclick="handleLogin()">
                 <span>Masuk Panel</span>
             </button>
-            <button class="btn btn-secondary" onclick="navTo('home-section')">Kembali ke Home</button>
+            <button class="btn btn-secondary" onclick="navTo('home-section')">Kembali</button>
         </section>
 
-        <!-- 4. ADMIN PANEL -->
+        <!-- 4. RESI SECTION (UPDATED & FUNCTIONAL) -->
+        <section id="resi-section" class="step-section">
+            <h2><i class="fa-solid fa-search"></i> Cek Status Pesanan</h2>
+            <p class="subtitle">Masukkan Nomor Order (Resi) yang tertera di struk.</p>
+            
+            <div class="form-group">
+                <label>Nomor Order</label>
+                <input type="text" id="checkResiInput" placeholder="Contoh: INV-20231025-1234">
+            </div>
+            <button id="btnCheckResi" class="btn btn-primary" onclick="checkResi()">
+                <i class="fa-solid fa-magnifying-glass"></i> Cek Status
+            </button>
+
+            <div id="resiResultBox" style="display:none; margin-top:20px;">
+                <!-- Hasil pencarian muncul di sini -->
+            </div>
+        </section>
+
+        <!-- 5. ADMIN PANEL -->
         <section id="admin-panel" class="step-section full-width-section">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
                 <h2 style="margin:0;"><i class="fa-solid fa-file-invoice"></i> Buat Resi</h2>
@@ -482,7 +501,7 @@
             </div>
         </section>
 
-        <!-- 5. HALAMAN ARTIKEL -->
+        <!-- 6. HALAMAN ARTIKEL -->
         <section id="article-section" class="step-section full-width-section">
             <h2><i class="fa-solid fa-newspaper"></i> Artikel & Tips</h2>
             <div id="articleList">
@@ -501,18 +520,9 @@
             </div>
         </section>
 
-        <!-- 6. HALAMAN RESI (CARI) -->
-        <section id="resi-section" class="step-section">
-            <h2><i class="fa-solid fa-search"></i> Cek Status Resi</h2>
-            <p class="subtitle">Masukkan nomor order untuk melihat status (Fitur Placeholder).</p>
-            <div class="form-group">
-                <input type="text" placeholder="Masukkan Nomor Resi...">
-            </div>
-            <button class="btn btn-primary">Cek Status</button>
-        </section>
     </main>
 
-    <!-- FLOATING WA (Optional, Bottom Nav exists but this is prominent) -->
+    <!-- FLOATING WA -->
     <a href="https://wa.me/6285713087659" class="fab-wa" target="_blank" style="position:fixed; bottom:85px; right:20px; width:55px; height:55px; background:#25D366; border-radius:50%; display:flex; justify-content:center; align-items:center; color:white; font-size:24px; box-shadow:0 4px 10px rgba(0,0,0,0.2); z-index:998; text-decoration:none;">
         <i class="fa-brands fa-whatsapp"></i>
     </a>
@@ -541,14 +551,14 @@
         </button>
     </nav>
 
-    <!-- JAVASCRIPT -->
+    <!-- JAVASCRIPT (FULLY UPDATED) -->
     <script>
         // ==========================================
-        // 1. KONFIGURASI & KEAMANAN
+        // 1. KONFIGURASI & KEAMANAN (UPDATED URL)
         // ==========================================
         const CONFIG = {
-            APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbxIVdXLb9UPX2LbG9wMe5eb_-W0rhxRGJF-TMbxgeNjH07UQI6j3AAW3ROBlc-9mmRU/exec", // URL Spreadsheet (POST Only)
-            DEFAULT_PIN_HASH: "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", // SHA-256 for "123456"
+            // URL BARU dari user
+            APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbycskkRuzgLw670o_FaJynI9hJEDM48ELg-7NzUDgVLJi687yAKRMZXI2_cvw4WzsZR/exec", 
             SESSION_TIMEOUT: 30 * 60 * 1000 // 30 menit
         };
 
@@ -560,49 +570,39 @@
                     time: new Date().toLocaleString('id-ID'),
                     action: action
                 };
-                logs.unshift(newLog); // Add to top
-                if(logs.length > 20) logs.pop(); // Keep last 20
+                logs.unshift(newLog); 
+                if(logs.length > 20) logs.pop(); 
                 localStorage.setItem('malik_audit_logs', JSON.stringify(logs));
                 AuditLog.render();
             },
             render: () => {
                 const container = document.getElementById('auditContainer');
                 const logs = JSON.parse(localStorage.getItem('malik_audit_logs') || '[]');
-                if(logs.length === 0) {
-                    container.innerHTML = '<div style="color:#666; text-align:center; padding:10px;">Belum ada aktivitas.</div>';
-                    return;
-                }
-                container.innerHTML = logs.map(l => 
-                    `<div class="audit-entry"><span style="color:#94a3b8">[${l.time}]</span> ${l.action}</div>`
-                ).join('');
+                if(!container) return;
+                container.innerHTML = logs.length === 0 ? 
+                    '<div style="color:#666; text-align:center; padding:10px;">Belum ada aktivitas.</div>' : 
+                    logs.map(l => `<div class="audit-entry"><span style="color:#94a3b8">[${l.time}]</span> ${l.action}</div>`).join('');
             }
         };
 
         // ==========================================
-        // 2. DATABASE LAYANAN (Lengkap & Stabil)
+        // 2. DATABASE LAYANAN (Tetap Sama)
         // ==========================================
         const masterServiceDatabase = [
-            // HP Android & iPhone
             { cat: "Servis HP Android", item: "Ganti LCD", issue: "Layar pecah / touch error", price: 250000, est: "2 Jam" },
             { cat: "Servis HP Android", item: "Ganti Baterai", issue: "Baterai boros / drop", price: 120000, est: "30 Menit" },
             { cat: "Servis iPhone", item: "Ganti LCD iPhone", issue: "Touch disease / retak", price: 450000, est: "3 Jam" },
             { cat: "Servis iPhone", item: "Ganti Baterai iPhone", issue: "Baterai drop", price: 250000, est: "1 Jam" },
-            
-            // Tablet & Laptop
             { cat: "Servis Tablet", item: "Ganti LCD Tablet", issue: "Layar putus", price: 350000, est: "1 Hari" },
             { cat: "Servis Tablet", item: "Ganti Baterai Tablet", issue: "Tidak menyala", price: 200000, est: "2 Jam" },
             { cat: "Servis Laptop Ringan", item: "Ganti Keyboard Laptop", issue: "Tombol mati", price: 300000, est: "1 Hari" },
             { cat: "Servis Laptop Ringan", item: "Upgrade SSD / RAM", issue: "Lambat / Penuh", price: 400000, est: "2 Jam" },
             { cat: "Servis Laptop Ringan", item: "Thermal Paste", issue: "Overheat", price: 100000, est: "1 Jam" },
-
-            // Software
             { cat: "Servis Software", item: "Install Ulang Windows", issue: "Bootloop / Virus", price: 150000, est: "2 Jam" },
             { cat: "Servis Software", item: "Flash HP Android", issue: "Bootloop / Stuck Logo", price: 100000, est: "3 Jam" },
             { cat: "Servis Software", item: "Unlock / FRP", issue: "Lupa Pola / Google", price: 150000, est: "4 Jam" },
             { cat: "Servis Software", item: "Data Recovery", issue: "Foto Hilang / Terformat", price: 300000, est: "Sesuai Antrisan" },
             { cat: "Servis Software", item: "Upgrade Storage", issue: "Memory Penuh", price: 150000, est: "1 Jam" },
-
-            // Hardware Detail (Kategori Baru)
             { cat: "Charging Port", item: "Konektor Cas", issue: "Tidak bisa charge / loyo", price: 100000, est: "2 Jam" },
             { cat: "IC Power", item: "Ganti IC Power", issue: "Mati Total", price: 250000, est: "1 Hari" },
             { cat: "IC Charging", item: "Ganti IC Charging", issue: "Tidak detect cas", price: 200000, est: "1 Hari" },
@@ -610,13 +610,9 @@
             { cat: "Kamera", item: "Ganti Kamera Belakang", issue: "Fokus Error", price: 200000, est: "1 Jam" },
             { cat: "Speaker / Mic", item: "Ganti Speaker", issue: "Suara Kecil / Kresek", price: 100000, est: "30 Menit" },
             { cat: "Speaker / Mic", item: "Ganti Mic", issue: "Lawan bicara tidak dengar", price: 100000, est: "30 Menit" },
-            
-            // Kerusakan Umum
             { cat: "Mati Total", item: "Cek Jalur / IC", issue: "HP Mati Total", price: 150000, est: "Check Dulu" },
             { cat: "Air Masuk", item: "Ultrasonic Cleaning", issue: "HP Kena Air", price: 100000, est: "24 Jam" },
             { cat: "Bootloop", item: "Repair Software", issue: "Bootloop Berat", price: 150000, est: "4 Jam" },
-            
-            // Maintenance
             { cat: "Maintenance Berkala", item: "Full Cleaning", issue: "Kotor / Debu", price: 75000, est: "1 Jam" }
         ];
 
@@ -629,7 +625,6 @@
                 if (localData) {
                     try {
                         data = JSON.parse(localData);
-                        // Check if master data is newer (simple version check)
                         if(data.length < masterServiceDatabase.length) {
                             console.log("Updating database...");
                             localStorage.setItem('malik_services_v2', JSON.stringify(masterServiceDatabase));
@@ -637,7 +632,6 @@
                             DB.logUpdate();
                         }
                     } catch (e) {
-                        console.error("DB Corrupt, restoring default");
                         localStorage.setItem('malik_services_v2', JSON.stringify(masterServiceDatabase));
                         data = masterServiceDatabase;
                         DB.logUpdate();
@@ -664,10 +658,10 @@
         DB.logUpdate();
 
         // ==========================================
-        // 3. AUTHENTICATION (SECURE PIN)
+        // 3. AUTHENTICATION (SERVER SIDE FIX)
         // ==========================================
-        async function hashString(str) {
-            const msgBuffer = new TextEncoder().encode(str);
+        async function sha256(message) {
+            const msgBuffer = new TextEncoder().encode(message);
             const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
             const hashArray = Array.from(new Uint8Array(hashBuffer));
             return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
@@ -676,32 +670,102 @@
         async function handleLogin() {
             const pinInput = document.getElementById('adminPin').value;
             const btn = document.getElementById('btnLogin');
+            const statusTxt = document.getElementById('loginStatus');
 
             if(!pinInput) { showToast("PIN wajib diisi"); return; }
 
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Verifikasi...';
+            // 1. Hash PIN
+            const hashedPin = await sha256(pinInput);
 
-            const hashedInput = await hashString(pinInput);
-            
-            // Check against default hash
-            if(hashedInput === CONFIG.DEFAULT_PIN_HASH) {
-                // Success
-                localStorage.setItem('malik_admin_session', JSON.stringify({ time: Date.now() }));
-                AuditLog.add("Admin Login Berhasil");
-                showToast("Login Berhasil", true);
-                document.getElementById('resDate').valueAsDate = new Date();
-                document.getElementById('resOrderId').value = generateOrderId();
-                updateLivePreview();
-                AuditLog.render();
-                navTo('admin-panel');
-            } else {
-                showToast("PIN Salah!");
-                AuditLog.add("Gagal Login (PIN Salah)");
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Menghubungi Server...';
+            statusTxt.innerText = "Memvalidasi ke Database...";
+            statusTxt.style.color = "blue";
+
+            try {
+                // 2. Kirim ke Google Apps Script
+                const response = await fetch(CONFIG.APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        action: "login",
+                        pinHash: hashedPin
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    localStorage.setItem('malik_admin_session', JSON.stringify({ time: Date.now() }));
+                    AuditLog.add(`Login Berhasil (${result.username})`);
+                    showToast("Login Berhasil!", true);
+                    document.getElementById('resDate').valueAsDate = new Date();
+                    document.getElementById('resOrderId').value = generateOrderId();
+                    updateLivePreview();
+                    AuditLog.render();
+                    navTo('admin-panel');
+                } else {
+                    showToast(result.message);
+                    AuditLog.add("Gagal Login: PIN Salah");
+                    statusTxt.innerText = result.message;
+                    statusTxt.style.color = "red";
+                }
+
+            } catch (error) {
+                console.error(error);
+                showToast("Gagal koneksi ke Server.");
+                statusTxt.innerText = "Error Koneksi. Cek Internet.";
+                statusTxt.style.color = "red";
             }
 
             btn.disabled = false;
             btn.innerHTML = '<span>Masuk Panel</span>';
+        }
+
+        // CEK RESI FUNCTION (NEW)
+        async function checkResi() {
+            const inputId = document.getElementById('checkResiInput').value.trim();
+            const resultBox = document.getElementById('resiResultBox');
+            const btn = document.getElementById('btnCheckResi');
+
+            if(!inputId) { showToast("Masukkan Nomor Order!"); return; }
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mencari...';
+
+            try {
+                const response = await fetch(CONFIG.APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        action: "check_resi",
+                        resiId: inputId
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    const d = result.data;
+                    resultBox.style.display = 'block';
+                    resultBox.innerHTML = `
+                        <div style="background:#eff6ff; padding:15px; border-radius:8px; border-left:4px solid var(--primary);">
+                            <h4 style="margin:0 0 10px 0; color:var(--primary);">Status Pesanan Ditemukan</h4>
+                            <p><strong>Nama:</strong> ${d.customerName}</p>
+                            <p><strong>Waktu:</strong> ${d.orderDate}</p>
+                            <p><strong>Status:</strong> <span style="color:var(--secondary); font-weight:bold;">${d.status}</span></p>
+                            <p><strong>Estimasi:</strong> ${d.total}</p>
+                        </div>
+                    `;
+                } else {
+                    resultBox.style.display = 'block';
+                    resultBox.innerHTML = `<div style="color:red; text-align:center; padding:10px;">${result.message}</div>`;
+                }
+
+            } catch (error) {
+                showToast("Gagal mengecek resi (Offline/Error)");
+            }
+
+            btn.disabled = false;
+            btn.innerHTML = 'Cek Status';
         }
 
         function checkSession() {
@@ -722,19 +786,16 @@
         // 4. UI LOGIC & NAVIGATION
         // ==========================================
         function navTo(sectionId, btnElement = null) {
-            // Auth Check for Admin Panel
             if(sectionId === 'admin-panel' && !checkSession()) {
                 navTo('login-section');
                 return;
             }
 
-            // Hide all sections
             document.querySelectorAll('.step-section, .full-width-section').forEach(sec => {
                 sec.classList.remove('active');
                 sec.style.display = 'none';
             });
             
-            // Show target
             const target = document.getElementById(sectionId);
             if(target) {
                 target.style.display = (sectionId === 'admin-panel' || sectionId === 'order-section' || sectionId === 'article-section') ? 'block' : 'block';
@@ -743,12 +804,10 @@
             
             window.scrollTo(0,0);
 
-            // Bottom Nav Active State
             if(btnElement) {
                 document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
                 btnElement.classList.add('active');
             } else {
-                // Manual mapping for non-nav clicks
                 document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
                 if(sectionId === 'home-section') document.querySelectorAll('.nav-item')[0].classList.add('active');
                 if(sectionId === 'order-section') document.querySelectorAll('.nav-item')[1].classList.add('active');
@@ -757,13 +816,8 @@
                 if(sectionId === 'login-section' || sectionId === 'admin-panel') document.querySelectorAll('.nav-item')[4].classList.add('active');
             }
 
-            // Init specific sections
-            if(sectionId === 'order-section') {
-                populateCategories();
-            }
-            if(sectionId === 'article-section') {
-                renderArticleList();
-            }
+            if(sectionId === 'order-section') populateCategories();
+            if(sectionId === 'article-section') renderArticleList();
         }
 
         function showToast(msg, isSuccess = false) {
@@ -787,7 +841,7 @@
 
         function populateCategories() {
             const select = document.getElementById('custCategory');
-            if(select.options.length > 1) return; // Already filled
+            if(select.options.length > 1) return;
 
             const categories = DB.getCategories(serviceData);
             categories.forEach(cat => {
@@ -825,7 +879,7 @@
             if(!document.getElementById('needPickup').checked) return 0;
             const dist = parseFloat(document.getElementById('pickupDistance').value) || 0;
             if(dist > 0 && dist < 5) return 25000;
-            if(dist >= 5) return 999999; // Flag
+            if(dist >= 5) return 999999;
             return 0;
         }
 
@@ -888,6 +942,9 @@
 
             let msg = `Halo Admin, saya mau servis.\n\nNama: ${name}\nWA: ${wa}\nAlamat: ${address}\n`;
             
+            // Generate ID untuk tracking
+            const newOrderId = generateOrderId(); 
+            
             if(servVal) {
                 const data = JSON.parse(servVal);
                 const pickup = calculatePickup();
@@ -896,22 +953,28 @@
                 if(pickup === 25000) { est += 25000; pickupInfo = "\nBiaya Pickup: +Rp 25.000"; }
                 if(pickup > 100000) { pickupInfo = "\nLokasi > 5km, mohon konfirmasi."; }
 
-                msg += `\n--- Detail Servis ---\nKategori: ${data.cat}\nLayanan: ${data.item}\nMasalah: ${data.issue}\nEstimasi Biaya: ${formatRupiah(est)}${pickupInfo}`;
+                msg += `\n--- Detail Servis ---\nID Order: ${newOrderId}\nKategori: ${data.cat}\nLayanan: ${data.item}\nMasalah: ${data.issue}\nEstimasi Biaya: ${formatRupiah(est)}${pickupInfo}`;
             }
 
-            // Save to Spreadsheet Logic (Non-blocking)
-            const payload = { name, wa, address, cat: servVal ? JSON.parse(servVal).cat : 'Umum', total: 0 };
+            // Save to Spreadsheet (Termasuk OrderID agar bisa ditracking)
+            const payload = { 
+                orderId: newOrderId,
+                name, wa, address, 
+                cat: servVal ? JSON.parse(servVal).cat : 'Umum', 
+                total: 0 // 0 kalo user isi form manual, tapi backend bisa nulis 0
+            };
+            
             fetch(CONFIG.APPS_SCRIPT_URL, {
                 method: 'POST',
                 body: JSON.stringify(payload)
-            }).catch(e => console.log("Offline or Error sending to DB")); // Silent fail
+            }).catch(e => console.log("Offline or Error sending to DB"));
 
             // Send WA
             window.open(`https://wa.me/6285713087659?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
         // ==========================================
-        // 6. RECEIPT LOGIC (No html2canvas)
+        // 6. RECEIPT LOGIC
         // ==========================================
         function generateOrderId() {
             const d = new Date();
@@ -956,23 +1019,18 @@
             document.getElementById('prevTotal').innerText = formatRupiah(total);
         }
 
-        function printReceipt() {
-            window.print();
-        }
+        function printReceipt() { window.print(); }
 
         function copyReceiptText() {
             const id = document.getElementById('prevId').innerText;
             const name = document.getElementById('prevName').innerText;
             const total = document.getElementById('prevTotal').innerText;
             const text = `RESI MALIK SERVICE\nNo: ${id}\nNama: ${name}\nTotal: ${total}\n\nTerima Kasih.`;
-            
-            navigator.clipboard.writeText(text).then(() => {
-                showToast("Teks Resi disalin!", true);
-            });
+            navigator.clipboard.writeText(text).then(() => showToast("Teks Resi disalin!", true));
         }
 
         // ==========================================
-        // 7. ARTICLE SYSTEM (30 Articles)
+        // 7. ARTICLE SYSTEM
         // ==========================================
         const articles = [
             { title: "HP Tidak Bisa Di-charge?", tag: "Tips HP", content: "Ini penyebab umumnya: 1. Kabel rusak. 2. Port kotor. 3. Baterai drop. Coba ganti kabel dulu ya." },
@@ -1009,8 +1067,7 @@
 
         function renderArticleList() {
             const container = document.getElementById('articleList');
-            if(container.children.length > 0) return; // Already rendered
-
+            if(container.children.length > 0) return;
             articles.forEach((art, index) => {
                 const div = document.createElement('div');
                 div.className = 'article-card';
@@ -1032,7 +1089,6 @@
             document.getElementById('articleList').style.display = 'none';
             const detail = document.getElementById('articleDetail');
             detail.style.display = 'block';
-            
             document.getElementById('detailTitle').innerText = art.title;
             document.getElementById('detailTag').innerText = art.tag;
             document.getElementById('detailContent').innerHTML = `<p>${art.content}</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>`;
