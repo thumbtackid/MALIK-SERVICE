@@ -883,32 +883,69 @@ Alamat: ${address}`;
             window.print();
         }
 
+        // ======================================================
+        // FUNGSI DOWNLOAD BARU (PERBAIKAN AKHIR UNTUK ANDROID)
+        // ======================================================
         function downloadReceiptImage() {
-            const id = document.getElementById('resOrderId').value;
-            const btn = document.getElementById('btnDownload');
+            const id = document.getElementById("resOrderId").value;
+            const btn = document.getElementById("btnDownload");
             
-            if(!id) { showToast('Nomor Order wajib diisi!'); return; }
+            if (!id) {
+                showToast("Nomor Order wajib diisi!");
+                return;
+            }
 
             const element = document.getElementById("receiptPreview");
             const originalText = btn.innerHTML;
+            
             btn.disabled = true;
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Memproses...';
 
-            html2canvas(element, { scale: 1 }).then(canvas => {
-                const jpegUrl = canvas.toDataURL("image/jpeg", 0.9);
-                const link = document.createElement('a');
-                link.download = `Resi-${id.replace(/[^a-zA-Z0-9]/g, '')}.jpg`;
-                link.href = jpegUrl;
-                document.body.appendChild(link);
-                const event = new MouseEvent('click', { view: window, bubbles: true, cancelable: true });
-                link.dispatchEvent(event);
-                document.body.removeChild(link);
-                showToast("Berhasil! Cek folder 'Download' di File Manager", true);
-                btn.disabled = false;
-                btn.innerHTML = originalText;
+            // Kita gunakan scale: 2 agar kualitas tajam di layar HP
+            // backgroundColor: '#ffffff' penting agar tidak transparan/hitam
+            html2canvas(element, { 
+                scale: 2, 
+                backgroundColor: "#ffffff",
+                useCORS: true 
+            }).then(canvas => {
+                
+                // Langkah 1: Ubah Canvas menjadi Binary Object (Blob)
+                // Ini lebih dikenali oleh Android/Chrome sebagai file asli dibanding Data URI (Base64)
+                canvas.toBlob(function(blob) {
+                    if (!blob) {
+                        showToast("Gagal membuat gambar (Browser error).");
+                        btn.disabled = false;
+                        btn.innerHTML = originalText;
+                        return;
+                    }
+
+                    // Langkah 2: Buat URL Objek Sementara
+                    const url = URL.createObjectURL(blob);
+                    
+                    // Langkah 3: Trigger Download "Native"
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = `Resi-MalikService-${id}.jpg`;
+                    document.body.appendChild(link);
+                    
+                    // Gunakan click() langsung, bukan dispatchEvent
+                    link.click();
+                    
+                    document.body.removeChild(link);
+
+                    // Langkah 4: Bersihkan memori URL setelah 100ms
+                    setTimeout(() => {
+                        URL.revokeObjectURL(url);
+                        showToast("Sedang mengunduh file...", true);
+                        btn.disabled = false;
+                        btn.innerHTML = originalText;
+                    }, 100);
+
+                }, 'image/jpeg', 0.95); // Kualitas JPEG 95%
+
             }).catch(err => {
                 console.error(err);
-                showToast("Gagal membuat gambar.");
+                showToast("Terjadi kesalahan saat render gambar.");
                 btn.disabled = false;
                 btn.innerHTML = originalText;
             });
