@@ -253,19 +253,19 @@
             <p class="subtitle">Solusi perbaikan HP, Laptop & Elektronik Cepat & Bergaransi.</p>
             
             <div class="service-grid">
-                <div class="service-card" onclick="selectQuickService('Servis HP', 'Ganti LCD')">
+                <div class="service-card" onclick="selectQuickService('HP Android', 'LCD retak')">
                     <i class="fa-solid fa-mobile-screen"></i>
                     <span>Ganti LCD</span>
                 </div>
-                <div class="service-card" onclick="selectQuickService('Servis HP', 'Ganti Baterai')">
+                <div class="service-card" onclick="selectQuickService('HP Android', 'Baterai drop / kembung')">
                     <i class="fa-solid fa-battery-full"></i>
                     <span>Baterai Baru</span>
                 </div>
-                <div class="service-card" onclick="selectQuickService('Servis Laptop', 'Servis Ringan')">
+                <div class="service-card" onclick="selectQuickService('Laptop', 'LCD pecah')">
                     <i class="fa-solid fa-laptop"></i>
                     <span>Servis Laptop</span>
                 </div>
-                <div class="service-card" onclick="selectQuickService('Servis HP', 'Water Damage')">
+                <div class="service-card" onclick="selectQuickService('HP Android', 'Water damage ringan / berat')">
                     <i class="fa-solid fa-droplet"></i>
                     <span>Air Masuk</span>
                 </div>
@@ -302,8 +302,11 @@
             <div class="form-group">
                 <label>Komponen & Kerusakan</label>
                 <select id="custService" onchange="updatePriceSummary()">
-                    <option value="">-- Pilih Kerusakan --</option>
+                    <option value="">-- Pilih Kerusakan & Harga --</option>
                 </select>
+                <small style="color:var(--text-light); font-size:0.8rem; margin-top:5px; display:block;">
+                    *Pilih kualitas sparepart di menu di atas (Ori/KW).
+                </small>
             </div>
 
             <!-- PICKUP -->
@@ -329,21 +332,22 @@
             <div id="priceDisplay" class="price-summary">
                 <div style="font-weight:bold; margin-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.2); padding-bottom:5px;">Rincian Biaya:</div>
                 <div class="price-row">
-                    <span>Sparepart:</span>
+                    <span>Estimasi Total:</span>
                     <span id="dispSparepart">Rp 0</span>
                 </div>
                 <div class="price-row">
-                    <span>Jasa:</span>
-                    <span id="dispService">Rp 0</span>
+                    <span>Waktu Pengerjaan:</span>
+                    <span id="dispService">-</span>
                 </div>
                 <div class="price-row" id="pickupRow" style="display:none; color:#fef08a;">
                     <span>Pickup:</span>
                     <span id="dispPickup">Rp 0</span>
                 </div>
                 <div class="price-total">
-                    <span>TOTAL:</span>
+                    <span>GRAND TOTAL:</span>
                     <span id="dispTotal">Rp 0</span>
                 </div>
+                <div style="font-size:0.75rem; margin-top:8px; font-style:italic; opacity:0.9;">*Harga estimasi & bisa berubah setelah pengecekan.</div>
             </div>
 
             <div style="margin: 20px 0; border-top: 1px solid var(--border);"></div>
@@ -551,25 +555,21 @@
         </button>
     </nav>
 
-    <!-- JAVASCRIPT (FULLY UPDATED) -->
+    <!-- JAVASCRIPT (FULLY UPDATED WITH NEW DB) -->
     <script>
         // ==========================================
-        // 1. KONFIGURASI & KEAMANAN (UPDATED URL)
+        // 1. KONFIGURASI & KEAMANAN
         // ==========================================
         const CONFIG = {
-            // URL BARU dari user
             APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbycskkRuzgLw670o_FaJynI9hJEDM48ELg-7NzUDgVLJi687yAKRMZXI2_cvw4WzsZR/exec", 
-            SESSION_TIMEOUT: 30 * 60 * 1000 // 30 menit
+            SESSION_TIMEOUT: 30 * 60 * 1000
         };
 
         // Audit Log Helper
         const AuditLog = {
             add: (action) => {
                 const logs = JSON.parse(localStorage.getItem('malik_audit_logs') || '[]');
-                const newLog = {
-                    time: new Date().toLocaleString('id-ID'),
-                    action: action
-                };
+                const newLog = { time: new Date().toLocaleString('id-ID'), action: action };
                 logs.unshift(newLog); 
                 if(logs.length > 20) logs.pop(); 
                 localStorage.setItem('malik_audit_logs', JSON.stringify(logs));
@@ -586,40 +586,226 @@
         };
 
         // ==========================================
-        // 2. DATABASE LAYANAN (Tetap Sama)
+        // 2. DATABASE LAYANAN (LARGE & UPDATED)
         // ==========================================
         const masterServiceDatabase = [
-            { cat: "Servis HP Android", item: "Ganti LCD", issue: "Layar pecah / touch error", price: 250000, est: "2 Jam" },
-            { cat: "Servis HP Android", item: "Ganti Baterai", issue: "Baterai boros / drop", price: 120000, est: "30 Menit" },
-            { cat: "Servis iPhone", item: "Ganti LCD iPhone", issue: "Touch disease / retak", price: 450000, est: "3 Jam" },
-            { cat: "Servis iPhone", item: "Ganti Baterai iPhone", issue: "Baterai drop", price: 250000, est: "1 Jam" },
-            { cat: "Servis Tablet", item: "Ganti LCD Tablet", issue: "Layar putus", price: 350000, est: "1 Hari" },
-            { cat: "Servis Tablet", item: "Ganti Baterai Tablet", issue: "Tidak menyala", price: 200000, est: "2 Jam" },
-            { cat: "Servis Laptop Ringan", item: "Ganti Keyboard Laptop", issue: "Tombol mati", price: 300000, est: "1 Hari" },
-            { cat: "Servis Laptop Ringan", item: "Upgrade SSD / RAM", issue: "Lambat / Penuh", price: 400000, est: "2 Jam" },
-            { cat: "Servis Laptop Ringan", item: "Thermal Paste", issue: "Overheat", price: 100000, est: "1 Jam" },
-            { cat: "Servis Software", item: "Install Ulang Windows", issue: "Bootloop / Virus", price: 150000, est: "2 Jam" },
-            { cat: "Servis Software", item: "Flash HP Android", issue: "Bootloop / Stuck Logo", price: 100000, est: "3 Jam" },
-            { cat: "Servis Software", item: "Unlock / FRP", issue: "Lupa Pola / Google", price: 150000, est: "4 Jam" },
-            { cat: "Servis Software", item: "Data Recovery", issue: "Foto Hilang / Terformat", price: 300000, est: "Sesuai Antrisan" },
-            { cat: "Servis Software", item: "Upgrade Storage", issue: "Memory Penuh", price: 150000, est: "1 Jam" },
-            { cat: "Charging Port", item: "Konektor Cas", issue: "Tidak bisa charge / loyo", price: 100000, est: "2 Jam" },
-            { cat: "IC Power", item: "Ganti IC Power", issue: "Mati Total", price: 250000, est: "1 Hari" },
-            { cat: "IC Charging", item: "Ganti IC Charging", issue: "Tidak detect cas", price: 200000, est: "1 Hari" },
-            { cat: "Kamera", item: "Ganti Kamera Depan", issue: "Blur / Black", price: 150000, est: "1 Jam" },
-            { cat: "Kamera", item: "Ganti Kamera Belakang", issue: "Fokus Error", price: 200000, est: "1 Jam" },
-            { cat: "Speaker / Mic", item: "Ganti Speaker", issue: "Suara Kecil / Kresek", price: 100000, est: "30 Menit" },
-            { cat: "Speaker / Mic", item: "Ganti Mic", issue: "Lawan bicara tidak dengar", price: 100000, est: "30 Menit" },
-            { cat: "Mati Total", item: "Cek Jalur / IC", issue: "HP Mati Total", price: 150000, est: "Check Dulu" },
-            { cat: "Air Masuk", item: "Ultrasonic Cleaning", issue: "HP Kena Air", price: 100000, est: "24 Jam" },
-            { cat: "Bootloop", item: "Repair Software", issue: "Bootloop Berat", price: 150000, est: "4 Jam" },
-            { cat: "Maintenance Berkala", item: "Full Cleaning", issue: "Kotor / Debu", price: 75000, est: "1 Jam" }
+            // HP Android - LCD
+            { cat: "HP Android", issue: "LCD retak", item: "LCD ORI", price: 550000, est: "3 Jam" },
+            { cat: "HP Android", issue: "LCD retak", item: "LCD ORI (Layar Besar)", price: 750000, est: "3 Jam" },
+            { cat: "HP Android", issue: "LCD retak", item: "LCD ORI (AMOLED/OLED)", price: 950000, est: "3 Jam" },
+            { cat: "HP Android", issue: "LCD retak", item: "LCD ORI (High Refresh Rate)", price: 1400000, est: "4 Jam" },
+            { cat: "HP Android", issue: "LCD retak", item: "LCD KW / OEM", price: 300000, est: "3 Jam" },
+            { cat: "HP Android", issue: "LCD retak", item: "LCD KW / OEM (Sedang)", price: 450000, est: "3 Jam" },
+            { cat: "HP Android", issue: "LCD retak", item: "LCD KW / OEM (Mendekati Ori)", price: 600000, est: "3 Jam" },
+            
+            // HP Android - Touchscreen
+            { cat: "HP Android", issue: "Touchscreen tidak respon", item: "Touchscreen ORI", price: 450000, est: "2 Jam" },
+            { cat: "HP Android", issue: "Touchscreen tidak respon", item: "Touchscreen ORI (Besar)", price: 650000, est: "2 Jam" },
+            { cat: "HP Android", issue: "Touchscreen tidak respon", item: "Touchscreen KW", price: 250000, est: "2 Jam" },
+            { cat: "HP Android", issue: "Touchscreen tidak respon", item: "Touchscreen KW (Standar)", price: 350000, est: "2 Jam" },
+
+            // HP Android - Baterai
+            { cat: "HP Android", issue: "Baterai drop / kembung", item: "Baterai ORI", price: 330000, est: "1 Jam" },
+            { cat: "HP Android", issue: "Baterai drop / kembung", item: "Baterai ORI (Kapasitas Besar)", price: 480000, est: "1 Jam" },
+            { cat: "HP Android", issue: "Baterai drop / kembung", item: "Baterai ORI (Fast Charging)", price: 680000, est: "1 Jam" },
+            { cat: "HP Android", issue: "Baterai drop / kembung", item: "Baterai KW / Universal", price: 200000, est: "1 Jam" },
+            { cat: "HP Android", issue: "Baterai drop / kembung", item: "Baterai KW / Universal (Sedang)", price: 260000, est: "1 Jam" },
+            { cat: "HP Android", issue: "Baterai drop / kembung", item: "Baterai KW / Universal (Tinggi)", price: 330000, est: "1 Jam" },
+
+            // HP Android - Konektor & IC
+            { cat: "HP Android", issue: "Konektor cas rusak", item: "Port Charging ORI", price: 200000, est: "1.5 Jam" },
+            { cat: "HP Android", issue: "Konektor cas rusak", item: "Port Charging ORI (Fast)", price: 250000, est: "1.5 Jam" },
+            { cat: "HP Android", issue: "Konektor cas rusak", item: "Port Charging KW", price: 150000, est: "1.5 Jam" },
+            { cat: "HP Android", issue: "Konektor cas rusak", item: "Port Charging KW (Lumayan)", price: 180000, est: "1.5 Jam" },
+            { cat: "HP Android", issue: "IC charging", item: "IC Power Management", price: 280000, est: "4 Jam" },
+            { cat: "HP Android", issue: "IC charging", item: "IC Power Management (Fitur Tambahan)", price: 370000, est: "4 Jam" },
+            { cat: "HP Android", issue: "IC power", item: "IC Power Main", price: 350000, est: "5 Jam" },
+            { cat: "HP Android", issue: "IC power", item: "IC Power Main (High-end)", price: 450000, est: "5 Jam" },
+
+            // HP Android - Speaker & Mic
+            { cat: "HP Android", issue: "Speaker mati", item: "Speaker ORI", price: 180000, est: "1 Jam" },
+            { cat: "HP Android", issue: "Speaker mati", item: "Speaker ORI (Stereo)", price: 220000, est: "1 Jam" },
+            { cat: "HP Android", issue: "Speaker mati", item: "Speaker KW", price: 120000, est: "1 Jam" },
+            { cat: "HP Android", issue: "Speaker mati", item: "Speaker KW (Standar)", price: 140000, est: "1 Jam" },
+            { cat: "HP Android", issue: "Mic mati", item: "Microphone ORI", price: 150000, est: "1 Jam" },
+            { cat: "HP Android", issue: "Mic mati", item: "Microphone ORI (Noise Cancel)", price: 180000, est: "1 Jam" },
+            { cat: "HP Android", issue: "Mic mati", item: "Microphone KW", price: 105000, est: "1 Jam" },
+            { cat: "HP Android", issue: "Mic mati", item: "Microphone KW (Biasa)", price: 120000, est: "1 Jam" },
+
+            // HP Android - Kamera
+            { cat: "HP Android", issue: "Kamera rusak", item: "Kamera Depan ORI", price: 250000, est: "1.5 Jam" },
+            { cat: "HP Android", issue: "Kamera rusak", item: "Kamera Depan ORI (Tinggi)", price: 350000, est: "1.5 Jam" },
+            { cat: "HP Android", issue: "Kamera rusak", item: "Kamera Belakang ORI (Utama)", price: 350000, est: "2 Jam" },
+            { cat: "HP Android", issue: "Kamera rusak", item: "Kamera Belakang ORI (Wide)", price: 500000, est: "2 Jam" },
+            { cat: "HP Android", issue: "Kamera rusak", item: "Kamera Belakang ORI (Tele)", price: 600000, est: "2 Jam" },
+            { cat: "HP Android", issue: "Kamera rusak", item: "Kamera KW", price: 180000, est: "1.5 Jam" },
+            { cat: "HP Android", issue: "Kamera rusak", item: "Kamera KW (Deklarasi)", price: 220000, est: "1.5 Jam" },
+
+            // HP Android - Tombol & Software
+            { cat: "HP Android", issue: "Tombol power / volume", item: "Tombol ORI", price: 110000, est: "1 Jam" },
+            { cat: "HP Android", issue: "Tombol power / volume", item: "Tombol ORI (Flex Cable)", price: 130000, est: "1 Jam" },
+            { cat: "HP Android", issue: "Tombol power / volume", item: "Tombol KW", price: 65000, est: "1 Jam" },
+            { cat: "HP Android", issue: "Tombol power / volume", item: "Tombol KW (Awet)", price: 75000, est: "1 Jam" },
+            { cat: "HP Android", issue: "Bootloop / software error", item: "Software Repair", price: 150000, est: "2 Jam" },
+            { cat: "HP Android", issue: "Bootloop / software error", item: "Software Repair (Backup)", price: 200000, est: "3 Jam" },
+            { cat: "HP Android", issue: "Flashing / install ulang Android", item: "Software Service", price: 100000, est: "2 Jam" },
+            { cat: "HP Android", issue: "Flashing / install ulang Android", item: "Software Service (Unbrick)", price: 150000, est: "2.5 Jam" },
+
+            // HP Android - Water & Mati Total
+            { cat: "HP Android", issue: "Water damage ringan / berat", item: "Cleaning Service", price: 200000, est: "1 Hari" },
+            { cat: "HP Android", issue: "Water damage ringan / berat", item: "Cleaning Service (Berat)", price: 350000, est: "1-2 Hari" },
+            { cat: "HP Android", issue: "Water damage ringan / berat", item: "Component Replacement", price: 350000, est: "1 Hari" },
+            { cat: "HP Android", issue: "HP mati total", item: "Diagnosis", price: 50000, est: "1 Jam" },
+            { cat: "HP Android", issue: "HP mati total", item: "Mainboard Repair", price: 500000, est: "2 Hari" },
+            { cat: "HP Android", issue: "HP mati total", item: "Mainboard Repair (IC Replacement)", price: 750000, est: "2-3 Hari" },
+
+            // LAPTOP - LCD
+            { cat: "Laptop", issue: "LCD pecah", item: "LCD ORI (14 inch HD)", price: 1000000, est: "1 Hari" },
+            { cat: "Laptop", issue: "LCD pecah", item: "LCD ORI (15.6 inch FHD)", price: 1300000, est: "1 Hari" },
+            { cat: "Laptop", issue: "LCD pecah", item: "LCD ORI (17.3 inch FHD)", price: 1750000, est: "1 Hari" },
+            { cat: "Laptop", issue: "LCD pecah", item: "LCD ORI (Touchscreen)", price: 2300000, est: "1 Hari" },
+            { cat: "Laptop", issue: "LCD pecah", item: "LCD OEM / KW (14 inch)", price: 650000, est: "1 Hari" },
+            { cat: "Laptop", issue: "LCD pecah", item: "LCD OEM / KW (15.6 inch)", price: 850000, est: "1 Hari" },
+            { cat: "Laptop", issue: "LCD pecah", item: "LCD OEM / KW (17.3 inch)", price: 1100000, est: "1 Hari" },
+
+            // LAPTOP - Keyboard & Baterai
+            { cat: "Laptop", issue: "Keyboard rusak", item: "Keyboard ORI (Standard)", price: 450000, est: "3 Jam" },
+            { cat: "Laptop", issue: "Keyboard rusak", item: "Keyboard ORI (Backlit)", price: 650000, est: "3 Jam" },
+            { cat: "Laptop", issue: "Keyboard rusak", item: "Keyboard ORI (Gaming)", price: 900000, est: "4 Jam" },
+            { cat: "Laptop", issue: "Keyboard rusak", item: "Keyboard OEM / Universal", price: 250000, est: "2 Jam" },
+            { cat: "Laptop", issue: "Keyboard rusak", item: "Keyboard OEM / Universal (Lengkap)", price: 350000, est: "2 Jam" },
+            { cat: "Laptop", issue: "Baterai laptop drop", item: "Baterai ORI (3 cell)", price: 500000, est: "1 Jam" },
+            { cat: "Laptop", issue: "Baterai laptop drop", item: "Baterai ORI (4 cell)", price: 700000, est: "1 Jam" },
+            { cat: "Laptop", issue: "Baterai laptop drop", item: "Baterai ORI (6 cell)", price: 900000, est: "1 Jam" },
+            { cat: "Laptop", issue: "Baterai laptop drop", item: "Baterai OEM / Universal (3 cell)", price: 280000, est: "1 Jam" },
+            { cat: "Laptop", issue: "Baterai laptop drop", item: "Baterai OEM / Universal (4 cell)", price: 430000, est: "1 Jam" },
+            { cat: "Laptop", issue: "Baterai laptop drop", item: "Baterai OEM / Universal (6 cell)", price: 530000, est: "1 Jam" },
+
+            // LAPTOP - Charger & Software
+            { cat: "Laptop", issue: "Charger rusak", item: "Charger ORI (45-65W)", price: 350000, est: "0.5 Jam" },
+            { cat: "Laptop", issue: "Charger rusak", item: "Charger ORI (90-120W)", price: 550000, est: "0.5 Jam" },
+            { cat: "Laptop", issue: "Charger rusak", item: "Charger ORI (Gaming)", price: 750000, est: "0.5 Jam" },
+            { cat: "Laptop", issue: "Charger rusak", item: "Charger Universal (Rendah)", price: 200000, est: "0.5 Jam" },
+            { cat: "Laptop", issue: "Charger rusak", item: "Charger Universal (Menengah)", price: 300000, est: "0.5 Jam" },
+            { cat: "Laptop", issue: "Charger rusak", item: "Charger Universal (Tinggi)", price: 400000, est: "0.5 Jam" },
+            { cat: "Laptop", issue: "Install ulang Windows", item: "Windows OS (Original)", price: 150000, est: "2 Jam" },
+            { cat: "Laptop", issue: "Install ulang Windows", item: "Windows OS (Aktivator)", price: 100000, est: "2 Jam" },
+            { cat: "Laptop", issue: "Install ulang Windows", item: "Windows OS + Software Office", price: 200000, est: "3 Jam" },
+
+            // LAPTOP - Lemot & Overheat
+            { cat: "Laptop", issue: "Laptop lemot", item: "Upgrade RAM (4GB)", price: 350000, est: "1 Jam" },
+            { cat: "Laptop", issue: "Laptop lemot", item: "Upgrade RAM (8GB)", price: 550000, est: "1 Jam" },
+            { cat: "Laptop", issue: "Laptop lemot", item: "Upgrade RAM (16GB)", price: 950000, est: "1 Jam" },
+            { cat: "Laptop", issue: "Laptop lemot", item: "Upgrade SSD (256GB SATA)", price: 450000, est: "1.5 Jam" },
+            { cat: "Laptop", issue: "Laptop lemot", item: "Upgrade SSD (512GB NVMe)", price: 750000, est: "1.5 Jam" },
+            { cat: "Laptop", issue: "Laptop lemot", item: "Upgrade SSD (1TB NVMe)", price: 1450000, est: "1.5 Jam" },
+            { cat: "Laptop", issue: "Overheat / thermal paste", item: "Thermal Paste (Standar)", price: 150000, est: "1 Jam" },
+            { cat: "Laptop", issue: "Overheat / thermal paste", item: "Thermal Paste (Premium)", price: 200000, est: "1 Jam" },
+            { cat: "Laptop", issue: "Overheat / thermal paste", item: "Fan Cleaning + Paste", price: 150000, est: "1.5 Jam" },
+            { cat: "Laptop", issue: "Overheat / thermal paste", item: "Fan Replacement", price: 350000, est: "2 Jam" },
+
+            // LAPTOP - Mati Total & MoBo
+            { cat: "Laptop", issue: "Mati total", item: "Diagnosis", price: 100000, est: "2 Jam" },
+            { cat: "Laptop", issue: "Mati total", item: "Mainboard Repair (Short)", price: 700000, est: "3-5 Hari" },
+            { cat: "Laptop", issue: "Mati total", item: "Mainboard Repair (GPU/CPU)", price: 1100000, est: "5-7 Hari" },
+            { cat: "Laptop", issue: "Tidak bisa charging", item: "DC Jack", price: 230000, est: "2 Jam" },
+            { cat: "Laptop", issue: "Tidak bisa charging", item: "DC Jack (Flex)", price: 270000, est: "2 Jam" },
+            { cat: "Laptop", issue: "Tidak bisa charging", item: "Charging Circuit", price: 350000, est: "1 Hari" },
+            { cat: "Laptop", issue: "Motherboard repair", item: "BIOS Repair", price: 300000, est: "2 Hari" },
+            { cat: "Laptop", issue: "Motherboard repair", item: "VRM Repair", price: 500000, est: "3 Hari" },
+            { cat: "Laptop", issue: "Motherboard repair", item: "GPU Repair", price: 750000, est: "5 Hari" },
+            { cat: "Laptop", issue: "Motherboard repair", item: "CPU Socket", price: 700000, est: "4 Hari" },
+
+            // ADDITIONAL VARIANTS BASED ON USER LIST (To ensure completeness)
+            { cat: "HP Android", issue: "LCD retak", item: "LCD ORI (6.1 inch)", price: 570000, est: "3 Jam" },
+            { cat: "HP Android", issue: "LCD retak", item: "LCD ORI (6.5 inch)", price: 670000, est: "3 Jam" },
+            { cat: "HP Android", issue: "LCD retak", item: "LCD ORI (6.7 inch)", price: 850000, est: "3 Jam" },
+            { cat: "HP Android", issue: "LCD retak", item: "LCD ORI (Curved)", price: 1080000, est: "4 Jam" },
+            { cat: "HP Android", issue: "LCD retak", item: "LCD KW (5.5-6 inch)", price: 260000, est: "3 Jam" },
+            { cat: "HP Android", issue: "LCD retak", item: "LCD KW (6.2-6.4 inch)", price: 360000, est: "3 Jam" },
+            { cat: "HP Android", issue: "LCD retak", item: "LCD KW (6.5-6.7 inch)", price: 460000, est: "3 Jam" },
+            { cat: "HP Android", issue: "Baterai drop / kembung", item: "Baterai ORI (4000mAh)", price: 350000, est: "1 Jam" },
+            { cat: "HP Android", issue: "Baterai drop / kembung", item: "Baterai ORI (5000mAh)", price: 420000, est: "1 Jam" },
+            { cat: "HP Android", issue: "Baterai drop / kembung", item: "Baterai ORI (6000mAh)", price: 520000, est: "1 Jam" },
+            { cat: "HP Android", issue: "Baterai drop / kembung", item: "Baterai KW (3000-3500mAh)", price: 170000, est: "1 Jam" },
+            { cat: "HP Android", issue: "Baterai drop / kembung", item: "Baterai KW (4000-4500mAh)", price: 220000, est: "1 Jam" },
+            { cat: "HP Android", issue: "Baterai drop / kembung", item: "Baterai KW (5000-5500mAh)", price: 270000, est: "1 Jam" },
+            { cat: "HP Android", issue: "Konektor cas rusak", item: "Port Charging ORI (USB-C)", price: 210000, est: "1.5 Jam" },
+            { cat: "HP Android", issue: "Konektor cas rusak", item: "Port Charging ORI (USB-C Video)", price: 270000, est: "1.5 Jam" },
+            { cat: "HP Android", issue: "Konektor cas rusak", item: "Port Charging KW (Micro USB)", price: 120000, est: "1.5 Jam" },
+            { cat: "HP Android", issue: "Konektor cas rusak", item: "Port Charging KW (USB-C)", price: 150000, est: "1.5 Jam" },
+            { cat: "HP Android", issue: "Speaker mati", item: "Speaker ORI (Bawah)", price: 190000, est: "1 Jam" },
+            { cat: "HP Android", issue: "Speaker mati", item: "Speaker ORI (Stereo Dual)", price: 240000, est: "1 Jam" },
+            { cat: "HP Android", issue: "Speaker mati", item: "Speaker KW (Single)", price: 120000, est: "1 Jam" },
+            { cat: "HP Android", issue: "Speaker mati", item: "Speaker KW (Dual)", price: 150000, est: "1 Jam" },
+            { cat: "HP Android", issue: "Kamera rusak", item: "Kamera Depan ORI (16-20MP)", price: 270000, est: "1.5 Jam" },
+            { cat: "HP Android", issue: "Kamera rusak", item: "Kamera Depan ORI (25-32MP)", price: 310000, est: "1.5 Jam" },
+            { cat: "HP Android", issue: "Kamera rusak", item: "Kamera Belakang ORI (48-64MP)", price: 380000, est: "2 Jam" },
+            { cat: "HP Android", issue: "Kamera rusak", item: "Kamera Belakang ORI (108MP)", price: 430000, est: "2 Jam" },
+            { cat: "HP Android", issue: "Kamera rusak", item: "Kamera KW (Depan 8-12MP)", price: 190000, est: "1.5 Jam" },
+            { cat: "HP Android", issue: "Kamera rusak", item: "Kamera KW (Belakang 48MP)", price: 240000, est: "1.5 Jam" },
+            { cat: "HP Android", issue: "Water damage ringan / berat", item: "Ultrasonic Cleaning", price: 250000, est: "1 Hari" },
+            { cat: "HP Android", issue: "Water damage ringan / berat", item: "Component Level Repair", price: 500000, est: "2 Hari" },
+            { cat: "HP Android", issue: "HP mati total", item: "Power IC Replacement", price: 400000, est: "2 Hari" },
+            { cat: "HP Android", issue: "HP mati total", item: "CPU Reballing", price: 450000, est: "3 Hari" },
+
+            // LAPTOP EXTRAS
+            { cat: "Laptop", issue: "LCD pecah", item: "LCD ORI (14 inch FHD IPS)", price: 1080000, est: "1 Hari" },
+            { cat: "Laptop", issue: "LCD pecah", item: "LCD ORI (15.6 inch 2K)", price: 1480000, est: "1 Hari" },
+            { cat: "Laptop", issue: "LCD pecah", item: "LCD ORI (17.3 inch 2K 144Hz)", price: 2050000, est: "1 Hari" },
+            { cat: "Laptop", issue: "LCD pecah", item: "LCD OEM (14 inch HD TN)", price: 730000, est: "1 Hari" },
+            { cat: "Laptop", issue: "LCD pecah", item: "LCD OEM (15.6 inch FHD TN)", price: 930000, est: "1 Hari" },
+            { cat: "Laptop", issue: "Keyboard rusak", item: "Keyboard ORI (Chiclet)", price: 480000, est: "3 Jam" },
+            { cat: "Laptop", issue: "Keyboard rusak", item: "Keyboard ORI (Numpad)", price: 580000, est: "3 Jam" },
+            { cat: "Laptop", issue: "Keyboard rusak", item: "Keyboard OEM (Non-backlit)", price: 260000, est: "2 Jam" },
+            { cat: "Laptop", issue: "Keyboard rusak", item: "Keyboard OEM (Backlight)", price: 360000, est: "2 Jam" },
+            { cat: "Laptop", issue: "Baterai laptop drop", item: "Baterai ORI (3 Cell)", price: 540000, est: "1 Jam" },
+            { cat: "Laptop", issue: "Baterai laptop drop", item: "Baterai ORI (4 Cell)", price: 640000, est: "1 Jam" },
+            { cat: "Laptop", issue: "Baterai laptop drop", item: "Baterai ORI (6 Cell)", price: 840000, est: "1 Jam" },
+            { cat: "Laptop", issue: "Baterai laptop drop", item: "Baterai OEM (3 Cell Universal)", price: 250000, est: "1 Jam" },
+            { cat: "Laptop", issue: "Baterai laptop drop", item: "Baterai OEM (4 Cell Universal)", price: 370000, est: "1 Jam" },
+            { cat: "Laptop", issue: "Baterai laptop drop", item: "Baterai OEM (6 Cell Universal)", price: 470000, est: "1 Jam" },
+            { cat: "Laptop", issue: "Install ulang Windows", item: "Windows + Antivirus", price: 180000, est: "2.5 Jam" },
+            { cat: "Laptop", issue: "Laptop lemot", item: "HDD to SSD Upgrade (512GB)", price: 530000, est: "2 Jam" },
+            { cat: "Laptop", issue: "Laptop lemot", item: "Dual Channel RAM (2x8GB)", price: 680000, est: "1.5 Jam" },
+            { cat: "Laptop", issue: "Overheat / thermal paste", item: "Liquid Metal", price: 300000, est: "2 Jam" },
+            { cat: "Laptop", issue: "Overheat / thermal paste", item: "Heatsink Replacement", price: 500000, est: "3 Jam" },
+            { cat: "Laptop", issue: "Mati total", item: "PSU Repair", price: 280000, est: "2 Hari" },
+            { cat: "Laptop", issue: "Mati total", item: "RAM Slot Repair", price: 230000, est: "2 Hari" },
+            { cat: "Laptop", issue: "Tidak bisa charging", item: "Charging Board", price: 280000, est: "3 Jam" },
+            { cat: "Laptop", issue: "Motherboard repair", item: "Chipset Repair", price: 600000, est: "4 Hari" },
+            { cat: "Laptop", issue: "Motherboard repair", item: "RAM Circuit", price: 330000, est: "3 Hari" },
+            { cat: "HP Android", issue: "IC charging", item: "IC Fast Charging", price: 270000, est: "4 Jam" },
+            { cat: "HP Android", issue: "IC power", item: "Power IC Main", price: 340000, est: "4 Jam" },
+            { cat: "HP Android", issue: "Bootloop / software error", item: "EMMC Replacement", price: 450000, est: "1 Hari" },
+            { cat: "HP Android", issue: "Flashing / install ulang Android", item: "FRP Remove", price: 120000, est: "1.5 Jam" },
+            { cat: "HP Android", issue: "Water damage ringan / berat", item: "Deep Cleaning", price: 180000, est: "1 Hari" },
+            { cat: "HP Android", issue: "HP mati total", item: "Jumper Line", price: 200000, est: "2 Hari" },
+            { cat: "Laptop", issue: "Install ulang Windows", item: "Data Backup + OS", price: 220000, est: "3 Jam" },
+            { cat: "Laptop", issue: "Laptop lemot", item: "Clean Install", price: 120000, est: "2 Jam" },
+            { cat: "Laptop", issue: "Overheat / thermal paste", item: "Fan Replacement + Paste", price: 370000, est: "2 Jam" },
+            { cat: "Laptop", issue: "Mati total", item: "Water Damage Repair", price: 550000, est: "3 Hari" },
+            { cat: "Laptop", issue: "Tidak bisa charging", item: "Battery Circuit", price: 220000, est: "1 Hari" },
+            { cat: "Laptop", issue: "Motherboard repair", item: "BIOS Chip", price: 200000, est: "2 Hari" },
+            { cat: "HP Android", issue: "Touchscreen tidak respon", item: "Digitizer ORI", price: 370000, est: "2 Jam" },
+            { cat: "HP Android", issue: "Touchscreen tidak respon", item: "Digitizer KW", price: 180000, est: "2 Jam" },
+            { cat: "HP Android", issue: "Mic mati", item: "Microphone Array", price: 230000, est: "1.5 Jam" },
+            { cat: "HP Android", issue: "Kamera rusak", item: "Camera Module Full", price: 540000, est: "2 Jam" },
+            { cat: "HP Android", issue: "Tombol power / volume", item: "Side Button ORI (Fingerprint)", price: 100000, est: "1 Jam" },
+            { cat: "HP Android", issue: "Tombol power / volume", item: "Side Button KW", price: 60000, est: "1 Jam" },
+            { cat: "Laptop", issue: "LCD pecah", item: "Bezel Replacement", price: 100000, est: "1 Jam" },
+            { cat: "Laptop", issue: "Keyboard rusak", item: "Keycap Replacement", price: 50000, est: "0.5 Jam" },
+            { cat: "Laptop", issue: "Charger rusak", item: "Cable Replacement", price: 80000, est: "0.5 Jam" },
+            { cat: "HP Android", issue: "LCD retak", item: "LCD+Touch ORI", price: 640000, est: "3 Jam" },
+            { cat: "HP Android", issue: "LCD retak", item: "LCD+Touch KW", price: 400000, est: "3 Jam" },
+            { cat: "Laptop", issue: "Baterai laptop drop", item: "Baterai High Capacity", price: 745000, est: "1 Jam" },
+            { cat: "HP Android", issue: "Baterai drop / kembung", item: "Baterai Extended", price: 395000, est: "1 Jam" }
         ];
 
         // Database Manager
         const DB = {
             init: () => {
-                const localData = localStorage.getItem('malik_services_v2');
+                const localData = localStorage.getItem('malik_services_v3');
                 let data = [];
 
                 if (localData) {
@@ -627,17 +813,17 @@
                         data = JSON.parse(localData);
                         if(data.length < masterServiceDatabase.length) {
                             console.log("Updating database...");
-                            localStorage.setItem('malik_services_v2', JSON.stringify(masterServiceDatabase));
+                            localStorage.setItem('malik_services_v3', JSON.stringify(masterServiceDatabase));
                             data = masterServiceDatabase;
                             DB.logUpdate();
                         }
                     } catch (e) {
-                        localStorage.setItem('malik_services_v2', JSON.stringify(masterServiceDatabase));
+                        localStorage.setItem('malik_services_v3', JSON.stringify(masterServiceDatabase));
                         data = masterServiceDatabase;
                         DB.logUpdate();
                     }
                 } else {
-                    localStorage.setItem('malik_services_v2', JSON.stringify(masterServiceDatabase));
+                    localStorage.setItem('malik_services_v3', JSON.stringify(masterServiceDatabase));
                     data = masterServiceDatabase;
                     DB.logUpdate();
                 }
@@ -658,7 +844,7 @@
         DB.logUpdate();
 
         // ==========================================
-        // 3. AUTHENTICATION (SERVER SIDE FIX)
+        // 3. AUTHENTICATION (SERVER SIDE)
         // ==========================================
         async function sha256(message) {
             const msgBuffer = new TextEncoder().encode(message);
@@ -674,7 +860,6 @@
 
             if(!pinInput) { showToast("PIN wajib diisi"); return; }
 
-            // 1. Hash PIN
             const hashedPin = await sha256(pinInput);
 
             btn.disabled = true;
@@ -683,7 +868,6 @@
             statusTxt.style.color = "blue";
 
             try {
-                // 2. Kirim ke Google Apps Script
                 const response = await fetch(CONFIG.APPS_SCRIPT_URL, {
                     method: 'POST',
                     body: JSON.stringify({
@@ -721,7 +905,7 @@
             btn.innerHTML = '<span>Masuk Panel</span>';
         }
 
-        // CEK RESI FUNCTION (NEW)
+        // CEK RESI FUNCTION
         async function checkResi() {
             const inputId = document.getElementById('checkResiInput').value.trim();
             const resultBox = document.getElementById('resiResultBox');
@@ -855,7 +1039,7 @@
         function populateServiceDropdown() {
             const cat = document.getElementById('custCategory').value;
             const servSelect = document.getElementById('custService');
-            servSelect.innerHTML = '<option value="">-- Pilih Kerusakan --</option>';
+            servSelect.innerHTML = '<option value="">-- Pilih Kerusakan & Harga --</option>';
             document.getElementById('priceDisplay').style.display = 'none';
 
             if(!cat) return;
@@ -864,7 +1048,8 @@
             filtered.forEach(item => {
                 const opt = document.createElement('option');
                 opt.value = JSON.stringify(item);
-                opt.textContent = `${item.item} - ${item.issue}`;
+                // Update: Menampilkan Harga di Dropdown agar user tahu beda Ori/KW
+                opt.textContent = `${item.issue} (${item.item}) - ${formatRupiah(item.price)}`;
                 servSelect.appendChild(opt);
             });
         }
@@ -907,8 +1092,9 @@
                 document.getElementById('pickupRow').style.display = 'none';
             }
 
-            document.getElementById('dispSparepart').textContent = "Termasuk Jasa (Paket)";
-            document.getElementById('dispService').textContent = formatRupiah(data.price);
+            // Menampilkan Total Estimasi di Rincian
+            document.getElementById('dispSparepart').textContent = formatRupiah(data.price);
+            document.getElementById('dispService').textContent = data.est;
             document.getElementById('dispPickup').textContent = pickupText;
             document.getElementById('pickupFeeText').textContent = pickupText === "> 5km (Admin Only)" ? pickupText : `Biaya Pickup: ${pickupText}`;
             document.getElementById('dispTotal').textContent = typeof finalDisplay === 'number' ? formatRupiah(finalDisplay) : finalDisplay;
@@ -942,7 +1128,6 @@
 
             let msg = `Halo Admin, saya mau servis.\n\nNama: ${name}\nWA: ${wa}\nAlamat: ${address}\n`;
             
-            // Generate ID untuk tracking
             const newOrderId = generateOrderId(); 
             
             if(servVal) {
@@ -953,15 +1138,14 @@
                 if(pickup === 25000) { est += 25000; pickupInfo = "\nBiaya Pickup: +Rp 25.000"; }
                 if(pickup > 100000) { pickupInfo = "\nLokasi > 5km, mohon konfirmasi."; }
 
-                msg += `\n--- Detail Servis ---\nID Order: ${newOrderId}\nKategori: ${data.cat}\nLayanan: ${data.item}\nMasalah: ${data.issue}\nEstimasi Biaya: ${formatRupiah(est)}${pickupInfo}`;
+                msg += `\n--- Detail Servis ---\nID Order: ${newOrderId}\nKategori: ${data.cat}\nLayanan: ${data.item}\nMasalah: ${data.issue}\nEstimasi: ${formatRupiah(est)} (${data.est})${pickupInfo}`;
             }
 
-            // Save to Spreadsheet (Termasuk OrderID agar bisa ditracking)
             const payload = { 
                 orderId: newOrderId,
                 name, wa, address, 
                 cat: servVal ? JSON.parse(servVal).cat : 'Umum', 
-                total: 0 // 0 kalo user isi form manual, tapi backend bisa nulis 0
+                total: 0 
             };
             
             fetch(CONFIG.APPS_SCRIPT_URL, {
@@ -969,7 +1153,6 @@
                 body: JSON.stringify(payload)
             }).catch(e => console.log("Offline or Error sending to DB"));
 
-            // Send WA
             window.open(`https://wa.me/6285713087659?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
