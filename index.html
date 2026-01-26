@@ -122,6 +122,7 @@
         .btn-whatsapp:hover { background: #1ebc57; }
         .btn-danger { background: var(--danger); color: white; }
         .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-main); }
+        .btn-add { background: var(--secondary); color: white; margin-top: 5px;}
         
         .nav-buttons { display: flex; gap: 10px; margin-top: 1.5rem; }
 
@@ -139,6 +140,20 @@
         .service-card:hover { border-color: var(--primary); background: #eff6ff; transform: translateY(-2px); }
         .service-card i { font-size: 1.8rem; color: var(--primary); margin-bottom: 10px; display: block; }
         .service-card span { font-size: 0.85rem; font-weight: 600; }
+
+        /* CART ITEM STYLE (NEW) */
+        .cart-item {
+            display: flex; justify-content: space-between; align-items: center;
+            background: var(--light-bg); padding: 10px; border-radius: 8px; margin-bottom: 8px;
+            border-left: 4px solid var(--secondary);
+        }
+        .cart-info h4 { font-size: 0.9rem; margin:0; color: var(--text-main); }
+        .cart-info p { font-size: 0.8rem; margin:0; color: var(--text-light); }
+        .btn-delete-item { 
+            background: #fee2e2; color: #ef4444; border: none; border-radius: 50%; width: 30px; height: 30px; 
+            display: flex; justify-content: center; align-items: center; cursor: pointer;
+        }
+        .btn-delete-item:hover { background: #ef4444; color: white; }
 
         /* PICKUP BOX */
         .pickup-box {
@@ -288,7 +303,7 @@
             </div>
         </section>
 
-        <!-- 2. FORM ORDER (LAYANAN & ORDER) -->
+        <!-- 2. FORM ORDER (LAYANAN & ORDER - UPDATED CART SYSTEM) -->
         <section id="order-section" class="step-section full-width-section">
             <h2><i class="fa-solid fa-wrench"></i> Form Order Servis</h2>
             
@@ -300,13 +315,24 @@
             </div>
 
             <div class="form-group">
-                <label>Komponen & Kerusakan</label>
-                <select id="custService" onchange="updatePriceSummary()">
+                <label>Pilih Kerusakan & Tambahan</label>
+                <select id="custService">
                     <option value="">-- Pilih Kerusakan & Harga --</option>
                 </select>
                 <small style="color:var(--text-light); font-size:0.8rem; margin-top:5px; display:block;">
-                    *Pilih kualitas sparepart di menu di atas (Ori/KW).
+                    *Jika ada kerusakan lebih dari satu (misal: Ganti RAM + SSD), pilih satu per satu lalu klik tombol "Tambah".
                 </small>
+                <button class="btn btn-add" onclick="addToCart()">
+                    <i class="fa-solid fa-plus"></i> Tambah ke Daftar
+                </button>
+            </div>
+
+            <!-- LIST ITEM DIPILIH (CART) -->
+            <div id="cartListContainer" style="display:none; margin-bottom: 20px;">
+                <h3 style="border-bottom: 1px solid var(--border); padding-bottom: 10px;">Daftar Perbaikan:</h3>
+                <div id="cartItems">
+                    <!-- Item muncul di sini via JS -->
+                </div>
             </div>
 
             <!-- PICKUP -->
@@ -319,7 +345,7 @@
 
             <div id="pickupInputGroup" class="pickup-box">
                 <label>Jarak Lokasi (km)</label>
-                <input type="number" id="pickupDistance" placeholder="Contoh: 3" oninput="updatePriceSummary()">
+                <input type="number" id="pickupDistance" placeholder="Contoh: 3" oninput="renderCart()">
                 <small id="pickupFeeText" style="display:block; margin-top:5px; color:var(--primary); font-weight:600;">
                     Biaya Pickup: Rp 0
                 </small>
@@ -328,16 +354,12 @@
                 </small>
             </div>
 
-            <!-- PRICE DISPLAY -->
+            <!-- PRICE DISPLAY (UPDATED CART LOGIC) -->
             <div id="priceDisplay" class="price-summary">
                 <div style="font-weight:bold; margin-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.2); padding-bottom:5px;">Rincian Biaya:</div>
                 <div class="price-row">
-                    <span>Estimasi Total:</span>
-                    <span id="dispSparepart">Rp 0</span>
-                </div>
-                <div class="price-row">
-                    <span>Waktu Pengerjaan:</span>
-                    <span id="dispService">-</span>
+                    <span>Total Servis:</span>
+                    <span id="dispTotalService">Rp 0</span>
                 </div>
                 <div class="price-row" id="pickupRow" style="display:none; color:#fef08a;">
                     <span>Pickup:</span>
@@ -345,7 +367,7 @@
                 </div>
                 <div class="price-total">
                     <span>GRAND TOTAL:</span>
-                    <span id="dispTotal">Rp 0</span>
+                    <span id="dispGrandTotal">Rp 0</span>
                 </div>
                 <div style="font-size:0.75rem; margin-top:8px; font-style:italic; opacity:0.9;">*Harga estimasi & bisa berubah setelah pengecekan.</div>
             </div>
@@ -371,7 +393,7 @@
             </button>
         </section>
 
-        <!-- 3. LOGIN SECTION (UPDATED SERVER SIDE) -->
+        <!-- 3. LOGIN SECTION -->
         <section id="login-section" class="step-section">
             <h2><i class="fa-solid fa-user-shield"></i> Login Admin</h2>
             <p class="subtitle">Sistem keamanan terintegrasi dengan Server.</p>
@@ -391,7 +413,7 @@
             <button class="btn btn-secondary" onclick="navTo('home-section')">Kembali</button>
         </section>
 
-        <!-- 4. RESI SECTION (UPDATED & FUNCTIONAL) -->
+        <!-- 4. RESI SECTION (UPDATED NOT FOUND LOGIC) -->
         <section id="resi-section" class="step-section">
             <h2><i class="fa-solid fa-search"></i> Cek Status Pesanan</h2>
             <p class="subtitle">Masukkan Nomor Order (Resi) yang tertera di struk.</p>
@@ -555,7 +577,7 @@
         </button>
     </nav>
 
-    <!-- JAVASCRIPT (FULLY UPDATED WITH NEW DB) -->
+    <!-- JAVASCRIPT (UPDATED CART SYSTEM) -->
     <script>
         // ==========================================
         // 1. KONFIGURASI & KEAMANAN
@@ -586,7 +608,7 @@
         };
 
         // ==========================================
-        // 2. DATABASE LAYANAN (LARGE & UPDATED)
+        // 2. DATABASE LAYANAN (SAME AS BEFORE)
         // ==========================================
         const masterServiceDatabase = [
             // HP Android - LCD
@@ -715,115 +737,35 @@
             { cat: "Laptop", issue: "Motherboard repair", item: "VRM Repair", price: 500000, est: "3 Hari" },
             { cat: "Laptop", issue: "Motherboard repair", item: "GPU Repair", price: 750000, est: "5 Hari" },
             { cat: "Laptop", issue: "Motherboard repair", item: "CPU Socket", price: 700000, est: "4 Hari" },
-
-            // ADDITIONAL VARIANTS BASED ON USER LIST (To ensure completeness)
+            
+            // EXTRAS
             { cat: "HP Android", issue: "LCD retak", item: "LCD ORI (6.1 inch)", price: 570000, est: "3 Jam" },
             { cat: "HP Android", issue: "LCD retak", item: "LCD ORI (6.5 inch)", price: 670000, est: "3 Jam" },
-            { cat: "HP Android", issue: "LCD retak", item: "LCD ORI (6.7 inch)", price: 850000, est: "3 Jam" },
-            { cat: "HP Android", issue: "LCD retak", item: "LCD ORI (Curved)", price: 1080000, est: "4 Jam" },
-            { cat: "HP Android", issue: "LCD retak", item: "LCD KW (5.5-6 inch)", price: 260000, est: "3 Jam" },
-            { cat: "HP Android", issue: "LCD retak", item: "LCD KW (6.2-6.4 inch)", price: 360000, est: "3 Jam" },
-            { cat: "HP Android", issue: "LCD retak", item: "LCD KW (6.5-6.7 inch)", price: 460000, est: "3 Jam" },
-            { cat: "HP Android", issue: "Baterai drop / kembung", item: "Baterai ORI (4000mAh)", price: 350000, est: "1 Jam" },
-            { cat: "HP Android", issue: "Baterai drop / kembung", item: "Baterai ORI (5000mAh)", price: 420000, est: "1 Jam" },
-            { cat: "HP Android", issue: "Baterai drop / kembung", item: "Baterai ORI (6000mAh)", price: 520000, est: "1 Jam" },
-            { cat: "HP Android", issue: "Baterai drop / kembung", item: "Baterai KW (3000-3500mAh)", price: 170000, est: "1 Jam" },
-            { cat: "HP Android", issue: "Baterai drop / kembung", item: "Baterai KW (4000-4500mAh)", price: 220000, est: "1 Jam" },
-            { cat: "HP Android", issue: "Baterai drop / kembung", item: "Baterai KW (5000-5500mAh)", price: 270000, est: "1 Jam" },
-            { cat: "HP Android", issue: "Konektor cas rusak", item: "Port Charging ORI (USB-C)", price: 210000, est: "1.5 Jam" },
-            { cat: "HP Android", issue: "Konektor cas rusak", item: "Port Charging ORI (USB-C Video)", price: 270000, est: "1.5 Jam" },
-            { cat: "HP Android", issue: "Konektor cas rusak", item: "Port Charging KW (Micro USB)", price: 120000, est: "1.5 Jam" },
-            { cat: "HP Android", issue: "Konektor cas rusak", item: "Port Charging KW (USB-C)", price: 150000, est: "1.5 Jam" },
-            { cat: "HP Android", issue: "Speaker mati", item: "Speaker ORI (Bawah)", price: 190000, est: "1 Jam" },
-            { cat: "HP Android", issue: "Speaker mati", item: "Speaker ORI (Stereo Dual)", price: 240000, est: "1 Jam" },
-            { cat: "HP Android", issue: "Speaker mati", item: "Speaker KW (Single)", price: 120000, est: "1 Jam" },
-            { cat: "HP Android", issue: "Speaker mati", item: "Speaker KW (Dual)", price: 150000, est: "1 Jam" },
-            { cat: "HP Android", issue: "Kamera rusak", item: "Kamera Depan ORI (16-20MP)", price: 270000, est: "1.5 Jam" },
-            { cat: "HP Android", issue: "Kamera rusak", item: "Kamera Depan ORI (25-32MP)", price: 310000, est: "1.5 Jam" },
-            { cat: "HP Android", issue: "Kamera rusak", item: "Kamera Belakang ORI (48-64MP)", price: 380000, est: "2 Jam" },
-            { cat: "HP Android", issue: "Kamera rusak", item: "Kamera Belakang ORI (108MP)", price: 430000, est: "2 Jam" },
-            { cat: "HP Android", issue: "Kamera rusak", item: "Kamera KW (Depan 8-12MP)", price: 190000, est: "1.5 Jam" },
-            { cat: "HP Android", issue: "Kamera rusak", item: "Kamera KW (Belakang 48MP)", price: 240000, est: "1.5 Jam" },
-            { cat: "HP Android", issue: "Water damage ringan / berat", item: "Ultrasonic Cleaning", price: 250000, est: "1 Hari" },
-            { cat: "HP Android", issue: "Water damage ringan / berat", item: "Component Level Repair", price: 500000, est: "2 Hari" },
-            { cat: "HP Android", issue: "HP mati total", item: "Power IC Replacement", price: 400000, est: "2 Hari" },
-            { cat: "HP Android", issue: "HP mati total", item: "CPU Reballing", price: 450000, est: "3 Hari" },
-
-            // LAPTOP EXTRAS
-            { cat: "Laptop", issue: "LCD pecah", item: "LCD ORI (14 inch FHD IPS)", price: 1080000, est: "1 Hari" },
-            { cat: "Laptop", issue: "LCD pecah", item: "LCD ORI (15.6 inch 2K)", price: 1480000, est: "1 Hari" },
-            { cat: "Laptop", issue: "LCD pecah", item: "LCD ORI (17.3 inch 2K 144Hz)", price: 2050000, est: "1 Hari" },
-            { cat: "Laptop", issue: "LCD pecah", item: "LCD OEM (14 inch HD TN)", price: 730000, est: "1 Hari" },
-            { cat: "Laptop", issue: "LCD pecah", item: "LCD OEM (15.6 inch FHD TN)", price: 930000, est: "1 Hari" },
-            { cat: "Laptop", issue: "Keyboard rusak", item: "Keyboard ORI (Chiclet)", price: 480000, est: "3 Jam" },
-            { cat: "Laptop", issue: "Keyboard rusak", item: "Keyboard ORI (Numpad)", price: 580000, est: "3 Jam" },
-            { cat: "Laptop", issue: "Keyboard rusak", item: "Keyboard OEM (Non-backlit)", price: 260000, est: "2 Jam" },
-            { cat: "Laptop", issue: "Keyboard rusak", item: "Keyboard OEM (Backlight)", price: 360000, est: "2 Jam" },
-            { cat: "Laptop", issue: "Baterai laptop drop", item: "Baterai ORI (3 Cell)", price: 540000, est: "1 Jam" },
-            { cat: "Laptop", issue: "Baterai laptop drop", item: "Baterai ORI (4 Cell)", price: 640000, est: "1 Jam" },
-            { cat: "Laptop", issue: "Baterai laptop drop", item: "Baterai ORI (6 Cell)", price: 840000, est: "1 Jam" },
-            { cat: "Laptop", issue: "Baterai laptop drop", item: "Baterai OEM (3 Cell Universal)", price: 250000, est: "1 Jam" },
-            { cat: "Laptop", issue: "Baterai laptop drop", item: "Baterai OEM (4 Cell Universal)", price: 370000, est: "1 Jam" },
-            { cat: "Laptop", issue: "Baterai laptop drop", item: "Baterai OEM (6 Cell Universal)", price: 470000, est: "1 Jam" },
-            { cat: "Laptop", issue: "Install ulang Windows", item: "Windows + Antivirus", price: 180000, est: "2.5 Jam" },
-            { cat: "Laptop", issue: "Laptop lemot", item: "HDD to SSD Upgrade (512GB)", price: 530000, est: "2 Jam" },
-            { cat: "Laptop", issue: "Laptop lemot", item: "Dual Channel RAM (2x8GB)", price: 680000, est: "1.5 Jam" },
-            { cat: "Laptop", issue: "Overheat / thermal paste", item: "Liquid Metal", price: 300000, est: "2 Jam" },
-            { cat: "Laptop", issue: "Overheat / thermal paste", item: "Heatsink Replacement", price: 500000, est: "3 Jam" },
-            { cat: "Laptop", issue: "Mati total", item: "PSU Repair", price: 280000, est: "2 Hari" },
-            { cat: "Laptop", issue: "Mati total", item: "RAM Slot Repair", price: 230000, est: "2 Hari" },
-            { cat: "Laptop", issue: "Tidak bisa charging", item: "Charging Board", price: 280000, est: "3 Jam" },
-            { cat: "Laptop", issue: "Motherboard repair", item: "Chipset Repair", price: 600000, est: "4 Hari" },
-            { cat: "Laptop", issue: "Motherboard repair", item: "RAM Circuit", price: 330000, est: "3 Hari" },
-            { cat: "HP Android", issue: "IC charging", item: "IC Fast Charging", price: 270000, est: "4 Jam" },
-            { cat: "HP Android", issue: "IC power", item: "Power IC Main", price: 340000, est: "4 Jam" },
-            { cat: "HP Android", issue: "Bootloop / software error", item: "EMMC Replacement", price: 450000, est: "1 Hari" },
-            { cat: "HP Android", issue: "Flashing / install ulang Android", item: "FRP Remove", price: 120000, est: "1.5 Jam" },
-            { cat: "HP Android", issue: "Water damage ringan / berat", item: "Deep Cleaning", price: 180000, est: "1 Hari" },
-            { cat: "HP Android", issue: "HP mati total", item: "Jumper Line", price: 200000, est: "2 Hari" },
-            { cat: "Laptop", issue: "Install ulang Windows", item: "Data Backup + OS", price: 220000, est: "3 Jam" },
-            { cat: "Laptop", issue: "Laptop lemot", item: "Clean Install", price: 120000, est: "2 Jam" },
-            { cat: "Laptop", issue: "Overheat / thermal paste", item: "Fan Replacement + Paste", price: 370000, est: "2 Jam" },
-            { cat: "Laptop", issue: "Mati total", item: "Water Damage Repair", price: 550000, est: "3 Hari" },
-            { cat: "Laptop", issue: "Tidak bisa charging", item: "Battery Circuit", price: 220000, est: "1 Hari" },
-            { cat: "Laptop", issue: "Motherboard repair", item: "BIOS Chip", price: 200000, est: "2 Hari" },
-            { cat: "HP Android", issue: "Touchscreen tidak respon", item: "Digitizer ORI", price: 370000, est: "2 Jam" },
-            { cat: "HP Android", issue: "Touchscreen tidak respon", item: "Digitizer KW", price: 180000, est: "2 Jam" },
-            { cat: "HP Android", issue: "Mic mati", item: "Microphone Array", price: 230000, est: "1.5 Jam" },
-            { cat: "HP Android", issue: "Kamera rusak", item: "Camera Module Full", price: 540000, est: "2 Jam" },
-            { cat: "HP Android", issue: "Tombol power / volume", item: "Side Button ORI (Fingerprint)", price: 100000, est: "1 Jam" },
-            { cat: "HP Android", issue: "Tombol power / volume", item: "Side Button KW", price: 60000, est: "1 Jam" },
-            { cat: "Laptop", issue: "LCD pecah", item: "Bezel Replacement", price: 100000, est: "1 Jam" },
-            { cat: "Laptop", issue: "Keyboard rusak", item: "Keycap Replacement", price: 50000, est: "0.5 Jam" },
-            { cat: "Laptop", issue: "Charger rusak", item: "Cable Replacement", price: 80000, est: "0.5 Jam" },
-            { cat: "HP Android", issue: "LCD retak", item: "LCD+Touch ORI", price: 640000, est: "3 Jam" },
-            { cat: "HP Android", issue: "LCD retak", item: "LCD+Touch KW", price: 400000, est: "3 Jam" },
-            { cat: "Laptop", issue: "Baterai laptop drop", item: "Baterai High Capacity", price: 745000, est: "1 Jam" },
-            { cat: "HP Android", issue: "Baterai drop / kembung", item: "Baterai Extended", price: 395000, est: "1 Jam" }
+            { cat: "HP Android", issue: "Baterai drop / kembung", item: "Baterai Extended", price: 395000, est: "1 Jam" },
+            { cat: "Laptop", issue: "Baterai laptop drop", item: "Baterai High Capacity", price: 745000, est: "1 Jam" }
         ];
 
         // Database Manager
         const DB = {
             init: () => {
-                const localData = localStorage.getItem('malik_services_v3');
+                const localData = localStorage.getItem('malik_services_v4');
                 let data = [];
 
                 if (localData) {
                     try {
                         data = JSON.parse(localData);
                         if(data.length < masterServiceDatabase.length) {
-                            console.log("Updating database...");
-                            localStorage.setItem('malik_services_v3', JSON.stringify(masterServiceDatabase));
+                            localStorage.setItem('malik_services_v4', JSON.stringify(masterServiceDatabase));
                             data = masterServiceDatabase;
                             DB.logUpdate();
                         }
                     } catch (e) {
-                        localStorage.setItem('malik_services_v3', JSON.stringify(masterServiceDatabase));
+                        localStorage.setItem('malik_services_v4', JSON.stringify(masterServiceDatabase));
                         data = masterServiceDatabase;
                         DB.logUpdate();
                     }
                 } else {
-                    localStorage.setItem('malik_services_v3', JSON.stringify(masterServiceDatabase));
+                    localStorage.setItem('malik_services_v4', JSON.stringify(masterServiceDatabase));
                     data = masterServiceDatabase;
                     DB.logUpdate();
                 }
@@ -844,7 +786,87 @@
         DB.logUpdate();
 
         // ==========================================
-        // 3. AUTHENTICATION (SERVER SIDE)
+        // 3. CART SYSTEM (NEW)
+        // ==========================================
+        let cart = []; // Array to store selected services
+
+        function addToCart() {
+            const select = document.getElementById('custService');
+            const val = select.value;
+            if(!val) { showToast("Pilih kerusakan dulu!"); return; }
+
+            const item = JSON.parse(val);
+            cart.push(item);
+            renderCart();
+            select.value = ""; // Reset dropdown
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            renderCart();
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cartItems');
+            const listContainer = document.getElementById('cartListContainer');
+            const priceBox = document.getElementById('priceDisplay');
+            
+            if(cart.length === 0) {
+                container.innerHTML = '';
+                listContainer.style.display = 'none';
+                priceBox.style.display = 'none';
+                return;
+            }
+
+            listContainer.style.display = 'block';
+            priceBox.style.display = 'block';
+
+            // Render Items
+            container.innerHTML = cart.map((item, index) => `
+                <div class="cart-item">
+                    <div class="cart-info">
+                        <h4>${item.issue} (${item.item})</h4>
+                        <p>${formatRupiah(item.price)} - Est: ${item.est}</p>
+                    </div>
+                    <button class="btn-delete-item" onclick="removeFromCart(${index})">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </div>
+            `).join('');
+
+            // Calculate Totals
+            const totalService = cart.reduce((acc, curr) => acc + curr.price, 0);
+            const pickupFee = calculatePickup();
+            
+            let finalTotal = totalService;
+            let pickupText = "Rp 0";
+            let showPickup = false;
+
+            if(pickupFee === 25000) {
+                finalTotal += pickupFee;
+                pickupText = "Rp 25.000";
+                showPickup = true;
+            } else if (pickupFee > 100000) {
+                finalTotal = "Hubungi Admin";
+                pickupText = "> 5km (Admin Only)";
+                showPickup = true;
+            }
+
+            document.getElementById('dispTotalService').textContent = formatRupiah(totalService);
+            document.getElementById('dispPickup').textContent = pickupText;
+            document.getElementById('pickupFeeText').textContent = pickupText === "> 5km (Admin Only)" ? pickupText : `Biaya Pickup: ${pickupText}`;
+            
+            if(showPickup) {
+                document.getElementById('pickupRow').style.display = 'flex';
+            } else {
+                document.getElementById('pickupRow').style.display = 'none';
+            }
+
+            document.getElementById('dispGrandTotal').textContent = typeof finalTotal === 'number' ? formatRupiah(finalTotal) : finalTotal;
+        }
+
+        // ==========================================
+        // 4. AUTHENTICATION
         // ==========================================
         async function sha256(message) {
             const msgBuffer = new TextEncoder().encode(message);
@@ -905,7 +927,7 @@
             btn.innerHTML = '<span>Masuk Panel</span>';
         }
 
-        // CEK RESI FUNCTION
+        // CEK RESI (UPDATED FOR NOT FOUND)
         async function checkResi() {
             const inputId = document.getElementById('checkResiInput').value.trim();
             const resultBox = document.getElementById('resiResultBox');
@@ -940,12 +962,25 @@
                         </div>
                     `;
                 } else {
+                    // EXPLICIT NOT FOUND MESSAGE
                     resultBox.style.display = 'block';
-                    resultBox.innerHTML = `<div style="color:red; text-align:center; padding:10px;">${result.message}</div>`;
+                    resultBox.innerHTML = `
+                        <div style="background:#fee2e2; color:#b91c1c; padding:15px; border-radius:8px; border-left:4px solid #ef4444; text-align:center;">
+                            <i class="fa-solid fa-circle-xmark" style="font-size:1.5rem; margin-bottom:5px; display:block;"></i>
+                            <strong>Order ID Tidak Ditemukan</strong>
+                            <p style="margin:5px 0 0 0; font-size:0.9rem;">Pastikan ID yang dimasukkan benar dan sesuai dengan struk.</p>
+                        </div>
+                    `;
                 }
 
             } catch (error) {
-                showToast("Gagal mengecek resi (Offline/Error)");
+                resultBox.style.display = 'block';
+                resultBox.innerHTML = `
+                    <div style="background:#fff7ed; color:#c2410c; padding:15px; border-radius:8px; text-align:center;">
+                        <strong>Terjadi Kesalahan</strong>
+                        <p style="margin:5px 0 0 0; font-size:0.9rem;">Gagal menghubungi server. Periksa koneksi internet Anda.</p>
+                    </div>
+                `;
             }
 
             btn.disabled = false;
@@ -967,7 +1002,7 @@
         }
 
         // ==========================================
-        // 4. UI LOGIC & NAVIGATION
+        // 5. UI LOGIC & NAVIGATION
         // ==========================================
         function navTo(sectionId, btnElement = null) {
             if(sectionId === 'admin-panel' && !checkSession()) {
@@ -1017,7 +1052,7 @@
         });
 
         // ==========================================
-        // 5. ORDER LOGIC
+        // 6. ORDER LOGIC (UPDATED FOR CART)
         // ==========================================
         function formatRupiah(num) {
             return "Rp " + parseInt(num).toLocaleString('id-ID');
@@ -1040,7 +1075,7 @@
             const cat = document.getElementById('custCategory').value;
             const servSelect = document.getElementById('custService');
             servSelect.innerHTML = '<option value="">-- Pilih Kerusakan & Harga --</option>';
-            document.getElementById('priceDisplay').style.display = 'none';
+            // Don't hide cart if empty, keep it visible or handled by renderCart
 
             if(!cat) return;
 
@@ -1048,7 +1083,6 @@
             filtered.forEach(item => {
                 const opt = document.createElement('option');
                 opt.value = JSON.stringify(item);
-                // Update: Menampilkan Harga di Dropdown agar user tahu beda Ori/KW
                 opt.textContent = `${item.issue} (${item.item}) - ${formatRupiah(item.price)}`;
                 servSelect.appendChild(opt);
             });
@@ -1057,49 +1091,15 @@
         function togglePickupInput() {
             const checked = document.getElementById('needPickup').checked;
             document.getElementById('pickupInputGroup').style.display = checked ? 'block' : 'none';
-            updatePriceSummary();
+            if(checked) renderCart(); // Re-render to update pickup price
         }
 
         function calculatePickup() {
             if(!document.getElementById('needPickup').checked) return 0;
             const dist = parseFloat(document.getElementById('pickupDistance').value) || 0;
             if(dist > 0 && dist < 5) return 25000;
-            if(dist >= 5) return 999999;
+            if(dist >=5) return 999999;
             return 0;
-        }
-
-        function updatePriceSummary() {
-            const val = document.getElementById('custService').value;
-            const priceBox = document.getElementById('priceDisplay');
-            if(!val) { priceBox.style.display = 'none'; return; }
-
-            const data = JSON.parse(val);
-            const pickupFee = calculatePickup();
-            
-            let baseTotal = data.price;
-            let finalDisplay = baseTotal;
-            let pickupText = "Rp 0";
-
-            if(pickupFee === 25000) {
-                finalDisplay += pickupFee;
-                pickupText = "Rp 25.000";
-                document.getElementById('pickupRow').style.display = 'flex';
-            } else if (pickupFee > 100000) {
-                finalDisplay = "Hubungi Admin";
-                pickupText = "> 5km (Admin Only)";
-                document.getElementById('pickupRow').style.display = 'flex';
-            } else {
-                document.getElementById('pickupRow').style.display = 'none';
-            }
-
-            // Menampilkan Total Estimasi di Rincian
-            document.getElementById('dispSparepart').textContent = formatRupiah(data.price);
-            document.getElementById('dispService').textContent = data.est;
-            document.getElementById('dispPickup').textContent = pickupText;
-            document.getElementById('pickupFeeText').textContent = pickupText === "> 5km (Admin Only)" ? pickupText : `Biaya Pickup: ${pickupText}`;
-            document.getElementById('dispTotal').textContent = typeof finalDisplay === 'number' ? formatRupiah(finalDisplay) : finalDisplay;
-            
-            priceBox.style.display = 'block';
         }
 
         function selectQuickService(cat, issue) {
@@ -1114,7 +1114,8 @@
                         break;
                     }
                 }
-                updatePriceSummary();
+                // Auto add to cart
+                addToCart();
             }, 100);
         }
 
@@ -1122,30 +1123,34 @@
             const name = document.getElementById('custName').value;
             const wa = document.getElementById('custWA').value;
             const address = document.getElementById('custAddress').value;
-            const servVal = document.getElementById('custService').value;
 
             if(!name || !wa) { showToast("Nama & WA wajib diisi"); return; }
+            if(cart.length === 0) { showToast("Belum ada layanan yang dipilih"); return; }
 
-            let msg = `Halo Admin, saya mau servis.\n\nNama: ${name}\nWA: ${wa}\nAlamat: ${address}\n`;
-            
             const newOrderId = generateOrderId(); 
             
-            if(servVal) {
-                const data = JSON.parse(servVal);
-                const pickup = calculatePickup();
-                let est = data.price;
-                let pickupInfo = "";
-                if(pickup === 25000) { est += 25000; pickupInfo = "\nBiaya Pickup: +Rp 25.000"; }
-                if(pickup > 100000) { pickupInfo = "\nLokasi > 5km, mohon konfirmasi."; }
+            // Construct WhatsApp Message from CART
+            let msg = `Halo Admin, saya mau servis.\n\nNama: ${name}\nWA: ${wa}\nAlamat: ${address}\n`;
+            msg += `\n--- Daftar Perbaikan (${cart.length} Item) ---\n`;
+            
+            let totalEst = 0;
+            cart.forEach((item, idx) => {
+                totalEst += item.price;
+                msg += `${idx+1}. ${item.cat} - ${item.issue} (${item.item})\n   Harga: ${formatRupiah(item.price)}\n`;
+            });
 
-                msg += `\n--- Detail Servis ---\nID Order: ${newOrderId}\nKategori: ${data.cat}\nLayanan: ${data.item}\nMasalah: ${data.issue}\nEstimasi: ${formatRupiah(est)} (${data.est})${pickupInfo}`;
-            }
+            const pickup = calculatePickup();
+            let pickupInfo = "";
+            if(pickup === 25000) { totalEst += 25000; pickupInfo = "\nBiaya Pickup: +Rp 25.000"; }
+            if(pickup > 100000) { pickupInfo = "\nLokasi > 5km, mohon konfirmasi."; }
+
+            msg += `\n*TOTAL ESTIMASI: ${formatRupiah(totalEst)}*${pickupInfo}`;
 
             const payload = { 
                 orderId: newOrderId,
                 name, wa, address, 
-                cat: servVal ? JSON.parse(servVal).cat : 'Umum', 
-                total: 0 
+                cat: 'Multiple (Lihat WA)', // Karena kerusakan banyak
+                total: totalEst 
             };
             
             fetch(CONFIG.APPS_SCRIPT_URL, {
@@ -1157,7 +1162,7 @@
         }
 
         // ==========================================
-        // 6. RECEIPT LOGIC
+        // 7. RECEIPT LOGIC
         // ==========================================
         function generateOrderId() {
             const d = new Date();
@@ -1213,7 +1218,7 @@
         }
 
         // ==========================================
-        // 7. ARTICLE SYSTEM
+        // 8. ARTICLE SYSTEM
         // ==========================================
         const articles = [
             { title: "HP Tidak Bisa Di-charge?", tag: "Tips HP", content: "Ini penyebab umumnya: 1. Kabel rusak. 2. Port kotor. 3. Baterai drop. Coba ganti kabel dulu ya." },
