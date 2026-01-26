@@ -4,48 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <!-- SEO Meta Description -->
-    <meta name="description" content="Malik Service Center Semarang. Spesialis servis HP, Laptop, Tablet, Elektronik. Layanan Pickup & Antar, Bergaransi, Cek Resi.">
+    <meta name="description" content="Malik Service Center Semarang. Servis HP, Laptop, iPhone, Tablet, Data Recovery. Melayani Pickup & Antar. Cek estimasi biaya dan booking sekarang!">
     <meta name="theme-color" content="#2563eb">
     <title>Malik Service Center</title>
-    
-    <!-- Font Awesome & Google Fonts -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* --- VARIABLES & THEME --- */
         :root {
             --primary: #2563eb;
             --primary-dark: #1e40af;
             --secondary: #10b981;
             --accent: #f59e0b;
             --danger: #ef4444;
+            --dark-bg: #0f172a;
+            --dark-card: #1e293b;
             --light-bg: #f8fafc;
             --light-card: #ffffff;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
+            --text-main: #334155;
+            --text-light: #64748b;
             --border: #e2e8f0;
-            --shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-            --radius: 16px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --radius: 12px;
+            --transition: all 0.3s ease;
             --nav-height: 70px;
         }
 
-        /* Auto Dark Mode Support */
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --light-bg: #0f172a;
-                --light-card: #1e293b;
-                --text-main: #f1f5f9;
-                --text-muted: #94a3b8;
-                --border: #334155;
-            }
-        }
-
-        body.manual-dark-mode {
+        body.dark-mode {
             --light-bg: #0f172a;
             --light-card: #1e293b;
             --text-main: #f1f5f9;
-            --text-muted: #94a3b8;
+            --text-light: #94a3b8;
             --border: #334155;
         }
 
@@ -54,722 +45,1006 @@
         body {
             background-color: var(--light-bg);
             color: var(--text-main);
-            transition: background-color 0.3s, color 0.3s;
+            transition: var(--transition);
             line-height: 1.6;
-            padding-bottom: calc(var(--nav-height) + 20px); /* Space for bottom nav */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding-bottom: calc(var(--nav-height) + 20px);
         }
 
-        /* --- UTILITIES --- */
-        .hidden { display: none !important; }
-        .container { max-width: 600px; margin: 0 auto; padding: 0 16px; }
-        .badge { padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; display: inline-block; margin-right: 5px; }
-        .badge-light { background: #dcfce7; color: #166534; }
-        .badge-medium { background: #fef9c3; color: #854d0e; }
-        .badge-heavy { background: #fee2e2; color: #991b1b; }
-        .badge-fast { background: #dbeafe; color: #1e40af; }
-        .badge-garansi { background: #f3e8ff; color: #6b21a8; }
-
-        /* --- HEADER --- */
+        /* HEADER */
         header {
             background: var(--light-card);
-            padding: 1rem 16px;
+            padding: 1rem 5%;
             position: sticky;
             top: 0;
-            z-index: 50;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            z-index: 100;
+            box-shadow: var(--shadow);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .brand { font-size: 1.2rem; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 8px; }
+        .brand { font-size: 1.25rem; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 10px; }
+        .header-actions button {
+            background: none; border: none; font-size: 1.2rem; color: var(--text-main); cursor: pointer; margin-left: 10px;
+        }
 
-        /* --- BOTTOM NAVIGATION (STICKY) --- */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: var(--nav-height);
+        /* MAIN CONTAINER */
+        main { max-width: 800px; margin: 0 auto; padding: 1.5rem; width: 100%; flex: 1; }
+
+        /* SECTIONS */
+        .step-section {
             background: var(--light-card);
-            border-top: 1px solid var(--border);
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            z-index: 100;
-            padding-bottom: env(safe-area-inset-bottom);
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            display: none;
+            animation: fadeIn 0.4s ease;
+            margin-bottom: 1rem;
         }
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            cursor: pointer;
-            transition: color 0.2s;
-            width: 20%;
+        .step-section.active { display: block; }
+        
+        .full-width-section {
+            background: transparent; box-shadow: none; padding: 0; display: none;
         }
-        .nav-item i { font-size: 1.3rem; margin-bottom: 4px; }
-        .nav-item.active { color: var(--primary); font-weight: 600; }
+        .full-width-section.active { display: block; }
 
-        /* --- SECTIONS --- */
-        .page { display: none; animation: fadeIn 0.3s ease; padding-top: 10px; padding-bottom: 20px; }
-        .page.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- CARDS & GRID --- */
-        .card { background: var(--light-card); border-radius: var(--radius); padding: 16px; margin-bottom: 16px; box-shadow: var(--shadow); border: 1px solid var(--border); }
-        .card-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; color: var(--primary); }
-        .service-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 16px; }
-        .service-card { background: var(--light-bg); padding: 12px; border-radius: 12px; text-align: center; cursor: pointer; border: 1px solid transparent; transition: 0.2s; }
-        .service-card:hover, .service-card:active { border-color: var(--primary); background: #eff6ff; }
-        .service-card i { font-size: 1.5rem; color: var(--primary); margin-bottom: 8px; display: block; }
-        .service-card span { font-size: 0.85rem; font-weight: 600; display: block; }
+        h2 { margin-bottom: 1rem; color: var(--primary); font-size: 1.4rem; display: flex; align-items: center; gap: 10px; }
+        h3 { margin-bottom: 0.8rem; font-size: 1.1rem; color: var(--text-main); }
+        p.subtitle { color: var(--text-light); margin-bottom: 1.5rem; font-size: 0.9rem; }
 
-        /* --- FORMS --- */
-        .form-group { margin-bottom: 16px; }
-        label { display: block; margin-bottom: 6px; font-weight: 500; font-size: 0.9rem; }
-        input, select, textarea { 
-            width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; 
-            background: var(--light-bg); color: var(--text-main); font-size: 1rem; /* Min 14px requirement */
-            min-height: 48px; /* Min touch target requirement */
+        /* FORMS */
+        .form-group { margin-bottom: 1.2rem; }
+        label { display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: 0.9rem; color: var(--text-main); }
+        input[type="text"], input[type="password"], input[type="tel"], input[type="date"], input[type="number"], select, textarea {
+            width: 100%; padding: 14px; border: 1px solid var(--border); border-radius: 8px;
+            background: var(--light-bg); color: var(--text-main); font-size: 1rem;
+            transition: border-color 0.2s;
         }
-        input:focus, select:focus, textarea:focus { outline: 2px solid var(--primary); border-color: transparent; }
-        input[readonly] { background: #f1f5f9; color: #94a3b8; cursor: default; }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+        input[readonly] { background-color: #e2e8f0; color: #64748b; cursor: default; border-color: transparent; }
 
-        /* --- BUTTONS --- */
+        /* BUTTONS */
         .btn { 
-            width: 100%; display: flex; justify-content: center; align-items: center; gap: 8px;
-            padding: 14px; border-radius: 50px; border: none; font-weight: 600; font-size: 1rem;
-            cursor: pointer; transition: transform 0.1s; margin-bottom: 10px;
+            width: 100%; padding: 14px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; 
+            transition: var(--transition); display: flex; justify-content: center; align-items: center; gap: 8px; 
+            font-size: 1rem; margin-bottom: 10px;
         }
         .btn:active { transform: scale(0.98); }
-        .btn-primary { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); }
-        .btn-secondary { background: var(--text-muted); color: white; }
-        .btn-whatsapp { background: #25D366; color: white; box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3); }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-primary:disabled { background: #94a3b8; cursor: not-allowed; opacity: 0.7; }
+        .btn-secondary { background: #64748b; color: white; }
+        .btn-whatsapp { background: #25D366; color: white; }
+        .btn-whatsapp:hover { background: #1ebc57; }
         .btn-danger { background: var(--danger); color: white; }
-
-        /* --- FLOATING ACTION BUTTON --- */
-        .fab {
-            position: fixed; bottom: calc(var(--nav-height) + 20px); right: 20px;
-            width: 56px; height: 56px; border-radius: 50%;
-            background: #25D366; color: white;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            z-index: 90; font-size: 1.5rem; cursor: pointer;
-            text-decoration: none; transition: transform 0.2s;
-        }
-        .fab:hover { transform: scale(1.1); }
-
-        /* --- RECEIPT (PRINT) --- */
-        .receipt-preview { 
-            background: white; color: black; padding: 20px; border: 1px dashed #ccc;
-            font-family: 'Courier New', monospace; margin: 20px 0; border-radius: 8px;
-        }
-        .rec-row { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.9rem; }
-        .rec-divider { border-top: 1px dashed #000; margin: 10px 0; }
-        .rec-total { font-weight: bold; font-size: 1.1rem; display: flex; justify-content: space-between; }
+        .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-main); }
         
-        /* --- TOAST --- */
-        .toast {
-            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-            background: #333; color: white; padding: 12px 24px; border-radius: 30px;
-            font-size: 0.9rem; z-index: 200; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            opacity: 0; pointer-events: none; transition: opacity 0.3s;
-        }
-        .toast.show { opacity: 1; }
+        .nav-buttons { display: flex; gap: 10px; margin-top: 1.5rem; }
 
-        /* --- ARTICLES --- */
-        .article-item { padding: 16px; border-bottom: 1px solid var(--border); cursor: pointer; display: flex; gap: 12px; }
-        .article-thumb { width: 80px; height: 80px; background: #ddd; border-radius: 8px; object-fit: cover; flex-shrink: 0; }
-        .article-content h3 { margin: 0 0 6px 0; font-size: 1rem; color: var(--text-main); }
-        .article-content p { margin: 0; font-size: 0.85rem; color: var(--text-muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        /* HERO SPECIFIC */
+        .hero-section { text-align: center; padding: 2rem 1rem; }
+        .hero-icon { font-size: 3.5rem; color: var(--primary); margin-bottom: 1.5rem; animation: float 3s ease-in-out infinite; }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
         
-        /* --- PICKUP BOX --- */
-        .pickup-box { background: #eff6ff; padding: 16px; border-radius: 8px; border-left: 4px solid var(--primary); margin-bottom: 16px; }
-        .manual-dark-mode .pickup-box { background: #1e3a8a; border-left-color: #60a5fa; }
+        /* SERVICE GRID */
+        .service-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
+        .service-card { 
+            background: var(--light-bg); border: 1px solid var(--border); padding: 15px; 
+            border-radius: 8px; text-align: center; cursor: pointer; transition: 0.2s;
+        }
+        .service-card:hover { border-color: var(--primary); background: #eff6ff; transform: translateY(-2px); }
+        .service-card i { font-size: 1.8rem; color: var(--primary); margin-bottom: 10px; display: block; }
+        .service-card span { font-size: 0.85rem; font-weight: 600; }
 
-        /* --- PRINT MEDIA (FIXED) --- */
+        /* PICKUP BOX */
+        .pickup-box {
+            background-color: #e0f2fe;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+            margin-bottom: 15px;
+            display: none;
+        }
+        body.dark-mode .pickup-box {
+            background-color: #1e3a8a;
+            border-left-color: #60a5fa;
+        }
+        
+        /* ARTICLE STYLES */
+        .article-card {
+            background: var(--light-card); border: 1px solid var(--border); border-radius: var(--radius);
+            padding: 1rem; margin-bottom: 1rem; cursor: pointer; transition: 0.2s; display: flex; gap: 1rem;
+        }
+        .article-card:hover { border-color: var(--primary); box-shadow: var(--shadow); }
+        .article-thumb { width: 80px; height: 80px; background: #e2e8f0; border-radius: 8px; flex-shrink: 0; object-fit: cover; }
+        .article-info h4 { font-size: 1rem; margin-bottom: 5px; color: var(--text-main); }
+        .article-info p { font-size: 0.8rem; color: var(--text-light); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .article-tag { display: inline-block; font-size: 0.7rem; background: var(--primary); color: white; padding: 2px 8px; border-radius: 10px; margin-bottom: 5px; }
+
+        /* ADMIN RECEIPT STYLES */
+        .admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .full-col { grid-column: span 2; }
+        
+        .price-summary {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .price-row { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.9rem; }
+        .price-total { border-top: 1px solid rgba(255,255,255,0.3); margin-top: 8px; padding-top: 8px; font-weight: bold; font-size: 1.1rem; display: flex; justify-content: space-between; }
+
+        /* PRINT PREVIEW / RECEIPT CARD */
+        #receiptPreview {
+            background: white; color: black; width: 100%; max-width: 380px;
+            padding: 20px; font-family: 'Courier New', Courier, monospace;
+            border: 1px solid #ccc; margin: 20px auto; border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .receipt-header { text-align: center; border-bottom: 2px dashed #000; padding-bottom: 15px; margin-bottom: 15px; }
+        .receipt-logo { font-size: 2.5rem; color: #2563eb !important; display: inline-block; margin-bottom: 5px; }
+        .receipt-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem; }
+        .receipt-divider { border-top: 2px dashed #000; margin: 15px 0; }
+        .receipt-total { font-weight: bold; font-size: 1.1rem; display: flex; justify-content: space-between; }
+
+        /* AUDIT LOG */
+        .audit-log { background: var(--dark-bg); color: #10b981; padding: 1rem; border-radius: 8px; font-family: monospace; font-size: 0.8rem; height: 150px; overflow-y: auto; margin-top: 1rem; border: 1px solid var(--border); }
+        .audit-entry { margin-bottom: 5px; border-bottom: 1px solid #333; padding-bottom: 2px; }
+
+        /* TOAST */
+        .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #ef4444; color: white; padding: 12px 24px; border-radius: 50px; z-index: 2000; display: none; animation: slideDown 0.3s; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3); width: 90%; max-width: 400px; font-size: 0.9rem; }
+        .toast.success { background: var(--secondary); }
+        @keyframes slideDown { from { transform: translate(-50%, -100%); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
+
+        /* BOTTOM NAVIGATION */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; width: 100%; height: var(--nav-height);
+            background: var(--light-card); border-top: 1px solid var(--border);
+            display: flex; justify-content: space-around; align-items: center;
+            z-index: 999; box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
+        }
+        .nav-item {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-decoration: none; color: var(--text-light); font-size: 0.75rem;
+            width: 20%; height: 100%; transition: 0.2s; background: none; border: none; cursor: pointer;
+        }
+        .nav-item i { font-size: 1.3rem; margin-bottom: 4px; transition: 0.2s; }
+        .nav-item.active { color: var(--primary); }
+        .nav-item.active i { transform: translateY(-3px); }
+
+        /* PRINT MEDIA */
         @media print {
             body * { visibility: hidden; }
-            .receipt-wrapper, .receipt-wrapper * { visibility: visible; }
-            .receipt-wrapper { position: absolute; left: 0; top: 0; width: 100%; padding: 20px; }
-            header, .bottom-nav, .fab, .no-print { display: none !important; }
-            .receipt-preview { border: none; box-shadow: none; padding: 0; }
+            #receiptPreview, #receiptPreview * { visibility: visible; }
+            #receiptPreview { position: absolute; left: 0; top: 0; width: 100%; max-width: 100%; margin: 0; padding: 0; box-shadow: none; border: none; color: black !important; }
+            .no-print, .bottom-nav, header, .toast { display: none !important; }
         }
 
-        /* --- MODAL (For Article Full View) --- */
-        .modal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--light-bg); z-index: 150; overflow-y: auto;
-            display: none; padding-bottom: 20px;
+        /* Responsive */
+        @media(max-width: 480px) { 
+            .admin-grid { grid-template-columns: 1fr; } 
+            .full-col { grid-column: span 1; } 
+            .service-grid { grid-template-columns: 1fr 1fr; }
         }
-        .modal.open { display: block; }
-        .modal-header { padding: 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; position: sticky; top: 0; background: var(--light-bg); z-index: 10; }
-        .modal-body { padding: 20px 16px; max-width: 800px; margin: 0 auto; }
-        .modal-body img { max-width: 100%; border-radius: 8px; margin: 10px 0; }
-        .modal-body h1 { font-size: 1.5rem; color: var(--primary); margin-bottom: 10px; }
-        .modal-body h2 { font-size: 1.2rem; margin-top: 20px; margin-bottom: 10px; border-left: 4px solid var(--primary); padding-left: 10px; }
     </style>
 </head>
 <body>
 
-    <!-- HEADER -->
     <header>
         <div class="brand"><i class="fa-solid fa-screwdriver-wrench"></i> Malik Service</div>
-        <button id="toggleTheme" style="background:none; border:none; color:var(--text-main); font-size:1.2rem;"><i class="fa-solid fa-circle-half-stroke"></i></button>
+        <div class="header-actions">
+            <button id="darkModeBtn"><i class="fa-solid fa-moon"></i></button>
+        </div>
     </header>
 
-    <!-- TOAST NOTIFICATION -->
-    <div id="toast" class="toast">Notifikasi</div>
+    <div id="toast" class="toast"></div>
 
-    <!-- FLOATING WHATSAPP -->
-    <a href="https://wa.me/6285713087659" class="fab" target="_blank">
-        <i class="fa-brands fa-whatsapp"></i>
-    </a>
-
-    <!-- MAIN CONTENT -->
-    <main class="container">
-
-        <!-- 1. HOME (BERANDA) -->
-        <section id="page-home" class="page active">
-            <div class="card" style="background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; text-align: center;">
-                <h2 style="margin-bottom: 8px;">Solusi Cepat & Terpercaya</h2>
-                <p style="opacity: 0.9;">Jasa servis HP, Laptop & Elektronik Bergaransi.</p>
-                <div style="margin-top: 15px; display: flex; gap: 10px; justify-content: center;">
-                    <span class="badge" style="background: rgba(255,255,255,0.2); color: white;">Fast Service</span>
-                    <span class="badge" style="background: rgba(255,255,255,0.2); color: white;">Garansi Resmi</span>
-                </div>
-            </div>
-
-            <h3 style="margin-bottom: 12px;">Layanan Populer</h3>
+    <main>
+        <!-- 1. HERO SECTION (HOME) -->
+        <section id="home-section" class="step-section active hero-section">
+            <i class="fa-solid fa-microchip hero-icon"></i>
+            <h1>Malik Service Center</h1>
+            <p class="subtitle">Solusi perbaikan HP, Laptop & Elektronik Cepat & Bergaransi.</p>
+            
             <div class="service-grid">
-                <div class="service-card" onclick="navTo('order')">
+                <div class="service-card" onclick="selectQuickService('Servis HP', 'Ganti LCD')">
                     <i class="fa-solid fa-mobile-screen"></i>
                     <span>Ganti LCD</span>
                 </div>
-                <div class="service-card" onclick="navTo('order')">
+                <div class="service-card" onclick="selectQuickService('Servis HP', 'Ganti Baterai')">
                     <i class="fa-solid fa-battery-full"></i>
                     <span>Baterai Baru</span>
                 </div>
-                <div class="service-card" onclick="navTo('order')">
+                <div class="service-card" onclick="selectQuickService('Servis Laptop', 'Servis Ringan')">
                     <i class="fa-solid fa-laptop"></i>
-                    <span>Laptop Mati</span>
+                    <span>Servis Laptop</span>
                 </div>
-                <div class="service-card" onclick="navTo('order')">
+                <div class="service-card" onclick="selectQuickService('Servis HP', 'Water Damage')">
                     <i class="fa-solid fa-droplet"></i>
-                    <span>Water Damage</span>
+                    <span>Air Masuk</span>
                 </div>
             </div>
-
-            <button class="btn btn-primary" onclick="navTo('order')">
-                Buat Order Servis Sekarang <i class="fa-solid fa-arrow-right"></i>
+            
+            <button class="btn btn-primary" onclick="navTo('order-section')">
+                Buat Order Servis <i class="fa-solid fa-arrow-right"></i>
             </button>
-        </section>
+            
+            <button class="btn btn-outline" onclick="navTo('article-section')">
+                <i class="fa-solid fa-book-open"></i> Baca Tips & Artikel
+            </button>
 
-        <!-- 2. LAYANAN (SERVICES) -->
-        <section id="page-services" class="page">
-            <h2 style="margin-bottom: 20px;">Daftar Layanan & Harga</h2>
-            <div id="services-list">
-                <!-- JS Generated Services -->
+            <button class="btn btn-outline" onclick="navTo('login-section')" style="margin-top:10px;">
+                <i class="fa-solid fa-lock"></i> Login Admin
+            </button>
+            
+            <div style="margin-top: 2rem; font-size: 0.8rem; color: var(--text-light);">
+                <i class="fa-solid fa-database"></i> Database Update: <span id="dbStatus">Checking...</span>
             </div>
         </section>
 
-        <!-- 3. ORDER (BOOKING) -->
-        <section id="page-order" class="page">
-            <h2 style="margin-bottom: 20px;">Booking Servis</h2>
+        <!-- 2. FORM ORDER (LAYANAN & ORDER) -->
+        <section id="order-section" class="step-section full-width-section">
+            <h2><i class="fa-solid fa-wrench"></i> Form Order Servis</h2>
             
             <div class="form-group">
                 <label>Kategori Perangkat</label>
-                <select id="orderCat" onchange="updateOrderForm()">
-                    <option value="">-- Pilih --</option>
-                    <option value="HP">Smartphone</option>
-                    <option value="Tablet">Tablet / iPad</option>
-                    <option value="Laptop">Laptop / PC</option>
-                    <option value="Elektronik">Elektronik Rumah</option>
+                <select id="custCategory" onchange="populateServiceDropdown()">
+                    <option value="">-- Pilih Kategori --</option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label>Jenis Kerusakan</label>
-                <select id="orderDamage" onchange="calculateEstimate()">
-                    <option value="">-- Pilih --</option>
+                <label>Komponen & Kerusakan</label>
+                <select id="custService" onchange="updatePriceSummary()">
+                    <option value="">-- Pilih Kerusakan --</option>
                 </select>
             </div>
 
-            <!-- Estimate Display -->
-            <div id="estimateBox" class="card hidden" style="border-left: 4px solid var(--primary);">
-                <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:1.1rem;">
-                    <span>Estimasi:</span>
-                    <span id="estPrice">Rp 0</span>
+            <!-- PICKUP -->
+            <div class="form-group">
+                <label style="display:flex; align-items:center; gap:10px; cursor:pointer;">
+                    <input type="checkbox" id="needPickup" style="width:auto;" onchange="togglePickupInput()">
+                    Butuh Jemput Unit (Pickup)?
+                </label>
+            </div>
+
+            <div id="pickupInputGroup" class="pickup-box">
+                <label>Jarak Lokasi (km)</label>
+                <input type="number" id="pickupDistance" placeholder="Contoh: 3" oninput="updatePriceSummary()">
+                <small id="pickupFeeText" style="display:block; margin-top:5px; color:var(--primary); font-weight:600;">
+                    Biaya Pickup: Rp 0
+                </small>
+                <small style="display:block; margin-top:2px; font-size:0.75rem;">
+                    *Biaya Rp 25.000 untuk jarak < 5km. > 5km hubungi admin.
+                </small>
+            </div>
+
+            <!-- PRICE DISPLAY -->
+            <div id="priceDisplay" class="price-summary">
+                <div style="font-weight:bold; margin-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.2); padding-bottom:5px;">Rincian Biaya:</div>
+                <div class="price-row">
+                    <span>Sparepart:</span>
+                    <span id="dispSparepart">Rp 0</span>
                 </div>
-                <div style="margin-top:8px; font-size:0.85rem;">
-                    <span id="estTime">-</span> | <span id="estSeverity" class="badge badge-light">-</span>
+                <div class="price-row">
+                    <span>Jasa:</span>
+                    <span id="dispService">Rp 0</span>
+                </div>
+                <div class="price-row" id="pickupRow" style="display:none; color:#fef08a;">
+                    <span>Pickup:</span>
+                    <span id="dispPickup">Rp 0</span>
+                </div>
+                <div class="price-total">
+                    <span>TOTAL:</span>
+                    <span id="dispTotal">Rp 0</span>
                 </div>
             </div>
 
-            <!-- Pickup Section -->
-            <div class="form-group" style="display:flex; align-items:center; gap:10px;">
-                <input type="checkbox" id="needPickup" style="width:auto;" onchange="togglePickup()">
-                <label for="needPickup" style="margin:0;">Butuh Pickup & Antar?</label>
+            <div style="margin: 20px 0; border-top: 1px solid var(--border);"></div>
+            
+            <h3>Data Diri</h3>
+            <div class="form-group">
+                <label>Nama Lengkap</label>
+                <input type="text" id="custName" placeholder="Contoh: Budi Santoso">
+            </div>
+            <div class="form-group">
+                <label>Nomor WhatsApp</label>
+                <input type="tel" id="custWA" placeholder="0812...">
+            </div>
+            <div class="form-group">
+                <label>Alamat / Detail Lokasi</label>
+                <textarea id="custAddress" rows="2" placeholder="Alamat lengkap..."></textarea>
             </div>
 
-            <div id="pickupDetail" class="pickup-box hidden">
-                <label>Jarak (km)</label>
-                <input type="number" id="pickupDist" placeholder="Cth: 3" oninput="calculateEstimate()">
-                <p id="pickupFeeText" style="margin-top:5px; font-weight:600; color:var(--primary);">Biaya Pickup: Rp 0</p>
-                <small style="color:var(--text-muted);">*Biaya Rp 25.000 untuk < 5km. > 5km Hubungi Admin.</small>
+            <button id="btnSendWA" class="btn btn-whatsapp" onclick="sendCustomerOrder()">
+                <i class="fa-brands fa-whatsapp"></i> Kirim Order ke WA
+            </button>
+        </section>
+
+        <!-- 3. LOGIN ADMIN -->
+        <section id="login-section" class="step-section">
+            <h2><i class="fa-solid fa-user-shield"></i> Login Admin</h2>
+            <p class="subtitle">Masuk untuk membuat Resi & Kelola Data.</p>
+            
+            <div class="alert" style="background: #e0f2fe; padding: 10px; border-radius: 8px; font-size: 0.8rem; color: #0369a1; margin-bottom: 15px;">
+                <i class="fa-solid fa-circle-info"></i> <strong>Security Update:</strong> Gunakan PIN (6 digit) untuk login. Default: 123456.
             </div>
 
-            <!-- Customer Data -->
-            <div class="card">
-                <h4 style="margin-bottom:12px;">Data Diri</h4>
-                <div class="form-group">
-                    <label>Nama Lengkap</label>
-                    <input type="text" id="custName">
+            <div class="form-group">
+                <label>PIN Admin</label>
+                <input type="password" id="adminPin" placeholder="Masukkan PIN" maxlength="6" pattern="\d*">
+            </div>
+            <button id="btnLogin" class="btn btn-primary" onclick="handleLogin()">
+                <span>Masuk Panel</span>
+            </button>
+            <button class="btn btn-secondary" onclick="navTo('home-section')">Kembali ke Home</button>
+        </section>
+
+        <!-- 4. ADMIN PANEL -->
+        <section id="admin-panel" class="step-section full-width-section">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                <h2 style="margin:0;"><i class="fa-solid fa-file-invoice"></i> Buat Resi</h2>
+                <button class="btn btn-danger" onclick="logout()" style="width:auto; padding: 8px 15px; font-size: 0.8rem; margin:0;">Keluar</button>
+            </div>
+            
+            <div class="admin-grid">
+                <div class="form-group full-col">
+                    <label>Nomor Order / Resi</label>
+                    <input type="text" id="resOrderId" placeholder="Otomatis" readonly>
                 </div>
                 <div class="form-group">
-                    <label>Nomor WhatsApp</label>
-                    <input type="tel" id="custWA">
+                    <label>Tanggal</label>
+                    <input type="date" id="resDate" onchange="updateLivePreview()">
                 </div>
                 <div class="form-group">
-                    <label>Alamat Lengkap</label>
-                    <textarea id="custAddress" rows="2"></textarea>
+                    <label>Nama Pelanggan</label>
+                    <input type="text" id="resName" placeholder="Nama Customer" oninput="updateLivePreview()">
                 </div>
-                <button class="btn btn-whatsapp" onclick="sendOrder()">
-                    <i class="fa-brands fa-whatsapp"></i> Kirim Order ke WA
+                <div class="form-group">
+                    <label>No. HP / WA</label>
+                    <input type="text" id="resWA" placeholder="08..." oninput="updateLivePreview()">
+                </div>
+                <div class="form-group">
+                    <label>Perangkat</label>
+                    <input type="text" id="resDevice" placeholder="HP/Laptop" oninput="updateLivePreview()">
+                </div>
+                <div class="form-group">
+                    <label>Merek/Model</label>
+                    <input type="text" id="resModel" placeholder="Samsung A52" oninput="updateLivePreview()">
+                </div>
+                <div class="form-group full-col">
+                    <label>Keluhan / Kerusakan</label>
+                    <textarea id="resIssue" rows="2" placeholder="Deskripsi..." oninput="updateLivePreview()"></textarea>
+                </div>
+                <div class="form-group full-col">
+                    <label>Layanan & Biaya</label>
+                    <textarea id="resServices" rows="3" placeholder="Ganti LCD - 500000&#10;Jasa - 50000" oninput="updateLivePreview()"></textarea>
+                </div>
+            </div>
+
+            <div style="margin-top: 1rem;">
+                <button class="btn btn-primary" onclick="printReceipt()">
+                    <i class="fa-solid fa-print"></i> Cetak Resi
+                </button>
+                <button class="btn btn-secondary" onclick="copyReceiptText()">
+                    <i class="fa-solid fa-copy"></i> Salin Teks Resi
+                </button>
+            </div>
+
+            <div class="receipt-divider"></div>
+            <h4 style="text-align:center; color:var(--text-light);">Preview Tampilan:</h4>
+            
+            <div id="receiptPreview">
+                <div class="receipt-header">
+                    <i class="fa-solid fa-screwdriver-wrench receipt-logo"></i>
+                    <div style="font-weight:bold; font-size:1.2rem; text-transform:uppercase;">MALIK SERVICE</div>
+                    <div style="font-size:0.8rem;"> DS.JamalSari RT004/RW002 No.52 Jl.Untung Suropati, Semarang </div>
+                    <div style="font-size:0.8rem;">WA: 0857-1308-7659</div>
+                </div>
+                <div class="receipt-row"><span>No. Order:</span><span id="prevId">-</span></div>
+                <div class="receipt-row"><span>Tanggal:</span><span id="prevDate">-</span></div>
+                <div class="receipt-divider"></div>
+                <div class="receipt-row"><span>Pelanggan:</span><span id="prevName">-</span></div>
+                <div class="receipt-row"><span>No. HP:</span><span id="prevWA">-</span></div>
+                <div class="receipt-divider"></div>
+                <div class="receipt-row"><span>Perangkat:</span><span id="prevDevice">-</span></div>
+                <div class="receipt-row"><span>Model:</span><span id="prevModel">-</span></div>
+                <div class="receipt-row" style="flex-direction:column;">
+                    <span style="font-weight:bold; margin-bottom:2px;">Keluhan:</span>
+                    <span id="prevIssue" style="font-size:0.8rem; text-align:right;">-</span>
+                </div>
+                <div class="receipt-divider"></div>
+                <div style="font-weight:bold; margin-bottom:5px;">Rincian:</div>
+                <div id="prevServices">
+                    <div style="font-size:0.8rem; text-align:center;">Belum ada data</div>
+                </div>
+                <div class="receipt-divider"></div>
+                <div class="receipt-total">
+                    <span>TOTAL:</span>
+                    <span id="prevTotal">Rp 0</span>
+                </div>
+                <div class="receipt-footer" style="text-align:center; margin-top:15px; font-size:0.7rem;">
+                    <p>*Simpan struk ini sebagai bukti garansi.</p>
+                    <p>Terima Kasih</p>
+                </div>
+            </div>
+
+            <!-- AUDIT LOG -->
+            <div style="margin-top: 2rem;">
+                <h4>Audit Log Aktivitas (Lokal)</h4>
+                <div id="auditContainer" class="audit-log"></div>
+            </div>
+        </section>
+
+        <!-- 5. HALAMAN ARTIKEL -->
+        <section id="article-section" class="step-section full-width-section">
+            <h2><i class="fa-solid fa-newspaper"></i> Artikel & Tips</h2>
+            <div id="articleList">
+                <!-- Articles injected via JS -->
+            </div>
+            
+            <!-- Detail View (Hidden by default) -->
+            <div id="articleDetail" style="display:none;">
+                <button class="btn btn-outline" onclick="closeArticleDetail()" style="margin-bottom:1rem;"><i class="fa-solid fa-arrow-left"></i> Kembali</button>
+                <h1 id="detailTitle" style="color:var(--primary); font-size:1.5rem; margin-bottom:0.5rem;"></h1>
+                <span id="detailTag" class="article-tag"></span>
+                <div id="detailContent" style="margin-top:1rem; font-size:1rem; color:var(--text-main);"></div>
+                <button class="btn btn-whatsapp" style="margin-top:2rem;" onclick="window.location.href='https://wa.me/6285713087659'">
+                    Konsultasi Masalah Ini
                 </button>
             </div>
         </section>
 
-        <!-- 4. ARTIKEL (ARTICLES) -->
-        <section id="page-articles" class="page">
-            <h2 style="margin-bottom: 20px;">Artikel & Tips Elektronik</h2>
-            <div id="article-list-container">
-                <!-- JS Generated Articles -->
+        <!-- 6. HALAMAN RESI (CARI) -->
+        <section id="resi-section" class="step-section">
+            <h2><i class="fa-solid fa-search"></i> Cek Status Resi</h2>
+            <p class="subtitle">Masukkan nomor order untuk melihat status (Fitur Placeholder).</p>
+            <div class="form-group">
+                <input type="text" placeholder="Masukkan Nomor Resi...">
             </div>
+            <button class="btn btn-primary">Cek Status</button>
         </section>
-
-        <!-- 5. RESI / ADMIN (RECEIPT) -->
-        <section id="page-admin" class="page">
-            <!-- Login Form -->
-            <div id="admin-login" class="card">
-                <h2><i class="fa-solid fa-lock"></i> Area Admin</h2>
-                <div class="form-group">
-                    <label>Username</label>
-                    <input type="text" id="admUser">
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="admPass">
-                </div>
-                <button class="btn btn-primary" onclick="adminLogin()">Masuk</button>
-            </div>
-
-            <!-- Admin Panel -->
-            <div id="admin-panel" class="hidden">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-                    <h2>Buat Resi</h2>
-                    <button class="btn btn-secondary" style="width:auto; padding:8px 16px;" onclick="adminLogout()">Keluar</button>
-                </div>
-
-                <div class="form-group">
-                    <label>No. Order</label>
-                    <input type="text" id="resId" readonly>
-                </div>
-                <div class="form-group">
-                    <label>Nama Pelanggan</label>
-                    <input type="text" id="resName" oninput="updateReceipt()">
-                </div>
-                <div class="form-group">
-                    <label>Perangkat</label>
-                    <input type="text" id="resDev" oninput="updateReceipt()">
-                </div>
-                <div class="form-group">
-                    <label>Keluhan</label>
-                    <input type="text" id="resIssue" oninput="updateReceipt()">
-                </div>
-                <div class="form-group">
-                    <label>Biaya Total</label>
-                    <input type="number" id="resPrice" oninput="updateReceipt()">
-                </div>
-
-                <!-- ACTION BUTTONS -->
-                <div style="margin-top:20px;">
-                    <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:10px;">*Pilih metode penyimpanan resi:</p>
-                    <button class="btn btn-primary" onclick="printReceipt()">
-                        <i class="fa-solid fa-print"></i> Cetak / Save PDF
-                    </button>
-                    <button class="btn btn-secondary" onclick="openInBrowser()">
-                        <i class="fa-solid fa-globe"></i> Buka Resi di Browser
-                    </button>
-                    <button class="btn btn-secondary" onclick="copyReceiptText()">
-                        <i class="fa-solid fa-copy"></i> Salin Teks Resi
-                    </button>
-                </div>
-
-                <!-- RECEIPT PREVIEW -->
-                <div class="receipt-wrapper" style="margin-top:30px;">
-                    <h4 style="text-align:center; margin-bottom:10px; color:var(--text-muted);">Preview Cetak</h4>
-                    <div class="receipt-preview">
-                        <div style="text-align:center; border-bottom:2px dashed #000; padding-bottom:10px; margin-bottom:15px;">
-                            <i class="fa-solid fa-screwdriver-wrench" style="font-size:2rem; color:black;"></i>
-                            <h3 style="margin:5px 0; text-transform:uppercase;">MALIK SERVICE</h3>
-                            <p style="font-size:0.8rem; margin:0;">DS. JamalSari RT004/RW002 No.52, Semarang</p>
-                            <p style="font-size:0.8rem; margin:0;">WA: 0857-1308-7659</p>
-                        </div>
-                        <div class="rec-row"><span>Tgl:</span> <span id="viewDate">-</span></div>
-                        <div class="rec-row"><span>No. Order:</span> <span id="viewId">-</span></div>
-                        <div class="rec-divider"></div>
-                        <div class="rec-row"><span>Pelanggan:</span> <span id="viewName">-</span></div>
-                        <div class="rec-row"><span>Perangkat:</span> <span id="viewDev">-</span></div>
-                        <div class="rec-row"><span>Keluhan:</span> <span id="viewIssue">-</span></div>
-                        <div class="rec-divider"></div>
-                        <div class="rec-total"><span>TOTAL:</span> <span id="viewPrice">Rp 0</span></div>
-                        <div style="text-align:center; margin-top:15px; font-size:0.75rem;">
-                            *Simpan sebagai bukti garansi.<br>Terima Kasih.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
     </main>
+
+    <!-- FLOATING WA (Optional, Bottom Nav exists but this is prominent) -->
+    <a href="https://wa.me/6285713087659" class="fab-wa" target="_blank" style="position:fixed; bottom:85px; right:20px; width:55px; height:55px; background:#25D366; border-radius:50%; display:flex; justify-content:center; align-items:center; color:white; font-size:24px; box-shadow:0 4px 10px rgba(0,0,0,0.2); z-index:998; text-decoration:none;">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
 
     <!-- BOTTOM NAVIGATION -->
     <nav class="bottom-nav">
-        <div class="nav-item active" onclick="navTo('home')">
+        <button class="nav-item active" onclick="navTo('home-section', this)">
             <i class="fa-solid fa-house"></i>
-            <span>Beranda</span>
-        </div>
-        <div class="nav-item" onclick="navTo('services')">
-            <i class="fa-solid fa-list"></i>
-            <span>Layanan</span>
-        </div>
-        <div class="nav-item" onclick="navTo('order')">
-            <i class="fa-solid fa-calendar-check"></i>
+            <span>Home</span>
+        </button>
+        <button class="nav-item" onclick="navTo('order-section', this)">
+            <i class="fa-solid fa-cart-plus"></i>
             <span>Order</span>
-        </div>
-        <div class="nav-item" onclick="navTo('articles')">
-            <i class="fa-solid fa-newspaper"></i>
+        </button>
+        <button class="nav-item" onclick="navTo('article-section', this)">
+            <i class="fa-solid fa-book-open"></i>
             <span>Artikel</span>
-        </div>
-        <div class="nav-item" onclick="navTo('admin')">
-            <i class="fa-solid fa-file-invoice"></i>
-            <span>Resi</span>
-        </div>
+        </button>
+        <button class="nav-item" onclick="navTo('resi-section', this)">
+            <i class="fa-solid fa-receipt"></i>
+            <span>Cek Resi</span>
+        </button>
+        <button class="nav-item" onclick="navTo('login-section', this)">
+            <i class="fa-solid fa-user-lock"></i>
+            <span>Admin</span>
+        </button>
     </nav>
 
-    <!-- ARTICLE MODAL -->
-    <div id="articleModal" class="modal">
-        <div class="modal-header">
-            <i class="fa-solid fa-arrow-left" style="font-size:1.5rem; color:var(--text-main); cursor:pointer;" onclick="closeModal()"></i>
-        </div>
-        <div id="articleContent" class="modal-body">
-            <!-- Content Injected Here -->
-        </div>
-    </div>
-
+    <!-- JAVASCRIPT -->
     <script>
-        /* --- 1. DATABASE LAYANAN LENGKAP --- */
-        const serviceDB = [
-            // HP
-            { cat: "HP", name: "Ganti LCD Non-Ori", price: 150000, severity: "Sedang", time: "1 Jam", badge: "Fast" },
-            { cat: "HP", name: "Ganti LCD Original", price: 450000, severity: "Sedang", time: "2 Jam" },
-            { cat: "HP", name: "Ganti Baterai", price: 120000, severity: "Ringan", time: "30 Menit", badge: "Fast" },
-            { cat: "HP", name: "IC Power / Mati Total", price: 250000, severity: "Berat", time: "2-3 Hari" },
-            { cat: "HP", name: "Servis Kena Air", price: 75000, severity: "Berat", time: "1-2 Hari", badge: "Garansi" },
-            { cat: "HP", name: "Unlock / Flash FRP", price: 80000, severity: "Ringan", time: "1 Jam" },
-            { cat: "HP", name: "Data Recovery", price: 250000, severity: "Berat", time: "Estimasi" },
-            { cat: "HP", name: "Ganti Kamera/Speaker", price: 80000, severity: "Ringan", time: "30 Menit" },
-            // Laptop
-            { cat: "Laptop", name: "Install Ulang OS", price: 100000, severity: "Ringan", time: "2 Jam" },
-            { cat: "Laptop", name: "Upgrade SSD/RAM", price: 150000, severity: "Ringan", time: "1 Jam" },
-            { cat: "Laptop", name: "Ganti Keyboard/LCD", price: 400000, severity: "Sedang", time: "3 Jam" },
-            { cat: "Laptop", name: "Cleaning Overheat", price: 100000, severity: "Ringan", time: "1 Jam" },
-            // Tablet & Elektronik
-            { cat: "Tablet", name: "Ganti Layar Tablet", price: 350000, severity: "Sedang", time: "2 Hari" },
-            { cat: "Elektronik", name: "Servis Kulkas", price: 150000, severity: "Berat", time: "Home Visit" },
-            { cat: "Elektronik", name: "Servis AC", price: 150000, severity: "Berat", time: "Home Visit" }
+        // ==========================================
+        // 1. KONFIGURASI & KEAMANAN
+        // ==========================================
+        const CONFIG = {
+            APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbxIVdXLb9UPX2LbG9wMe5eb_-W0rhxRGJF-TMbxgeNjH07UQI6j3AAW3ROBlc-9mmRU/exec", // URL Spreadsheet (POST Only)
+            DEFAULT_PIN_HASH: "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", // SHA-256 for "123456"
+            SESSION_TIMEOUT: 30 * 60 * 1000 // 30 menit
+        };
+
+        // Audit Log Helper
+        const AuditLog = {
+            add: (action) => {
+                const logs = JSON.parse(localStorage.getItem('malik_audit_logs') || '[]');
+                const newLog = {
+                    time: new Date().toLocaleString('id-ID'),
+                    action: action
+                };
+                logs.unshift(newLog); // Add to top
+                if(logs.length > 20) logs.pop(); // Keep last 20
+                localStorage.setItem('malik_audit_logs', JSON.stringify(logs));
+                AuditLog.render();
+            },
+            render: () => {
+                const container = document.getElementById('auditContainer');
+                const logs = JSON.parse(localStorage.getItem('malik_audit_logs') || '[]');
+                if(logs.length === 0) {
+                    container.innerHTML = '<div style="color:#666; text-align:center; padding:10px;">Belum ada aktivitas.</div>';
+                    return;
+                }
+                container.innerHTML = logs.map(l => 
+                    `<div class="audit-entry"><span style="color:#94a3b8">[${l.time}]</span> ${l.action}</div>`
+                ).join('');
+            }
+        };
+
+        // ==========================================
+        // 2. DATABASE LAYANAN (Lengkap & Stabil)
+        // ==========================================
+        const masterServiceDatabase = [
+            // HP Android & iPhone
+            { cat: "Servis HP Android", item: "Ganti LCD", issue: "Layar pecah / touch error", price: 250000, est: "2 Jam" },
+            { cat: "Servis HP Android", item: "Ganti Baterai", issue: "Baterai boros / drop", price: 120000, est: "30 Menit" },
+            { cat: "Servis iPhone", item: "Ganti LCD iPhone", issue: "Touch disease / retak", price: 450000, est: "3 Jam" },
+            { cat: "Servis iPhone", item: "Ganti Baterai iPhone", issue: "Baterai drop", price: 250000, est: "1 Jam" },
+            
+            // Tablet & Laptop
+            { cat: "Servis Tablet", item: "Ganti LCD Tablet", issue: "Layar putus", price: 350000, est: "1 Hari" },
+            { cat: "Servis Tablet", item: "Ganti Baterai Tablet", issue: "Tidak menyala", price: 200000, est: "2 Jam" },
+            { cat: "Servis Laptop Ringan", item: "Ganti Keyboard Laptop", issue: "Tombol mati", price: 300000, est: "1 Hari" },
+            { cat: "Servis Laptop Ringan", item: "Upgrade SSD / RAM", issue: "Lambat / Penuh", price: 400000, est: "2 Jam" },
+            { cat: "Servis Laptop Ringan", item: "Thermal Paste", issue: "Overheat", price: 100000, est: "1 Jam" },
+
+            // Software
+            { cat: "Servis Software", item: "Install Ulang Windows", issue: "Bootloop / Virus", price: 150000, est: "2 Jam" },
+            { cat: "Servis Software", item: "Flash HP Android", issue: "Bootloop / Stuck Logo", price: 100000, est: "3 Jam" },
+            { cat: "Servis Software", item: "Unlock / FRP", issue: "Lupa Pola / Google", price: 150000, est: "4 Jam" },
+            { cat: "Servis Software", item: "Data Recovery", issue: "Foto Hilang / Terformat", price: 300000, est: "Sesuai Antrisan" },
+            { cat: "Servis Software", item: "Upgrade Storage", issue: "Memory Penuh", price: 150000, est: "1 Jam" },
+
+            // Hardware Detail (Kategori Baru)
+            { cat: "Charging Port", item: "Konektor Cas", issue: "Tidak bisa charge / loyo", price: 100000, est: "2 Jam" },
+            { cat: "IC Power", item: "Ganti IC Power", issue: "Mati Total", price: 250000, est: "1 Hari" },
+            { cat: "IC Charging", item: "Ganti IC Charging", issue: "Tidak detect cas", price: 200000, est: "1 Hari" },
+            { cat: "Kamera", item: "Ganti Kamera Depan", issue: "Blur / Black", price: 150000, est: "1 Jam" },
+            { cat: "Kamera", item: "Ganti Kamera Belakang", issue: "Fokus Error", price: 200000, est: "1 Jam" },
+            { cat: "Speaker / Mic", item: "Ganti Speaker", issue: "Suara Kecil / Kresek", price: 100000, est: "30 Menit" },
+            { cat: "Speaker / Mic", item: "Ganti Mic", issue: "Lawan bicara tidak dengar", price: 100000, est: "30 Menit" },
+            
+            // Kerusakan Umum
+            { cat: "Mati Total", item: "Cek Jalur / IC", issue: "HP Mati Total", price: 150000, est: "Check Dulu" },
+            { cat: "Air Masuk", item: "Ultrasonic Cleaning", issue: "HP Kena Air", price: 100000, est: "24 Jam" },
+            { cat: "Bootloop", item: "Repair Software", issue: "Bootloop Berat", price: 150000, est: "4 Jam" },
+            
+            // Maintenance
+            { cat: "Maintenance Berkala", item: "Full Cleaning", issue: "Kotor / Debu", price: 75000, est: "1 Jam" }
         ];
 
-        /* --- 2. DATABASE ARTIKEL (30 STRUKTUR) --- */
-        const articles = [
-            { title: "HP Tidak Bisa Di-charge? Ini Penyebabnya", cat: "Tips HP", img: "🔌", content: "Masalah charging sering terjadi. Penyebab umum: kabel putus, port kotor, atau IC Power rusak. Cek dulu kabel Anda di HP lain." },
-            { title: "LCD Retak Masih Bisa Dipakai?", cat: "Tips HP", img: "📱", content: "Layar retak masih bisa dipakai jika sentuh jalan dan LCD tidak bocor (biru/hitam). Namun segera ganti agar kaca tidak melukai jari." },
-            { title: "Cara Backup Data Sebelum Servis", cat: "Edukasi", img: "☁️", content: "Penting membackup data. Android: Gunakan Google Photo/Drive. iPhone: Gunakan iCloud. Jangan lupa ingat password iCloud Anda." },
-            { title: "Baterai Boros Padahal Baru", cat: "Tips HP", img: "🔋", content: "Baterai boros bisa disebabkan oleh aplikasi latar belakang, sinyal lemah, atau baterai palsu/rekondisi." },
-            { title: "Lambat? Cek Storage Anda", cat: "Tips Laptop", img: "💾", content: "Storage penuh membuat HP/Laptop lambat. Hapus cache, foto/video tidak penting ke Cloud, atau uninstall aplikasi jarang dipakai." },
-            { title: "Mati Total: Bisa Selamat?", cat: "Kerusakan Umum", img: "⚡", content: "Mati total (matot) biasanya karena IC Power short. Bisa diperbaiki dengan cara reballing atau ganti IC, asalkan kondisi motherboard masih bagus." },
-            { title: "Kenapa HP Cepat Panas?", cat: "Tips HP", img: "🔥", content: "Main game berat, casan sambil main, atau suhu ruangan panas. Gunakan cooling fan atau istirahatkan HP sesaat." },
-            { title: "Speaker Suara Pecah", cat: "Kerusakan Umum", img: "🔊", content: "Speaker pecah biasanya karena debu masuk membrane atau kabel putus. Bisa dibersihkan atau diganti modul speaker." },
-            { title: "Kamera Blur / Error", cat: "Kerusakan Umum", img: "📸", content: "Blur bisa karena kotor di lensa atau modul kamera rusak. Coba bersihkan lensa dulu dengan kain microfiber." },
-            { title: "Kena Air, Apa Yang Harus Dilakukan?", cat: "Tips HP", img: "💧", content: "MATIKAN HP SEKARANG. Jangan nyalakan. Jangan goyang-goyang. Bawa segera ke teknisi untuk dilakukan pembersihan (ultrasonic cleaner)." },
-            { title: "Lupa Pola / Password", cat: "Edukasi", img: "🔒", content: "Jangan direset sembarangan di recovery mode karena data akan hilang. Bisa dibuka lewat Flashing tool atau buka akun Google (FRP)." },
-            { title: "Estimasi Biaya Ganti LCD", cat: "Estimasi Harga", img: "💰", content: "HP Low End: 150-250rb. HP Mid End: 250-400rb. HP High End (Ori): 500rb keatas. Tergantung tipe." },
-            { title: "Upgrade SSD Worth It?", cat: "Tips Laptop", img: "🚀", content: "Sangat worth it! Upgrade SSD dari HDD membuat booting Windows 3x lebih cepat dan aplikasi ringan loading sekejap." },
-            { title: "IC Touchscreen Rusak", cat: "Kerusakan Umum", img: "👆", content: "Sentuh bergerak sendiri (ghost touch) atau sebagian tidak respon. Biasanya diakibatkan IC Touch short karena benturan." },
-            { title: "Sinyal Hilang / No Service", cat: "Kerusakan Umum", img: "📶", content: "Cek dulu kartu SIM di HP lain. Jika kartu normal, berarti masalah di jalur RF, IC PA, atau Konektor Antena." },
-            { title: "Jarak Pantang Layar (Green Screen)", cat: "Kerusakan Umum", img: "🟢", content: "Tampilan hijau/pink bercak. Masalah pada kabel fleksibel LCD lepas atau koneksi IC Display longgar." },
-            { title: "Servis TV Gelap Suara Ada", cat: "Kerusakan Umum", img: "📺", content: "Biasanya Backlight LED mati. Bisa diganti modul backlight atau cek elco di power supply." },
-            { title: "Kipas Angin Berisik", cat: "Tips Rumah", img: "💨", content: "Berisik karena bearing dinamo aus. Minyak pelumas sudah kering. Bisa ditambah minyak bearing atau ganti dinamo." },
-            { title: "Mesin Cuci Tidak Berputar", cat: "Kerusakan Umum", img: "🧺", content: "Cek kapasitor, dinamo, atau modul timer. Jika hanya bunyi 'klik-klik', biasanya kapasitor lemah." },
-            { title: "Kulkas Tidak Dingin", cat: "Kerusakan Umum", img: "❄️", content: "Freon bocor? Kompresor mati? Atau timer defrost rusak? Segera cek agar makanan tidak basi." },
-            { title: "Garansi Resi Hilang", cat: "Edukasi", img: "📝", content: "Jika resi hilang, kami tetap bisa cek data di buku catatan kami berdasarkan nama dan nomor HP saat pendaftaran." },
-            { title: "Perbedaan LCD Ori & Copy", cat: "Edukasi", img: "🖼️", content: "Ori: Warna tajam, sentuh mulus, awet. Copy: Warna agak kehijauan, kadang sentuh sensitif, harga murah." },
-            { title: "Flash Ulang Bisa Hilang Data?", cat: "Edukasi", img: "⚠️", content: "Ya. Flash ulang (Install OS) memformat memori internal. Backup data dulu sebelum melakukan flashing." },
-            { title: "Mic Tidak Terdengar Saat Telpon", cat: "Kerusakan Umum", img: "🎤", content: "Bisa karena mic kotor debu, lubang mic tertutup casing, atau modul mic putus. Cek recording dulu." },
-            { title: "Vibrator Rusak", cat: "Kerusakan Umum", img: "📳", content: "HP tidak bergetar saat ada notifikasi. Ganti motor vibrator. Murah dan cepat." },
-            { title: "Install Ulang vs Reset Pabrik", cat: "Edukasi", img: "🔄", content: "Reset pabrik: Kembali ke pengaturan awal (Windows masih ada). Install ulang: Hapus OS lama pasang baru." },
-            { title: "Charger Original vs KW", cat: "Tips HP", img: "🔌", content: "Charger KW arus tidak stabil. Bisa merusak baterai (kembung) atau IC Power dalam jangka panjang." },
-            { title: "Layar Berbayang / Miring", cat: "Kerusakan Umum", img: "📉", content: "Tanda LCD mulai rusak (kaca mulai lepas dari polarizer). Sebaiknya segera diganti sebelum hitam total." },
-            { title: "WiFi Tidak Konek", cat: "Kerusakan Umum", img: "📡", content: "Cek dulu di HP lain. Kalau router normal, berarti IC WiFi di HP bermasalah atau perlu ganti antena pogo pin." },
-            { title: "Tips Rawat Baterai Awet", cat: "Tips HP", img: "🔋", content: "Jangan biarkan baterai 0% seringkali. Cas saat 20% dan stop saat 90-95% untuk umur baterai panjang." },
-            { title: "Kartu SD Tidak Terbaca", cat: "Kerusakan Umum", img: "💾", content: "Bisa karena file system corrupt, kartu mati, atau slot bacaan kotor. Coba diformat dulu di laptop." }
-        ];
+        // Database Manager
+        const DB = {
+            init: () => {
+                const localData = localStorage.getItem('malik_services_v2');
+                let data = [];
 
-        /* --- 3. NAVIGATION LOGIC --- */
-        function navTo(pageId) {
-            // Hide all pages
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            
-            // Show target
-            document.getElementById('page-' + pageId).classList.add('active');
-            
-            // Update nav active state
-            const index = ['home', 'services', 'order', 'articles', 'admin'].indexOf(pageId);
-            if(index !== -1) document.querySelectorAll('.nav-item')[index].classList.add('active');
+                if (localData) {
+                    try {
+                        data = JSON.parse(localData);
+                        // Check if master data is newer (simple version check)
+                        if(data.length < masterServiceDatabase.length) {
+                            console.log("Updating database...");
+                            localStorage.setItem('malik_services_v2', JSON.stringify(masterServiceDatabase));
+                            data = masterServiceDatabase;
+                            DB.logUpdate();
+                        }
+                    } catch (e) {
+                        console.error("DB Corrupt, restoring default");
+                        localStorage.setItem('malik_services_v2', JSON.stringify(masterServiceDatabase));
+                        data = masterServiceDatabase;
+                        DB.logUpdate();
+                    }
+                } else {
+                    localStorage.setItem('malik_services_v2', JSON.stringify(masterServiceDatabase));
+                    data = masterServiceDatabase;
+                    DB.logUpdate();
+                }
+                return data;
+            },
+            getCategories: (data) => {
+                const cats = new Set(data.map(i => i.cat));
+                return Array.from(cats).sort();
+            },
+            logUpdate: () => {
+                const now = new Date();
+                document.getElementById('dbStatus').innerText = now.toLocaleDateString('id-ID') + ' ' + now.toLocaleTimeString('id-ID');
+            }
+        };
 
-            window.scrollTo(0,0);
+        // Initialize Data
+        const serviceData = DB.init();
+        DB.logUpdate();
+
+        // ==========================================
+        // 3. AUTHENTICATION (SECURE PIN)
+        // ==========================================
+        async function hashString(str) {
+            const msgBuffer = new TextEncoder().encode(str);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
         }
 
-        /* --- 4. RENDER SERVICES --- */
-        function renderServices() {
-            const container = document.getElementById('services-list');
-            let html = '';
+        async function handleLogin() {
+            const pinInput = document.getElementById('adminPin').value;
+            const btn = document.getElementById('btnLogin');
+
+            if(!pinInput) { showToast("PIN wajib diisi"); return; }
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Verifikasi...';
+
+            const hashedInput = await hashString(pinInput);
             
-            // Group by Category
-            const categories = [...new Set(serviceDB.map(item => item.cat))];
-            
-            categories.forEach(cat => {
-                html += `<h3 style="margin:20px 0 10px 0; color:var(--primary);">${cat}</h3>`;
-                serviceDB.filter(item => item.cat === cat).forEach(item => {
-                    let badges = '';
-                    if(item.severity === 'Berat') badges += `<span class="badge badge-heavy">${item.severity}</span>`;
-                    else if(item.severity === 'Sedang') badges += `<span class="badge badge-medium">${item.severity}</span>`;
-                    else badges += `<span class="badge badge-light">${item.severity}</span>`;
-                    
-                    if(item.badge === 'Fast') badges += `<span class="badge badge-fast">Fast</span>`;
-                    
-                    html += `
-                    <div class="card" style="padding:12px; display:flex; justify-content:space-between; align-items:center;">
-                        <div>
-                            <div style="font-weight:600;">${item.name}</div>
-                            <div style="font-size:0.8rem; margin:4px 0;">${badges}</div>
-                            <div style="font-size:0.75rem; color:var(--text-muted);">Estimasi: ${item.time}</div>
-                        </div>
-                        <div style="font-weight:bold; color:var(--primary);">${formatRupiah(item.price)}</div>
-                    </div>`;
-                });
-            });
-            container.innerHTML = html;
+            // Check against default hash
+            if(hashedInput === CONFIG.DEFAULT_PIN_HASH) {
+                // Success
+                localStorage.setItem('malik_admin_session', JSON.stringify({ time: Date.now() }));
+                AuditLog.add("Admin Login Berhasil");
+                showToast("Login Berhasil", true);
+                document.getElementById('resDate').valueAsDate = new Date();
+                document.getElementById('resOrderId').value = generateOrderId();
+                updateLivePreview();
+                AuditLog.render();
+                navTo('admin-panel');
+            } else {
+                showToast("PIN Salah!");
+                AuditLog.add("Gagal Login (PIN Salah)");
+            }
+
+            btn.disabled = false;
+            btn.innerHTML = '<span>Masuk Panel</span>';
         }
 
-        /* --- 5. RENDER ARTICLES --- */
-        function renderArticles() {
-            const container = document.getElementById('article-list-container');
-            let html = '';
-            articles.forEach((art, idx) => {
-                html += `
-                <div class="article-item" onclick="openArticle(${idx})">
-                    <div style="font-size:2rem; display:flex; align-items:center; justify-content:center; width:60px; height:60px; background:#f1f5f9; border-radius:8px;">${art.img}</div>
-                    <div style="flex:1;">
-                        <h3>${art.title}</h3>
-                        <p>${art.content}</p>
-                        <span class="badge" style="background:var(--border); margin-top:5px;">${art.cat}</span>
-                    </div>
-                </div>`;
-            });
-            container.innerHTML = html;
+        function checkSession() {
+            const session = JSON.parse(localStorage.getItem('malik_admin_session'));
+            if(session && (Date.now() - session.time < CONFIG.SESSION_TIMEOUT)) {
+                return true;
+            }
+            return false;
         }
 
-        function openArticle(idx) {
-            const art = articles[idx];
-            const modal = document.getElementById('articleModal');
-            const content = document.getElementById('articleContent');
-            
-            content.innerHTML = `
-                <h1>${art.img} ${art.title}</h1>
-                <span class="badge badge-garansi">${art.cat}</span>
-                <p style="margin-top:10px; font-size:1rem;">${art.content}</p>
-                <div style="margin-top:30px; padding:20px; background:var(--light-bg); border-radius:8px; text-align:center;">
-                    <h3>Butuh bantuan langsung?</h3>
-                    <p>Hubungi teknisi kami untuk konsultasi gratis.</p>
-                    <a href="https://wa.me/6285713087659" target="_blank" class="btn btn-whatsapp" style="margin-top:10px;">
-                        <i class="fa-brands fa-whatsapp"></i> Chat WhatsApp
-                    </a>
-                </div>
-            `;
-            modal.classList.add('open');
+        function logout() {
+            localStorage.removeItem('malik_admin_session');
+            showToast("Logout Berhasil", true);
+            navTo('login-section');
         }
 
-        function closeModal() {
-            document.getElementById('articleModal').classList.remove('open');
-        }
-
-        /* --- 6. ORDER LOGIC --- */
-        function updateOrderForm() {
-            const cat = document.getElementById('orderCat').value;
-            const dmgSelect = document.getElementById('orderDamage');
-            dmgSelect.innerHTML = '<option value="">-- Pilih --</option>';
-            document.getElementById('estimateBox').classList.add('hidden');
-
-            if(!cat) return;
-
-            serviceDB.filter(s => s.cat === cat).forEach(item => {
-                const opt = document.createElement('option');
-                opt.value = JSON.stringify(item);
-                opt.text = item.name;
-                dmgSelect.appendChild(opt);
-            });
-        }
-
-        function calculateEstimate() {
-            const dmgVal = document.getElementById('orderDamage').value;
-            const estBox = document.getElementById('estimateBox');
-            
-            if(!dmgVal) {
-                estBox.classList.add('hidden');
+        // ==========================================
+        // 4. UI LOGIC & NAVIGATION
+        // ==========================================
+        function navTo(sectionId, btnElement = null) {
+            // Auth Check for Admin Panel
+            if(sectionId === 'admin-panel' && !checkSession()) {
+                navTo('login-section');
                 return;
             }
 
-            const data = JSON.parse(dmgVal);
-            let total = data.price;
+            // Hide all sections
+            document.querySelectorAll('.step-section, .full-width-section').forEach(sec => {
+                sec.classList.remove('active');
+                sec.style.display = 'none';
+            });
+            
+            // Show target
+            const target = document.getElementById(sectionId);
+            if(target) {
+                target.style.display = (sectionId === 'admin-panel' || sectionId === 'order-section' || sectionId === 'article-section') ? 'block' : 'block';
+                setTimeout(() => target.classList.add('active'), 10);
+            }
+            
+            window.scrollTo(0,0);
 
-            // Pickup Logic
-            const needPickup = document.getElementById('needPickup').checked;
-            const dist = parseFloat(document.getElementById('pickupDist').value) || 0;
-            let pickupFee = 0;
-
-            if(needPickup && dist > 0 && dist < 5) {
-                pickupFee = 25000;
-                document.getElementById('pickupFeeText').innerText = "Biaya Pickup: Rp 25.000";
-            } else if (needPickup && dist >= 5) {
-                document.getElementById('pickupFeeText').innerText = "Jarak > 5km: Hubungi Admin";
+            // Bottom Nav Active State
+            if(btnElement) {
+                document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+                btnElement.classList.add('active');
             } else {
-                document.getElementById('pickupFeeText').innerText = "Biaya Pickup: Rp 0";
+                // Manual mapping for non-nav clicks
+                document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+                if(sectionId === 'home-section') document.querySelectorAll('.nav-item')[0].classList.add('active');
+                if(sectionId === 'order-section') document.querySelectorAll('.nav-item')[1].classList.add('active');
+                if(sectionId === 'article-section') document.querySelectorAll('.nav-item')[2].classList.add('active');
+                if(sectionId === 'resi-section') document.querySelectorAll('.nav-item')[3].classList.add('active');
+                if(sectionId === 'login-section' || sectionId === 'admin-panel') document.querySelectorAll('.nav-item')[4].classList.add('active');
             }
 
-            const grandTotal = total + pickupFee;
-            
-            // UI Updates
-            document.getElementById('estPrice').innerText = formatRupiah(grandTotal);
-            document.getElementById('estTime').innerText = data.time;
-            document.getElementById('estSeverity').innerText = data.severity;
-            
-            if(data.severity === 'Berat') document.getElementById('estSeverity').className = 'badge badge-heavy';
-            else if(data.severity === 'Sedang') document.getElementById('estSeverity').className = 'badge badge-medium';
-            else document.getElementById('estSeverity').className = 'badge badge-light';
-
-            estBox.classList.remove('hidden');
-        }
-
-        function togglePickup() {
-            const isChecked = document.getElementById('needPickup').checked;
-            const detail = document.getElementById('pickupDetail');
-            detail.style.display = isChecked ? 'block' : 'none';
-            calculateEstimate();
-        }
-
-        function sendOrder() {
-            const name = document.getElementById('custName').value;
-            const wa = document.getElementById('custWA').value;
-            const dmgVal = document.getElementById('orderDamage').value;
-            const addr = document.getElementById('custAddress').value;
-
-            if(!name || !wa) { showToast("Nama dan WA wajib diisi!"); return; }
-            if(!dmgVal) { showToast("Pilih kerusakan dulu!"); return; }
-
-            const data = JSON.parse(dmgVal);
-            const needPickup = document.getElementById('needPickup').checked;
-            const dist = document.getElementById('pickupDist').value;
-            let pickupMsg = "";
-
-            if(needPickup) {
-                if(dist < 5) pickupMsg = `\n\n*PICKUP & ANTAR*\nJarak: ${dist} km (+Rp 25.000)`;
-                else pickupMsg = `\n\n*PICKUP & ANTAR*\nJarak: ${dist} km (Mohon konfirmasi ke admin karena > 5km)`;
+            // Init specific sections
+            if(sectionId === 'order-section') {
+                populateCategories();
             }
-
-            const msg = `Halo Admin, saya mau servis.\n\n*Nama:* ${name}\n*Alamat:* ${addr}\n*Kerusakan:* ${data.name}\n*Estimasi:* ${formatRupiah(data.price)}${pickupMsg}`;
-            
-            window.open(`https://wa.me/6285713087659?text=${encodeURIComponent(msg)}`, '_blank');
-        }
-
-        /* --- 7. ADMIN & RECEIPT (NO HTML2CANVAS) --- */
-        function adminLogin() {
-            const u = document.getElementById('admUser').value;
-            const p = document.getElementById('admPass').value;
-            // Simple dummy check for demo
-            if(u === 'admin' && p === 'admin') {
-                document.getElementById('admin-login').classList.add('hidden');
-                document.getElementById('admin-panel').classList.remove('hidden');
-                document.getElementById('resId').value = "RESI-" + Date.now();
-                document.getElementById('viewDate').innerText = new Date().toLocaleDateString('id-ID');
-                showToast("Login Berhasil");
-            } else {
-                showToast("Username/Password Salah (Coba: admin/admin)");
+            if(sectionId === 'article-section') {
+                renderArticleList();
             }
         }
 
-        function adminLogout() {
-            document.getElementById('admin-login').classList.remove('hidden');
-            document.getElementById('admin-panel').classList.add('hidden');
+        function showToast(msg, isSuccess = false) {
+            const toast = document.getElementById('toast');
+            toast.innerText = msg;
+            toast.className = `toast ${isSuccess ? 'success' : ''}`;
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 3000);
         }
 
-        function updateReceipt() {
-            document.getElementById('viewName').innerText = document.getElementById('resName').value;
-            document.getElementById('viewDev').innerText = document.getElementById('resDev').value;
-            document.getElementById('viewIssue').innerText = document.getElementById('resIssue').value;
-            const price = document.getElementById('resPrice').value;
-            document.getElementById('viewPrice').innerText = formatRupiah(price);
-            document.getElementById('viewId').innerText = document.getElementById('resId').value;
-        }
+        document.getElementById('darkModeBtn').addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+        });
 
-        function printReceipt() {
-            // THE SOLUTION FOR WEBVIEW: Native Print to PDF
-            window.print();
-        }
-
-        function openInBrowser() {
-            // Opens current receipt in new window (Browser usually handles _blank)
-            window.open(window.location.href + '#page-admin', '_blank');
-        }
-
-        function copyReceiptText() {
-            const text = `RESI MALIK SERVICE\nNo: ${document.getElementById('resId').value}\nNama: ${document.getElementById('resName').value}\nPerangkat: ${document.getElementById('resDev').value}\nKeluhan: ${document.getElementById('resIssue').value}\nTotal: ${formatRupiah(document.getElementById('resPrice').value)}\n\nSimpan bukti ini untuk klaim garansi.`;
-            navigator.clipboard.writeText(text).then(() => showToast("Teks disalin!"));
-        }
-
-        /* --- 8. UTILS --- */
+        // ==========================================
+        // 5. ORDER LOGIC
+        // ==========================================
         function formatRupiah(num) {
             return "Rp " + parseInt(num).toLocaleString('id-ID');
         }
 
-        function showToast(msg) {
-            const t = document.getElementById('toast');
-            t.innerText = msg;
-            t.classList.add('show');
-            setTimeout(() => t.classList.remove('show'), 3000);
+        function populateCategories() {
+            const select = document.getElementById('custCategory');
+            if(select.options.length > 1) return; // Already filled
+
+            const categories = DB.getCategories(serviceData);
+            categories.forEach(cat => {
+                const opt = document.createElement('option');
+                opt.value = cat;
+                opt.textContent = cat;
+                select.appendChild(opt);
+            });
         }
 
-        document.getElementById('toggleTheme').addEventListener('click', () => {
-            document.body.classList.toggle('manual-dark-mode');
-        });
+        function populateServiceDropdown() {
+            const cat = document.getElementById('custCategory').value;
+            const servSelect = document.getElementById('custService');
+            servSelect.innerHTML = '<option value="">-- Pilih Kerusakan --</option>';
+            document.getElementById('priceDisplay').style.display = 'none';
 
-        // INIT
-        renderServices();
-        renderArticles();
+            if(!cat) return;
+
+            const filtered = serviceData.filter(s => s.cat === cat);
+            filtered.forEach(item => {
+                const opt = document.createElement('option');
+                opt.value = JSON.stringify(item);
+                opt.textContent = `${item.item} - ${item.issue}`;
+                servSelect.appendChild(opt);
+            });
+        }
+
+        function togglePickupInput() {
+            const checked = document.getElementById('needPickup').checked;
+            document.getElementById('pickupInputGroup').style.display = checked ? 'block' : 'none';
+            updatePriceSummary();
+        }
+
+        function calculatePickup() {
+            if(!document.getElementById('needPickup').checked) return 0;
+            const dist = parseFloat(document.getElementById('pickupDistance').value) || 0;
+            if(dist > 0 && dist < 5) return 25000;
+            if(dist >= 5) return 999999; // Flag
+            return 0;
+        }
+
+        function updatePriceSummary() {
+            const val = document.getElementById('custService').value;
+            const priceBox = document.getElementById('priceDisplay');
+            if(!val) { priceBox.style.display = 'none'; return; }
+
+            const data = JSON.parse(val);
+            const pickupFee = calculatePickup();
+            
+            let baseTotal = data.price;
+            let finalDisplay = baseTotal;
+            let pickupText = "Rp 0";
+
+            if(pickupFee === 25000) {
+                finalDisplay += pickupFee;
+                pickupText = "Rp 25.000";
+                document.getElementById('pickupRow').style.display = 'flex';
+            } else if (pickupFee > 100000) {
+                finalDisplay = "Hubungi Admin";
+                pickupText = "> 5km (Admin Only)";
+                document.getElementById('pickupRow').style.display = 'flex';
+            } else {
+                document.getElementById('pickupRow').style.display = 'none';
+            }
+
+            document.getElementById('dispSparepart').textContent = "Termasuk Jasa (Paket)";
+            document.getElementById('dispService').textContent = formatRupiah(data.price);
+            document.getElementById('dispPickup').textContent = pickupText;
+            document.getElementById('pickupFeeText').textContent = pickupText === "> 5km (Admin Only)" ? pickupText : `Biaya Pickup: ${pickupText}`;
+            document.getElementById('dispTotal').textContent = typeof finalDisplay === 'number' ? formatRupiah(finalDisplay) : finalDisplay;
+            
+            priceBox.style.display = 'block';
+        }
+
+        function selectQuickService(cat, issue) {
+            navTo('order-section');
+            setTimeout(() => {
+                document.getElementById('custCategory').value = cat;
+                populateServiceDropdown();
+                const servSelect = document.getElementById('custService');
+                for(let i=0; i<servSelect.options.length; i++){
+                    if(servSelect.options[i].text.includes(issue)) {
+                        servSelect.selectedIndex = i;
+                        break;
+                    }
+                }
+                updatePriceSummary();
+            }, 100);
+        }
+
+        async function sendCustomerOrder() {
+            const name = document.getElementById('custName').value;
+            const wa = document.getElementById('custWA').value;
+            const address = document.getElementById('custAddress').value;
+            const servVal = document.getElementById('custService').value;
+
+            if(!name || !wa) { showToast("Nama & WA wajib diisi"); return; }
+
+            let msg = `Halo Admin, saya mau servis.\n\nNama: ${name}\nWA: ${wa}\nAlamat: ${address}\n`;
+            
+            if(servVal) {
+                const data = JSON.parse(servVal);
+                const pickup = calculatePickup();
+                let est = data.price;
+                let pickupInfo = "";
+                if(pickup === 25000) { est += 25000; pickupInfo = "\nBiaya Pickup: +Rp 25.000"; }
+                if(pickup > 100000) { pickupInfo = "\nLokasi > 5km, mohon konfirmasi."; }
+
+                msg += `\n--- Detail Servis ---\nKategori: ${data.cat}\nLayanan: ${data.item}\nMasalah: ${data.issue}\nEstimasi Biaya: ${formatRupiah(est)}${pickupInfo}`;
+            }
+
+            // Save to Spreadsheet Logic (Non-blocking)
+            const payload = { name, wa, address, cat: servVal ? JSON.parse(servVal).cat : 'Umum', total: 0 };
+            fetch(CONFIG.APPS_SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify(payload)
+            }).catch(e => console.log("Offline or Error sending to DB")); // Silent fail
+
+            // Send WA
+            window.open(`https://wa.me/6285713087659?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        // ==========================================
+        // 6. RECEIPT LOGIC (No html2canvas)
+        // ==========================================
+        function generateOrderId() {
+            const d = new Date();
+            return `INV-${d.getFullYear()}${(d.getMonth()+1).toString().padStart(2,'0')}${d.getDate().toString().padStart(2,'0')}-${Math.floor(Math.random()*10000)}`;
+        }
+
+        function updateLivePreview() {
+            const map = {
+                'resOrderId': 'prevId', 'resDate': 'prevDate', 'resName': 'prevName',
+                'resWA': 'prevWA', 'resDevice': 'prevDevice', 'resModel': 'prevModel',
+                'resIssue': 'prevIssue', 'resServices': 'prevServices'
+            };
+            
+            for(let [id, target] of Object.entries(map)) {
+                const el = document.getElementById(id);
+                if(el && el.value !== document.getElementById(target).innerText) {
+                    if(id === 'resServices') parseServices(el.value);
+                    else document.getElementById(target).innerText = el.value || '-';
+                }
+            }
+        }
+
+        function parseServices(text) {
+            const container = document.getElementById('prevServices');
+            container.innerHTML = '';
+            let total = 0;
+            if(!text.trim()) { container.innerHTML = 'Belum ada data'; document.getElementById('prevTotal').innerText = 'Rp 0'; return; }
+            
+            text.split('\n').forEach(line => {
+                if(!line.trim()) return;
+                const parts = line.split('-');
+                let name = line, price = 0, pStr = '';
+                if(parts.length >= 2) {
+                    name = parts.slice(0,-1).join('-').trim();
+                    const pVal = parts[parts.length-1].replace(/\D/g,'');
+                    price = parseInt(pVal) || 0;
+                    pStr = formatRupiah(price);
+                }
+                total += price;
+                container.innerHTML += `<div class="receipt-row"><span>${name}</span><span>${pStr}</span></div>`;
+            });
+            document.getElementById('prevTotal').innerText = formatRupiah(total);
+        }
+
+        function printReceipt() {
+            window.print();
+        }
+
+        function copyReceiptText() {
+            const id = document.getElementById('prevId').innerText;
+            const name = document.getElementById('prevName').innerText;
+            const total = document.getElementById('prevTotal').innerText;
+            const text = `RESI MALIK SERVICE\nNo: ${id}\nNama: ${name}\nTotal: ${total}\n\nTerima Kasih.`;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                showToast("Teks Resi disalin!", true);
+            });
+        }
+
+        // ==========================================
+        // 7. ARTICLE SYSTEM (30 Articles)
+        // ==========================================
+        const articles = [
+            { title: "HP Tidak Bisa Di-charge?", tag: "Tips HP", content: "Ini penyebab umumnya: 1. Kabel rusak. 2. Port kotor. 3. Baterai drop. Coba ganti kabel dulu ya." },
+            { title: "LCD Retak Masih Bisa Dipakai?", tag: "Kerusakan Umum", content: "Bisa, tapi berisiko. Cairan LCD bisa merembes dan membuat layar berjamur. Segera ganti jika sentuh mulai error." },
+            { title: "Baterai Boros Padahal Baru", tag: "Perawatan", content: "Bisa karena aplikasi latar belakang. Cek pengaturan baterai, matikan GPS/Bluetooth jika tidak dipakai." },
+            { title: "Laptop Overheat Saat Main Game", tag: "Servis Laptop", content: "Coba bersihkan debu di kipas dan ganti thermal paste. Upgrade RAM juga membantu performa." },
+            { title: "Data Terformat Bisa Kembali?", tag: "Data Recovery", content: "Masih bisa, selama memori tidak ditimpa oleh data baru. Jangan simpan apapun dulu, bawa ke teknisi." },
+            { title: "Cara Merawat Baterai iPhone", tag: "Tips HP", content: "Hindari charging sampai 0% atau 100% terus. Idealnya antara 20-80%. Gunakan charger original." },
+            { title: "Speaker iPhone Suara Kecil", tag: "Tips HP", content: "Cek bersihkan saringan speaker di atas layar (sering kotor debu)." },
+            { title: "Layar Laptop Berkedip", tag: "Servis Laptop", content: "Biasanya masalah pada kabel fleksibel engsel atau driver grafik. Bawa untuk cek hardware." },
+            { title: "HP Android Bootloop", tag: "Software", content: "Bisa diselesaikan dengan flashing ulang (Install ulang OS). Pastikan data backup dulu." },
+            { title: "Water Damage, Apa Harus Dinyalakan?", tag: "Kerusakan Umum", content: "TIDAK. Matikan total, jangan cas. Segera bawa ke teknisi untuk pembersihan ultrasonic." },
+            { title: "IC Power Mati Total", tag: "Kerusakan Umum", content: "Kerusakan berat pada hardware motherboard. Perlu penggantian IC dan microsoldering." },
+            { title: "Upgrade SSD Laptop, Worth It?", tag: "Servis Laptop", content: "Sangat worth! Laptop jadi 5x lebih cepat booting dan buka aplikasi." },
+            { title: "Touchscreen Error Sendiri", tag: "Kerusakan Umum", content: "Bisa karena screen protector tebal, LCD bocor, atau kabel flex lepas." },
+            { title: "Charging Port Longgar", tag: "Charging", content: "Jangan dipaksa colok berulang kali. Soket bisa melepas dari PCB. Ganti port segera." },
+            { title: "Kamera Depan Black Screen", tag: "Kamera", content: "Biasanya modul kamera putus atau kabel putus. Perlu diganti modul baru." },
+            { title: "Wifi Hilang Terus", tag: "Software", content: "Coba Forget Network dan reconnect. Jika masih, bisa ada masalah di IC Wifi." },
+            { title: "Mic Tidak Terdengar Saat Telpon", tag: "Speaker/Mic", content: "Bersihkan lubang mic kecil. Jika masih, ganti komponen mic." },
+            { title: "HP Sering Restarts Sendiri", tag: "Tips HP", content: "Baterai sudah tidak kuat supply daya, atau ada software corrupt. Cek dulu baterai." },
+            { title: "Biar Awet, Servis Rutin?", tag: "Perawatan", content: "Ya. Minimal 6 bulan sekali bersihkan debu dalam gunakan thermal paste baru." },
+            { title: "Harga Ganti LCD iPhone?", tag: "Estimasi Harga", content: "Bervariasi mulai dari 400rb (LCD biasa) hingga 1jt+ (Original OLED)." },
+            { title: "Lupa Pola Android", tag: "Software", content: "Bisa dibuka dengan cara FRP Unlock menggunakan tool khusus di servis kami." },
+            { title: "Tablet Layar Pecah Mahal?", tag: "Servis Tablet", content: "Karena panel LCD tablet besar, harganya memang relatif lebih mahal dari HP." },
+            { title: "Engsel Laptop Patah", tag: "Servis Laptop", content: "Jangan dipaksa buka tutup. Casing dan engsel perlu diganti set untuk aman." },
+            { title: "Notifikasi WhatsApp Tidak Muncul", tag: "Tips HP", content: "Cek Setting Aplikasi > Notifikasi > WA. Pastikan Background Data diizinkan." },
+            { title: "Simcard Tidak Terbaca", tag: "Kerusakan Umum", content: "Coba SIM lain. Jika tetap tidak terbaca, berarti IC Simcard bermasalah." },
+            { title: "Garansi Servis Berapa Lama?", tag: "Edukasi Pelanggan", content: "Garansi di Malik Service biasanya 1-2 minggu untuk jasa servis dan 1 minggu untuk sparepart." },
+            { title: "Bawa HP Semarang Dari Luar Kota?", tag: "Tips HP", content: "Bisa! Kami bisa menerima pengiriman unit via JNE/Sicepat untuk perbaikan." },
+            { title: "Kipas Laptop Berisik", tag: "Servis Laptop", content: "Tanda bantalan kipas sudah habis. Ganti kipas baru agar tidak merusak motherboard." },
+            { title: "Aplikasi Keluar Sendiri", tag: "Software", content: "Cache penuh atau RAM tidak cukup. Clear cache aplikasi tersebut." },
+            { title: "Bodi HP Penyok/Bengkok?", tag: "Kerusakan Umum", content: "Bisa di pres kembali (bending) untuk meluruskan frame agar casing baru bisa pas." }
+        ];
+
+        function renderArticleList() {
+            const container = document.getElementById('articleList');
+            if(container.children.length > 0) return; // Already rendered
+
+            articles.forEach((art, index) => {
+                const div = document.createElement('div');
+                div.className = 'article-card';
+                div.onclick = () => openArticle(index);
+                div.innerHTML = `
+                    <img src="https://picsum.photos/seed/${index}/80/80" class="article-thumb" alt="icon">
+                    <div class="article-info">
+                        <span class="article-tag">${art.tag}</span>
+                        <h4>${art.title}</h4>
+                        <p>${art.content}</p>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function openArticle(index) {
+            const art = articles[index];
+            document.getElementById('articleList').style.display = 'none';
+            const detail = document.getElementById('articleDetail');
+            detail.style.display = 'block';
+            
+            document.getElementById('detailTitle').innerText = art.title;
+            document.getElementById('detailTag').innerText = art.tag;
+            document.getElementById('detailContent').innerHTML = `<p>${art.content}</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>`;
+        }
+
+        function closeArticleDetail() {
+            document.getElementById('articleDetail').style.display = 'none';
+            document.getElementById('articleList').style.display = 'block';
+        }
+
+        // Init Calls
+        AuditLog.render();
     </script>
 </body>
 </html>
