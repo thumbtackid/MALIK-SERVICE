@@ -195,6 +195,7 @@
             position: fixed; inset: 0; background: rgba(255,255,255,0.8); z-index: 2000;
             display: none; justify-content: center; align-items: center; flex-direction: column;
         }
+        body.dark-mode .loader-overlay { background: rgba(15, 23, 42, 0.8); }
         .spinner { width: 40px; height: 40px; border: 4px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
@@ -345,8 +346,18 @@
         <section id="login-section" class="step-section">
             <h2><i class="fa-solid fa-lock"></i> Login Admin</h2>
             <div class="card" style="text-align:center;">
-                <p style="margin-bottom:15px; color:var(--text-light);">Masukkan PIN untuk mengakses Dashboard.</p>
-                <input type="password" id="adminPin" placeholder="PIN (6 Digit)" maxlength="6" style="text-align:center; letter-spacing:5px; font-size:1.5rem; margin-bottom:15px;">
+                <p style="margin-bottom:15px; color:var(--text-light);">Masukkan Username & PIN untuk akses Dashboard.</p>
+                
+                <div class="form-group" style="text-align:left;">
+                    <label>Username</label>
+                    <input type="text" id="adminUser" placeholder="Cth: admin">
+                </div>
+                
+                <div class="form-group" style="text-align:left;">
+                    <label>PIN (6 Digit)</label>
+                    <input type="password" id="adminPin" placeholder="******" maxlength="6" style="text-align:center; letter-spacing:5px; font-size:1.5rem;">
+                </div>
+
                 <button class="btn btn-primary" onclick="loginAdmin()">Login</button>
                 <button class="btn btn-outline" onclick="navTo('home-section')">Kembali</button>
             </div>
@@ -388,12 +399,11 @@
     <!-- JAVASCRIPT LOGIC -->
     <script>
         // ==========================================
-        // KONFIGURASI URL (GANTI DENGAN URL APPS SCRIPT KAMU)
+        // KONFIGURASI URL (GANTI DENGAN URL DEPLOYMENT KAMU)
         // ==========================================
         const CONFIG = {
             URL: "https://script.google.com/macros/s/AKfycbyHCVykImcde7-S0FdRwpFI8rWXxqr_WggIIcgtYlZSOb6jIrQTpobkIuYBdQy5LDrY/exec",
-            ADMIN_WA: "6285713087659", // Ganti nomor WA admin
-            DEFAULT_PIN_HASH: "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9" // SHA-256 untuk 'admin123'
+            ADMIN_WA: "6285713087659" // Ganti nomor WA Admin Kamu
         };
 
         // ==========================================
@@ -500,8 +510,6 @@
             if(!id) return showToast("Masukkan Order ID");
 
             showLoader(true);
-            // Kita panggil get_all_orders lalu filter di client (karena script backend simple)
-            // Idealnya tambah endpoint check_resi di backend, tapi ini hemat resource.
             try {
                 const res = await fetch(CONFIG.URL, { method: 'POST', body: JSON.stringify({action: "get_all_orders"}) });
                 const result = await res.json();
@@ -514,7 +522,7 @@
                         let itemsHtml = "";
                         try {
                             const items = JSON.parse(order.itemsRaw);
-                            itemsHtml = items.map(i => `<li>${i.issue} - ${formatRupiah(i.price)}</li>`).join('');
+                            itemsHtml = items.map(i => `<li>${i.issue} (${formatRupiah(i.price)})</li>`).join('');
                         } catch(e) {}
 
                         box.innerHTML = `
@@ -541,8 +549,10 @@
         // ADMIN LOGIC
         // ==========================================
         async function loginAdmin() {
+            const user = document.getElementById('adminUser').value;
             const pin = document.getElementById('adminPin').value;
-            if(!pin) return;
+            
+            if(!user || !pin) return showToast("Isi Username dan PIN!", true);
 
             // Hash PIN simple
             const hash = await sha256(pin);
@@ -551,7 +561,7 @@
             try {
                 const res = await fetch(CONFIG.URL, {
                     method: 'POST',
-                    body: JSON.stringify({ action: "login", pinHash: hash })
+                    body: JSON.stringify({ action: "login", username: user, pinHash: hash })
                 });
                 const result = await res.json();
                 showLoader(false);
@@ -559,14 +569,14 @@
                 if(result.success) {
                     adminSession = true;
                     localStorage.setItem('admin_logged_in', 'true');
-                    showToast("Login Berhasil", true);
+                    showToast("Login Berhasil", false);
                     navTo('admin-dashboard');
                 } else {
                     showToast(result.message, true);
                 }
             } catch(e) {
                 showLoader(false);
-                showToast("Error Login", true);
+                showToast("Error Koneksi", true);
             }
         }
 
