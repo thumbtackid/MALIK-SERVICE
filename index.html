@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="Malik Service Center Semarang. Servis HP, Laptop, iPhone, Tablet. Booking & Cek Status Online.">
     <meta name="theme-color" content="#2563eb">
-    <title>Malik Service Center</title>
+    <title>Malik Service Center Pro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
+        /* =========================================
+           1. CORE VARIABLES & RESET
+           ========================================= */
         :root {
             --primary: #2563eb;
             --primary-dark: #1e40af;
@@ -25,8 +27,7 @@
             --border: #e2e8f0;
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             --radius: 12px;
-            --transition: all 0.3s ease;
-            --nav-height: 70px;
+            --nav-height: 65px;
         }
 
         body.dark-mode {
@@ -42,1181 +43,939 @@
         body {
             background-color: var(--light-bg);
             color: var(--text-main);
-            transition: var(--transition);
-            line-height: 1.6;
+            font-size: 14px;
+            line-height: 1.5;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
             padding-bottom: calc(var(--nav-height) + 20px);
+            transition: background 0.3s;
         }
 
-        /* HEADER */
+        /* =========================================
+           2. LAYOUT & COMPONENTS
+           ========================================= */
         header {
             background: var(--light-card);
-            padding: 1rem 5%;
+            padding: 1rem;
             position: sticky;
             top: 0;
             z-index: 100;
             box-shadow: var(--shadow);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            display: flex; justify-content: space-between; align-items: center;
         }
-        .brand { font-size: 1.25rem; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 10px; }
-        .header-actions button {
-            background: none; border: none; font-size: 1.2rem; color: var(--text-main); cursor: pointer; margin-left: 10px;
-        }
+        .brand { font-weight: 700; color: var(--primary); font-size: 1.1rem; display: flex; align-items: center; gap: 8px; }
+        .brand img { height: 32px; }
 
-        /* MAIN CONTAINER */
-        main { max-width: 800px; margin: 0 auto; padding: 1.5rem; width: 100%; flex: 1; }
+        main { max-width: 1000px; margin: 0 auto; padding: 1rem; width: 100%; flex: 1; }
 
         /* SECTIONS */
-        .step-section {
-            background: var(--light-card);
-            padding: 1.5rem;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            display: none;
-            animation: fadeIn 0.4s ease;
-            margin-bottom: 1rem;
-        }
-        .step-section.active { display: block; }
-        
-        .full-width-section {
-            background: transparent; box-shadow: none; padding: 0; display: none;
-        }
-        .full-width-section.active { display: block; }
+        section { display: none; animation: fadeIn 0.3s ease; }
+        section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        h2 { margin-bottom: 1rem; color: var(--primary); font-size: 1.4rem; display: flex; align-items: center; gap: 10px; }
-        h3 { margin-bottom: 0.8rem; font-size: 1.1rem; color: var(--text-main); }
-        p.subtitle { color: var(--text-light); margin-bottom: 1.5rem; font-size: 0.9rem; }
+        /* CARDS & BOXES */
+        .card { background: var(--light-card); border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--shadow); margin-bottom: 1rem; }
+        .card h3 { color: var(--primary); margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
 
         /* FORMS */
-        .form-group { margin-bottom: 1.2rem; }
-        label { display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: 0.9rem; color: var(--text-main); }
-        input[type="text"], input[type="password"], input[type="tel"], input[type="date"], input[type="number"], select, textarea {
-            width: 100%; padding: 14px; border: 1px solid var(--border); border-radius: 8px;
-            background: var(--light-bg); color: var(--text-main); font-size: 1rem;
-            transition: border-color 0.2s;
+        .form-group { margin-bottom: 1rem; }
+        label { display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: 0.85rem; color: var(--text-main); }
+        input, select, textarea {
+            width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px;
+            background: var(--light-bg); color: var(--text-main); font-size: 0.95rem;
         }
-        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
-        input[readonly] { background-color: #e2e8f0; color: #64748b; cursor: default; border-color: transparent; }
+        input:focus, select:focus { outline: 2px solid var(--primary); border-color: transparent; }
 
         /* BUTTONS */
-        .btn { 
-            width: 100%; padding: 14px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; 
-            transition: var(--transition); display: flex; justify-content: center; align-items: center; gap: 8px; 
-            font-size: 1rem; margin-bottom: 10px;
+        .btn {
+            display: inline-flex; justify-content: center; align-items: center; gap: 8px;
+            padding: 12px 20px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer;
+            transition: 0.2s; width: 100%; text-decoration: none; font-size: 0.95rem;
         }
         .btn:active { transform: scale(0.98); }
         .btn-primary { background: var(--primary); color: white; }
-        .btn-primary:hover { background: var(--primary-dark); }
-        .btn-primary:disabled { background: #94a3b8; cursor: not-allowed; opacity: 0.7; }
         .btn-secondary { background: #64748b; color: white; }
-        .btn-whatsapp { background: #25D366; color: white; }
-        .btn-whatsapp:hover { background: #1ebc57; }
+        .btn-success { background: var(--secondary); color: white; }
         .btn-danger { background: var(--danger); color: white; }
         .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-main); }
-        .btn-add { background: var(--secondary); color: white; margin-top: 5px;}
-        .btn-sync { background: var(--accent); color: white; }
-        .btn-sync:hover { background: #d97706; }
-        .btn-sm { padding: 8px 12px; font-size: 0.85rem; width: auto; }
-        
-        .nav-buttons { display: flex; gap: 10px; margin-top: 1.5rem; }
+        .btn-sm { padding: 6px 12px; font-size: 0.8rem; width: auto; }
+        .btn-group { display: flex; gap: 10px; }
 
-        /* STATUS BADGES */
-        .status-badge {
-            padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; text-transform: uppercase;
-        }
-        .status-proses { background: #e0f2fe; color: #0284c7; }
-        .status-kerja { background: #fef3c7; color: #d97706; }
-        .status-selesai { background: #dcfce7; color: #16a34a; }
-
-        /* ADMIN PANEL NEW STYLES */
-        .admin-layout {
-            display: grid; grid-template-columns: 1fr; gap: 1rem;
-        }
-        
-        .admin-sidebar-menu {
-            display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 1rem;
-        }
-        @media(min-width: 768px) {
-            .admin-sidebar-menu { grid-template-columns: repeat(5, 1fr); }
-        }
-
-        .admin-tab-btn {
-            background: var(--light-bg); color: var(--text-light); padding: 10px; border-radius: 8px;
-            font-size: 0.85rem; text-align: center; cursor: pointer; border: 1px solid var(--border);
-            display: flex; flex-direction: column; align-items: center; gap: 5px;
-        }
-        .admin-tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
-        .admin-tab-btn i { font-size: 1.2rem; }
-
-        .admin-controls {
-            display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;
-        }
-        .order-card {
-            background: var(--light-bg);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 15px;
-            position: relative;
-        }
-        .order-card.active-order { border-left: 4px solid var(--primary); }
-        .order-header { display: flex; justify-content: space-between; margin-bottom: 10px; align-items: center; }
-        .order-id { font-weight: bold; color: var(--primary); }
-        .order-detail-row { display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 5px; }
-        .order-label { color: var(--text-light); }
-        .order-action-area { margin-top: 15px; padding-top: 10px; border-top: 1px solid var(--border); }
-        
-        /* STATS CARDS */
-        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
-        .stat-card { background: var(--light-bg); padding: 15px; border-radius: 8px; text-align: center; border: 1px solid var(--border); }
-        .stat-val { font-size: 1.2rem; font-weight: bold; color: var(--primary); }
-        .stat-label { font-size: 0.75rem; color: var(--text-light); }
-
-        /* SERVICE MANAGER TABLE */
-        .service-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-top: 10px; }
-        .service-table th { text-align: left; padding: 8px; background: var(--light-bg); color: var(--text-light); }
-        .service-table td { padding: 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
-        
-        /* HERO SPECIFIC */
-        .hero-section { text-align: center; padding: 2rem 1rem; }
-        .hero-icon { font-size: 3.5rem; color: var(--primary); margin-bottom: 1.5rem; animation: float 3s ease-in-out infinite; }
-        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
-        
-        /* SERVICE GRID */
-        .service-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
-        .service-card { 
-            background: var(--light-bg); border: 1px solid var(--border); padding: 15px; 
-            border-radius: 8px; text-align: center; cursor: pointer; transition: 0.2s;
-        }
-        .service-card:hover { border-color: var(--primary); background: #eff6ff; transform: translateY(-2px); }
-        .service-card i { font-size: 1.8rem; color: var(--primary); margin-bottom: 10px; display: block; }
-        .service-card span { font-size: 0.85rem; font-weight: 600; }
-
-        /* CART ITEM STYLE */
-        .cart-item {
-            display: flex; justify-content: space-between; align-items: center;
-            background: var(--light-bg); padding: 10px; border-radius: 8px; margin-bottom: 8px;
-            border-left: 4px solid var(--secondary);
-        }
-        .cart-info h4 { font-size: 0.9rem; margin:0; color: var(--text-main); }
-        .cart-info p { font-size: 0.8rem; margin:0; color: var(--text-light); }
-        .btn-delete-item { 
-            background: #fee2e2; color: #ef4444; border: none; border-radius: 50%; width: 30px; height: 30px; 
-            display: flex; justify-content: center; align-items: center; cursor: pointer;
-        }
-        .btn-delete-item:hover { background: #ef4444; color: white; }
-
-        /* PICKUP BOX */
-        .pickup-box {
-            background-color: #e0f2fe;
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 4px solid var(--primary);
-            margin-bottom: 15px;
-            display: none;
-        }
-        body.dark-mode .pickup-box { background-color: #1e3a8a; border-left-color: #60a5fa; }
-        
-        /* ARTICLE STYLES */
-        .article-card {
-            background: var(--light-card); border: 1px solid var(--border); border-radius: var(--radius);
-            padding: 1rem; margin-bottom: 1rem; cursor: pointer; transition: 0.2s; display: flex; gap: 1rem;
-        }
-        .article-card:hover { border-color: var(--primary); box-shadow: var(--shadow); }
-        .article-thumb { width: 80px; height: 80px; background: #e2e8f0; border-radius: 8px; flex-shrink: 0; object-fit: cover; }
-        .article-info h4 { font-size: 1rem; margin-bottom: 5px; color: var(--text-main); }
-        .article-info p { font-size: 0.8rem; color: var(--text-light); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-        .article-tag { display: inline-block; font-size: 0.7rem; background: var(--primary); color: white; padding: 2px 8px; border-radius: 10px; margin-bottom: 5px; }
-
-        /* PRICE SUMMARY */
-        .price-summary {
-            background-color: var(--primary);
-            color: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            display: none;
-        }
-        .price-row { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.9rem; }
-        .price-total { border-top: 1px solid rgba(255,255,255,0.3); margin-top: 8px; padding-top: 8px; font-weight: bold; font-size: 1.1rem; display: flex; justify-content: space-between; }
-
-        /* TOAST */
-        .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #ef4444; color: white; padding: 12px 24px; border-radius: 50px; z-index: 2000; display: none; animation: slideDown 0.3s; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3); width: 90%; max-width: 400px; font-size: 0.9rem; }
-        .toast.success { background: var(--secondary); }
-        @keyframes slideDown { from { transform: translate(-50%, -100%); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
-
-        /* MODAL / ALERT CUSTOM */
-        .custom-alert {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); z-index: 3000;
-            display: none; align-items: center; justify-content: center;
-        }
-        .alert-box {
-            background: var(--light-card); padding: 20px; border-radius: var(--radius);
-            width: 90%; max-width: 400px; text-align: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            animation: popIn 0.3s;
-        }
-        @keyframes popIn { from{transform: scale(0.8); opacity: 0;} to{transform: scale(1); opacity: 1;} }
-        .alert-buttons { display: flex; gap: 10px; margin-top: 15px; }
-
-        /* BOTTOM NAVIGATION */
+        /* BOTTOM NAV */
         .bottom-nav {
             position: fixed; bottom: 0; left: 0; width: 100%; height: var(--nav-height);
             background: var(--light-card); border-top: 1px solid var(--border);
-            display: flex; justify-content: space-around; align-items: center;
-            z-index: 999; box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
+            display: flex; justify-content: space-around; align-items: center; z-index: 99;
         }
         .nav-item {
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            text-decoration: none; color: var(--text-light); font-size: 0.75rem;
-            width: 20%; height: 100%; transition: 0.2s; background: none; border: none; cursor: pointer;
+            flex: 1; height: 100%; display: flex; flex-direction: column; justify-content: center;
+            align-items: center; font-size: 0.7rem; color: var(--text-light); cursor: pointer; background: none; border: none;
         }
-        .nav-item i { font-size: 1.3rem; margin-bottom: 4px; transition: 0.2s; }
+        .nav-item i { font-size: 1.2rem; margin-bottom: 4px; transition: 0.2s; }
         .nav-item.active { color: var(--primary); }
         .nav-item.active i { transform: translateY(-3px); }
 
-        /* Responsive */
-        @media(max-width: 480px) { 
-            .service-grid { grid-template-columns: 1fr 1fr; }
-            .admin-controls { flex-direction: column; }
+        /* ADMIN SIDEBAR (Desktop Style) */
+        .admin-layout { display: grid; grid-template-columns: 200px 1fr; gap: 1rem; }
+        .admin-sidebar { background: var(--light-card); padding: 1rem; border-radius: var(--radius); height: fit-content; }
+        .sidebar-btn {
+            display: block; width: 100%; padding: 10px; margin-bottom: 5px; text-align: left;
+            background: transparent; color: var(--text-main); border: none; border-radius: 6px; cursor: pointer;
+        }
+        .sidebar-btn:hover, .sidebar-btn.active { background: var(--primary); color: white; }
+        .sidebar-btn i { width: 20px; }
+
+        /* TABLE STYLES */
+        .table-responsive { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-top: 10px; }
+        th { text-align: left; padding: 10px; background: var(--light-bg); color: var(--text-light); border-bottom: 2px solid var(--border); }
+        td { padding: 10px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+        tr:hover { background: rgba(0,0,0,0.02); }
+
+        /* BADGES */
+        .badge { padding: 4px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; text-transform: uppercase; }
+        .badge-process { background: #e0f2fe; color: #0284c7; }
+        .badge-done { background: #dcfce7; color: #16a34a; }
+        .badge-pending { background: #fef3c7; color: #d97706; }
+
+        /* TOAST & MODAL */
+        .toast {
+            position: fixed; top: 20px; right: 20px; background: var(--dark-bg); color: white;
+            padding: 12px 24px; border-radius: 8px; z-index: 2000; display: none;
+            box-shadow: 0 10px 15px rgba(0,0,0,0.2);
+        }
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5);
+            z-index: 1500; display: none; align-items: center; justify-content: center; padding: 20px;
+        }
+        .modal { background: var(--light-card); width: 100%; max-width: 500px; padding: 20px; border-radius: var(--radius); animation: popIn 0.2s; max-height: 90vh; overflow-y: auto; }
+        @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        /* RESPONSIVE */
+        @media(max-width: 768px) {
+            .admin-layout { grid-template-columns: 1fr; }
+            .admin-sidebar { display: flex; overflow-x: auto; padding: 5px; margin-bottom: 10px; }
+            .sidebar-btn { white-space: nowrap; width: auto; margin: 0 5px; flex: 1; text-align: center; }
+        }
+
+        /* =========================================
+           3. PRINT STYLES (RESI)
+           ========================================= */
+        @media print {
+            body * { visibility: hidden; }
+            #print-area, #print-area * { visibility: visible; }
+            #print-area {
+                position: absolute; left: 0; top: 0; width: 100%;
+                background: white; color: black; padding: 20px;
+            }
+            .no-print { display: none !important; }
+            .print-header { text-align: center; border-bottom: 2px dashed #000; padding-bottom: 10px; margin-bottom: 20px; }
+            .print-row { display: flex; justify-content: space-between; margin-bottom: 5px; }
+            .print-footer { margin-top: 30px; text-align: center; font-size: 0.8rem; border-top: 1px dashed #000; padding-top: 10px; }
+            /* Thermal 80mm specific adjustments */
+            @page { margin: 0; size: 80mm auto; } /* Adjust for thermal printer if needed */
         }
     </style>
 </head>
 <body>
 
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="toast"></div>
+
+    <!-- HEADER -->
     <header>
-        <div class="brand"><i class="fa-solid fa-screwdriver-wrench"></i> Malik Service</div>
+        <div class="brand">
+            <i class="fa-solid fa-microchip"></i>
+            <span>MALIK SERVICE</span>
+        </div>
         <div class="header-actions">
-            <button id="darkModeBtn"><i class="fa-solid fa-moon"></i></button>
+            <button class="btn btn-sm btn-outline" onclick="toggleTheme()">
+                <i class="fa-solid fa-moon"></i>
+            </button>
         </div>
     </header>
 
-    <div id="toast" class="toast"></div>
-
-    <!-- CUSTOM ALERT MODAL -->
-    <div id="customAlert" class="custom-alert">
-        <div class="alert-box">
-            <h3 id="alertTitle" style="margin-bottom:10px;">Konfirmasi</h3>
-            <p id="alertMessage" style="color:var(--text-light); margin-bottom:15px;">Apakah anda yakin?</p>
-            <div class="alert-buttons" id="alertButtons"></div>
-        </div>
-    </div>
-
     <main>
-        <!-- 1. HERO SECTION (HOME) -->
-        <section id="home-section" class="step-section active hero-section">
-            <i class="fa-solid fa-microchip hero-icon"></i>
-            <h1>Malik Service Center</h1>
-            <p class="subtitle">Solusi perbaikan HP, Laptop & Elektronik Cepat & Bergaransi.</p>
-            
-            <div class="service-grid">
-                <div class="service-card" onclick="selectQuickService('HP Android', 'LCD retak')">
-                    <i class="fa-solid fa-mobile-screen"></i>
-                    <span>Ganti LCD</span>
-                </div>
-                <div class="service-card" onclick="selectQuickService('HP Android', 'Baterai drop / kembung')">
-                    <i class="fa-solid fa-battery-full"></i>
-                    <span>Baterai Baru</span>
-                </div>
-                <div class="service-card" onclick="selectQuickService('Laptop', 'LCD pecah')">
-                    <i class="fa-solid fa-laptop"></i>
-                    <span>Servis Laptop</span>
-                </div>
-                <div class="service-card" onclick="selectQuickService('HP Android', 'Water damage ringan / berat')">
-                    <i class="fa-solid fa-droplet"></i>
-                    <span>Air Masuk</span>
+        <!-- ================= PUBLIC SECTIONS ================= -->
+        
+        <!-- 1. HOME / DASHBOARD -->
+        <section id="home-section" class="active">
+            <div class="hero" style="text-align: center; margin-bottom: 2rem;">
+                <i class="fa-solid fa-wrench" style="font-size: 3rem; color: var(--primary);"></i>
+                <h1 style="margin-top: 10px;">Service Center Profesional</h1>
+                <p style="color: var(--text-light);">Spesialis HP Android & Laptop. Cepat, Bergaransi.</p>
+            </div>
+
+            <div class="card">
+                <h3>Layanan Kami</h3>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                    <button class="btn btn-outline" onclick="quickOrder('HP Android')"><i class="fa-solid fa-mobile"></i> Servis HP</button>
+                    <button class="btn btn-outline" onclick="quickOrder('Laptop')"><i class="fa-solid fa-laptop"></i> Servis Laptop</button>
                 </div>
             </div>
-            
-            <button class="btn btn-primary" onclick="navTo('order-section')">
-                Buat Order Servis <i class="fa-solid fa-arrow-right"></i>
-            </button>
-            
-            <button class="btn btn-outline" onclick="navTo('article-section')">
-                <i class="fa-solid fa-book-open"></i> Baca Tips & Artikel
-            </button>
 
-            <button class="btn btn-outline" onclick="navTo('login-section')" style="margin-top:10px;">
-                <i class="fa-solid fa-lock"></i> Login Admin
-            </button>
-            
-            <div style="margin-top: 2rem; font-size: 0.8rem; color: var(--text-light);">
-                <i class="fa-solid fa-database"></i> Database Update: <span id="dbStatus">Checking...</span>
+            <div class="btn-group" style="margin-top: 20px;">
+                <button class="btn btn-primary" onclick="navTo('order-section')">Buat Order Baru</button>
+                <button class="btn btn-secondary" onclick="navTo('history-section')">Riwayat Saya</button>
             </div>
         </section>
 
         <!-- 2. FORM ORDER -->
-        <section id="order-section" class="step-section full-width-section">
-            <h2><i class="fa-solid fa-wrench"></i> Form Order Servis</h2>
-            
-            <div class="form-group">
-                <label>Kategori Perangkat</label>
-                <select id="custCategory" onchange="populateServiceDropdown()">
-                    <option value="">-- Pilih Kategori --</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Pilih Kerusakan & Tambahan</label>
-                <select id="custService">
-                    <option value="">-- Pilih Kerusakan & Harga --</option>
-                </select>
-                <small style="color:var(--text-light); font-size:0.8rem; margin-top:5px; display:block;">
-                    *Klik tombol "Tambah" untuk memasukkan ke daftar kerusakan.
-                </small>
-                <button class="btn btn-add" onclick="addToCart()">
-                    <i class="fa-solid fa-plus"></i> Tambah ke Daftar
-                </button>
-            </div>
-
-            <!-- LIST ITEM DIPILIH (CART) -->
-            <div id="cartListContainer" style="display:none; margin-bottom: 20px;">
-                <h3 style="border-bottom: 1px solid var(--border); padding-bottom: 10px;">Daftar Perbaikan:</h3>
-                <div id="cartItems"></div>
-            </div>
-
-            <!-- PICKUP -->
-            <div class="form-group">
-                <label style="display:flex; align-items:center; gap:10px; cursor:pointer;">
-                    <input type="checkbox" id="needPickup" style="width:auto;" onchange="togglePickupInput()">
-                    Butuh Jemput Unit (Pickup)?
-                </label>
-            </div>
-
-            <div id="pickupInputGroup" class="pickup-box">
-                <label>Jarak Lokasi (km)</label>
-                <input type="number" id="pickupDistance" placeholder="Contoh: 3" oninput="renderCart()">
-                <small id="pickupFeeText" style="display:block; margin-top:5px; color:var(--primary); font-weight:600;">
-                    Biaya Pickup: Rp 0
-                </small>
-                <small style="display:block; margin-top:2px; font-size:0.75rem;">
-                    *Biaya Rp 25.000 untuk jarak < 5km. > 5km hubungi admin.
-                </small>
-            </div>
-
-            <!-- PRICE DISPLAY -->
-            <div id="priceDisplay" class="price-summary">
-                <div style="font-weight:bold; margin-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.2); padding-bottom:5px;">Rincian Biaya:</div>
-                <div class="price-row"><span>Total Servis:</span><span id="dispTotalService">Rp 0</span></div>
-                <div class="price-row" id="pickupRow" style="display:none; color:#fef08a;"><span>Pickup:</span><span id="dispPickup">Rp 0</span></div>
-                <div class="price-total"><span>GRAND TOTAL:</span><span id="dispGrandTotal">Rp 0</span></div>
-                <div style="font-size:0.75rem; margin-top:8px; font-style:italic; opacity:0.9;">*Harga estimasi & bisa berubah setelah pengecekan.</div>
-            </div>
-
-            <div style="margin: 20px 0; border-top: 1px solid var(--border);"></div>
-            
-            <h3>Data Diri</h3>
-            <div class="form-group"><label>Nama Lengkap</label><input type="text" id="custName" placeholder="Contoh: Budi Santoso"></div>
-            <div class="form-group"><label>Nomor WhatsApp</label><input type="tel" id="custWA" placeholder="0812..."></div>
-            <div class="form-group"><label>Alamat / Detail Lokasi</label><textarea id="custAddress" rows="2" placeholder="Alamat lengkap..."></textarea></div>
-
-            <button id="btnSendWA" class="btn btn-whatsapp" onclick="sendCustomerOrder()">
-                <i class="fa-brands fa-whatsapp"></i> Kirim Order ke WA
-            </button>
-        </section>
-
-        <!-- 3. LOGIN SECTION -->
-        <section id="login-section" class="step-section">
-            <h2><i class="fa-solid fa-user-shield"></i> Login Admin</h2>
-            <p class="subtitle">Masuk untuk mengelola orderan.</p>
-            <div class="form-group">
-                <label>PIN Admin (6 Digit)</label>
-                <input type="password" id="adminPin" placeholder="Masukkan PIN" maxlength="6" pattern="\d*">
-                <small id="loginStatus" style="display:block; margin-top:5px; font-size:0.8rem;"></small>
-            </div>
-            <button id="btnLogin" class="btn btn-primary" onclick="handleLogin()"><span>Masuk Panel</span></button>
-            <button class="btn btn-secondary" onclick="navTo('home-section')">Kembali</button>
-        </section>
-
-        <!-- 4. RESI SECTION -->
-        <section id="resi-section" class="step-section">
-            <h2><i class="fa-solid fa-search"></i> Cek Status Pesanan</h2>
-            <p class="subtitle">Masukkan Nomor Order (Resi) yang tertera di struk.</p>
-            <div class="form-group"><label>Nomor Order</label><input type="text" id="checkResiInput" placeholder="Contoh: INV-20231025-1234"></div>
-            <button id="btnCheckResi" class="btn btn-primary" onclick="checkResi()"><i class="fa-solid fa-magnifying-glass"></i> Cek Status</button>
-            <div id="resiResultBox" style="display:none; margin-top:20px;"></div>
-        </section>
-
-        <!-- 5. ADMIN PANEL (UPGRADED) -->
-        <section id="admin-panel" class="step-section full-width-section">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
-                <h2 style="margin:0;"><i class="fa-solid fa-gauge-high"></i> Admin Panel</h2>
-                <button class="btn btn-danger" onclick="logout()" style="width:auto; padding: 8px 15px; font-size: 0.8rem; margin:0;">Keluar</button>
-            </div>
-
-            <!-- ADMIN SIDEBAR NAV -->
-            <div class="admin-sidebar-menu">
-                <button class="admin-tab-btn active" onclick="switchAdminTab('dashboard')">
-                    <i class="fa-solid fa-chart-pie"></i> Dashboard
-                </button>
-                <button class="admin-tab-btn" onclick="switchAdminTab('orders')">
-                    <i class="fa-solid fa-list-check"></i> Order Masuk
-                </button>
-                <button class="admin-tab-btn" onclick="switchAdminTab('services')">
-                    <i class="fa-solid fa-tags"></i> Layanan
-                </button>
-                <button class="admin-tab-btn" onclick="switchAdminTab('finance')">
-                    <i class="fa-solid fa-coins"></i> Keuangan
-                </button>
-                <button class="admin-tab-btn" onclick="switchAdminTab('settings')">
-                    <i class="fa-solid fa-gear"></i> Pengaturan
-                </button>
-            </div>
-
-            <!-- TAB CONTENTS -->
-            <div id="admin-dashboard-content" class="admin-tab-content">
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-val" id="statTotalOrders">0</div>
-                        <div class="stat-label">Total Order</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-val" id="statPending">0</div>
-                        <div class="stat-label">Perlu Proses</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-val" id="statRevenue">Rp 0</div>
-                        <div class="stat-label">Estimasi Omset</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-val" id="statPickup">0</div>
-                        <div class="stat-label">Request Pickup</div>
-                    </div>
-                </div>
-                <div class="admin-controls">
-                    <button class="btn btn-sync" onclick="fetchOrdersFromSheet()">
-                        <i class="fa-solid fa-rotate"></i> Sinkron Data Spreadsheet
-                    </button>
-                </div>
-            </div>
-
-            <div id="admin-orders-content" class="admin-tab-content" style="display:none;">
-                <div class="admin-controls">
-                    <div style="flex:1;">
-                        <input type="text" id="searchOrderAdmin" placeholder="Cari Nama / Order ID..." oninput="renderAdminOrders()">
-                    </div>
-                </div>
-                <div id="ordersContainer"></div>
-            </div>
-
-            <div id="admin-services-content" class="admin-tab-content" style="display:none;">
-                <div class="admin-controls" style="background:var(--light-bg); padding:10px; border-radius:8px;">
-                    <div style="flex:2;"><input type="text" id="newSvcCat" placeholder="Kategori (contoh: Laptop)"></div>
-                    <div style="flex:2;"><input type="text" id="newSvcIssue" placeholder="Kerusakan (contoh: LCD Pecah)"></div>
-                    <div style="flex:2;"><input type="text" id="newSvcItem" placeholder="Item (contoh: LCD ORI)"></div>
-                    <div style="flex:1;"><input type="number" id="newSvcPrice" placeholder="Harga"></div>
-                    <button class="btn btn-primary" style="flex:1;" onclick="addNewService()">Add</button>
-                </div>
-                <div style="overflow-x:auto;">
-                    <table class="service-table">
-                        <thead>
-                            <tr><th>Kategori</th><th>Kerusakan</th><th>Item</th><th>Harga</th><th>Aksi</th></tr>
-                        </thead>
-                        <tbody id="serviceTableBody"></tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div id="admin-finance-content" class="admin-tab-content" style="display:none;">
-                <div class="admin-controls">
-                    <label style="margin:0;">Dari: <input type="date" id="filterDateStart"></label>
-                    <label style="margin:0;">Sampai: <input type="date" id="filterDateEnd"></label>
-                    <button class="btn btn-primary btn-sm" onclick="generateFinanceReport()">Hitung</button>
-                    <button class="btn btn-secondary btn-sm" onclick="printFinance()">Print</button>
-                </div>
-                <div style="background:var(--light-bg); padding:15px; border-radius:8px; text-align:center;">
-                    <h3>Total Pemasukan Periode Ini</h3>
-                    <div id="financeTotalDisplay" style="font-size:2rem; font-weight:bold; color:var(--secondary);">Rp 0</div>
-                </div>
-            </div>
-
-            <div id="admin-settings-content" class="admin-tab-content" style="display:none;">
-                <h3>Pengaturan Lokal</h3>
-                <p class="subtitle">Pengaturan ini tersimpan di browser admin.</p>
+        <section id="order-section">
+            <div class="card">
+                <h3><i class="fa-solid fa-clipboard-list"></i> Form Order Servis</h3>
+                
                 <div class="form-group">
-                    <label>Nomor WhatsApp Admin (Untuk notifikasi)</label>
-                    <input type="tel" id="settingAdminWA" value="6285713087659">
+                    <label>Kategori Perangkat</label>
+                    <select id="orderCategory" onchange="populateServices()">
+                        <option value="">-- Pilih --</option>
+                        <option value="HP Android">HP Android</option>
+                        <option value="Laptop">Laptop / Netbook</option>
+                    </select>
                 </div>
+
                 <div class="form-group">
-                    <button class="btn btn-danger" onclick="resetAllLocalData()">Reset Semua Data Layanan Lokal</button>
-                    <small style="color:var(--danger);">*Ini akan menghapus layanan custom yang kamu buat dan kembali ke default.</small>
+                    <label>Jenis Kerusakan / Layanan</label>
+                    <select id="orderService" onchange="updateEstimation()">
+                        <option value="">-- Pilih Layanan --</option>
+                    </select>
+                    <small id="serviceEstInfo" style="color: var(--secondary); font-weight: bold; display:block; margin-top:5px;"></small>
                 </div>
+
                 <div class="form-group">
-                    <button class="btn btn-outline" onclick="backupData()">Download Backup (JSON)</button>
+                    <label>Merk & Tipe</label>
+                    <input type="text" id="orderDevice" placeholder="Contoh: Samsung A52 / Asus Vivobook">
                 </div>
+
+                <div class="form-group">
+                    <label>Keluhan Detail</label>
+                    <textarea id="orderComplaint" rows="3" placeholder="Jelaskan masalahnya..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Metode Pengiriman</label>
+                    <div style="display: flex; gap: 10px;">
+                        <label style="display:inline-flex; align-items:center; gap:5px; cursor:pointer;">
+                            <input type="radio" name="shipping" value="Direct" checked onchange="togglePickup()"> Antar Sendiri
+                        </label>
+                        <label style="display:inline-flex; align-items:center; gap:5px; cursor:pointer;">
+                            <input type="radio" name="shipping" value="Pickup" onchange="togglePickup()"> Request Pickup
+                        </label>
+                    </div>
+                    <div id="pickupBox" style="display:none; margin-top:10px; padding:10px; background:var(--light-bg); border-radius:8px;">
+                        <small style="color:var(--text-light)">Biaya pickup Rp 15.000 - 25.000 tergantung jarak.</small>
+                    </div>
+                </div>
+
+                <div class="card" style="background: var(--primary); color: white;">
+                    <div style="display:flex; justify-content:space-between; font-weight:bold;">
+                        <span>Estimasi Biaya:</span>
+                        <span id="displayEstPrice">Rp 0</span>
+                    </div>
+                </div>
+
+                <hr style="border:0; border-top:1px solid var(--border); margin: 1.5rem 0;">
+
+                <h4>Data Pelanggan</h4>
+                <div class="form-group"><input type="text" id="custName" placeholder="Nama Lengkap"></div>
+                <div class="form-group"><input type="tel" id="custWA" placeholder="Nomor WhatsApp (08...)"></div>
+
+                <button class="btn btn-primary" onclick="submitOrder()">
+                    <i class="fa-brands fa-whatsapp"></i> Kirim Order & Booking
+                </button>
+                <button class="btn btn-outline" onclick="navTo('home-section')">Batal</button>
             </div>
         </section>
 
-        <!-- 6. HALAMAN ARTIKEL -->
-        <section id="article-section" class="step-section full-width-section">
-            <h2><i class="fa-solid fa-newspaper"></i> Artikel & Tips</h2>
-            <div id="articleList"></div>
-            <!-- Detail View -->
-            <div id="articleDetail" style="display:none;">
-                <button class="btn btn-outline" onclick="closeArticleDetail()" style="margin-bottom:1rem;"><i class="fa-solid fa-arrow-left"></i> Kembali</button>
-                <h1 id="detailTitle" style="color:var(--primary); font-size:1.5rem; margin-bottom:0.5rem;"></h1>
-                <span id="detailTag" class="article-tag"></span>
-                <div id="detailContent" style="margin-top:1rem; font-size:1rem; color:var(--text-main);"></div>
-                <button class="btn btn-whatsapp" style="margin-top:2rem;" onclick="window.location.href='https://wa.me/6285713087659'">Konsultasi Masalah Ini</button>
+        <!-- 3. CEK RESI -->
+        <section id="tracking-section">
+            <div class="card">
+                <h3><i class="fa-solid fa-magnifying-glass"></i> Cek Status Servis</h3>
+                <div class="form-group">
+                    <input type="text" id="trackInput" placeholder="Masukkan Nomor Resi / No. HP">
+                </div>
+                <button class="btn btn-primary" onclick="trackOrder()">Cari</button>
+                
+                <div id="trackResult" style="margin-top: 20px;"></div>
+            </div>
+        </section>
+
+        <!-- 4. HISTORY (WA BASED) -->
+        <section id="history-section">
+            <div class="card">
+                <h3><i class="fa-solid fa-clock-rotate-left"></i> Riwayat Servis Anda</h3>
+                <div class="form-group">
+                    <input type="tel" id="historyWA" placeholder="Masukkan Nomor WhatsApp">
+                </div>
+                <button class="btn btn-secondary" onclick="getHistory()">Lihat Riwayat</button>
+                <div id="historyResult" style="margin-top: 20px;"></div>
+            </div>
+        </section>
+
+        <!-- 5. LOGIN ADMIN -->
+        <section id="login-section">
+            <div class="card" style="max-width: 400px; margin: 2rem auto; text-align: center;">
+                <h3>Login Admin</h3>
+                <div class="form-group">
+                    <input type="password" id="adminPin" placeholder="Masukkan PIN Admin">
+                </div>
+                <button class="btn btn-primary" onclick="handleLogin()">Masuk</button>
+                <p style="margin-top: 1rem;"><a href="#" onclick="navTo('home-section')" style="color: var(--text-light);">Kembali ke Home</a></p>
+            </div>
+        </section>
+
+        <!-- ================= ADMIN PANEL ================= -->
+        <section id="admin-panel">
+            <div class="admin-layout">
+                <!-- SIDEBAR -->
+                <aside class="admin-sidebar">
+                    <button class="sidebar-btn active" onclick="switchAdminTab('dashboard')"><i class="fa-solid fa-chart-pie"></i> Dashboard</button>
+                    <button class="sidebar-btn" onclick="switchAdminTab('orders')"><i class="fa-solid fa-list"></i> Order Masuk</button>
+                    <button class="sidebar-btn" onclick="switchAdminTab('services')"><i class="fa-solid fa-tags"></i> Layanan</button>
+                    <button class="sidebar-btn" onclick="switchAdminTab('finance')"><i class="fa-solid fa-coins"></i> Keuangan</button>
+                    <button class="sidebar-btn" onclick="switchAdminTab('customers')"><i class="fa-solid fa-users"></i> Customer</button>
+                    <button class="sidebar-btn" onclick="switchAdminTab('settings')"><i class="fa-solid fa-gear"></i> Pengaturan</button>
+                    <button class="sidebar-btn" onclick="logout()" style="color: var(--danger); margin-top: 20px;"><i class="fa-solid fa-sign-out-alt"></i> Keluar</button>
+                </aside>
+
+                <!-- CONTENT -->
+                <div class="admin-content">
+                    
+                    <!-- TAB: DASHBOARD -->
+                    <div id="adm-dashboard" class="admin-tab active">
+                        <div class="card">
+                            <h3>Ringkasan Hari Ini</h3>
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                                <div style="text-align:center; padding:15px; background:var(--light-bg); border-radius:8px;">
+                                    <h2 id="stat-total">0</h2>
+                                    <small>Total Order</small>
+                                </div>
+                                <div style="text-align:center; padding:15px; background:var(--light-bg); border-radius:8px;">
+                                    <h2 id="stat-pending">0</h2>
+                                    <small>Perlu Proses</small>
+                                </div>
+                                <div style="text-align:center; padding:15px; background:var(--light-bg); border-radius:8px;">
+                                    <h2 id="stat-revenue" style="color:var(--secondary)">Rp 0</h2>
+                                    <small>Estimasi Omset</small>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" style="margin-top:15px;" onclick="fetchData()">
+                                <i class="fa-solid fa-rotate"></i> Sinkron Data Spreadsheet
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- TAB: ORDERS -->
+                    <div id="adm-orders" class="admin-tab" style="display:none;">
+                        <div class="card">
+                            <div style="display:flex; gap:10px; margin-bottom:15px;">
+                                <input type="text" id="searchOrder" placeholder="Cari Nama / Resi..." oninput="renderOrders()">
+                                <select id="filterStatus" onchange="renderOrders()" style="width: 120px;">
+                                    <option value="all">Semua</option>
+                                    <option value="Proses">Proses</option>
+                                    <option value="Selesai">Selesai</option>
+                                </select>
+                            </div>
+                            <div class="table-responsive">
+                                <table id="ordersTable">
+                                    <thead><tr><th>Resi</th><th>Customer</th><th>Device</th><th>Status</th><th>Aksi</th></tr></thead>
+                                    <tbody><!-- JS Populates --></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB: SERVICES (MANAGER) -->
+                    <div id="adm-services" class="admin-tab" style="display:none;">
+                        <div class="card">
+                            <h3>Tambah Layanan Baru</h3>
+                            <div class="form-group" style="display:flex; gap:5px;">
+                                <input type="text" id="newSvcCat" placeholder="Kategori (Mis: HP)">
+                                <input type="text" id="newSvcName" placeholder="Nama Layanan">
+                                <input type="number" id="newSvcPrice" placeholder="Harga">
+                                <button class="btn btn-sm btn-primary" onclick="addService()">Add</button>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <h3>Database Layanan</h3>
+                            <div class="table-responsive">
+                                <table id="servicesTable">
+                                    <thead><tr><th>Kategori</th><th>Layanan</th><th>Harga</th><th>Aksi</th></tr></thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB: FINANCE -->
+                    <div id="adm-finance" class="admin-tab" style="display:none;">
+                        <div class="card">
+                            <h3>Laporan Keuangan</h3>
+                            <div style="display:flex; gap:10px; margin-bottom:10px;">
+                                <button class="btn btn-sm btn-outline" onclick="exportCSV()">Export CSV</button>
+                                <button class="btn btn-sm btn-outline" onclick="printReport()">Print Laporan</button>
+                            </div>
+                            <div id="financeReport">
+                                <p>Sinkronisasi data dulu untuk melihat laporan.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB: CUSTOMERS -->
+                    <div id="adm-customers" class="admin-tab" style="display:none;">
+                        <div class="card">
+                            <h3>Data Customer</h3>
+                            <div id="customerList"></div>
+                        </div>
+                    </div>
+
+                    <!-- TAB: SETTINGS -->
+                    <div id="adm-settings" class="admin-tab" style="display:none;">
+                        <div class="card">
+                            <h3>Pengaturan Sistem</h3>
+                            <div class="form-group">
+                                <label>Nama Toko</label>
+                                <input type="text" id="setStoreName" value="Malik Service Center">
+                            </div>
+                            <div class="form-group">
+                                <label>Nomor WA Admin</label>
+                                <input type="text" id="setAdminWA" value="628xxxxxxxx">
+                            </div>
+                            <button class="btn btn-primary" onclick="saveSettings()">Simpan</button>
+                            <button class="btn btn-danger" onclick="resetData()">Reset Data Lokal</button>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </section>
     </main>
 
-    <!-- FLOATING WA -->
-    <a href="https://wa.me/6285713087659" class="fab-wa" target="_blank" style="position:fixed; bottom:85px; right:20px; width:55px; height:55px; background:#25D366; border-radius:50%; display:flex; justify-content:center; align-items:center; color:white; font-size:24px; box-shadow:0 4px 10px rgba(0,0,0,0.2); z-index:998; text-decoration:none;">
-        <i class="fa-brands fa-whatsapp"></i>
-    </a>
-
-    <!-- BOTTOM NAVIGATION -->
-    <nav class="bottom-nav">
-        <button class="nav-item active" onclick="navTo('home-section', this)"><i class="fa-solid fa-house"></i><span>Home</span></button>
-        <button class="nav-item" onclick="navTo('order-section', this)"><i class="fa-solid fa-cart-plus"></i><span>Order</span></button>
-        <button class="nav-item" onclick="navTo('article-section', this)"><i class="fa-solid fa-book-open"></i><span>Artikel</span></button>
-        <button class="nav-item" onclick="navTo('resi-section', this)"><i class="fa-solid fa-receipt"></i><span>Cek Resi</span></button>
-        <button class="nav-item" onclick="navTo('login-section', this)"><i class="fa-solid fa-user-lock"></i><span>Admin</span></button>
+    <!-- BOTTOM NAV (PUBLIC) -->
+    <nav class="bottom-nav" id="publicNav">
+        <button class="nav-item active" onclick="navTo('home-section')"><i class="fa-solid fa-house"></i> Home</button>
+        <button class="nav-item" onclick="navTo('order-section')"><i class="fa-solid fa-plus-circle"></i> Order</button>
+        <button class="nav-item" onclick="navTo('tracking-section')"><i class="fa-solid fa-search"></i> Cek Resi</button>
+        <button class="nav-item" onclick="navTo('history-section')"><i class="fa-solid fa-clock"></i> Riwayat</button>
+        <button class="nav-item" onclick="navTo('login-section')"><i class="fa-solid fa-user-lock"></i> Admin</button>
     </nav>
+
+    <!-- MODAL DETAIL ORDER / CETAK RESI -->
+    <div class="modal-overlay" id="orderModal" onclick="if(event.target === this) this.style.display='none'">
+        <div class="modal">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                <h3>Detail Order</h3>
+                <button class="btn btn-sm btn-outline" onclick="document.getElementById('orderModal').style.display='none'">X</button>
+            </div>
+            
+            <div id="modalContent"></div>
+
+            <div style="margin-top:20px; border-top:1px solid var(--border); padding-top:15px;">
+                <button class="btn btn-primary" onclick="printResi()"><i class="fa-solid fa-print"></i> Cetak Resi</button>
+                <div class="btn-group">
+                    <button class="btn btn-success" onclick="updateStatusOrder('Selesai')">Selesai</button>
+                    <button class="btn btn-warning" onclick="updateStatusOrder('Proses')">Proses</button>
+                    <button class="btn btn-danger" onclick="updateStatusOrder('Batal')">Batal</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HIDDEN PRINT AREA -->
+    <div id="print-area" style="display:none;">
+        <div class="print-header">
+            <h2 id="printStoreName">MALIK SERVICE CENTER</h2>
+            <p>Solusi Terbaik Elektronik Anda</p>
+            <p>================================</p>
+        </div>
+        <div class="print-row"><span>No. Resi:</span> <span id="printId"></span></div>
+        <div class="print-row"><span>Tgl Masuk:</span> <span id="printDate"></span></div>
+        <p>================================</p>
+        <b>PELANGGAN</b>
+        <div class="print-row"><span>Nama:</span> <span id="printCustName"></span></div>
+        <div class="print-row"><span>WA:</span> <span id="printCustWA"></span></div>
+        <p>================================</p>
+        <b>PERANGKAT & KERUSAKAN</b>
+        <div class="print-row"><span>Device:</span> <span id="printDevice"></span></div>
+        <div class="print-row"><span>Keluhan:</span> <span id="printIssue"></span></div>
+        <div class="print-row"><span>Layanan:</span> <span id="printService"></span></div>
+        <p>================================</p>
+        <b>ESTIMASI BIAYA</b>
+        <div style="font-size: 1.2rem; text-align: right; font-weight: bold;" id="printPrice"></div>
+        <p style="text-align: center; font-size: 0.8rem; margin-top: 5px;">*Harga dapat berubah setelah pengecekan</p>
+        <p>================================</p>
+        <b>STATUS: <span id="printStatus"></span></b>
+        <div class="print-footer">
+            <p>Barang yang sudah ditinggal dianggap setuju.</p>
+            <p>Terima kasih telah mempercayakan pada kami.</p>
+            <br>
+            <p id="printFooter"></p>
+        </div>
+    </div>
 
     <!-- JAVASCRIPT -->
     <script>
-        // ==========================================
-        // 1. KONFIGURASI & KEAMANAN
-        // ==========================================
+        /* =========================================
+           1. CONFIGURATION & STATE
+           ========================================= */
         const CONFIG = {
-            APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbz-rynDNAjDZ6A4eAgvRE_YMwEy9rZMnWq6m2i-t2NEct9_qAvJ_6ONrMtFO-BNq-wA/exec", 
-            SESSION_TIMEOUT: 30 * 60 * 1000,
-            ADMIN_WA: "6285713087659"
+            APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbz-rynDNAjDZ6A4eAgvRE_YMwEy9rZMnWq6m2i-t2NEct9_qAvJ_6ONrMtFO-BNq-wA/exec",
+            SESSION_KEY: 'malik_admin_session',
+            DB_KEY: 'malik_services_db'
         };
 
-        function showCustomAlert(title, message, buttons) {
-            const modal = document.getElementById('customAlert');
-            document.getElementById('alertTitle').innerText = title;
-            document.getElementById('alertMessage').innerHTML = message;
-            const btnContainer = document.getElementById('alertButtons');
-            btnContainer.innerHTML = '';
-            buttons.forEach(btn => {
-                const b = document.createElement('button');
-                b.className = `btn ${btn.class || 'btn-secondary'}`;
-                b.style.margin = '0';
-                b.innerText = btn.text;
-                b.onclick = () => { modal.style.display = 'none'; if(btn.onClick) btn.onClick(); };
-                btnContainer.appendChild(b);
-            });
-            modal.style.display = 'flex';
-        }
-
-        // ==========================================
-        // 2. DATABASE LAYANAN (MERGED SYSTEM)
-        // ==========================================
-        const masterServiceDatabase = [
-            { cat: "HP Android", issue: "LCD retak", item: "LCD ORI", price: 550000, est: "3 Jam" },
-            { cat: "HP Android", issue: "LCD retak", item: "LCD ORI (Layar Besar)", price: 750000, est: "3 Jam" },
-            { cat: "HP Android", issue: "Baterai drop / kembung", item: "Baterai ORI", price: 330000, est: "1 Jam" },
-            { cat: "HP Android", issue: "Konektor cas rusak", item: "Port Charging ORI", price: 200000, est: "1.5 Jam" },
-            { cat: "HP Android", issue: "Speaker mati", item: "Speaker ORI", price: 180000, est: "1 Jam" },
-            { cat: "HP Android", issue: "Water damage ringan / berat", item: "Cleaning Service", price: 200000, est: "1 Hari" },
-            { cat: "Laptop", issue: "LCD pecah", item: "LCD ORI (14 inch HD)", price: 1000000, est: "1 Hari" },
-            { cat: "Laptop", issue: "Keyboard rusak", item: "Keyboard ORI (Standard)", price: 450000, est: "3 Jam" },
-            { cat: "Laptop", issue: "Baterai laptop drop", item: "Baterai ORI (3 cell)", price: 500000, est: "1 Jam" },
-            { cat: "Laptop", issue: "Laptop lemot", item: "Upgrade SSD (256GB SATA)", price: 450000, est: "1.5 Jam" },
-            { cat: "Laptop", issue: "Install ulang Windows", item: "Windows OS (Original)", price: 150000, est: "2 Jam" }
+        // MASTER DATABASE SERVICE (LUAR BIASA LENGKAP)
+        const masterServices = [
+            // --- HP ANDROID ---
+            { cat: "HP Android", name: "Ganti LCD (Ori)", price: 450000 },
+            { cat: "HP Android", name: "Ganti LCD (Premium Copy)", price: 250000 },
+            { cat: "HP Android", name: "Ganti Baterai (Ori)", price: 300000 },
+            { cat: "HP Android", name: "Ganti Baterai (Double Power)", price: 150000 },
+            { cat: "HP Android", name: "Ganti Touchscreen", price: 200000 },
+            { cat: "HP Android", name: "Ganti Kamera Depan", price: 150000 },
+            { cat: "HP Android", name: "Ganti Kamera Belakang", price: 200000 },
+            { cat: "HP Android", name: "Ganti Mesin Slot SIM", price: 250000 },
+            { cat: "HP Android", name: "Ganti Port Charging (Type C)", price: 200000 },
+            { cat: "HP Android", name: "Ganti Port Charging (Micro USB)", price: 150000 },
+            { cat: "HP Android", name: "Ganti Speaker (Suara)", price: 100000 },
+            { cat: "HP Android", name: "Ganti Mic (Suara)", price: 100000 },
+            { cat: "HP Android", name: "Ganti Vibrator", price: 80000 },
+            { cat: "HP Android", name: "Perbaikan Mati Total (Hardware)", price: 350000 },
+            { cat: "HP Android", name: "Perbaikan Bootloop (Software)", price: 150000 },
+            { cat: "HP Android", name: "Flash Ulang Firmware (Stock)", price: 200000 },
+            { cat: "HP Android", name: "Bypass FRP / Google Account", price: 150000 },
+            { cat: "HP Android", name: "Recovery Data (Pricing Tergantung Kondisi)", price: 500000 },
+            { cat: "HP Android", name: "Ganti Backdoor / Casing", price: 150000 },
+            { cat: "HP Android", name: "Water Damage Treatment", price: 300000 },
+            { cat: "HP Android", name: "IC Power Short", price: 450000 },
+            
+            // --- LAPTOP ---
+            { cat: "Laptop", name: "Ganti LCD LED (14 inch)", price: 850000 },
+            { cat: "Laptop", name: "Ganti LCD LED (15.6 inch)", price: 950000 },
+            { cat: "Laptop", name: "Ganti Flexible LCD", price: 250000 },
+            { cat: "Laptop", name: "Ganti Baterai (Original)", price: 650000 },
+            { cat: "Laptop", name: "Ganti Baterai (OEM)", price: 400000 },
+            { cat: "Laptop", name: "Ganti Keyboard (Universal)", price: 250000 },
+            { cat: "Laptop", name: "Ganti Keyboard (Ori)", price: 550000 },
+            { cat: "Laptop", name: "Ganti Harddisk (HDD 500GB)", price: 450000 },
+            { cat: "Laptop", name: "Upgrade SSD 256GB", price: 450000 },
+            { cat: "Laptop", name: "Upgrade RAM 4GB", price: 250000 },
+            { cat: "Laptop", name: "Ganti Engsel Layar (Sepasang)", price: 200000 },
+            { cat: "Laptop", name: "Ganti Casing Body", price: 450000 },
+            { cat: "Laptop", name: "Pembersihan Fan / Ganti Pasta Processor", price: 150000 },
+            { cat: "Laptop", name: "Perbaikan Mati Total", price: 600000 },
+            { cat: "Laptop", name: "Install Ulang Windows 10/11 + Driver", price: 200000 },
+            { cat: "Laptop", name: "Install Office (Original)", price: 150000 },
+            { cat: "Laptop", name: "Recovery Data HDD/SSD", price: 800000 },
+            { cat: "Laptop", name: "Ganti IC Charger / Konektor Power", price: 350000 }
         ];
 
-        const DB = {
-            init: () => {
-                const localCustom = localStorage.getItem('malik_services_custom');
-                let customData = [];
-                if (localCustom) customData = JSON.parse(localCustom);
-                return [...masterServiceDatabase, ...customData];
-            },
-            getCategories: (data) => { const cats = new Set(data.map(i => i.cat)); return Array.from(cats).sort(); },
-            addCustom: (item) => {
-                const localCustom = localStorage.getItem('malik_services_custom');
-                let data = localCustom ? JSON.parse(localCustom) : [];
-                data.push(item);
-                localStorage.setItem('malik_services_custom', JSON.stringify(data));
-                return true;
-            },
-            removeCustom: (index) => {
-                const localCustom = localStorage.getItem('malik_services_custom');
-                if (!localCustom) return false;
-                let data = JSON.parse(localCustom);
-                if (index >= 0 && index < data.length) {
-                    data.splice(index, 1);
-                    localStorage.setItem('malik_services_custom', JSON.stringify(data));
-                    return true;
-                }
-                return false;
-            },
-            logUpdate: () => { const now = new Date(); document.getElementById('dbStatus').innerText = now.toLocaleDateString('id-ID') + ' ' + now.toLocaleTimeString('id-ID'); }
+        // INIT STATE
+        let state = {
+            services: JSON.parse(localStorage.getItem(CONFIG.DB_KEY)) || masterServices,
+            orders: [], // Loaded from sheet
+            currentOrder: null // For modal
         };
 
-        let serviceData = DB.init(); // Global runtime service data
-        DB.logUpdate();
+        // Load settings
+        const settings = JSON.parse(localStorage.getItem('malik_settings')) || {
+            storeName: "Malik Service Center",
+            adminWA: "628123456789",
+            address: "Jl. Teknologi No. 12, Semarang"
+        };
 
-        // ==========================================
-        // 3. STATE MANAGEMENT
-        // ==========================================
-        let cart = []; 
-        let adminOrders = []; 
-        let customServices = JSON.parse(localStorage.getItem('malik_services_custom') || '[]');
+        /* =========================================
+           2. CORE NAVIGATION & UI
+           ========================================= */
+        function navTo(sectionId) {
+            document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            window.scrollTo(0,0);
 
-        // ==========================================
-        // 4. AUTHENTICATION
-        // ==========================================
-        async function sha256(message) {
-            const msgBuffer = new TextEncoder().encode(message);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-        }
-
-        async function handleLogin() {
-            const pinInput = document.getElementById('adminPin').value;
-            const btn = document.getElementById('btnLogin');
-            const statusTxt = document.getElementById('loginStatus');
-            if(!pinInput) { showToast("PIN wajib diisi"); return; }
-
-            const hashedPin = await sha256(pinInput);
-            btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Loading...';
-            statusTxt.innerText = "Memvalidasi...";
-
-            try {
-                const response = await fetch(CONFIG.APPS_SCRIPT_URL, {
-                    method: 'POST',
-                    body: JSON.stringify({ action: "login", pinHash: hashedPin })
-                });
-                const result = await response.json();
-                if (result.success) {
-                    localStorage.setItem('malik_admin_session', JSON.stringify({ time: Date.now() }));
-                    showToast("Login Berhasil!", true);
-                    navTo('admin-panel');
-                    fetchOrdersFromSheet(); // Auto fetch on login
-                } else {
-                    showToast(result.message);
-                    statusTxt.innerText = result.message;
-                }
-            } catch (error) {
-                console.error(error);
-                showToast("Gagal koneksi ke Server.");
+            // Update nav active state
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            if(sectionId !== 'admin-panel') {
+                const navIndex = ['home-section','order-section','tracking-section','history-section','login-section'].indexOf(sectionId);
+                if(navIndex >= 0) document.querySelectorAll('.nav-item')[navIndex].classList.add('active');
+            } else {
+                // Hide public nav in admin
+                if(!checkSession()) navTo('login-section');
             }
-            btn.disabled = false; btn.innerHTML = '<span>Masuk Panel</span>';
         }
 
-        function checkSession() {
-            const session = JSON.parse(localStorage.getItem('malik_admin_session'));
-            return session && (Date.now() - session.time < CONFIG.SESSION_TIMEOUT);
+        function switchAdminTab(tabId) {
+            document.querySelectorAll('.admin-tab').forEach(t => t.style.display = 'none');
+            document.getElementById('adm-' + tabId).style.display = 'block';
+            document.querySelectorAll('.sidebar-btn').forEach(b => b.classList.remove('active'));
+            event.currentTarget.classList.add('active');
         }
 
-        function logout() {
-            localStorage.removeItem('malik_admin_session');
-            navTo('login-section');
+        function showToast(msg, type='info') {
+            const t = document.getElementById('toast');
+            t.innerText = msg;
+            t.style.display = 'block';
+            t.style.background = type === 'error' ? 'var(--danger)' : 'var(--dark-bg)';
+            setTimeout(() => t.style.display = 'none', 3000);
         }
 
-        // ==========================================
-        // 5. ADMIN PANEL TABS LOGIC
-        // ==========================================
-        function switchAdminTab(tabName) {
-            // Update buttons
-            document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active'));
-            const activeBtn = Array.from(document.querySelectorAll('.admin-tab-btn')).find(b => b.getAttribute('onclick').includes(tabName));
-            if(activeBtn) activeBtn.classList.add('active');
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+        }
 
-            // Hide all contents
-            document.querySelectorAll('.admin-tab-content').forEach(c => c.style.display = 'none');
+        function formatRupiah(num) {
+            return "Rp " + parseInt(num).toLocaleString('id-ID');
+        }
+
+        /* =========================================
+           3. ORDER FLOW (CUSTOMER)
+           ========================================= */
+        function quickOrder(cat) {
+            navTo('order-section');
+            document.getElementById('orderCategory').value = cat;
+            populateServices();
+        }
+
+        function populateServices() {
+            const cat = document.getElementById('orderCategory').value;
+            const sel = document.getElementById('orderService');
+            sel.innerHTML = '<option value="">-- Pilih Layanan --</option>';
             
-            // Show target
-            document.getElementById(`admin-${tabName}-content`).style.display = 'block';
-
-            // Specific logic per tab
-            if(tabName === 'services') renderServiceTable();
-            if(tabName === 'dashboard') updateDashboardStats();
+            state.services.filter(s => s.cat === cat).forEach(s => {
+                const opt = document.createElement('option');
+                opt.value = JSON.stringify(s);
+                opt.innerText = `${s.name}`;
+                sel.appendChild(opt);
+            });
         }
 
-        function updateDashboardStats() {
-            if(!adminOrders || adminOrders.length === 0) return;
-            
-            const total = adminOrders.length;
-            const pending = adminOrders.filter(o => o.status === 'Proses').length;
-            const revenue = adminOrders.reduce((sum, o) => sum + (parseInt(o.total) || 0), 0);
-            // Logic simple: cek jika alamat mengandung 'pickup' atau flag lain (disini kita asumsi manual check dulu, atau bisa add field hidden)
-            // Karena di sheet lama tidak ada flag pickup boolean, kita detek manual dari konteks order jika perlu.
-            // Di sini kita set default 0 untuk pickup karena data lama belum support flag spesifik.
-            const pickup = 0; 
-
-            document.getElementById('statTotalOrders').innerText = total;
-            document.getElementById('statPending').innerText = pending;
-            document.getElementById('statRevenue').innerText = formatRupiah(revenue);
-            document.getElementById('statPickup').innerText = pickup;
+        function updateEstimation() {
+            const val = document.getElementById('orderService').value;
+            if(!val) return;
+            const svc = JSON.parse(val);
+            document.getElementById('displayEstPrice').innerText = formatRupiah(svc.price);
+            document.getElementById('serviceEstInfo').innerText = `Estimasi Pengerjaan: 1-3 Hari (Tergantung Sparepart)`;
         }
 
-        // ==========================================
-        // 6. ORDER FLOW & SHEET SYNC
-        // ==========================================
-        
-        async function sendCustomerOrder() {
+        function togglePickup() {
+            const shipping = document.querySelector('input[name="shipping"]:checked').value;
+            document.getElementById('pickupBox').style.display = (shipping === 'Pickup') ? 'block' : 'none';
+        }
+
+        async function submitOrder() {
             const name = document.getElementById('custName').value;
             const wa = document.getElementById('custWA').value;
-            const address = document.getElementById('custAddress').value;
+            const device = document.getElementById('orderDevice').value;
+            const complaint = document.getElementById('orderComplaint').value;
+            const svcVal = document.getElementById('orderService').value;
+            const shipping = document.querySelector('input[name="shipping"]:checked').value;
 
-            if(!name || !wa) { showToast("Nama & WA wajib diisi"); return; }
-            if(cart.length === 0) { showToast("Belum ada layanan yang dipilih"); return; }
+            if(!name || !wa || !device || !svcVal) { showToast("Data belum lengkap!", 'error'); return; }
 
-            const newOrderId = generateOrderId(); 
+            const svc = JSON.parse(svcVal);
+            const resiId = "INV-" + Date.now().toString().slice(-6);
             
-            let msg = `Halo Admin, saya mau servis.\n\nNama: ${name}\nWA: ${wa}\nAlamat: ${address}\n\n--- Daftar Perbaikan ---\n`;
-            let totalEst = 0;
-            cart.forEach((item, idx) => {
-                totalEst += item.price;
-                msg += `${idx+1}. ${item.cat} - ${item.issue} (${formatRupiah(item.price)})\n`;
-            });
-            const pickup = calculatePickup();
-            if(pickup === 25000) { totalEst += 25000; msg += `\nBiaya Pickup: +Rp 25.000`; }
-            msg += `\n*TOTAL ESTIMASI: ${formatRupiah(totalEst)}*`;
-
-            const payload = { 
+            // 1. Send to Spreadsheet
+            const payload = {
                 action: "save_order",
-                orderId: newOrderId, name: name, wa: wa, address: address, 
-                cat: cart.length > 1 ? 'Multiple' : cart[0].cat, 
-                items: cart, total: totalEst 
+                orderId: resiId,
+                name: name, wa: wa, device: device, complaint: complaint,
+                category: svc.cat, service: svc.name, price: svc.price,
+                shipping: shipping, status: "Menunggu"
             };
 
             fetch(CONFIG.APPS_SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) })
                 .then(res => res.json())
-                .then(data => console.log("Sheet Saved:", data))
-                .catch(e => console.warn("Sheet Error:", e));
+                .then(data => console.log("Saved", data))
+                .catch(e => console.error(e));
 
-            window.open(`https://wa.me/${CONFIG.ADMIN_WA}?text=${encodeURIComponent(msg)}`, '_blank');
-        }
-
-        async function fetchOrdersFromSheet() {
-            const btn = document.querySelector('.btn-sync');
-            const originalText = btn.innerHTML;
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mengambil Data...';
-
-            try {
-                const response = await fetch(CONFIG.APPS_SCRIPT_URL, {
-                    method: 'POST',
-                    body: JSON.stringify({ action: "get_all_orders" })
-                });
-                const result = await response.json();
-                
-                if(result.success) {
-                    adminOrders = result.data; 
-                    renderAdminOrders();
-                    updateDashboardStats();
-                    showToast(`Berhasil mengambil ${adminOrders.length} order`, true);
-                } else {
-                    showToast("Gagal mengambil data: " + result.message);
-                }
-            } catch (error) {
-                console.error(error);
-                showToast("Terjadi kesalahan koneksi.");
-            }
-            btn.disabled = false;
-            btn.innerHTML = originalText;
-        }
-
-        function renderAdminOrders() {
-            const container = document.getElementById('ordersContainer');
-            const search = document.getElementById('searchOrderAdmin').value.toLowerCase();
+            // 2. Send WA
+            const msg = `Halo Admin, saya mau booking servis.\n\n` +
+                       `Nama: ${name}\nWA: ${wa}\nDevice: ${device}\n` +
+                       `Keluhan: ${complaint}\n` +
+                       `Layanan: ${svc.name}\nEstimasi: ${formatRupiah(svc.price)}\n` +
+                       `Metode: ${shipping}\n\nMohon diproses ya.`;
             
-            if(!adminOrders || adminOrders.length === 0) {
-                container.innerHTML = `<div style="text-align:center; padding:20px; color:var(--text-light)">Belum ada data. Klik tombol "Sinkron Data".</div>`;
-                return;
-            }
+            window.open(`https://wa.me/${settings.adminWA}?text=${encodeURIComponent(msg)}`, '_blank');
+            showToast("Order Terkirim!");
+            navTo('home-section');
+        }
 
-            const filtered = adminOrders.filter(o => 
-                o.orderId.toLowerCase().includes(search) || 
-                o.customerName.toLowerCase().includes(search)
-            );
+        /* =========================================
+           4. TRACKING & HISTORY
+           ========================================= */
+        async function trackOrder() {
+            const input = document.getElementById('trackInput').value.trim();
+            if(!input) return;
 
-            if(filtered.length === 0) {
-                container.innerHTML = `<div style="text-align:center; padding:20px;">Data tidak ditemukan.</div>`;
-                return;
-            }
-
-            container.innerHTML = filtered.map((order, index) => `
-                <div class="order-card">
-                    <div class="order-header">
-                        <span class="order-id">#${order.orderId}</span>
-                        <span class="status-badge status-${getSimpleStatus(order.status)}">${order.status}</span>
+            const res = await fetch(CONFIG.APPS_SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify({ action: "check_resi", resiId: input })
+            });
+            const result = await res.json();
+            
+            const container = document.getElementById('trackResult');
+            if(result.success) {
+                const d = result.data;
+                container.innerHTML = `
+                    <div class="card" style="border-left: 4px solid var(--primary);">
+                        <h4>Order Ditemukan: ${d.orderId}</h4>
+                        <p>Status: <b class="badge badge-process">${d.status}</b></p>
+                        <p>Device: ${d.device}</p>
+                        <button class="btn btn-sm btn-outline" onclick="openPrintModal('${d.orderId}')">Cetak Resi</button>
                     </div>
-                    <div class="order-detail-row"><span class="order-label">Nama:</span><span style="font-weight:600;">${order.customerName}</span></div>
-                    <div class="order-detail-row"><span class="order-label">Perangkat:</span><span>${order.category}</span></div>
-                    <div class="order-detail-row"><span class="order-label">Kerusakan:</span><span style="font-size:0.85rem;">${order.services}</span></div>
-                    <div class="order-action-area">
-                        <label style="font-size:0.8rem;">Update Status:</label>
-                        <div style="display:flex; gap:10px;">
-                            <button class="btn btn-secondary" style="flex:1; padding:10px;" onclick="updateOrderStatus('${order.orderId}', 'Proses')">Proses</button>
-                            <button class="btn btn-primary" style="flex:1; padding:10px; background:var(--accent);" onclick="updateOrderStatus('${order.orderId}', 'Sedang Dikerjakan')">Kerjakan</button>
-                            <button class="btn btn-primary" style="flex:1; padding:10px;" onclick="promptFinishOrder('${order.orderId}', '${order.wa}', '${order.customerName}')">Selesai</button>
-                        </div>
+                `;
+            } else {
+                container.innerHTML = `<p style="color:red; text-align:center;">Data tidak ditemukan.</p>`;
+            }
+        }
+
+        async function getHistory() {
+            const wa = document.getElementById('historyWA').value.trim();
+            // Simulate fetching locally for speed if needed, but here we fetch all from sheet
+            await fetchData(); // Ensure data is fresh
+            const myOrders = state.orders.filter(o => o.wa.includes(wa) || o.wa.replace(/^0/,'62').includes(wa.replace(/^0/,'62')));
+            
+            const container = document.getElementById('historyResult');
+            if(myOrders.length > 0) {
+                container.innerHTML = myOrders.map(o => `
+                    <div class="card" style="padding:10px; margin-bottom:10px;">
+                        <b>${o.orderId}</b> - ${o.status}<br>
+                        <small>${o.service} (${formatRupiah(o.price)})</small>
                     </div>
-                </div>
+                `).join('');
+            } else {
+                container.innerHTML = "Tidak ada riwayat.";
+            }
+        }
+
+        /* =========================================
+           5. ADMIN SYSTEM
+           ========================================= */
+        async function handleLogin() {
+            const pin = document.getElementById('adminPin').value;
+            // Simple SHA-256 simulation (or use real crypto.subtle)
+            // Since backend handles hash, we send raw PIN if backend is secure or hash here.
+            // Assuming backend does SHA-256 comparison.
+            
+            // For this demo, we use a simple check. In production use real hashing.
+            const hashedPin = pin; // Send raw to backend if backend does hashing, or hash here.
+            
+            const res = await fetch(CONFIG.APPS_SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify({ action: "login", pinHash: hashedPin }) // Backend handles salt/hash
+            });
+            const result = await res.json();
+
+            if(result.success) {
+                localStorage.setItem(CONFIG.SESSION_KEY, Date.now());
+                navTo('admin-panel');
+                fetchData();
+            } else {
+                showToast("Login Gagal", 'error');
+            }
+        }
+
+        function checkSession() {
+            const s = localStorage.getItem(CONFIG.SESSION_KEY);
+            return s && (Date.now() - s < 3600000); // 1 hour
+        }
+
+        function logout() {
+            localStorage.removeItem(CONFIG.SESSION_KEY);
+            navTo('home-section');
+        }
+
+        async function fetchData() {
+            const btn = document.querySelector('#adm-dashboard button');
+            btn.innerText = "Loading...";
+            
+            const res = await fetch(CONFIG.APPS_SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify({ action: "get_all_orders" })
+            });
+            const result = await res.json();
+
+            if(result.success) {
+                state.orders = result.data.reverse();
+                renderOrders();
+                updateDashboard();
+            }
+            btn.innerText = "Sinkron Data Spreadsheet";
+        }
+
+        function updateDashboard() {
+            document.getElementById('stat-total').innerText = state.orders.length;
+            document.getElementById('stat-pending').innerText = state.orders.filter(o => o.status === 'Proses' || o.status === 'Menunggu').length;
+            const total = state.orders.reduce((acc, curr) => acc + (parseInt(curr.price)||0), 0);
+            document.getElementById('stat-revenue').innerText = formatRupiah(total);
+        }
+
+        function renderOrders() {
+            const search = document.getElementById('searchOrder').value.toLowerCase();
+            const filter = document.getElementById('filterStatus').value;
+            const tbody = document.querySelector('#ordersTable tbody');
+            
+            const filtered = state.orders.filter(o => {
+                const matchSearch = (o.orderId+o.name+o.device).toLowerCase().includes(search);
+                const matchFilter = filter === 'all' || o.status.includes(filter);
+                return matchSearch && matchFilter;
+            });
+
+            tbody.innerHTML = filtered.map(o => `
+                <tr>
+                    <td><b>${o.orderId}</b></td>
+                    <td>${o.name}<br><small>${o.wa}</small></td>
+                    <td>${o.category} - ${o.service}</td>
+                    <td><span class="badge badge-${o.status === 'Selesai' ? 'done' : 'process'}">${o.status}</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" onclick="openOrderModal('${o.orderId}')">Detail</button>
+                    </td>
+                </tr>
             `).join('');
         }
 
-        function getSimpleStatus(status) {
-            if(status.includes('Selesai')) return 'selesai';
-            if(status.includes('Dikerjakan')) return 'kerja';
-            return 'proses';
+        /* =========================================
+           6. MODAL & PRINT LOGIC
+           ========================================= */
+        function openOrderModal(resiId) {
+            const order = state.orders.find(o => o.orderId === resiId);
+            state.currentOrder = order;
+
+            const html = `
+                <p><b>Resi:</b> ${order.orderId}</p>
+                <p><b>Pelanggan:</b> ${order.name} (${order.wa})</p>
+                <p><b>Device:</b> ${order.device}</p>
+                <p><b>Keluhan:</b> ${order.complaint}</p>
+                <p><b>Layanan:</b> ${order.service}</p>
+                <p><b>Status:</b> <span class="badge badge-process">${order.status}</span></p>
+                <p><b>Estimasi:</b> ${formatRupiah(order.price)}</p>
+                <div style="margin-top:10px;">
+                    <a href="https://wa.me/${order.wa.replace(/[^0-9]/g,'')}" target="_blank" class="btn btn-sm btn-success">Chat WA</a>
+                </div>
+            `;
+            document.getElementById('modalContent').innerHTML = html;
+            document.getElementById('orderModal').style.display = 'flex';
         }
 
-        async function updateOrderStatus(orderId, newStatus) {
-            showToast(`Status diubah menjadi: ${newStatus}`, true);
-            const orderIdx = adminOrders.findIndex(o => o.orderId === orderId);
-            if(orderIdx > -1) adminOrders[orderIdx].status = newStatus;
-            renderAdminOrders();
-            updateDashboardStats();
+        function printResi() {
+            const o = state.currentOrder;
+            if(!o) return;
 
-            fetch(CONFIG.APPS_SCRIPT_URL, {
-                method: 'POST',
-                body: JSON.stringify({ action: "update_status", orderId: orderId, newStatus: newStatus })
-            }).catch(e => console.warn("Gagal update status ke sheet", e));
-        }
+            // Fill Print Area
+            document.getElementById('printStoreName').innerText = settings.storeName;
+            document.getElementById('printId').innerText = o.orderId;
+            document.getElementById('printDate').innerText = new Date(o.timestamp).toLocaleDateString('id-ID');
+            document.getElementById('printCustName').innerText = o.name;
+            document.getElementById('printCustWA').innerText = o.wa;
+            document.getElementById('printDevice').innerText = o.device;
+            document.getElementById('printIssue').innerText = o.complaint;
+            document.getElementById('printService').innerText = o.service;
+            document.getElementById('printPrice').innerText = formatRupiah(o.price);
+            document.getElementById('printStatus').innerText = o.status;
+            document.getElementById('printFooter').innerText = settings.address;
 
-        function promptFinishOrder(orderId, waNumber, custName) {
-            let cleanWA = waNumber.replace(/[^0-9]/g, '');
-            if(cleanWA.startsWith('0')) cleanWA = '62' + cleanWA.substring(1);
-
-            showCustomAlert("Selesaikan Pesanan?", `Device untuk <b>${custName}</b> sudah selesai diperbaiki?`, [
-                { text: "Berhasil", class: "btn-whatsapp", onClick: () => {
-                    updateOrderStatus(orderId, "Selesai (Berhasil)");
-                    const msg = `Halo ${custName}, perangkat Anda SUDAH BERHASIL diperbaiki dan siap diambil/dikirim. Terima kasih!`;
-                    window.open(`https://wa.me/${cleanWA}?text=${encodeURIComponent(msg)}`, '_blank');
-                }},
-                { text: "Gagal", class: "btn-danger", onClick: () => {
-                    updateOrderStatus(orderId, "Selesai (Gagal)");
-                    const msg = `Halo ${custName}, mohon maaf, perangkat Anda mengalami kerusakan yang tidak bisa diperbaiki.`;
-                    window.open(`https://wa.me/${cleanWA}?text=${encodeURIComponent(msg)}`, '_blank');
-                }},
-                { text: "Batal", class: "btn-secondary" }
-            ]);
-        }
-
-        // ==========================================
-        // 7. SERVICE MANAGEMENT (LOCAL)
-        // ==========================================
-        function addNewService() {
-            const cat = document.getElementById('newSvcCat').value;
-            const issue = document.getElementById('newSvcIssue').value;
-            const item = document.getElementById('newSvcItem').value;
-            const price = document.getElementById('newSvcPrice').value;
-
-            if(!cat || !issue || !price) { showToast("Lengkapi data layanan"); return; }
-            
-            const newSvc = { cat, issue, item, price: parseInt(price), est: "Estimasi Admin" };
-            DB.addCustom(newSvc);
-            
-            // Refresh data
-            serviceData = DB.init();
-            customServices = JSON.parse(localStorage.getItem('malik_services_custom') || '[]');
-            
-            // Reset inputs & Render
-            document.getElementById('newSvcCat').value = "";
-            document.getElementById('newSvcIssue').value = "";
-            document.getElementById('newSvcItem').value = "";
-            document.getElementById('newSvcPrice').value = "";
-            
-            renderServiceTable();
-            showToast("Layanan ditambahkan!", true);
-        }
-
-        function renderServiceTable() {
-            const tbody = document.getElementById('serviceTableBody');
-            tbody.innerHTML = '';
-            
-            // Render Master (Read Only)
-            masterServiceDatabase.forEach((s, i) => {
-                const tr = document.createElement('tr');
-                tr.style.color = 'var(--text-light)';
-                tr.innerHTML = `
-                    <td>${s.cat}</td>
-                    <td>${s.issue}</td>
-                    <td>${s.item}</td>
-                    <td>${formatRupiah(s.price)}</td>
-                    <td><small>Default</small></td>
-                `;
-                tbody.appendChild(tr);
-            });
-
-            // Render Custom (Editable)
-            customServices.forEach((s, i) => {
-                const tr = document.createElement('tr');
-                tr.style.background = '#f0fdf4'; // light green bg
-                tr.innerHTML = `
-                    <td>${s.cat}</td>
-                    <td>${s.issue}</td>
-                    <td>${s.item}</td>
-                    <td>${formatRupiah(s.price)}</td>
-                    <td><button class="btn btn-danger btn-sm" onclick="deleteCustomService(${i})">Hapus</button></td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        function deleteCustomService(index) {
-            if(confirm("Hapus layanan ini dari menu?")) {
-                DB.removeCustom(index);
-                serviceData = DB.init();
-                customServices = JSON.parse(localStorage.getItem('malik_services_custom') || '[]');
-                renderServiceTable();
-                showToast("Layanan dihapus");
-            }
-        }
-
-        // ==========================================
-        // 8. FINANCE & SETTINGS
-        // ==========================================
-        function generateFinanceReport() {
-            const startStr = document.getElementById('filterDateStart').value;
-            const endStr = document.getElementById('filterDateEnd').value;
-
-            if(!startStr || !endStr) { showToast("Pilih rentang tanggal"); return; }
-            
-            const startDate = new Date(startStr);
-            const endDate = new Date(endStr);
-            endDate.setHours(23, 59, 59);
-
-            const total = adminOrders.reduce((sum, order) => {
-                const orderDate = new Date(order.timestamp);
-                if(orderDate >= startDate && orderDate <= endDate) {
-                    return sum + (parseInt(order.total) || 0);
-                }
-                return sum;
-            }, 0);
-
-            document.getElementById('financeTotalDisplay').innerText = formatRupiah(total);
-        }
-
-        function printFinance() {
+            // Trigger Print
             window.print();
         }
 
-        function resetAllLocalData() {
-            if(confirm("Yakin ingin mereset semua layanan custom ke default? Tindakan ini tidak bisa dibatalkan.")) {
-                localStorage.removeItem('malik_services_custom');
+        async function updateStatusOrder(newStatus) {
+            if(!state.currentOrder) return;
+            
+            // Optimistic UI
+            state.currentOrder.status = newStatus;
+            document.getElementById('orderModal').style.display = 'none';
+            renderOrders();
+            
+            // Send to Sheet
+            fetch(CONFIG.APPS_SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify({
+                    action: "update_status",
+                    orderId: state.currentOrder.orderId,
+                    newStatus: newStatus
+                })
+            });
+            showToast(`Status diubah ke ${newStatus}`);
+        }
+
+        /* =========================================
+           7. SERVICE MANAGEMENT & UTILS
+           ========================================= */
+        function addService() {
+            const cat = document.getElementById('newSvcCat').value;
+            const name = document.getElementById('newSvcName').value;
+            const price = document.getElementById('newSvcPrice').value;
+
+            if(!cat || !name || !price) return;
+
+            state.services.push({ cat, name, price: parseInt(price) });
+            localStorage.setItem(CONFIG.DB_KEY, JSON.stringify(state.services));
+            renderServiceTable();
+            
+            // Clear inputs
+            document.getElementById('newSvcCat').value = "";
+            document.getElementById('newSvcName').value = "";
+            document.getElementById('newSvcPrice').value = "";
+        }
+
+        function renderServiceTable() {
+            const tbody = document.querySelector('#servicesTable tbody');
+            // Only show custom ones (which are at the end of the array usually, or all)
+            // Showing all for visibility
+            tbody.innerHTML = state.services.map((s, i) => `
+                <tr>
+                    <td>${s.cat}</td>
+                    <td>${s.name}</td>
+                    <td>${formatRupiah(s.price)}</td>
+                    <td>
+                        ${i >= masterServices.length ? 
+                          `<button class="btn btn-sm btn-danger" onclick="deleteService(${i})">Hapus</button>` : 
+                          `<small>Default</small>`}
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function deleteService(index) {
+            if(confirm('Hapus layanan ini?')) {
+                state.services.splice(index, 1);
+                localStorage.setItem(CONFIG.DB_KEY, JSON.stringify(state.services));
+                renderServiceTable();
+            }
+        }
+
+        function saveSettings() {
+            const s = {
+                storeName: document.getElementById('setStoreName').value,
+                adminWA: document.getElementById('setAdminWA').value,
+                address: settings.address
+            };
+            localStorage.setItem('malik_settings', JSON.stringify(s));
+            showToast("Pengaturan disimpan");
+        }
+
+        function resetData() {
+            if(confirm("Reset semua data layanan custom ke default?")) {
+                localStorage.removeItem(CONFIG.DB_KEY);
                 location.reload();
             }
         }
 
-        function backupData() {
-            const data = {
-                services: customServices,
-                timestamp: new Date().toISOString()
-            };
-            const blob = new Blob([JSON.stringify(data, null, 2)], {type : 'application/json'});
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `malik_backup_${Date.now()}.json`;
-            a.click();
-        }
-
-        // ==========================================
-        // 9. UI HELPERS & NAVIGATION
-        // ==========================================
-        function navTo(sectionId, btnElement = null) {
-            if(sectionId === 'admin-panel' && !checkSession()) { navTo('login-section'); return; }
-
-            document.querySelectorAll('.step-section, .full-width-section').forEach(sec => {
-                sec.classList.remove('active'); sec.style.display = 'none';
+        function exportCSV() {
+            let csvContent = "data:text/csv;charset=utf-8,";
+            csvContent += "Resi,Nama,Device,Layanan,Harga,Status\n";
+            state.orders.forEach(o => {
+                csvContent += `${o.orderId},"${o.name}","${o.device}","${o.service}",${o.price},${o.status}\n`;
             });
-            
-            const target = document.getElementById(sectionId);
-            if(target) {
-                target.style.display = 'block';
-                setTimeout(() => target.classList.add('active'), 10);
-            }
-            window.scrollTo(0,0);
-
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            if(btnElement) btnElement.classList.add('active');
-            else {
-                if(sectionId === 'home-section') document.querySelectorAll('.nav-item')[0].classList.add('active');
-                if(sectionId === 'order-section') document.querySelectorAll('.nav-item')[1].classList.add('active');
-                if(sectionId === 'article-section') document.querySelectorAll('.nav-item')[2].classList.add('active');
-                if(sectionId === 'resi-section') document.querySelectorAll('.nav-item')[3].classList.add('active');
-                if(sectionId === 'login-section' || sectionId === 'admin-panel') document.querySelectorAll('.nav-item')[4].classList.add('active');
-            }
-
-            if(sectionId === 'order-section') populateCategories();
-            if(sectionId === 'article-section') renderArticleList();
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "laporan_servis.csv");
+            document.body.appendChild(link);
+            link.click();
         }
 
-        function showToast(msg, isSuccess = false) {
-            const toast = document.getElementById('toast');
-            toast.innerText = msg;
-            toast.className = `toast ${isSuccess ? 'success' : ''}`;
-            toast.style.display = 'block';
-            setTimeout(() => { toast.style.display = 'none'; }, 3000);
-        }
-
-        document.getElementById('darkModeBtn').addEventListener('click', () => document.body.classList.toggle('dark-mode'));
-
-        function formatRupiah(num) { return "Rp " + parseInt(num).toLocaleString('id-ID'); }
-        function generateOrderId() { 
-            const d = new Date(); 
-            return `INV-${d.getFullYear()}${(d.getMonth()+1).toString().padStart(2,'0')}${d.getDate().toString().padStart(2,'0')}-${Math.floor(Math.random()*10000)}`; 
-        }
-        function selectQuickService(cat, issue) {
-            navTo('order-section');
-            setTimeout(() => {
-                document.getElementById('custCategory').value = cat;
-                populateServiceDropdown();
-                const servSelect = document.getElementById('custService');
-                for(let i=0; i<servSelect.options.length; i++){
-                    if(servSelect.options[i].text.includes(issue)) { servSelect.selectedIndex = i; break; }
-                }
-                addToCart();
-            }, 100);
-        }
-        function togglePickupInput() {
-            document.getElementById('pickupInputGroup').style.display = document.getElementById('needPickup').checked ? 'block' : 'none';
-            renderCart();
-        }
-        function populateCategories() {
-            const select = document.getElementById('custCategory');
-            if(select.options.length > 1) return;
-            DB.getCategories(serviceData).forEach(cat => {
-                const opt = document.createElement('option');
-                opt.value = cat; opt.textContent = cat; select.appendChild(opt);
-            });
-        }
-        function populateServiceDropdown() {
-            const cat = document.getElementById('custCategory').value;
-            const servSelect = document.getElementById('custService');
-            servSelect.innerHTML = '<option value="">-- Pilih Kerusakan & Harga --</option>';
-            if(!cat) return;
-            serviceData.filter(s => s.cat === cat).forEach(item => {
-                const opt = document.createElement('option');
-                opt.value = JSON.stringify(item);
-                opt.textContent = `${item.issue} (${item.item}) - ${formatRupiah(item.price)}`;
-                servSelect.appendChild(opt);
-            });
-        }
-        
-        // Cart Logic
-        function addToCart() {
-            const select = document.getElementById('custService');
-            const val = select.value;
-            if(!val) { showToast("Pilih kerusakan dulu!"); return; }
-            const item = JSON.parse(val);
-            cart.push(item);
-            renderCart();
-            select.value = "";
-        }
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            renderCart();
-        }
-        function renderCart() {
-            const container = document.getElementById('cartItems');
-            const listContainer = document.getElementById('cartListContainer');
-            const priceBox = document.getElementById('priceDisplay');
-            if(cart.length === 0) { container.innerHTML = ''; listContainer.style.display = 'none'; priceBox.style.display = 'none'; return; }
-            listContainer.style.display = 'block'; priceBox.style.display = 'block';
-
-            container.innerHTML = cart.map((item, index) => `
-                <div class="cart-item">
-                    <div class="cart-info"><h4>${item.issue} (${item.item})</h4><p>${formatRupiah(item.price)}</p></div>
-                    <button class="btn-delete-item" onclick="removeFromCart(${index})"><i class="fa-solid fa-trash"></i></button>
-                </div>
-            `).join('');
-
-            const totalService = cart.reduce((acc, curr) => acc + curr.price, 0);
-            const pickupFee = calculatePickup();
-            let finalTotal = totalService + (pickupFee === 25000 ? 25000 : 0);
-            
-            document.getElementById('dispTotalService').textContent = formatRupiah(totalService);
-            const pickupRow = document.getElementById('pickupRow');
-            if(document.getElementById('needPickup').checked) {
-                pickupRow.style.display = 'flex';
-                document.getElementById('dispPickup').textContent = pickupFee === 25000 ? "Rp 25.000" : "Hubungi Admin";
-            } else { pickupRow.style.display = 'none'; }
-            document.getElementById('dispGrandTotal').textContent = formatRupiah(finalTotal);
-        }
-        function calculatePickup() {
-            if(!document.getElementById('needPickup').checked) return 0;
-            const dist = parseFloat(document.getElementById('pickupDistance').value) || 0;
-            if(dist > 0 && dist < 5) return 25000;
-            return 0;
-        }
-
-        // ==========================================
-        // 10. RESI CHECK & ARTICLE
-        // ==========================================
-        async function checkResi() {
-            const inputId = document.getElementById('checkResiInput').value.trim();
-            const resultBox = document.getElementById('resiResultBox');
-            const btn = document.getElementById('btnCheckResi');
-            if(!inputId) { showToast("Masukkan Nomor Order!"); return; }
-            btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mencari...';
-            try {
-                const response = await fetch(CONFIG.APPS_SCRIPT_URL, {
-                    method: 'POST',
-                    body: JSON.stringify({ action: "check_resi", resiId: inputId })
-                });
-                const result = await response.json();
-                if (result.success) {
-                    const d = result.data;
-                    resultBox.style.display = 'block';
-                    resultBox.innerHTML = `
-                        <div style="background:#eff6ff; padding:15px; border-radius:8px; border-left:4px solid var(--primary);">
-                            <h4 style="margin:0 0 10px 0; color:var(--primary);">Status Pesanan: ${d.status}</h4>
-                            <p><strong>Nama:</strong> ${d.customerName}</p>
-                            <p><strong>Layanan:</strong> ${d.services}</p>
-                            <p><strong>Total:</strong> ${formatRupiah(d.total)}</p>
-                        </div>`;
-                } else {
-                    resultBox.style.display = 'block';
-                    resultBox.innerHTML = `<div style="background:#fee2e2; color:#b91c1c; padding:15px; border-radius:8px; text-align:center;">Order ID Tidak Ditemukan</div>`;
-                }
-            } catch (error) {
-                resultBox.style.display = 'block';
-                resultBox.innerHTML = `<div style="background:#fff7ed; color:#c2410c; padding:15px; border-radius:8px; text-align:center;">Gagal menghubungi server.</div>`;
-            }
-            btn.disabled = false; btn.innerHTML = 'Cek Status';
-        }
-
-        const articles = [
-            { title: "HP Tidak Bisa Di-charge?", tag: "Tips HP", content: "Ini penyebab umumnya: 1. Kabel rusak. 2. Port kotor. 3. Baterai drop." },
-            { title: "LCD Retak Masih Bisa Dipakai?", tag: "Kerusakan Umum", content: "Bisa, tapi berisiko. Cairan LCD bisa merembes." },
-            { title: "Water Damage, Apa Harus Dinyalakan?", tag: "Tips HP", content: "TIDAK. Matikan total, jangan cas. Segera bawa ke teknisi." }
-        ];
-        function renderArticleList() {
-            const container = document.getElementById('articleList');
-            if(container.children.length > 0) return;
-            articles.forEach((art, index) => {
-                const div = document.createElement('div');
-                div.className = 'article-card';
-                div.onclick = () => openArticle(index);
-                div.innerHTML = `<img src="https://picsum.photos/seed/${index}/80/80" class="article-thumb" alt="icon">
-                    <div class="article-info"><span class="article-tag">${art.tag}</span><h4>${art.title}</h4><p>${art.content}</p></div>`;
-                container.appendChild(div);
-            });
-        }
-        function openArticle(index) {
-            const art = articles[index];
-            document.getElementById('articleList').style.display = 'none';
-            const detail = document.getElementById('articleDetail');
-            detail.style.display = 'block';
-            document.getElementById('detailTitle').innerText = art.title;
-            document.getElementById('detailTag').innerText = art.tag;
-            document.getElementById('detailContent').innerHTML = `<p>${art.content}</p>`;
-        }
-        function closeArticleDetail() {
-            document.getElementById('articleDetail').style.display = 'none';
-            document.getElementById('articleList').style.display = 'block';
-        }
+        // Init
+        renderServiceTable();
     </script>
 </body>
 </html>
