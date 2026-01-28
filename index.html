@@ -399,17 +399,17 @@
     <!-- JAVASCRIPT LOGIC -->
     <script>
         // ==========================================
-        // KONFIGURASI URL (GANTI DENGAN URL DEPLOYMENT KAMU)
+        // KONFIGURASI URL (UPDATED)
         // ==========================================
         const CONFIG = {
-            URL: "https://script.google.com/macros/s/AKfycbzHv4QQTzn8wOzoBD42YAhqVsNcNncmh4nuebpuFefiHpqPRHbILzqYssUZuvvFZapJ/exec",
-            ADMIN_WA: "6285713087659" // Ganti nomor WA Admin Kamu
+            URL: "https://script.google.com/macros/s/AKfycbyAB0rVpRH8djh7C7UuJD__k8UZ-qGNKtgrNIXz5YMrdhCb-ieeyCfS5AFKjGGsWrrT/exec",
+            ADMIN_WA: "6285713087659" 
         };
 
         // ==========================================
         // STATE & DATA
         // ==========================================
-        let masterData = []; // Data harga dari sheet
+        let masterData = []; 
         let cart = [];
         let adminSession = false;
 
@@ -417,20 +417,15 @@
         // INIT
         // ==========================================
         document.addEventListener('DOMContentLoaded', () => {
-            // Cek Theme
             if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
-            
-            // Cek Session Admin
             if(localStorage.getItem('admin_logged_in') === 'true') {
                 adminSession = true;
             }
-
-            // Fetch Data Harga Awal
             fetchPriceList();
         });
 
         // ==========================================
-        // CORE FUNCTIONS (API CALLS)
+        // CORE FUNCTIONS
         // ==========================================
         async function fetchPriceList() {
             try {
@@ -460,14 +455,12 @@
             const total = calculateTotal();
             const orderId = `INV-${new Date().getFullYear()}${String(new Date().getMonth()+1).padStart(2,'0')}${String(new Date().getDate()).padStart(2,'0')}-${Math.floor(1000 + Math.random() * 9000)}`;
             
-            // Hitung Pickup
             let pickupFee = 0;
             let pickupInfo = "-";
             if(document.getElementById('checkPickup').checked) {
                 const dist = parseFloat(document.getElementById('pickupDist').value) || 0;
                 pickupInfo = `Jarak: ${dist} KM`;
                 if(dist > 0 && dist <= 5) pickupFee = 25000;
-                else pickupFee = 0; // Nanti dihitung manual admin jika > 5km
             }
 
             const payload = {
@@ -490,12 +483,11 @@
                 
                 if(result.success) {
                     sendToWA(orderId, name, wa, total);
-                    // Reset Form
                     cart = [];
                     renderCart();
                     document.getElementById('custName').value = "";
                     document.getElementById('custAddress').value = "";
-                    showToast("Order Berhasil Dibuat!", true);
+                    showToast("Order Berhasil Dibuat!", false);
                 } else {
                     showToast("Gagal: " + result.message, true);
                 }
@@ -554,7 +546,6 @@
             
             if(!user || !pin) return showToast("Isi Username dan PIN!", true);
 
-            // Hash PIN simple
             const hash = await sha256(pin);
             
             showLoader(true);
@@ -586,7 +577,7 @@
             const result = await res.json();
             showLoader(false);
             if(result.success) {
-                window.adminData = result.data; // Cache
+                window.adminData = result.data; 
                 renderAdminOrders();
             }
         }
@@ -633,7 +624,7 @@
             showLoader(true);
             await fetch(CONFIG.URL, { method: 'POST', body: JSON.stringify({action: "update_status", orderId: id, newStatus: status}) });
             showLoader(false);
-            fetchOrders(); // Refresh
+            fetchOrders(); 
         }
 
         function finishOrder(id, wa, name) {
@@ -654,18 +645,15 @@
         // HELPER FUNCTIONS
         // ==========================================
         function navTo(sectionId, el) {
-            // Guard Admin Dashboard
             if(sectionId === 'admin-dashboard' && !adminSession) {
                 showToast("Harap Login Dahulu", true);
                 return;
             }
 
-            // UI Transition
             document.querySelectorAll('.step-section').forEach(s => s.classList.remove('active'));
             document.getElementById(sectionId).classList.add('active');
             window.scrollTo(0,0);
 
-            // Nav Active State
             if(el) {
                 document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
                 el.classList.add('active');
@@ -707,7 +695,7 @@
             const item = JSON.parse(select.value);
             cart.push(item);
             renderCart();
-            select.value = ""; // Reset select
+            select.value = ""; 
         }
 
         function renderCart() {
@@ -759,7 +747,6 @@
                 else totalJasa += i.price;
             });
 
-            // Pickup Logic
             const check = document.getElementById('checkPickup');
             const distInput = document.getElementById('pickupDist');
             const pickupWrapper = document.getElementById('pickupInputWrapper');
@@ -787,7 +774,6 @@
         }
 
         function sendToWA(id, name, wa, total) {
-            // Construct Message
             let msg = `Halo Admin, saya mau booking servis.\n\n`;
             msg += `Order ID: ${id}\n`;
             msg += `Nama: ${name}\n`;
@@ -816,11 +802,9 @@
 
         function quickOrder(cat, issue) {
             navTo('order-section');
-            // Simulasi klik setelah pindah section
             setTimeout(() => {
                 document.getElementById('catSelect').value = cat;
                 filterIssues();
-                // Auto select issue (logic sederhana, select text contains)
                 const select = document.getElementById('issueSelect');
                 for(let i=0; i<select.options.length; i++) {
                     if(select.options[i].text.includes(issue)) {
@@ -856,4 +840,3 @@
     </script>
 </body>
 </html>
-
