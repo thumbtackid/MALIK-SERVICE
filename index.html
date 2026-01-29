@@ -140,13 +140,31 @@
         .cart-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px; }
         .cart-title { font-weight: 700; font-size: 0.95rem; }
         .cart-meta { font-size: 0.8rem; color: var(--text-light); margin-bottom: 6px; }
+        
+        /* Badge Styles */
         .cart-badge { 
-            font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; font-weight: bold; text-transform: uppercase; 
+            font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; font-weight: bold; text-transform: uppercase; white-space: nowrap;
         }
         .badge-jasa { background: #dcfce7; color: #166534; }
         .badge-sparepart { background: #ffedd5; color: #9a3412; }
         .badge-paket { background: #f3e8ff; color: #6b21a8; }
         
+        /* NEW DETAIL STYLES */
+        .cart-details-box {
+            background: rgba(255,255,255,0.5); /* Slight transparency */
+            border-radius: 8px;
+            padding: 8px;
+            margin-top: 8px;
+            font-size: 0.8rem;
+        }
+        body.dark-mode .cart-details-box { background: rgba(0,0,0,0.2); }
+        
+        .detail-row { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 4px; }
+        .detail-row:last-child { margin-bottom: 0; }
+        .detail-icon { color: var(--primary); margin-top: 2px; min-width: 14px; }
+        .detail-text { color: var(--text-main); }
+        .detail-desc { color: var(--text-light); font-style: italic; display: block; margin-top: 2px; line-height: 1.3; }
+
         .btn-remove { position: absolute; top: 10px; right: 10px; background: none; border: none; color: var(--text-light); cursor: pointer; }
         .btn-remove:hover { color: var(--danger); }
 
@@ -230,7 +248,7 @@
             </div>
 
             <div class="service-grid">
-                <div class="quick-card qc-lcd" onclick="quickOrder('HP Android', 'LCD Retak')">
+                <div class="quick-card qc-lcd" onclick="quickOrder('HP Android', 'LCD Pecah')">
                     <i class="fa-solid fa-mobile-screen"></i>
                     <span>Ganti LCD</span>
                 </div>
@@ -252,7 +270,7 @@
                 <h3><i class="fa-solid fa-bookmark" style="color:var(--accent)"></i> Fitur Unggulan</h3>
                 <ul style="padding-left:20px; color:var(--text-light); font-size:0.9rem; line-height:1.8;">
                     <li>Deteksi harga otomatis (Jasa + Sparepart)</li>
-                    <li>Lacak status perbaikan realtime</li>
+                    <li>Lihat estimasi waktu & detail sparepart</li>
                     <li>Layanan Pickup antar-jemput</li>
                 </ul>
             </div>
@@ -276,7 +294,7 @@
                         <option value="">-- Pilih Layanan --</option>
                     </select>
                     <small style="color:var(--text-light); display:block; margin-top:5px; font-size:0.8rem;">
-                        *Pilih kerusakan & sparepart yang diperlukan.
+                        *Pilih kerusakan & sparepart yang diperlukan. Lihat detail di keranjang.
                     </small>
                     <button class="btn btn-primary" onclick="addItemToCart()" style="margin-top:10px;">
                         <i class="fa-solid fa-plus"></i> Tambah ke List
@@ -399,10 +417,10 @@
     <!-- JAVASCRIPT LOGIC -->
     <script>
         // ==========================================
-        // KONFIGURASI URL (UPDATED)
+        // KONFIGURASI URL
         // ==========================================
         const CONFIG = {
-            URL: "https://script.google.com/macros/s/AKfycbzlFxUqpaJ0OXzCA-MFfwvc6iHe8JFOjft68poVQFHsx1ApqytUpDF3SETGypcW4lT5/exec",
+            URL: "https://script.google.com/macros/s/AKfycbyywJrKxUc9PBvs9JaTJox6q8D1a9UDSHRQzgvf0SC0Y42oq8OnQs2zGZGKJRwBFDKI/exec",
             ADMIN_WA: "6285713087659" 
         };
 
@@ -514,7 +532,12 @@
                         let itemsHtml = "";
                         try {
                             const items = JSON.parse(order.itemsRaw);
-                            itemsHtml = items.map(i => `<li>${i.issue} (${formatRupiah(i.price)})</li>`).join('');
+                            // Updated to show details in tracking too
+                            itemsHtml = items.map(i => `
+                                <li style="margin-bottom:8px; border-bottom:1px dashed #eee; padding-bottom:4px;">
+                                    <strong>${i.item}</strong> (${formatRupiah(i.price)})
+                                    <br><span style="font-size:0.8rem; color:#666">${i.est || ''} ${i.desc ? '- ' + i.desc : ''}</span>
+                                </li>`).join('');
                         } catch(e) {}
 
                         box.innerHTML = `
@@ -683,7 +706,8 @@
             filtered.forEach(item => {
                 const opt = document.createElement('option');
                 opt.value = JSON.stringify(item);
-                opt.textContent = `${item.issue} (${formatRupiah(item.price)})`;
+                // UPDATED: Dropdown shows "Issue - Item Name (Price)" for clarity
+                opt.textContent = `${item.issue} - ${item.item} (${formatRupiah(item.price)})`;
                 select.appendChild(opt);
             });
         }
@@ -698,6 +722,7 @@
             select.value = ""; 
         }
 
+        // UPDATED renderCart to show Details (Est & Desc)
         function renderCart() {
             const container = document.getElementById('cartList');
             const wrapper = document.getElementById('cartContainer');
@@ -717,6 +742,14 @@
                 if(item.type === 'SPAREPART') { typeClass = 'type-sparepart'; badgeClass = 'badge-sparepart'; typeLabel = 'PART'; }
                 if(item.type === 'PAKET') { typeClass = 'type-paket'; badgeClass = 'badge-paket'; typeLabel = 'PAKET'; }
 
+                // Check if desc exists, otherwise empty string
+                const descText = item.desc ? `<span class="detail-desc">${item.desc}</span>` : '';
+                const estText = item.est ? 
+                    `<div class="detail-row">
+                        <i class="fa-regular fa-clock detail-icon"></i>
+                        <span class="detail-text">Estimasi: ${item.est}</span>
+                     </div>` : '';
+
                 return `
                 <div class="cart-item ${typeClass}">
                     <button class="btn-remove" onclick="removeCart(${idx})"><i class="fa-solid fa-times"></i></button>
@@ -726,6 +759,16 @@
                     </div>
                     <div class="cart-meta">${item.issue}</div>
                     <div style="font-weight:700; color:var(--text-main);">${formatRupiah(item.price)}</div>
+                    
+                    <!-- NEW: Detail Box -->
+                    <div class="cart-details-box">
+                        ${estText}
+                        ${descText ? `
+                        <div class="detail-row">
+                            <i class="fa-solid fa-circle-info detail-icon"></i>
+                            <span class="detail-text">${descText}</span>
+                        </div>` : ''}
+                    </div>
                 </div>
                 `;
             }).join('');
@@ -781,9 +824,13 @@
             msg += `Rincian Biaya:\n`;
             
             let totalJasa=0, totalPart=0;
+            // Updated WA message to include details
             cart.forEach(i => {
                 if(i.type === 'SPAREPART') totalPart += i.price;
                 else totalJasa += i.price;
+                
+                msg += `- ${i.item} (${formatRupiah(i.price)})\n`;
+                if(i.est) msg += `  *Est: ${i.est}\n`;
             });
             
             if(totalJasa > 0) msg += `- Total Jasa: ${formatRupiah(totalJasa)}\n`;
@@ -840,5 +887,3 @@
     </script>
 </body>
 </html>
-
-
