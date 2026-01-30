@@ -127,26 +127,92 @@
         .faq-item.active .faq-a { display: block; }
         .faq-item.active .fa-chevron-down { transform: rotate(180deg); }
 
-        /* --- WIZARD MODAL --- */
+        /* --- WIZARD MODAL (UPDATED STYLES) --- */
         .modal-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 2000;
+            position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 2000;
             display: none; justify-content: center; align-items: center; backdrop-filter: blur(5px);
+            padding: 20px;
         }
         .modal-content {
-            background: var(--light-card); width: 90%; max-width: 400px; padding: 25px;
-            border-radius: 20px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+            background: var(--light-card); width: 100%; max-width: 420px; padding: 0;
+            border-radius: 24px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
             animation: zoomIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            max-height: 90vh;
         }
-        @keyframes zoomIn { from{ transform: scale(0.8); opacity:0;} to{transform: scale(1); opacity:1;} }
+        @keyframes zoomIn { from{ transform: scale(0.9); opacity:0;} to{transform: scale(1); opacity:1;} }
 
-        .wizard-step { display: none; }
-        .wizard-step.active { display: block; }
-        .wizard-option {
-            display: block; width: 100%; padding: 15px; margin-bottom: 10px;
-            border: 2px solid var(--border); border-radius: 12px; background: var(--light-bg);
-            text-align: left; font-weight: 500; color: var(--text-main); cursor: pointer;
+        /* Wizard Header */
+        .wiz-header {
+            padding: 20px 20px 10px;
+            text-align: center;
+            position: relative;
         }
-        .wizard-option:hover, .wizard-option.selected { border-color: var(--primary); background: #eff6ff; color: var(--primary); }
+        .wiz-title { font-size: 1.2rem; font-weight: 700; color: var(--text-main); }
+        .wiz-subtitle { font-size: 0.85rem; color: var(--text-light); margin-top: 4px; }
+        .wiz-close {
+            position: absolute; right: 15px; top: 20px; background: none; border: none;
+            font-size: 1.2rem; color: var(--text-light); cursor: pointer;
+        }
+
+        /* Progress Bar */
+        .wiz-progress {
+            height: 4px; background: var(--border); width: 100%; position: relative;
+        }
+        .wiz-bar {
+            height: 100%; background: var(--primary); width: 0%; transition: width 0.3s ease;
+        }
+
+        /* Wizard Steps */
+        .wizard-body { padding: 20px; overflow-y: auto; }
+        .wizard-step { display: none; }
+        .wizard-step.active { display: block; animation: fadeLeft 0.3s ease; }
+        @keyframes fadeLeft { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
+
+        /* Wizard Options */
+        .wiz-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .wiz-option {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 15px; border: 2px solid var(--border); border-radius: 16px;
+            background: var(--light-bg); cursor: pointer; transition: all 0.2s;
+            text-align: center;
+        }
+        .wiz-option i { font-size: 1.8rem; margin-bottom: 8px; color: var(--text-light); }
+        .wiz-option span { font-size: 0.9rem; font-weight: 500; }
+        .wiz-option:hover { border-color: var(--primary); background: #eff6ff; }
+        .wiz-option:hover i { color: var(--primary); }
+        .wiz-option.full-width { width: 100%; flex-direction: row; justify-content: flex-start; gap: 15px; text-align: left; }
+        .wiz-option.full-width i { margin-bottom: 0; font-size: 1.4rem; }
+
+        /* Result Specifics */
+        .result-icon-box {
+            width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 15px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2.5rem; color: white; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+        .risk-badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem;
+            font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px;
+        }
+        .risk-low { background: #dcfce7; color: #166534; }
+        .risk-med { background: #fef3c7; color: #92400e; }
+        .risk-high { background: #fee2e2; color: #991b1b; }
+
+        .est-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0;
+        }
+        .est-item {
+            background: var(--light-bg); padding: 10px; border-radius: 12px; text-align: center;
+        }
+        .est-label { font-size: 0.7rem; color: var(--text-light); text-transform: uppercase; }
+        .est-value { font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin-top: 2px; }
+
+        .disclaimer-text {
+            font-size: 0.7rem; color: var(--text-light); text-align: center; margin-top: 15px;
+            opacity: 0.8; line-height: 1.3;
+        }
 
         /* --- ADMIN STATS --- */
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
@@ -234,25 +300,114 @@
     <!-- TOAST -->
     <div id="toast" class="toast"><i class="fa-solid fa-info-circle"></i> <span>Pesan</span></div>
 
-    <!-- MODAL WIZARD ESTIMASI -->
+    <!-- MODAL WIZARD ESTIMASI (UPDATED) -->
     <div id="wizardModal" class="modal-overlay">
         <div class="modal-content">
-            <h3 style="color:var(--primary); text-align:center; margin-bottom:15px;">Cek Kerusakan</h3>
-            <div id="wizStep1" class="wizard-step active">
-                <p style="margin-bottom:10px;">Apakah HP masih bisa menyala?</p>
-                <button class="wizard-option" onclick="wizNext(1, 'nyala')">Ya, Masih Nyala</button>
-                <button class="wizard-option" onclick="wizNext(1, 'mati')">Tidak, Total Mati</button>
+            <!-- Header & Progress -->
+            <div class="wiz-header">
+                <button class="wiz-close" onclick="closeWizard()"><i class="fa-solid fa-times"></i></button>
+                <div class="wiz-title">Cek Estimasi Kerusakan</div>
+                <div class="wiz-subtitle">Gratis & Cepat</div>
             </div>
-            <div id="wizStep2" class="wizard-step">
-                <p style="margin-bottom:10px;">Ada kerusakan fisik (LCD/Pecah)?</p>
-                <button class="wizard-option" onclick="wizNext(2, 'fisik')">Ya, Pecah</button>
-                <button class="wizard-option" onclick="wizNext(2, 'nofisik')">Tidak, Mulus</button>
-            </div>
-            <div id="wizResult" class="wizard-step" style="text-align:center;">
-                <i id="wizIcon" class="fa-solid fa-triangle-exclamation" style="font-size:3rem; color:var(--accent); margin-bottom:10px;"></i>
-                <h4 id="wizTitle" style="margin-bottom:5px;">Estimasi Risiko</h4>
-                <p id="wizDesc" style="color:var(--text-light); font-size:0.9rem;">Deskripsi kerusakan</p>
-                <button class="btn btn-primary" onclick="closeWizard()" style="margin-top:20px;">Tutup</button>
+            <div class="wiz-progress"><div class="wiz-bar" id="wizBar"></div></div>
+
+            <div class="wizard-body">
+                <!-- STEP 1: Device Type -->
+                <div id="wizStep1" class="wizard-step active">
+                    <p style="margin-bottom:15px; font-weight:600;">Jenis perangkat apa yang bermasalah?</p>
+                    <div class="wiz-grid">
+                        <div class="wiz-option" onclick="wizNext(1, 'hp')">
+                            <i class="fa-solid fa-mobile-screen-button"></i>
+                            <span>HP / Smartphone</span>
+                        </div>
+                        <div class="wiz-option" onclick="wizNext(1, 'laptop')">
+                            <i class="fa-solid fa-laptop"></i>
+                            <span>Laptop / PC</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 2: Power Status -->
+                <div id="wizStep2" class="wizard-step">
+                    <p style="margin-bottom:15px; font-weight:600;">Kondisi saat ini?</p>
+                    <div class="wiz-grid">
+                        <div class="wiz-option" onclick="wizNext(2, 'nyala')">
+                            <i class="fa-solid fa-power-off" style="color:var(--secondary)"></i>
+                            <span>Masih Nyala</span>
+                        </div>
+                        <div class="wiz-option" onclick="wizNext(2, 'mati_total')">
+                            <i class="fa-solid fa-plug" style="color:var(--danger)"></i>
+                            <span>Total Mati</span>
+                        </div>
+                        <div class="wiz-option full-width" onclick="wizNext(2, 'bootloop')">
+                            <i class="fa-solid fa-rotate"></i>
+                            <span>Restart Sendiri / Bootloop</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 3: Physical Damage -->
+                <div id="wizStep3" class="wizard-step">
+                    <p style="margin-bottom:15px; font-weight:600;">Ada kerusakan fisik?</p>
+                    <div class="wiz-grid">
+                        <div class="wiz-option" onclick="wizNext(3, 'lcd_pecah')">
+                            <i class="fa-solid fa-mobile-screen" style="color:var(--accent)"></i>
+                            <span>LCD Pecah</span>
+                        </div>
+                        <div class="wiz-option" onclick="wizNext(3, 'water_damage')">
+                            <i class="fa-solid fa-droplet" style="color:#06b6d4"></i>
+                            <span>Masuk Air</span>
+                        </div>
+                        <div class="wiz-option full-width" onclick="wizNext(3, 'bodi')">
+                            <i class="fa-solid fa-screwdriver-wrench"></i>
+                            <span>Bendi/Baterai Gembung (Lainnya)</span>
+                        </div>
+                        <div class="wiz-option full-width" onclick="wizNext(3, 'mulus')">
+                            <i class="fa-regular fa-face-smile"></i>
+                            <span>Fisik Mulus (Tidak Ada)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 4: Main Symptom (Contextual) -->
+                <div id="wizStep4" class="wizard-step">
+                    <p style="margin-bottom:15px; font-weight:600;">Keluhan utama?</p>
+                    <div class="wiz-grid" id="wizStep4Grid">
+                        <!-- Options injected by JS based on previous steps -->
+                    </div>
+                </div>
+
+                <!-- RESULT STEP -->
+                <div id="wizResult" class="wizard-step" style="text-align:center;">
+                    <div id="resBadge" class="risk-badge risk-low">Analisa Selesai</div>
+                    
+                    <div id="resIconBox" class="result-icon-box" style="background:var(--secondary)">
+                        <i id="resIcon" class="fa-solid fa-check"></i>
+                    </div>
+                    
+                    <h3 id="resTitle" style="margin-bottom:5px;">Judul Kerusakan</h3>
+                    <p id="resDesc" style="color:var(--text-light); font-size:0.9rem; margin-bottom:15px;">Deskripsi detail...</p>
+                    
+                    <div class="est-grid">
+                        <div class="est-item">
+                            <div class="est-label">Estimasi Biaya</div>
+                            <div id="resCost" class="est-value">Rp 0 - 0</div>
+                        </div>
+                        <div class="est-item">
+                            <div class="est-label">Estimasi Waktu</div>
+                            <div id="resTime" class="est-value">0 Jam</div>
+                        </div>
+                    </div>
+
+                    <button id="btnBookAction" class="btn btn-primary" style="margin-top:10px;">
+                        <i class="fa-solid fa-wrench"></i> Lanjut Booking Servis
+                    </button>
+                    <button class="btn btn-outline" onclick="closeWizard()">Tutup</button>
+                    
+                    <div class="disclaimer-text">
+                        *Estimasi bersifat perkiraan awal berdasarkan input. Hasil akhir ditentukan setelah pengecekan teknisi.
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -274,7 +429,7 @@
                 <p style="color:var(--text-light)">Solusi terbaik untuk HP & Laptop kamu.</p>
             </div>
 
-            <button class="btn btn-outline" onclick="openWizard()" style="margin-bottom:20px; border-style:dashed;">
+            <button class="btn btn-outline" onclick="openWizard()" style="margin-bottom:20px; border-style:dashed; border-width:2px;">
                 <i class="fa-solid fa-stethoscope"></i> Cek Estimasi Kerusakan (Gratis)
             </button>
 
@@ -750,38 +905,267 @@
             }, 100);
         }
 
-        let wizData = { power: '', physical: '' };
-        function openWizard() { document.getElementById('wizardModal').style.display = 'flex'; resetWizard(); }
+        // ==========================================
+        // WIZARD LOGIC (UPDATED & SMART)
+        // ==========================================
+        
+        let wizData = { 
+            type: '',      // hp / laptop
+            power: '',     // nyala / mati_total / bootloop
+            physical: '',  // lcd_pecah / water_damage / bodi / mulus
+            symptom: ''    // final specific issue
+        };
+
+        function openWizard() { 
+            document.getElementById('wizardModal').style.display = 'flex'; 
+            resetWizard(); 
+        }
+        
         function closeWizard() { document.getElementById('wizardModal').style.display = 'none'; }
+
         function resetWizard() {
-            wizData = { power: '', physical: '' };
+            wizData = { type: '', power: '', physical: '', symptom: '' };
             document.querySelectorAll('.wizard-step').forEach(el => el.classList.remove('active'));
             document.getElementById('wizStep1').classList.add('active');
+            updateProgress(1);
         }
+
+        function updateProgress(step) {
+            const bar = document.getElementById('wizBar');
+            const percent = (step / 4) * 100;
+            bar.style.width = percent + '%';
+        }
+
         function wizNext(step, val) {
-            if(step === 1) { wizData.power = val; document.getElementById('wizStep1').classList.remove('active'); document.getElementById('wizStep2').classList.add('active'); }
-            if(step === 2) { 
-                wizData.physical = val; 
-                document.getElementById('wizStep2').classList.remove('active'); 
-                const res = document.getElementById('wizResult');
-                const icon = document.getElementById('wizIcon');
-                const title = document.getElementById('wizTitle');
-                const desc = document.getElementById('wizDesc');
-                if(wizData.power === 'mati') {
-                    icon.className = "fa-solid fa-microchip"; icon.style.color = "var(--danger)";
-                    title.innerText = "Kerusakan Berat (IC/Board)";
-                    desc.innerText = "Kemungkinan kerusakan mesin/PB. Perlu pengecekan teknisi advance.";
-                } else if(wizData.physical === 'fisik') {
-                    icon.className = "fa-solid fa-mobile-screen-button"; icon.style.color = "var(--accent)";
-                    title.innerText = "Kerusakan Sedang";
-                    desc.innerText = "LCD/Touchscreen pecah. Bisa diganti dalam waktu kurang lebih 1 jam.";
-                } else {
-                    icon.className = "fa-solid fa-check-circle"; icon.style.color = "var(--secondary)";
-                    title.innerText = "Kerusakan Ringan";
-                    desc.innerText = "Kemungkinan masalah software atau baterai drop. Mudah diperbaiki.";
-                }
-                res.classList.add('active');
+            // 1. Simpan data berdasarkan step
+            if (step === 1) wizData.type = val;
+            if (step === 2) wizData.power = val;
+            if (step === 3) wizData.physical = val;
+            if (step === 4) wizData.symptom = val;
+
+            // 2. Tentukan langkah selanjutnya atau selesaikan
+            const nextStepId = `wizStep${step + 1}`;
+            const nextStepEl = document.getElementById(nextStepId);
+
+            if (step === 3) {
+                // Sebelum masuk step 4, kita harus generate opsi berdasarkan jawaban sebelumnya
+                generateSymptomOptions();
+                nextStepEl.classList.add('active');
+                updateProgress(4);
+            } else if (step === 4) {
+                // Hitung Hasil
+                showResult();
+            } else {
+                // Lanjut normal
+                document.getElementById(`wizStep${step}`).classList.remove('active');
+                nextStepEl.classList.add('active');
+                updateProgress(step + 1);
             }
+        }
+
+        function generateSymptomOptions() {
+            const grid = document.getElementById('wizStep4Grid');
+            let options = [];
+
+            if (wizData.type === 'hp') {
+                if(wizData.power === 'nyala') {
+                    options = [
+                        { id: 'baterai_drop', icon: 'fa-battery-quarter', label: 'Baterai Boros/Drop' },
+                        { id: 'sinyal_hilang', icon: 'fa-tower-broadcast', label: 'Sinyal Hilang' },
+                        { id: 'panas', icon: 'fa-fire', label: 'Cepat Panas' },
+                        { id: 'charger_ngaco', icon: 'fa-plug', label: 'Tidak Bisa Charge' },
+                        { id: 'layar_sentuh', icon: 'fa-hand-pointer', label: 'Touchscreen Error' }
+                    ];
+                } else {
+                    options = [{ id: 'unknown', icon: 'fa-question', label: 'Tidak Tahu Penyebabnya' }];
+                }
+            } else { // Laptop
+                options = [
+                    { id: 'laptop_panas', icon: 'fa-fire', label: 'Overheat / Kipas Berisik' },
+                    { id: 'keyboard_mati', icon: 'fa-keyboard', label: 'Keyboard Error' },
+                    { id: 'lcd_redup', icon: 'fa-desktop', label: 'Layar Gelap/Redup' },
+                    { id: 'baterai_laptop', icon: 'fa-battery-full', label: 'Baterai Tahan Pid' }
+                ];
+            }
+
+            grid.innerHTML = options.map(opt => `
+                <div class="wiz-option" onclick="wizNext(4, '${opt.id}')">
+                    <i class="fa-solid ${opt.icon}"></i>
+                    <span>${opt.label}</span>
+                </div>
+            `).join('');
+        }
+
+        // ==========================================
+        // LOGIC ANALISA KERUSAKAN (RULE BASED)
+        // ==========================================
+        function analyzeDamage(data) {
+            // Default
+            let result = {
+                icon: 'fa-solid fa-check',
+                color: 'var(--secondary)',
+                title: 'Perbaikan Standar',
+                description: 'Kami akan mengecek perangkat Anda secara menyeluruh.',
+                estTime: '30-60 Menit',
+                estCost: 'Rp 50.000 - 150.000',
+                riskLevel: 'Rendah',
+                classBadge: 'risk-low',
+                category: 'General',
+                issue: 'Pengecekan Umum'
+            };
+
+            // Rule 1: WATER DAMAGE (High Risk)
+            if (data.physical === 'water_damage') {
+                return {
+                    icon: 'fa-solid fa-droplet',
+                    color: '#06b6d4',
+                    title: 'Water Damage (Masuk Air)',
+                    description: 'Perlu pembersihan total (ultrasonic cleaning). Risiko kerusakan IC Board tinggi jika dibiarkan.',
+                    estTime: '1-3 Hari',
+                    estCost: 'Rp 150.000 - 500.000',
+                    riskLevel: 'Tinggi',
+                    classBadge: 'risk-high',
+                    category: 'HP Android', // Default ke HP jika tidak tahu, tapi context biasanya HP
+                    issue: 'Water Damage'
+                };
+            }
+
+            // Rule 2: LCD Pecah (Medium Risk - Visible)
+            if (data.physical === 'lcd_pecah') {
+                return {
+                    icon: 'fa-solid fa-mobile-screen',
+                    color: 'var(--accent)',
+                    title: 'Kerusakan LCD/Touchscreen',
+                    description: 'Layar pecah perlu diganti. Pastikan layar sentuh masih berfungsi sebagian agar data aman.',
+                    estTime: '1-2 Jam',
+                    estCost: 'Rp 200.000 - 800.000',
+                    riskLevel: 'Sedang',
+                    classBadge: 'risk-med',
+                    category: data.type === 'laptop' ? 'Laptop' : 'HP Android',
+                    issue: 'LCD Pecah'
+                };
+            }
+
+            // Rule 3: Total Mati (High Risk)
+            if (data.power === 'mati_total') {
+                if (data.physical === 'bodi') {
+                     return {
+                        icon: 'fa-solid fa-car-burst',
+                        color: 'var(--danger)',
+                        title: 'Kerusakan Berat (Hardware)',
+                        description: 'Kemungkinan IC Power atau konektor putus akibat benturan. Perlu skema pengecekan.',
+                        estTime: '3-7 Hari',
+                        estCost: 'Rp 250.000 - 1.000.000',
+                        riskLevel: 'Berat',
+                        classBadge: 'risk-high',
+                        category: data.type === 'laptop' ? 'Laptop' : 'HP Android',
+                        issue: 'Mati Total'
+                    };
+                }
+                return {
+                    icon: 'fa-solid fa-microchip',
+                    color: 'var(--danger)',
+                    title: 'Mesin / IC Mati Total',
+                    description: 'Perangkat tidak responsif sama sekali. Bisa jadi baterai short atau IC mesin.',
+                    estTime: '1-3 Hari',
+                    estCost: 'Rp 150.000 - 750.000',
+                    riskLevel: 'Tinggi',
+                    classBadge: 'risk-high',
+                    category: data.type === 'laptop' ? 'Laptop' : 'HP Android',
+                    issue: 'Mati Total'
+                };
+            }
+
+            // Rule 4: Bootloop (Medium - Software/Hardware)
+            if (data.power === 'bootloop') {
+                return {
+                    icon: 'fa-solid fa-rotate',
+                    color: 'var(--purple)',
+                    title: 'Bootloop / Restart Sendiri',
+                    description: 'Sistem operasi rusak atau EMMC IC mulai lemah. Seringkali bisa diatasi dengan install ulang.',
+                    estTime: '2-4 Jam',
+                    estCost: 'Rp 75.000 - 300.000',
+                    riskLevel: 'Sedang',
+                    classBadge: 'risk-med',
+                    category: data.type === 'laptop' ? 'Laptop' : 'HP Android',
+                    issue: 'Bootloop'
+                };
+            }
+
+            // Rule 5: Specific Symptoms (Low Risk usually)
+            if (data.symptom === 'baterai_drop' || data.symptom === 'baterai_laptop') {
+                return {
+                    icon: 'fa-solid fa-battery-full',
+                    color: 'var(--secondary)',
+                    title: 'Kerusakan Baterai',
+                    description: 'Baterai sudah soak/umur. Ganti baterai baru akan membuat performa kencang.',
+                    estTime: '30-60 Menit',
+                    estCost: 'Rp 100.000 - 450.000',
+                    riskLevel: 'Ringan',
+                    classBadge: 'risk-low',
+                    category: data.type === 'laptop' ? 'Laptop' : 'HP Android',
+                    issue: 'Baterai Drop'
+                };
+            }
+
+            if (data.symptom === 'panas' || data.symptom === 'laptop_panas') {
+                return {
+                    icon: 'fa-solid fa-temperature-high',
+                    color: 'var(--accent)',
+                    title: 'Overheat / Cepat Panas',
+                    description: 'Sering terjadi pada CPU full load atau kotor debu. Perlu cleaning & ganti thermal paste.',
+                    estTime: '1-2 Jam',
+                    estCost: 'Rp 75.000 - 150.000',
+                    riskLevel: 'Ringan',
+                    classBadge: 'risk-low',
+                    category: data.type === 'laptop' ? 'Laptop' : 'HP Android',
+                    issue: 'Overheat'
+                };
+            }
+
+            // Default Fallback for "Nyala + Mulus"
+            return {
+                icon: 'fa-solid fa-screwdriver-wrench',
+                color: 'var(--primary)',
+                title: 'Pengecekan Lanjut',
+                description: 'Masalah tidak spesifik. Kemungkinan software ringan atau konektor longgar.',
+                estTime: '30-60 Menit',
+                estCost: 'Gratis (Cek) - Rp 100.000',
+                riskLevel: 'Rendah',
+                classBadge: 'risk-low',
+                category: data.type === 'laptop' ? 'Laptop' : 'HP Android',
+                issue: 'Software'
+            };
+        }
+
+        function showResult() {
+            const res = document.getElementById('wizResult');
+            const analysis = analyzeDamage(wizData);
+            
+            // Populate UI
+            document.getElementById('resIconBox').style.background = analysis.color;
+            document.getElementById('resIcon').className = analysis.icon;
+            
+            const badge = document.getElementById('resBadge');
+            badge.className = `risk-badge ${analysis.classBadge}`;
+            badge.innerText = analysis.riskLevel;
+
+            document.getElementById('resTitle').innerText = analysis.title;
+            document.getElementById('resDesc').innerText = analysis.description;
+            document.getElementById('resCost').innerText = analysis.estCost;
+            document.getElementById('resTime').innerText = analysis.estTime;
+
+            // Setup Action Button
+            const btnAction = document.getElementById('btnBookAction');
+            btnAction.onclick = function() {
+                closeWizard();
+                quickOrder(analysis.category, analysis.issue);
+            };
+
+            // Transition
+            document.getElementById('wizStep4').classList.remove('active');
+            res.classList.add('active');
+            updateProgress(5); // Full bar
         }
 
         function toggleTheme() {
