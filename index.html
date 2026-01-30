@@ -6,7 +6,6 @@
     <meta name="description" content="Malik Service Center - Booking Servis Online Cepat">
     <meta name="theme-color" content="#2563eb">
     <title>Malik Service Center</title>
-    <!-- Icons & Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
@@ -15,9 +14,9 @@
         :root {
             --primary: #2563eb;
             --primary-dark: #1e40af;
-            --secondary: #10b981; /* Jasa */
-            --accent: #f59e0b;    /* Sparepart */
-            --purple: #8b5cf6;    /* Paket */
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --purple: #8b5cf6;
             --danger: #ef4444;
             --dark-bg: #0f172a;
             --dark-card: #1e293b;
@@ -52,11 +51,9 @@
             transition: background 0.3s, color 0.3s;
         }
 
-        /* --- 2. LAYOUT & HEADER --- */
         header {
-            background: rgba(255,255,255,0.8);
+            background: rgba(255,255,255,0.9);
             backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
             padding: 1rem 5%;
             position: sticky;
             top: 0;
@@ -66,23 +63,20 @@
             justify-content: space-between;
             align-items: center;
         }
-        body.dark-mode header { background: rgba(30, 41, 59, 0.8); }
+        body.dark-mode header { background: rgba(30, 41, 59, 0.9); }
 
         .brand { font-size: 1.25rem; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 8px; }
         .header-actions button { background: none; border: none; font-size: 1.2rem; color: var(--text-main); cursor: pointer; padding: 5px; }
 
         main { max-width: 600px; margin: 0 auto; padding: 1.5rem; width: 100%; flex: 1; }
 
-        /* --- 3. SECTIONS & ANIMATIONS --- */
-        .step-section { display: none; animation: fadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .step-section { display: none; animation: fadeUp 0.4s ease; }
         .step-section.active { display: block; }
-        
         @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
         h2 { margin-bottom: 1.5rem; color: var(--primary); font-size: 1.5rem; font-weight: 700; display: flex; align-items: center; gap: 10px; }
         h3 { margin-bottom: 1rem; font-size: 1.1rem; color: var(--text-main); }
         
-        /* --- 4. COMPONENTS (CARDS, INPUTS, BTNS) --- */
         .card {
             background: var(--light-card);
             border-radius: var(--radius);
@@ -92,6 +86,7 @@
             border: 1px solid var(--border);
         }
 
+        /* --- BUTTONS & INPUTS --- */
         .form-group { margin-bottom: 1.25rem; }
         label { display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.9rem; color: var(--text-main); }
         
@@ -113,15 +108,56 @@
         .btn-whatsapp { background: #25D366; color: white; box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3); }
         .btn-danger { background: var(--danger); color: white; }
         .btn-outline { background: transparent; border: 2px solid var(--border); color: var(--text-main); }
-        
-        /* --- 5. SPECIFIC WIDGETS --- */
-        
-        /* Service Grid */
-        .service-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-        .quick-card { 
-            background: var(--light-card); padding: 15px; border-radius: 12px; text-align: center;
-            border: 2px solid transparent; cursor: pointer; transition: 0.2s;
+        .btn-sm { width: auto; padding: 8px 12px; font-size: 0.85rem; }
+
+        /* --- NEW: TRUST BADGES --- */
+        .trust-section { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 20px; scrollbar-width: none; }
+        .trust-badge { 
+            min-width: 100px; background: #eff6ff; border: 1px solid #dbeafe; 
+            padding: 10px; border-radius: 12px; text-align: center; font-size: 0.8rem; font-weight: 600; color: #1e40af;
+            display: flex; flex-direction: column; align-items: center; gap: 5px;
         }
+        .trust-badge i { font-size: 1.2rem; color: var(--primary); }
+
+        /* --- NEW: FAQ --- */
+        .faq-item { border-bottom: 1px solid var(--border); padding: 12px 0; }
+        .faq-q { font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .faq-a { margin-top: 8px; font-size: 0.9rem; color: var(--text-light); display: none; }
+        .faq-item.active .faq-a { display: block; }
+        .faq-item.active .fa-chevron-down { transform: rotate(180deg); }
+
+        /* --- WIZARD MODAL --- */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 2000;
+            display: none; justify-content: center; align-items: center; backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            background: var(--light-card); width: 90%; max-width: 400px; padding: 25px;
+            border-radius: 20px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+            animation: zoomIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes zoomIn { from{ transform: scale(0.8); opacity:0;} to{transform: scale(1); opacity:1;} }
+
+        .wizard-step { display: none; }
+        .wizard-step.active { display: block; }
+        .wizard-option {
+            display: block; width: 100%; padding: 15px; margin-bottom: 10px;
+            border: 2px solid var(--border); border-radius: 12px; background: var(--light-bg);
+            text-align: left; font-weight: 500; color: var(--text-main); cursor: pointer;
+        }
+        .wizard-option:hover, .wizard-option.selected { border-color: var(--primary); background: #eff6ff; color: var(--primary); }
+
+        /* --- ADMIN STATS --- */
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .stat-card { background: var(--primary); color: white; padding: 15px; border-radius: 12px; text-align: center; }
+        .stat-card.secondary { background: var(--secondary); }
+        .stat-card.accent { background: var(--accent); }
+        .stat-val { font-size: 1.4rem; font-weight: 800; margin-bottom: 5px; }
+        .stat-label { font-size: 0.8rem; opacity: 0.9; }
+
+        /* --- CART & ORDER (EXISTING STYLES) --- */
+        .service-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        .quick-card { background: var(--light-card); padding: 15px; border-radius: 12px; text-align: center; border: 2px solid transparent; cursor: pointer; transition: 0.2s; }
         .quick-card:active { transform: scale(0.95); }
         .quick-card i { font-size: 1.8rem; margin-bottom: 8px; display: block; }
         .qc-lcd { color: #3b82f6; background: #eff6ff; }
@@ -129,94 +165,55 @@
         .qc-laptop { color: #8b5cf6; background: #f5f3ff; }
         .qc-water { color: #06b6d4; background: #ecfeff; }
 
-        /* Cart Items */
-        .cart-item {
-            background: var(--light-bg); padding: 12px; border-radius: 12px; margin-bottom: 10px;
-            border-left: 5px solid var(--secondary); position: relative;
-        }
+        .cart-item { background: var(--light-bg); padding: 12px; border-radius: 12px; margin-bottom: 10px; border-left: 5px solid var(--secondary); position: relative; }
         .cart-item.type-sparepart { border-left-color: var(--accent); }
         .cart-item.type-paket { border-left-color: var(--purple); }
         
         .cart-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px; }
         .cart-title { font-weight: 700; font-size: 0.95rem; }
-        .cart-meta { font-size: 0.8rem; color: var(--text-light); margin-bottom: 6px; }
         
-        /* Badge Styles */
-        .cart-badge { 
-            font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; font-weight: bold; text-transform: uppercase; white-space: nowrap;
-        }
+        .cart-badge { font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; font-weight: bold; text-transform: uppercase; white-space: nowrap; }
         .badge-jasa { background: #dcfce7; color: #166534; }
         .badge-sparepart { background: #ffedd5; color: #9a3412; }
         .badge-paket { background: #f3e8ff; color: #6b21a8; }
-        
-        /* NEW DETAIL STYLES */
-        .cart-details-box {
-            background: rgba(255,255,255,0.5); /* Slight transparency */
-            border-radius: 8px;
-            padding: 8px;
-            margin-top: 8px;
-            font-size: 0.8rem;
-        }
+
+        .cart-details-box { background: rgba(255,255,255,0.5); border-radius: 8px; padding: 8px; margin-top: 8px; font-size: 0.8rem; }
         body.dark-mode .cart-details-box { background: rgba(0,0,0,0.2); }
         
         .detail-row { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 4px; }
-        .detail-row:last-child { margin-bottom: 0; }
         .detail-icon { color: var(--primary); margin-top: 2px; min-width: 14px; }
         .detail-text { color: var(--text-main); }
-        .detail-desc { color: var(--text-light); font-style: italic; display: block; margin-top: 2px; line-height: 1.3; }
-
+        
         .btn-remove { position: absolute; top: 10px; right: 10px; background: none; border: none; color: var(--text-light); cursor: pointer; }
-        .btn-remove:hover { color: var(--danger); }
 
-        /* Summary Box */
-        .summary-box {
-            background: var(--primary); color: white; padding: 20px; border-radius: 16px; margin-top: 20px;
-            box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.4);
-        }
+        .summary-box { background: var(--primary); color: white; padding: 20px; border-radius: 16px; margin-top: 20px; box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.4); }
         .summary-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem; opacity: 0.9; }
         .summary-total { border-top: 1px solid rgba(255,255,255,0.3); margin-top: 12px; padding-top: 12px; font-size: 1.3rem; font-weight: 800; display: flex; justify-content: space-between; }
 
-        /* Admin Cards */
         .order-card { border: 1px solid var(--border); overflow: hidden; }
         .order-card-header { background: var(--light-bg); padding: 10px 15px; font-size: 0.8rem; color: var(--text-light); display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); }
-        .status-badge { padding: 4px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: bold; }
-        
-        /* Nav */
-        .bottom-nav {
-            position: fixed; bottom: 0; left: 0; width: 100%; height: var(--nav-height);
-            background: var(--light-card); border-top: 1px solid var(--border);
-            display: flex; justify-content: space-around; align-items: center;
-            z-index: 1000; padding-bottom: env(safe-area-inset-bottom);
-        }
-        .nav-link {
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            color: var(--text-light); font-size: 0.7rem; text-decoration: none; width: 100%; height: 100%;
-        }
+
+        /* NAV */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: var(--nav-height); background: var(--light-card); border-top: 1px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 1000; padding-bottom: env(safe-area-inset-bottom); }
+        .nav-link { display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-light); font-size: 0.7rem; text-decoration: none; width: 100%; height: 100%; }
         .nav-link i { font-size: 1.4rem; margin-bottom: 4px; transition: 0.3s; }
         .nav-link.active { color: var(--primary); }
         .nav-link.active i { transform: translateY(-3px); }
 
         /* Toast & Loader */
-        .toast {
-            position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px);
-            background: #1e293b; color: white; padding: 12px 24px; border-radius: 50px;
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); z-index: 9999; font-weight: 500;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); font-size: 0.9rem;
-            display: flex; align-items: center; gap: 10px; width: 90%; max-width: 350px;
-        }
+        .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); background: #1e293b; color: white; padding: 12px 24px; border-radius: 50px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); z-index: 9999; font-weight: 500; transition: 0.4s; font-size: 0.9rem; display: flex; align-items: center; gap: 10px; width: 90%; max-width: 350px; }
         .toast.show { transform: translateX(-50%) translateY(0); }
         .toast.success { background: var(--secondary); }
         .toast.error { background: var(--danger); }
 
-        /* Loading Overlay */
-        .loader-overlay {
-            position: fixed; inset: 0; background: rgba(255,255,255,0.8); z-index: 2000;
-            display: none; justify-content: center; align-items: center; flex-direction: column;
-        }
+        .loader-overlay { position: fixed; inset: 0; background: rgba(255,255,255,0.8); z-index: 2000; display: none; justify-content: center; align-items: center; flex-direction: column; }
         body.dark-mode .loader-overlay { background: rgba(15, 23, 42, 0.8); }
         .spinner { width: 40px; height: 40px; border: 4px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
+        /* --- CUSTOMER HISTORY (Admin) --- */
+        .history-badge { background: #f1f5f9; padding: 5px 10px; border-radius: 8px; font-size: 0.75rem; margin-top: 5px; display: inline-block; border: 1px solid var(--border); }
+        .badge-loyal { background: #dcfce7; color: #166534; border-color: #86efac; }
     </style>
 </head>
 <body>
@@ -229,6 +226,35 @@
 
     <!-- TOAST -->
     <div id="toast" class="toast"><i class="fa-solid fa-info-circle"></i> <span>Pesan</span></div>
+
+    <!-- MODAL WIZARD ESTIMASI -->
+    <div id="wizardModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 style="color:var(--primary); text-align:center; margin-bottom:15px;">Cek Kerusakan</h3>
+            
+            <!-- Step 1 -->
+            <div id="wizStep1" class="wizard-step active">
+                <p style="margin-bottom:10px;">Apakah HP masih bisa menyala?</p>
+                <button class="wizard-option" onclick="wizNext(1, 'nyala')">Ya, Masih Nyala</button>
+                <button class="wizard-option" onclick="wizNext(1, 'mati')">Tidak, Total Mati</button>
+            </div>
+
+            <!-- Step 2 -->
+            <div id="wizStep2" class="wizard-step">
+                <p style="margin-bottom:10px;">Ada kerusakan fisik (LCD/Pecah/Gelanggang)?</p>
+                <button class="wizard-option" onclick="wizNext(2, 'fisik')">Ya, Pecah/Baret</button>
+                <button class="wizard-option" onclick="wizNext(2, 'nofisik')">Tidak, Mulus</button>
+            </div>
+
+            <!-- Result -->
+            <div id="wizResult" class="wizard-step" style="text-align:center;">
+                <i id="wizIcon" class="fa-solid fa-triangle-exclamation" style="font-size:3rem; color:var(--accent); margin-bottom:10px;"></i>
+                <h4 id="wizTitle" style="margin-bottom:5px;">Estimasi Risiko</h4>
+                <p id="wizDesc" style="color:var(--text-light); font-size:0.9rem;">Deskripsi kerusakan</p>
+                <button class="btn btn-primary" onclick="closeWizard()" style="margin-top:20px;">Tutup</button>
+            </div>
+        </div>
+    </div>
 
     <header>
         <div class="brand">
@@ -246,6 +272,11 @@
                 <h1 style="color:var(--primary); font-size: 2rem; margin-bottom:0.5rem;">Servis Cepat & Bergaransi</h1>
                 <p style="color:var(--text-light)">Solusi terbaik untuk HP & Laptop kamu.</p>
             </div>
+
+            <!-- NEW: WIZARD BUTTON -->
+            <button class="btn btn-outline" onclick="openWizard()" style="margin-bottom:20px; border-style:dashed;">
+                <i class="fa-solid fa-stethoscope"></i> Cek Estimasi Kerusakan (Gratis)
+            </button>
 
             <div class="service-grid">
                 <div class="quick-card qc-lcd" onclick="quickOrder('HP Android', 'LCD Pecah')">
@@ -266,13 +297,21 @@
                 </div>
             </div>
 
+            <!-- NEW: TRUST BADGES -->
+            <h3>Kenapa Memilih Kami?</h3>
+            <div class="trust-section">
+                <div class="trust-badge"><i class="fa-solid fa-user-shield"></i> Garansi Resmi</div>
+                <div class="trust-badge"><i class="fa-solid fa-medal"></i> Teknisi Ahli</div>
+                <div class="trust-badge"><i class="fa-solid fa-bolt"></i> Cepat</div>
+                <div class="trust-badge"><i class="fa-solid fa-money-bill-wave"></i> Harga Transparan</div>
+            </div>
+
+            <!-- NEW: FAQ SECTION -->
             <div class="card">
-                <h3><i class="fa-solid fa-bookmark" style="color:var(--accent)"></i> Fitur Unggulan</h3>
-                <ul style="padding-left:20px; color:var(--text-light); font-size:0.9rem; line-height:1.8;">
-                    <li>Deteksi harga otomatis (Jasa + Sparepart)</li>
-                    <li>Lihat estimasi waktu & detail sparepart</li>
-                    <li>Layanan Pickup antar-jemput</li>
-                </ul>
+                <h3><i class="fa-solid fa-circle-question"></i> FAQ (Tanya Jawab)</h3>
+                <div id="faqList">
+                    <p style="text-align:center; color:var(--text-light); font-size:0.8rem;">Memuat FAQ...</p>
+                </div>
             </div>
         </section>
 
@@ -294,7 +333,7 @@
                         <option value="">-- Pilih Layanan --</option>
                     </select>
                     <small style="color:var(--text-light); display:block; margin-top:5px; font-size:0.8rem;">
-                        *Pilih kerusakan & sparepart yang diperlukan. Lihat detail di keranjang.
+                        *Pilih kerusakan & sparepart yang diperlukan.
                     </small>
                     <button class="btn btn-primary" onclick="addItemToCart()" style="margin-top:10px;">
                         <i class="fa-solid fa-plus"></i> Tambah ke List
@@ -335,8 +374,15 @@
             </div>
             <div class="form-group">
                 <label>Nomor WhatsApp</label>
-                <input type="tel" id="custWA" placeholder="Cth: 081234567890">
+                <input type="tel" id="custWA" placeholder="Cth: 081234567890" onblur="checkHistory(this.value)">
             </div>
+            <!-- NEW: CUSTOMER NOTES -->
+            <div class="form-group">
+                <label>Catatan Tambahan (Opsional)</label>
+                <textarea id="custNotes" rows="2" placeholder="Contoh: Tolong dipassword ya, atau parsel sudah dilepas..."></textarea>
+                <div id="historyInfo" style="display:none; margin-top:5px;"></div>
+            </div>
+            
             <div class="form-group">
                 <label>Alamat Lengkap</label>
                 <textarea id="custAddress" rows="2" placeholder="Jl. Mawar No. 10..."></textarea>
@@ -385,12 +431,24 @@
         <section id="admin-dashboard" class="step-section">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
                 <h2 style="margin:0;">Dashboard</h2>
-                <button class="btn btn-danger" onclick="doLogout()" style="width:auto; padding:8px 15px; font-size:0.8rem; margin:0;">Logout</button>
+                <button class="btn btn-danger btn-sm" onclick="doLogout()">Logout</button>
+            </div>
+
+            <!-- NEW: STATS -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-val" id="statTodayOrder">0</div>
+                    <div class="stat-label">Order Hari Ini</div>
+                </div>
+                <div class="stat-card secondary">
+                    <div class="stat-val" id="statRevenue">0</div>
+                    <div class="stat-label">Omzet (Hari Ini)</div>
+                </div>
             </div>
 
             <div style="display:flex; gap:10px; margin-bottom:15px;">
                 <input type="text" id="adminSearch" placeholder="Cari Order ID / Nama..." oninput="renderAdminOrders()" style="flex:1;">
-                <button class="btn btn-primary" onclick="fetchOrders()" style="width:auto;"><i class="fa-solid fa-rotate"></i></button>
+                <button class="btn btn-primary btn-sm" onclick="fetchOrders()"><i class="fa-solid fa-rotate"></i></button>
             </div>
 
             <div id="adminOrderList"></div>
@@ -420,26 +478,24 @@
         // KONFIGURASI URL
         // ==========================================
         const CONFIG = {
-            URL: "https://script.google.com/macros/s/AKfycbyywJrKxUc9PBvs9JaTJox6q8D1a9UDSHRQzgvf0SC0Y42oq8OnQs2zGZGKJRwBFDKI/exec",
+            URL: "https://script.google.com/macros/s/AKfycbxbGjaHLsL8aZ9k9593dxtctZu1y4LE535VUARFbFM4dnaJ0ZpqRbhxRWpkrQID0QaE/exec",
             ADMIN_WA: "6285713087659" 
         };
 
-        // ==========================================
-        // STATE & DATA
-        // ==========================================
         let masterData = []; 
         let cart = [];
         let adminSession = false;
+        let currentCustomerHistory = null;
 
         // ==========================================
         // INIT
         // ==========================================
         document.addEventListener('DOMContentLoaded', () => {
             if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
-            if(localStorage.getItem('admin_logged_in') === 'true') {
-                adminSession = true;
-            }
+            if(localStorage.getItem('admin_logged_in') === 'true') adminSession = true;
+            
             fetchPriceList();
+            fetchFAQ(); // NEW
         });
 
         // ==========================================
@@ -447,25 +503,57 @@
         // ==========================================
         async function fetchPriceList() {
             try {
-                const res = await fetch(CONFIG.URL, {
-                    method: 'POST',
-                    body: JSON.stringify({ action: "get_price_list" })
-                });
+                const res = await fetch(CONFIG.URL, { method: 'POST', body: JSON.stringify({ action: "get_price_list" }) });
                 const result = await res.json();
-                if(result.success) {
-                    masterData = result.data;
-                    populateCategories();
+                if(result.success) { masterData = result.data; populateCategories(); }
+            } catch (e) { console.error("Gagal ambil harga", e); }
+        }
+
+        // NEW: Fetch FAQ
+        async function fetchFAQ() {
+            try {
+                const res = await fetch(CONFIG.URL, { method: 'POST', body: JSON.stringify({ action: "get_faq" }) });
+                const result = await res.json();
+                if(result.success && result.data.length > 0) {
+                    const container = document.getElementById('faqList');
+                    container.innerHTML = result.data.map(item => `
+                        <div class="faq-item" onclick="this.classList.toggle('active')">
+                            <div class="faq-q">${item.q} <i class="fa-solid fa-chevron-down"></i></div>
+                            <div class="faq-a">${item.a}</div>
+                        </div>
+                    `).join('');
                 }
-            } catch (e) {
-                console.error("Gagal ambil harga", e);
-                showToast("Gagal memuat database harga", true);
-            }
+            } catch(e) {}
+        }
+
+        // NEW: Check Customer History (Auto-trigger when WA filled)
+        let debounceTimer;
+        function checkHistory(wa) {
+            clearTimeout(debounceTimer);
+            if(wa.length < 10) return;
+            
+            debounceTimer = setTimeout(async () => {
+                try {
+                    const res = await fetch(CONFIG.URL, { method: 'POST', body: JSON.stringify({ action: "get_customer_history", wa: wa }) });
+                    const result = await res.json();
+                    const infoBox = document.getElementById('historyInfo');
+                    
+                    if(result.success && result.summary.count > 0) {
+                        infoBox.style.display = 'block';
+                        infoBox.innerHTML = `<span class="history-badge badge-loyal"><i class="fa-solid fa-star"></i> Pelanggan Setia: ${result.summary.count}x Order (Total: ${formatRupiah(result.summary.spend)})</span>`;
+                        currentCustomerHistory = result.summary;
+                    } else {
+                        infoBox.style.display = 'none';
+                    }
+                } catch(e) {}
+            }, 1000);
         }
 
         async function submitOrder() {
             const name = document.getElementById('custName').value;
             const wa = document.getElementById('custWA').value;
             const addr = document.getElementById('custAddress').value;
+            const notes = document.getElementById('custNotes').value; // NEW
 
             if(!name || !wa) return showToast("Nama dan WA wajib diisi!");
             if(cart.length === 0) return showToast("Belum ada layanan dipilih!");
@@ -473,8 +561,7 @@
             const total = calculateTotal();
             const orderId = `INV-${new Date().getFullYear()}${String(new Date().getMonth()+1).padStart(2,'0')}${String(new Date().getDate()).padStart(2,'0')}-${Math.floor(1000 + Math.random() * 9000)}`;
             
-            let pickupFee = 0;
-            let pickupInfo = "-";
+            let pickupFee = 0; let pickupInfo = "-";
             if(document.getElementById('checkPickup').checked) {
                 const dist = parseFloat(document.getElementById('pickupDist').value) || 0;
                 pickupInfo = `Jarak: ${dist} KM`;
@@ -484,13 +571,11 @@
             const payload = {
                 action: "save_order",
                 orderId: orderId,
-                name: name,
-                wa: wa,
-                address: addr,
+                name: name, wa: wa, address: addr,
                 cat: cart.length > 1 ? 'Multiple' : cart[0].cat,
-                items: cart,
-                total: total,
-                pickupInfo: pickupInfo
+                items: cart, total: total,
+                pickupInfo: pickupInfo,
+                custNotes: notes // NEW
             };
 
             showLoader(true);
@@ -501,10 +586,11 @@
                 
                 if(result.success) {
                     sendToWA(orderId, name, wa, total);
-                    cart = [];
-                    renderCart();
+                    cart = []; renderCart();
                     document.getElementById('custName').value = "";
                     document.getElementById('custAddress').value = "";
+                    document.getElementById('custNotes').value = ""; // NEW
+                    document.getElementById('historyInfo').style.display = 'none'; // NEW
                     showToast("Order Berhasil Dibuat!", false);
                 } else {
                     showToast("Gagal: " + result.message, true);
@@ -518,46 +604,31 @@
         async function trackOrder() {
             const id = document.getElementById('trackId').value.trim();
             if(!id) return showToast("Masukkan Order ID");
-
             showLoader(true);
             try {
                 const res = await fetch(CONFIG.URL, { method: 'POST', body: JSON.stringify({action: "get_all_orders"}) });
                 const result = await res.json();
                 showLoader(false);
-
                 if(result.success) {
                     const order = result.data.find(o => o.orderId === id);
                     const box = document.getElementById('trackResult');
                     if(order) {
-                        let itemsHtml = "";
-                        try {
-                            const items = JSON.parse(order.itemsRaw);
-                            // Updated to show details in tracking too
-                            itemsHtml = items.map(i => `
-                                <li style="margin-bottom:8px; border-bottom:1px dashed #eee; padding-bottom:4px;">
-                                    <strong>${i.item}</strong> (${formatRupiah(i.price)})
-                                    <br><span style="font-size:0.8rem; color:#666">${i.est || ''} ${i.desc ? '- ' + i.desc : ''}</span>
-                                </li>`).join('');
-                        } catch(e) {}
-
+                        // Show Notes in tracking
+                        const notes = order.custNotes ? `<div style="margin-top:10px; font-size:0.85rem; color:var(--text-light); background:#f1f5f9; padding:8px; border-radius:8px;"><strong>Catatan:</strong> ${order.custNotes}</div>` : '';
+                        
                         box.innerHTML = `
                             <div class="card" style="border-left:5px solid var(--primary);">
                                 <h3 style="color:var(--primary)">${order.orderId}</h3>
                                 <p style="margin-bottom:5px;"><strong>Nama:</strong> ${order.customerName}</p>
                                 <div style="background:#eff6ff; color:#1e40af; padding:5px 10px; border-radius:8px; display:inline-block; margin-bottom:10px; font-weight:bold;">Status: ${order.status}</div>
-                                <p><strong>Detail:</strong></p>
-                                <ul style="padding-left:20px; font-size:0.9rem; margin-bottom:10px;">${itemsHtml || '-'}</ul>
                                 <p><strong>Total:</strong> ${formatRupiah(order.total)}</p>
-                            </div>
-                        `;
+                                ${notes}
+                            </div>`;
                     } else {
                         box.innerHTML = `<div class="card" style="text-align:center; color:var(--danger);">Order ID tidak ditemukan.</div>`;
                     }
                 }
-            } catch(e) {
-                showLoader(false);
-                showToast("Gagal cek resi", true);
-            }
+            } catch(e) { showLoader(false); showToast("Gagal cek resi", true); }
         }
 
         // ==========================================
@@ -566,32 +637,19 @@
         async function loginAdmin() {
             const user = document.getElementById('adminUser').value;
             const pin = document.getElementById('adminPin').value;
-            
             if(!user || !pin) return showToast("Isi Username dan PIN!", true);
-
-            const hash = await sha256(pin);
             
+            const hash = await sha256(pin);
             showLoader(true);
             try {
-                const res = await fetch(CONFIG.URL, {
-                    method: 'POST',
-                    body: JSON.stringify({ action: "login", username: user, pinHash: hash })
-                });
+                const res = await fetch(CONFIG.URL, { method: 'POST', body: JSON.stringify({ action: "login", username: user, pinHash: hash }) });
                 const result = await res.json();
                 showLoader(false);
-
                 if(result.success) {
-                    adminSession = true;
-                    localStorage.setItem('admin_logged_in', 'true');
-                    showToast("Login Berhasil", false);
-                    navTo('admin-dashboard');
-                } else {
-                    showToast(result.message, true);
-                }
-            } catch(e) {
-                showLoader(false);
-                showToast("Error Koneksi", true);
-            }
+                    adminSession = true; localStorage.setItem('admin_logged_in', 'true');
+                    showToast("Login Berhasil", false); navTo('admin-dashboard');
+                } else { showToast(result.message, true); }
+            } catch(e) { showLoader(false); showToast("Error Koneksi", true); }
         }
 
         async function fetchOrders() {
@@ -601,8 +659,19 @@
             showLoader(false);
             if(result.success) {
                 window.adminData = result.data; 
+                calculateStats(result.data); // NEW
                 renderAdminOrders();
             }
+        }
+
+        // NEW: Calculate Stats
+        function calculateStats(data) {
+            const today = new Date().toDateString();
+            const todayOrders = data.filter(o => new Date(o.timestamp).toDateString() === today);
+            
+            document.getElementById('statTodayOrder').innerText = todayOrders.length;
+            const revenue = todayOrders.reduce((acc, curr) => acc + curr.total, 0);
+            document.getElementById('statRevenue').innerText = formatRupiah(revenue);
         }
 
         function renderAdminOrders() {
@@ -613,10 +682,8 @@
             const filtered = window.adminData.filter(o => o.orderId.toLowerCase().includes(search) || o.customerName.toLowerCase().includes(search));
 
             container.innerHTML = filtered.map(o => {
-                let items = [];
-                try { items = JSON.parse(o.itemsRaw); } catch(e){}
+                let items = []; try { items = JSON.parse(o.itemsRaw); } catch(e){}
                 const itemsText = items.map(i => i.issue).join(', ');
-
                 let statusColor = '#64748b';
                 if(o.status === 'Sedang Dikerjakan') statusColor = '#f59e0b';
                 if(o.status.includes('Selesai')) statusColor = '#10b981';
@@ -629,18 +696,37 @@
                     </div>
                     <div style="padding:15px;">
                         <h3>${o.customerName} <span style="font-size:0.8rem; font-weight:normal; color:#64748b">(${o.wa})</span></h3>
-                        <p style="font-size:0.9rem; color:var(--text-light); margin-bottom:10px;">${o.category} - ${itemsText}</p>
+                        <p style="font-size:0.9rem; color:var(--text-light); margin-bottom:5px;">${o.category} - ${itemsText}</p>
                         
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:15px;">
+                        <!-- NEW: Display Customer Notes -->
+                        ${o.custNotes ? `<div style="font-size:0.8rem; background:#f1f5f9; padding:5px; border-radius:5px; margin-bottom:10px;"><i class="fa-regular fa-comment-dots"></i> ${o.custNotes}</div>` : ''}
+
+                        <!-- NEW: Admin Notes Input -->
+                        <div style="margin-bottom:10px;">
+                            <input type="text" id="note-${o.orderId}" placeholder="Catatan Admin Internal..." value="${o.adminNotes || ''}" style="font-size:0.8rem; padding:8px; margin-bottom:5px;">
+                            <button class="btn btn-outline btn-sm" onclick="saveAdminNote('${o.orderId}')">Simpan Catatan</button>
+                        </div>
+                        
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
                             <div style="background:${statusColor}; color:white; padding:4px 10px; border-radius:6px; font-size:0.8rem;">${o.status}</div>
                             <div style="display:flex; gap:5px;">
-                                <button class="btn btn-primary" style="width:auto; padding:5px 10px; font-size:0.8rem;" onclick="updateStatus('${o.orderId}', 'Sedang Dikerjakan')"><i class="fa-solid fa-hammer"></i></button>
-                                <button class="btn btn-whatsapp" style="width:auto; padding:5px 10px; font-size:0.8rem;" onclick="finishOrder('${o.orderId}', '${o.wa}', '${o.customerName.replace(/'/g, "")}')"><i class="fa-solid fa-check"></i></button>
+                                <button class="btn btn-primary btn-sm" onclick="updateStatus('${o.orderId}', 'Sedang Dikerjakan')"><i class="fa-solid fa-hammer"></i></button>
+                                <button class="btn btn-whatsapp btn-sm" onclick="finishOrder('${o.orderId}', '${o.wa}', '${o.customerName.replace(/'/g, "")}')"><i class="fa-solid fa-check"></i></button>
                             </div>
                         </div>
                     </div>
                 </div>`;
             }).join('');
+        }
+
+        // NEW: Save Admin Note
+        async function saveAdminNote(id) {
+            const noteVal = document.getElementById(`note-${id}`).value;
+            showLoader(true);
+            await fetch(CONFIG.URL, { method: 'POST', body: JSON.stringify({action: "update_status", orderId: id, newStatus: "Status Unchanged", adminNotes: noteVal}) });
+            showLoader(false);
+            showToast("Catatan disimpan", false);
+            fetchOrders();
         }
 
         async function updateStatus(id, status) {
@@ -665,23 +751,14 @@
         }
 
         // ==========================================
-        // HELPER FUNCTIONS
+        // UI HELPERS & WIZARD
         // ==========================================
         function navTo(sectionId, el) {
-            if(sectionId === 'admin-dashboard' && !adminSession) {
-                showToast("Harap Login Dahulu", true);
-                return;
-            }
-
+            if(sectionId === 'admin-dashboard' && !adminSession) { showToast("Harap Login Dahulu", true); return; }
             document.querySelectorAll('.step-section').forEach(s => s.classList.remove('active'));
             document.getElementById(sectionId).classList.add('active');
             window.scrollTo(0,0);
-
-            if(el) {
-                document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
-                el.classList.add('active');
-            }
-
+            if(el) { document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active')); el.classList.add('active'); }
             if(sectionId === 'admin-dashboard') fetchOrders();
         }
 
@@ -689,24 +766,18 @@
             const uniqueCats = [...new Set(masterData.map(i => i.cat))];
             const select = document.getElementById('catSelect');
             select.innerHTML = '<option value="">-- Pilih Tipe --</option>';
-            uniqueCats.forEach(c => {
-                const opt = document.createElement('option');
-                opt.value = c; opt.textContent = c; select.appendChild(opt);
-            });
+            uniqueCats.forEach(c => { const opt = document.createElement('option'); opt.value = c; opt.textContent = c; select.appendChild(opt); });
         }
 
         function filterIssues() {
             const cat = document.getElementById('catSelect').value;
             const select = document.getElementById('issueSelect');
             select.innerHTML = '<option value="">-- Pilih Layanan --</option>';
-            
             if(!cat) return;
-            
             const filtered = masterData.filter(i => i.cat === cat);
             filtered.forEach(item => {
                 const opt = document.createElement('option');
                 opt.value = JSON.stringify(item);
-                // UPDATED: Dropdown shows "Issue - Item Name (Price)" for clarity
                 opt.textContent = `${item.issue} - ${item.item} (${formatRupiah(item.price)})`;
                 select.appendChild(opt);
             });
@@ -715,160 +786,128 @@
         function addItemToCart() {
             const select = document.getElementById('issueSelect');
             if(!select.value) return showToast("Pilih layanan dulu!");
-            
-            const item = JSON.parse(select.value);
-            cart.push(item);
+            cart.push(JSON.parse(select.value));
             renderCart();
             select.value = ""; 
         }
 
-        // UPDATED renderCart to show Details (Est & Desc)
         function renderCart() {
             const container = document.getElementById('cartList');
             const wrapper = document.getElementById('cartContainer');
-            
-            if(cart.length === 0) {
-                wrapper.style.display = 'none';
-                container.innerHTML = '';
-                return;
-            }
-            
+            if(cart.length === 0) { wrapper.style.display = 'none'; container.innerHTML = ''; return; }
             wrapper.style.display = 'block';
             container.innerHTML = cart.map((item, idx) => {
-                let typeClass = 'type-jasa';
-                let badgeClass = 'badge-jasa';
-                let typeLabel = 'JASA';
-                
+                let typeClass = 'type-jasa', badgeClass = 'badge-jasa', typeLabel = 'JASA';
                 if(item.type === 'SPAREPART') { typeClass = 'type-sparepart'; badgeClass = 'badge-sparepart'; typeLabel = 'PART'; }
                 if(item.type === 'PAKET') { typeClass = 'type-paket'; badgeClass = 'badge-paket'; typeLabel = 'PAKET'; }
-
-                // Check if desc exists, otherwise empty string
                 const descText = item.desc ? `<span class="detail-desc">${item.desc}</span>` : '';
-                const estText = item.est ? 
-                    `<div class="detail-row">
-                        <i class="fa-regular fa-clock detail-icon"></i>
-                        <span class="detail-text">Estimasi: ${item.est}</span>
-                     </div>` : '';
-
+                const estText = item.est ? `<div class="detail-row"><i class="fa-regular fa-clock detail-icon"></i><span class="detail-text">Estimasi: ${item.est}</span></div>` : '';
                 return `
                 <div class="cart-item ${typeClass}">
                     <button class="btn-remove" onclick="removeCart(${idx})"><i class="fa-solid fa-times"></i></button>
-                    <div class="cart-top">
-                        <span class="cart-title">${item.item}</span>
-                        <span class="cart-badge ${badgeClass}">${typeLabel}</span>
-                    </div>
+                    <div class="cart-top"><span class="cart-title">${item.item}</span><span class="cart-badge ${badgeClass}">${typeLabel}</span></div>
                     <div class="cart-meta">${item.issue}</div>
                     <div style="font-weight:700; color:var(--text-main);">${formatRupiah(item.price)}</div>
-                    
-                    <!-- NEW: Detail Box -->
-                    <div class="cart-details-box">
-                        ${estText}
-                        ${descText ? `
-                        <div class="detail-row">
-                            <i class="fa-solid fa-circle-info detail-icon"></i>
-                            <span class="detail-text">${descText}</span>
-                        </div>` : ''}
-                    </div>
-                </div>
-                `;
+                    <div class="cart-details-box">${estText}${descText ? `<div class="detail-row"><i class="fa-solid fa-circle-info detail-icon"></i><span class="detail-text">${descText}</span></div>` : ''}</div>
+                </div>`;
             }).join('');
-            
             calculateTotal();
         }
 
-        function removeCart(idx) {
-            cart.splice(idx, 1);
-            renderCart();
-        }
+        function removeCart(idx) { cart.splice(idx, 1); renderCart(); }
 
         function calculateTotal() {
-            let totalJasa = 0;
-            let totalPart = 0;
-
-            cart.forEach(i => {
-                if(i.type === 'SPAREPART') totalPart += i.price;
-                else totalJasa += i.price;
-            });
-
+            let totalJasa = 0, totalPart = 0;
+            cart.forEach(i => { if(i.type === 'SPAREPART') totalPart += i.price; else totalJasa += i.price; });
             const check = document.getElementById('checkPickup');
             const distInput = document.getElementById('pickupDist');
             const pickupWrapper = document.getElementById('pickupInputWrapper');
             const rowPickup = document.getElementById('rowPickup');
-            
             let pickupCost = 0;
             if(check.checked) {
-                pickupWrapper.style.display = 'block';
-                rowPickup.style.display = 'flex';
+                pickupWrapper.style.display = 'block'; rowPickup.style.display = 'flex';
                 const dist = parseFloat(distInput.value) || 0;
                 if(dist > 0 && dist <= 5) pickupCost = 25000;
-                else pickupCost = 0;
-            } else {
-                pickupWrapper.style.display = 'none';
-                rowPickup.style.display = 'none';
-            }
-
+            } else { pickupWrapper.style.display = 'none'; rowPickup.style.display = 'none'; }
             document.getElementById('sumJasa').innerText = formatRupiah(totalJasa);
             document.getElementById('sumPart').innerText = formatRupiah(totalPart);
             document.getElementById('sumPickup').innerText = pickupCost > 0 ? formatRupiah(pickupCost) : "Hubungi Admin";
             document.getElementById('grandTotal').innerText = formatRupiah(totalJasa + totalPart + pickupCost);
             document.getElementById('pickupFeeDisplay').innerText = pickupCost > 0 ? formatRupiah(pickupCost) : "Gratis / >5km Hub Admin";
-
             return totalJasa + totalPart + pickupCost;
         }
 
         function sendToWA(id, name, wa, total) {
             let msg = `Halo Admin, saya mau booking servis.\n\n`;
-            msg += `Order ID: ${id}\n`;
-            msg += `Nama: ${name}\n`;
-            msg += `----------------------------\n`;
-            msg += `Rincian Biaya:\n`;
-            
+            msg += `Order ID: ${id}\n`; msg += `Nama: ${name}\n`;
+            // Notes included in WA
+            const notes = document.getElementById('custNotes').value;
+            if(notes) msg += `Catatan: ${notes}\n`;
+            msg += `----------------------------\nRincian Biaya:\n`;
             let totalJasa=0, totalPart=0;
-            // Updated WA message to include details
             cart.forEach(i => {
-                if(i.type === 'SPAREPART') totalPart += i.price;
-                else totalJasa += i.price;
-                
+                if(i.type === 'SPAREPART') totalPart += i.price; else totalJasa += i.price;
                 msg += `- ${i.item} (${formatRupiah(i.price)})\n`;
                 if(i.est) msg += `  *Est: ${i.est}\n`;
             });
-            
             if(totalJasa > 0) msg += `- Total Jasa: ${formatRupiah(totalJasa)}\n`;
             if(totalPart > 0) msg += `- Total Sparepart: ${formatRupiah(totalPart)}\n`;
-            
-            if(document.getElementById('checkPickup').checked) {
-                msg += `- Biaya Pickup: Lihat antrian\n`;
-            }
-            
-            msg += `----------------------------\n`;
-            msg += `*GRAND TOTAL: ${formatRupiah(total)}*\n\n`;
-            msg += `Mohon segera diproses ya!`;
-
+            if(document.getElementById('checkPickup').checked) msg += `- Biaya Pickup: Lihat antrian\n`;
+            msg += `----------------------------\n*GRAND TOTAL: ${formatRupiah(total)}*\n\nMohon segera diproses ya!`;
             window.open(`https://wa.me/${CONFIG.ADMIN_WA}?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
         function quickOrder(cat, issue) {
             navTo('order-section');
             setTimeout(() => {
-                document.getElementById('catSelect').value = cat;
-                filterIssues();
+                document.getElementById('catSelect').value = cat; filterIssues();
                 const select = document.getElementById('issueSelect');
-                for(let i=0; i<select.options.length; i++) {
-                    if(select.options[i].text.includes(issue)) {
-                        select.selectedIndex = i;
-                        break;
-                    }
-                }
+                for(let i=0; i<select.options.length; i++) { if(select.options[i].text.includes(issue)) { select.selectedIndex = i; break; } }
             }, 100);
+        }
+
+        // NEW: WIZARD LOGIC
+        let wizData = { power: '', physical: '' };
+        function openWizard() { document.getElementById('wizardModal').style.display = 'flex'; resetWizard(); }
+        function closeWizard() { document.getElementById('wizardModal').style.display = 'none'; }
+        function resetWizard() {
+            wizData = { power: '', physical: '' };
+            document.querySelectorAll('.wizard-step').forEach(el => el.classList.remove('active'));
+            document.getElementById('wizStep1').classList.add('active');
+        }
+        function wizNext(step, val) {
+            if(step === 1) { wizData.power = val; document.getElementById('wizStep1').classList.remove('active'); document.getElementById('wizStep2').classList.add('active'); }
+            if(step === 2) { 
+                wizData.physical = val; 
+                document.getElementById('wizStep2').classList.remove('active'); 
+                const res = document.getElementById('wizResult');
+                const icon = document.getElementById('wizIcon');
+                const title = document.getElementById('wizTitle');
+                const desc = document.getElementById('wizDesc');
+
+                // Simple logic
+                if(wizData.power === 'mati') {
+                    icon.className = "fa-solid fa-microchip"; icon.style.color = "var(--danger)";
+                    title.innerText = "Kerusakan Berat (IC/Board)";
+                    desc.innerText = "Kemungkinan kerusakan mesin/PB. Perlu pengecekan teknisi advance.";
+                } else if(wizData.physical === 'fisik') {
+                    icon.className = "fa-solid fa-mobile-screen-button"; icon.style.color = "var(--accent)";
+                    title.innerText = "Kerusakan Sedang";
+                    desc.innerText = "LCD/Touchscreen pecah. Bisa diganti dalam waktu kurang lebih 1 jam.";
+                } else {
+                    icon.className = "fa-solid fa-check-circle"; icon.style.color = "var(--secondary)";
+                    title.innerText = "Kerusakan Ringan";
+                    desc.innerText = "Kemungkinan masalah software atau baterai drop. Mudah diperbaiki.";
+                }
+                res.classList.add('active');
+            }
         }
 
         function toggleTheme() {
             document.body.classList.toggle('dark-mode');
             localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
         }
-
         function formatRupiah(num) { return "Rp " + parseInt(num).toLocaleString('id-ID'); }
-        
         function showLoader(show) { document.getElementById('loader').style.display = show ? 'flex' : 'none'; }
         function showToast(msg, isError=false) { 
             const t = document.getElementById('toast');
@@ -876,8 +915,6 @@
             t.className = isError ? 'toast show error' : 'toast show success';
             setTimeout(() => t.classList.remove('show'), 3000);
         }
-
-        // SHA-256 Helper for Password
         async function sha256(message) {
             const msgBuffer = new TextEncoder().encode(message);
             const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
