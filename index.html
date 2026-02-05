@@ -257,6 +257,12 @@
             to { transform: rotate(360deg); }
         }
 
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
         .floating {
             animation: float 6s ease-in-out infinite;
         }
@@ -555,6 +561,18 @@
             border-color: var(--primary);
             background: var(--light-card);
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        /* VALIDATION ERROR STYLES (NEW) */
+        .input-error {
+            border-color: var(--danger) !important;
+            animation: shake 0.3s;
+        }
+        .error-text {
+            color: var(--danger);
+            font-size: 0.8rem;
+            margin-top: 5px;
+            display: none;
         }
 
         /* Search Bar */
@@ -2024,6 +2042,19 @@
                 </button>
             </div>
 
+            <!-- PWA Install Banner (NEW) -->
+            <div id="installBanner" style="display:none; margin-bottom:20px; animation:slideInUp 0.5s;">
+                <div class="card" style="background:var(--primary-gradient); color:white; border:none; cursor:pointer;" onclick="installApp()">
+                    <div class="d-flex justify-between align-center">
+                        <div>
+                            <strong>Install Aplikasi</strong>
+                            <div style="font-size:0.8rem; opacity:0.9;">Dapatkan pengalaman tanpa loading</div>
+                        </div>
+                        <i class="fa-solid fa-download" style="font-size:1.5rem;"></i>
+                    </div>
+                </div>
+            </div>
+
             <!-- Live Queue -->
             <div class="live-queue slide-in-up">
                 <h4><i class="fa-solid fa-satellite-dish"></i> Antrian Live</h4>
@@ -2096,30 +2127,40 @@
             <!-- Quick Services -->
             <h3><i class="fa-solid fa-bolt"></i> Servis Express</h3>
             <div class="service-grid mb-4" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-                <div class="quick-card" style="background:#eff6ff; border:2px solid #dbeafe; color:#1d4ed8;" 
+                <div class="quick-card" style="background:#eff6ff; border:2px solid #dbeafe; color:#1d4ed8; padding:15px; border-radius:var(--radius-xl); text-align:center; cursor:pointer;" 
                      onclick="quickOrder('HP Android', 'LCD Pecah')">
                     <i class="fa-solid fa-mobile-screen" style="font-size:1.8rem;"></i>
                     <div style="font-weight:600;">Ganti LCD</div>
                     <small style="color:#64748b;">1-2 jam</small>
                 </div>
-                <div class="quick-card" style="background:#fef2f2; border:2px solid #fee2e2; color:#dc2626;" 
+                <div class="quick-card" style="background:#fef2f2; border:2px solid #fee2e2; color:#dc2626; padding:15px; border-radius:var(--radius-xl); text-align:center; cursor:pointer;" 
                      onclick="quickOrder('HP Android', 'Baterai Drop')">
                     <i class="fa-solid fa-battery-full" style="font-size:1.8rem;"></i>
                     <div style="font-weight:600;">Ganti Baterai</div>
                     <small style="color:#64748b;">30-60 menit</small>
                 </div>
-                <div class="quick-card" style="background:#f5f3ff; border:2px solid #ede9fe; color:#7c3aed;" 
+                <div class="quick-card" style="background:#f5f3ff; border:2px solid #ede9fe; color:#7c3aed; padding:15px; border-radius:var(--radius-xl); text-align:center; cursor:pointer;" 
                      onclick="quickOrder('Laptop', 'Kerusakan Umum')">
                     <i class="fa-solid fa-laptop" style="font-size:1.8rem;"></i>
                     <div style="font-weight:600;">Servis Laptop</div>
                     <small style="color:#64748b;">1-3 jam</small>
                 </div>
-                <div class="quick-card" style="background:#ecfeff; border:2px solid #cffafe; color:#0891b2;" 
+                <div class="quick-card" style="background:#ecfeff; border:2px solid #cffafe; color:#0891b2; padding:15px; border-radius:var(--radius-xl); text-align:center; cursor:pointer;" 
                      onclick="quickOrder('HP Android', 'Water Damage')">
                     <i class="fa-solid fa-droplet" style="font-size:1.8rem;"></i>
                     <div style="font-weight:600;">Water Damage</div>
                     <small style="color:#64748b;">1-3 hari</small>
                 </div>
+            </div>
+
+            <!-- Download APK Card (NEW) -->
+            <div class="card glass-card mb-4 text-center">
+                <h4 style="color:var(--primary); margin-bottom:10px;"><i class="fa-brands fa-google-drive"></i> Download Aplikasi Desktop</h4>
+                <p style="font-size:0.85rem; margin-bottom:15px;">Dapatkan aplikasi offline lengkap dengan fitur notifikasi background.</p>
+                <!-- Link Drive Direct Download -->
+                <a href="https://drive.google.com/uc?export=download&id=1dXDRawtADHZ9k_mkDaXeZQ7vh-mKfEYA" target="_blank" class="btn btn-secondary" style="text-decoration:none;">
+                    <i class="fa-solid fa-download"></i> Download APK (v2.0)
+                </a>
             </div>
 
             <!-- Trust Badges -->
@@ -2312,36 +2353,40 @@
 
             <!-- Customer Data -->
             <h3><i class="fa-solid fa-user"></i> Data Pelanggan</h3>
-            <div class="form-group">
-                <label>Nama Lengkap</label>
-                <input type="text" id="custName" placeholder="Cth: Farhan Fadhlurrahman">
-            </div>
-            
-            <div class="form-group">
-                <label>Nomor WhatsApp</label>
-                <input type="tel" id="custWA" 
-                       placeholder="Cth: +6281234567890" 
-                       onblur="checkHistory(this.value)">
-                <div id="historyInfo" style="display:none; margin-top:5px;"></div>
-            </div>
-            
-            <div class="form-group">
-                <label>Catatan Tambahan (Opsional)</label>
-                <textarea id="custNotes" rows="2" 
-                          placeholder="Contoh: Harap backup data sebelum servis, sparepart original, dll."></textarea>
-            </div>
-            
-            <div class="form-group">
-                <label>Alamat Lengkap</label>
-                <textarea id="custAddress" rows="2" placeholder="Jl. Mawar No. 10, Kota..."></textarea>
-            </div>
+            <div class="card">
+                <div class="form-group">
+                    <label>Nama Lengkap</label>
+                    <input type="text" id="custName" placeholder="Cth: Farhan Fadhlurrahman">
+                    <div id="errName" class="error-text">Nama wajib diisi!</div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Nomor WhatsApp</label>
+                    <input type="tel" id="custWA" 
+                           placeholder="Cth: +6281234567890" 
+                           onblur="checkHistory(this.value)">
+                    <div id="errWA" class="error-text">Nomor WA wajib diisi!</div>
+                    <div id="historyInfo" style="display:none; margin-top:5px;"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Catatan Tambahan (Opsional)</label>
+                    <textarea id="custNotes" rows="2" 
+                              placeholder="Contoh: Harap backup data sebelum servis, sparepart original, dll."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Alamat Lengkap</label>
+                    <textarea id="custAddress" rows="2" placeholder="Jl. Mawar No. 10, Kota..."></textarea>
+                </div>
 
-            <button class="btn btn-whatsapp" onclick="submitOrder()">
-                <i class="fa-brands fa-whatsapp"></i> Booking & Kirim ke Admin
-            </button>
-            <button class="btn btn-outline" onclick="navTo('home-section')">
-                <i class="fa-solid fa-arrow-left"></i> Kembali
-            </button>
+                <button class="btn btn-whatsapp" onclick="submitOrder()">
+                    <i class="fa-brands fa-whatsapp"></i> Booking & Kirim ke Admin
+                </button>
+                <button class="btn btn-outline" onclick="navTo('home-section')">
+                    <i class="fa-solid fa-arrow-left"></i> Kembali
+                </button>
+            </div>
         </section>
 
         <!-- Tracking Section -->
@@ -2499,6 +2544,9 @@
             symptom: ''
         };
 
+        // PWA Install Prompt Variable
+        let deferredPrompt;
+
         // AI Knowledge Base
         const AI_KNOWLEDGE = {
             'lcd pecah': {
@@ -2561,19 +2609,34 @@
             setInterval(updateLiveQueue, 30000); // Update every 30 seconds
             setInterval(updateDailyInsight, 60000); // Update every minute
             
-            // PWA Installation
+            // PWA Service Worker
             if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.register('/sw.js')
                     .then(() => console.log('✅ Service Worker registered'))
                     .catch(err => console.log('❌ Service Worker failed:', err));
             }
-            
-            // Before install prompt
+
+            // PWA Install Event Handler
             window.addEventListener('beforeinstallprompt', (e) => {
                 e.preventDefault();
-                window.deferredPrompt = e;
-                showToast('📱 Install aplikasi untuk pengalaman lebih baik!', 'info');
+                deferredPrompt = e;
+                // Show install banner on home
+                document.getElementById('installBanner').style.display = 'block';
             });
+
+            /* WEBVIEW BRIDGE (NEW) */
+            // Cek jika app dibuka di Android WebView
+            if (typeof Android !== 'undefined') {
+                try {
+                    if(Android.getPhoneNumber) {
+                        document.getElementById('custWA').value = Android.getPhoneNumber();
+                    }
+                    if(Android.getUserName) {
+                        document.getElementById('custName').value = Android.getUserName();
+                    }
+                    showToast('Data dari HP terdeteksi!', 'success');
+                } catch(e) { console.log('WebView Bridge error', e); }
+            }
         });
 
         // ==========================================
@@ -3092,18 +3155,38 @@
         }
 
         // ==========================================
-        // ORDER SUBMISSION
+        // ORDER SUBMISSION (With Visual Validation)
         // ==========================================
         async function submitOrder() {
-            const name = document.getElementById('custName').value.trim();
-            const wa = document.getElementById('custWA').value.trim();
+            const nameEl = document.getElementById('custName');
+            const waEl = document.getElementById('custWA');
+            const name = nameEl.value.trim();
+            const wa = waEl.value.trim();
             const addr = document.getElementById('custAddress').value.trim();
             const notes = document.getElementById('custNotes').value.trim();
             
-            // Validation
-            if(!name || !wa) {
-                showToast("Nama dan WA wajib diisi!", "error");
-                return;
+            let isValid = true;
+
+            // Visual Validation Name
+            if(!name) {
+                nameEl.classList.add('input-error');
+                document.getElementById('errName').style.display = 'block';
+                setTimeout(() => nameEl.classList.remove('input-error'), 500); // Remove animation after play
+                isValid = false;
+            } else {
+                nameEl.classList.remove('input-error');
+                document.getElementById('errName').style.display = 'none';
+            }
+
+            // Visual Validation WA
+            if(!wa) {
+                waEl.classList.add('input-error');
+                document.getElementById('errWA').style.display = 'block';
+                setTimeout(() => waEl.classList.remove('input-error'), 500);
+                isValid = false;
+            } else {
+                waEl.classList.remove('input-error');
+                document.getElementById('errWA').style.display = 'none';
             }
             
             if(cart.length === 0) {
@@ -3111,11 +3194,7 @@
                 return;
             }
             
-            // WA format validation
-            if(!wa.startsWith('+62') && !wa.startsWith('62') && !wa.startsWith('0')) {
-                showToast("Format WA harus +62... atau 08...", "error");
-                return;
-            }
+            if(!isValid) return;
             
             const total = calculateTotal();
             const orderId = `INV-${new Date().getFullYear()}${String(new Date().getMonth()+1).padStart(2,'0')}${String(new Date().getDate()).padStart(2,'0')}-${Math.floor(1000 + Math.random() * 9000)}`;
@@ -3161,7 +3240,7 @@
                     // Clear form
                     cart = []; 
                     renderCart();
-                    document.getElementById('custName').value = "";
+                    nameEl.value = "";
                     document.getElementById('custAddress').value = "";
                     document.getElementById('custNotes').value = "";
                     document.getElementById('historyInfo').style.display = 'none';
@@ -4150,6 +4229,23 @@
             showToast("Fitur 3D Viewer dalam pengembangan", "info");
         }
         
+        /* PWA INSTALL LOGIC (NEW) */
+        async function installApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                
+                if (outcome === 'accepted') {
+                    document.getElementById('installBanner').style.display = 'none';
+                    showToast('Aplikasi berhasil diinstall!', 'success');
+                }
+                
+                deferredPrompt = null;
+            } else {
+                showToast('Gunakan menu browser untuk install aplikasi', 'info');
+            }
+        }
+        
         function toggleUserMenu() {
             // Show user menu options
             const menuHTML = `
@@ -4163,8 +4259,9 @@
                     <div style="padding:10px; cursor:pointer;" onclick="showOrderHistory()">
                         <i class="fa-solid fa-history"></i> Order History
                     </div>
-                    <div style="padding:10px; cursor:pointer;" onclick="installApp()">
-                        <i class="fa-solid fa-download"></i> Install App
+                    <!-- DOWNLOAD APK OPTION (NEW) -->
+                    <div style="padding:10px; cursor:pointer;" onclick="downloadAPK()">
+                        <i class="fa-brands fa-android"></i> Download APK
                     </div>
                 </div>
             `;
@@ -4189,6 +4286,11 @@
             });
         }
         
+        /* DOWNLOAD APK LOGIC (NEW) */
+        function downloadAPK() {
+            window.open("https://drive.google.com/uc?export=download&id=1dXDRawtADHZ9k_mkDaXeZQ7vh-mKfEYA", "_blank");
+        }
+
         function showAchievements() {
             const achievements = JSON.parse(localStorage.getItem('achievements') || '[]');
             const achievementNames = {
@@ -4241,21 +4343,6 @@
             showToast(`Anda sudah melakukan ${orderCount} order`, 'info');
         }
         
-        async function installApp() {
-            if (window.deferredPrompt) {
-                window.deferredPrompt.prompt();
-                const { outcome } = await window.deferredPrompt.userChoice;
-                
-                if (outcome === 'accepted') {
-                    showToast('Aplikasi berhasil diinstall!', 'success');
-                }
-                
-                window.deferredPrompt = null;
-            } else {
-                showToast('Gunakan menu browser untuk install aplikasi', 'info');
-            }
-        }
-        
         async function checkHistory(wa) {
             if (wa.length < 10) return;
             
@@ -4270,7 +4357,7 @@
                 if(result.success && result.summary.count > 0) {
                     infoBox.style.display = 'block';
                     infoBox.innerHTML = `
-                        <div class="history-badge badge-loyal">
+                        <div class="history-badge badge-loyal" style="background:var(--accent); color:white; padding:5px 10px; border-radius:10px; display:inline-block; margin-top:5px;">
                             <i class="fa-solid fa-star"></i> 
                             Pelanggan Setia: ${result.summary.count}x Order 
                             (Total: ${formatRupiah(result.summary.spend)})
@@ -4301,6 +4388,8 @@
         ✅ Real-time Updates
         ✅ PWA Ready
         ✅ Advanced UI/UX
+        ✅ Download APK Bridge
+        ✅ Android WebView Bridge
         =====================================
         `);
 
