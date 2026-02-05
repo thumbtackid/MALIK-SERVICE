@@ -2153,15 +2153,16 @@
                 </div>
             </div>
 
-            <!-- Download APK Card (NEW) -->
-            <div class="card glass-card mb-4 text-center">
-                <h4 style="color:var(--primary); margin-bottom:10px;"><i class="fa-brands fa-google-drive"></i> Download Aplikasi Desktop</h4>
-                <p style="font-size:0.85rem; margin-bottom:15px;">Dapatkan aplikasi offline lengkap dengan fitur notifikasi background.</p>
-                <!-- Link Drive Direct Download -->
-                <a href="https://drive.google.com/uc?export=download&id=1dXDRawtADHZ9k_mkDaXeZQ7vh-mKfEYA" target="_blank" class="btn btn-secondary" style="text-decoration:none;">
-                    <i class="fa-solid fa-download"></i> Download APK (v2.0)
-                </a>
-            </div>
+            <!-- Download APK Card (Direct Download) -->
+<div class="card glass-card mb-4 text-center">
+    <h4 style="color:var(--primary); margin-bottom:10px;"><i class="fa-brands fa-google-drive"></i> Download Aplikasi Desktop</h4>
+    <p style="font-size:0.85rem; margin-bottom:15px;">Dapatkan aplikasi offline lengkap dengan fitur notifikasi background.</p>
+    
+    <!-- Link Direct Download -->
+    <a href="https://drive.google.com/uc?export=download&id=1dXDRawtADHZ9k_mkDaXeZQ7vh-mKfEYA" target="_blank" class="btn btn-secondary" style="text-decoration:none;">
+        <i class="fa-solid fa-download"></i> Download APK (v2.0)
+    </a>
+</div>
 
             <!-- Trust Badges -->
             <h3>Mengapa Memilih Kami?</h3>
@@ -4286,10 +4287,11 @@
             });
         }
         
-        /* DOWNLOAD APK LOGIC (NEW) */
-        function downloadAPK() {
-            window.open("https://drive.google.com/uc?export=download&id=1dXDRawtADHZ9k_mkDaXeZQ7vh-mKfEYA", "_blank");
-        }
+       /* DOWNLOAD APK LOGIC (PUBLIC LINK VERSION) */
+function downloadAPK() {
+    // Karena file sudah public, gunakan direct download link
+    window.open("https://drive.google.com/uc?export=download&id=1dXDRawtADHZ9k_mkDaXeZQ7vh-mKfEYA", "_blank");
+}
 
         function showAchievements() {
             const achievements = JSON.parse(localStorage.getItem('achievements') || '[]');
@@ -4409,3 +4411,4 @@
     </script>
 </body>
 </html>
+
