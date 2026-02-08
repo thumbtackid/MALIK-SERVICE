@@ -8,6 +8,7 @@
     <!-- PWA -->
     <meta name="theme-color" content="#2563eb">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     
     <title>Malik Service Center - Professional Repair</title>
     
@@ -857,7 +858,14 @@
 
         function populateIssueTypes() {
             const select = document.getElementById('issueType');
-            const issues = [...new Set(state.services.map(s => s.Tipe_Masalah || s.issue))].filter(Boolean);
+            const issues = [];
+            
+            state.services.forEach(service => {
+                const issue = service.Tipe_Masalah || service.issue;
+                if (issue && !issues.includes(issue)) {
+                    issues.push(issue);
+                }
+            });
             
             select.innerHTML = '<option value="">Semua Masalah</option>';
             issues.forEach(issue => {
@@ -875,15 +883,17 @@
             let filtered = state.services;
             
             if (category) {
-                filtered = filtered.filter(s => 
-                    (s.Kategori || s.cat) === category
-                );
+                filtered = filtered.filter(s => {
+                    const serviceCategory = s.Kategori || s.cat || '';
+                    return serviceCategory === category;
+                });
             }
             
             if (issue) {
-                filtered = filtered.filter(s => 
-                    (s.Tipe_Masalah || s.issue) === issue
-                );
+                filtered = filtered.filter(s => {
+                    const serviceIssue = s.Tipe_Masalah || s.issue || '';
+                    return serviceIssue === issue;
+                });
             }
             
             renderServices(filtered);
@@ -897,11 +907,15 @@
                 return;
             }
             
-            const filtered = state.services.filter(s => 
-                (s.Nama_Item || s.item).toLowerCase().includes(query) ||
-                (s.Tipe_Masalah || s.issue).toLowerCase().includes(query) ||
-                (s.Keterangan || s.desc).toLowerCase().includes(query)
-            );
+            const filtered = state.services.filter(s => {
+                const itemName = (s.Nama_Item || s.item || '').toLowerCase();
+                const issueType = (s.Tipe_Masalah || s.issue || '').toLowerCase();
+                const description = (s.Keterangan || s.desc || '').toLowerCase();
+                
+                return itemName.includes(query) ||
+                       issueType.includes(query) ||
+                       description.includes(query);
+            });
             
             renderServices(filtered);
         }
@@ -914,25 +928,34 @@
                 return;
             }
             
-            container.innerHTML = services.map(service => `
-                <div class="service-item" onclick="addToCart('${encodeURIComponent(JSON.stringify(service))}')">
-                    <div>
-                        <div style="font-weight: 600;">${service.Nama_Item || service.item}</div>
-                        <div style="font-size: 0.9rem; color: var(--text-light);">
-                            ${service.Tipe_Masalah || service.issue} • ${service.Jenis_Biaya || service.type}
+            container.innerHTML = services.map(service => {
+                const itemName = service.Nama_Item || service.item || 'Layanan';
+                const issueType = service.Tipe_Masalah || service.issue || '';
+                const costType = service.Jenis_Biaya || service.type || '';
+                const description = service.Keterangan || service.desc || '';
+                const price = service.Harga_Rp || service.price || 0;
+                const estimate = service.Estimasi_Waktu || service.est || '-';
+                
+                return `
+                    <div class="service-item" onclick="addToCart('${encodeURIComponent(JSON.stringify(service))}')">
+                        <div>
+                            <div style="font-weight: 600;">${itemName}</div>
+                            <div style="font-size: 0.9rem; color: var(--text-light);">
+                                ${issueType ? issueType + ' • ' : ''}${costType}
+                            </div>
+                            <div style="font-size: 0.85rem; color: var(--text-light); margin-top: 5px;">
+                                ${description}
+                            </div>
                         </div>
-                        <div style="font-size: 0.85rem; color: var(--text-light); margin-top: 5px;">
-                            ${service.Keterangan || service.desc || ''}
+                        <div>
+                            <div class="service-price">Rp ${formatNumber(price)}</div>
+                            <div style="font-size: 0.8rem; color: var(--text-light);">
+                                ${estimate}
+                            </div>
                         </div>
                     </div>
-                    <div>
-                        <div class="service-price">Rp ${formatNumber(service.Harga_Rp || service.price)}</div>
-                        <div style="font-size: 0.8rem; color: var(--text-light);">
-                            ${service.Estimasi_Waktu || service.est || '-'}
-                        </div>
-                    </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
         // ==================== CART ====================
@@ -981,25 +1004,32 @@
             container.classList.remove('d-none');
             
             // Render items
-            itemsContainer.innerHTML = state.cart.map((item, index) => `
-                <div class="cart-item">
-                    <div>
-                        <div style="font-weight: 600;">${item.Nama_Item || item.item}</div>
-                        <div style="font-size: 0.9rem; color: var(--text-light);">
-                            ${item.Jenis_Biaya || item.type} • ${item.Estimasi_Waktu || item.est || '-'}
+            itemsContainer.innerHTML = state.cart.map((item, index) => {
+                const itemName = item.Nama_Item || item.item || 'Layanan';
+                const costType = item.Jenis_Biaya || item.type || '';
+                const estimate = item.Estimasi_Waktu || item.est || '-';
+                const price = item.Harga_Rp || item.price || 0;
+                
+                return `
+                    <div class="cart-item">
+                        <div>
+                            <div style="font-weight: 600;">${itemName}</div>
+                            <div style="font-size: 0.9rem; color: var(--text-light);">
+                                ${costType} • ${estimate}
+                            </div>
+                            <div style="font-weight: 700; color: var(--primary); margin-top: 5px;">
+                                Rp ${formatNumber(price)}
+                            </div>
                         </div>
-                        <div style="font-weight: 700; color: var(--primary); margin-top: 5px;">
-                            Rp ${formatNumber(item.Harga_Rp || item.price)}
-                        </div>
+                        <button onclick="removeFromCart(${index})" style="background:none; border:none; color:var(--danger); cursor:pointer;">
+                            <i class="fas fa-trash"></i>
+                        </button>
                     </div>
-                    <button onclick="removeFromCart(${index})" style="background:none; border:none; color:var(--danger); cursor:pointer;">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
-            `).join('');
+                `;
+            }).join('');
             
             // Calculate total
-            const total = state.cart.reduce((sum, item) => sum + Number(item.Harga_Rp || item.price), 0);
+            const total = state.cart.reduce((sum, item) => sum + Number(item.Harga_Rp || item.price || 0), 0);
             totalElement.textContent = `Rp ${formatNumber(total)}`;
         }
 
@@ -1052,16 +1082,16 @@
                 wa: phone,
                 address: address || '-',
                 items: state.cart.map(item => ({
-                    cat: item.Kategori || item.cat,
-                    issue: item.Tipe_Masalah || item.issue,
-                    item: item.Nama_Item || item.item,
-                    type: item.Jenis_Biaya || item.type,
-                    price: item.Harga_Rp || item.price,
-                    est: item.Estimasi_Waktu || item.est,
-                    desc: item.Keterangan || item.desc
+                    cat: item.Kategori || item.cat || '',
+                    issue: item.Tipe_Masalah || item.issue || '',
+                    item: item.Nama_Item || item.item || '',
+                    type: item.Jenis_Biaya || item.type || '',
+                    price: item.Harga_Rp || item.price || 0,
+                    est: item.Estimasi_Waktu || item.est || '',
+                    desc: item.Keterangan || item.desc || ''
                 })),
-                total: state.cart.reduce((sum, item) => sum + Number(item.Harga_Rp || item.price), 0),
-                category: state.cart.length > 1 ? 'Multiple' : (state.cart[0].Kategori || state.cart[0].cat),
+                total: state.cart.reduce((sum, item) => sum + Number(item.Harga_Rp || item.price || 0), 0),
+                category: state.cart.length > 1 ? 'Multiple' : (state.cart[0].Kategori || state.cart[0].cat || 'General'),
                 custNotes: notes,
                 pickupInfo: document.getElementById('needPickup').checked ? 
                     `Jarak: ${document.getElementById('pickupDistance').value || 0} KM` : '-'
@@ -1123,7 +1153,7 @@
             
             orderData.items.forEach((item, index) => {
                 message += `${index + 1}. ${item.item}\n`;
-                message += `   ▸ ${item.issue} • ${item.type}\n`;
+                if (item.issue) message += `   ▸ ${item.issue} • ${item.type}\n`;
                 message += `   ▸ Rp ${formatNumber(item.price)} • ${item.est}\n`;
                 if (item.desc) message += `   ▸ ${item.desc}\n`;
             });
@@ -1363,4 +1393,3 @@
     </script>
 </body>
 </html>
-
