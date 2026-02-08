@@ -2,52 +2,58 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <meta name="description" content="Malik Service Center - Servis HP & Laptop Cepat dengan AI">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Malik Service Center - Servis HP, Laptop, PC, Printer, CCTV">
     
-    <!-- SEO & Security -->
+    <!-- PWA -->
     <meta name="theme-color" content="#2563eb">
-    <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     
-    <!-- Open Graph -->
-    <meta property="og:title" content="Malik Service Center">
-    <meta property="og:description" content="Servis HP & Laptop dengan teknologi AI">
-    <meta property="og:type" content="website">
-    
-    <title>Malik Service Center - AI Powered</title>
+    <title>Malik Service Center - Professional Repair</title>
     
     <!-- Icons & Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- STYLE - Semua CSS dalam satu file -->
     <style>
-        /* ==================== RESET & VARIABLES ==================== */
+        /* ==================== VARIABLES ==================== */
         :root {
             --primary: #2563eb;
             --primary-dark: #1e40af;
             --secondary: #10b981;
+            --accent: #f59e0b;
             --danger: #ef4444;
-            --warning: #f59e0b;
+            --warning: #fbbf24;
             --dark-bg: #0f172a;
+            --dark-card: #1e293b;
             --light-bg: #f8fafc;
-            --card-bg: #ffffff;
+            --light-card: #ffffff;
             --text-main: #334155;
             --text-light: #64748b;
-            --radius-lg: 16px;
-            --radius-md: 12px;
+            --border: #e2e8f0;
             --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
             --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
             --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
             --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1);
             --transition: all 0.3s ease;
+        }
+
+        body.dark-mode {
+            --light-bg: #0f172a;
+            --light-card: #1e293b;
+            --text-main: #f1f5f9;
+            --text-light: #94a3b8;
+            --border: #334155;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
         }
 
         html {
@@ -55,16 +61,18 @@
         }
 
         body {
+            font-family: 'Inter', sans-serif;
             background: var(--light-bg);
             color: var(--text-main);
             line-height: 1.6;
             min-height: 100vh;
             padding-bottom: 80px;
-            position: relative;
+            transition: var(--transition);
         }
 
-        /* ==================== UTILITY CLASSES ==================== */
+        /* ==================== UTILITIES ==================== */
         .container {
+            width: 100%;
             max-width: 800px;
             margin: 0 auto;
             padding: 0 20px;
@@ -75,23 +83,23 @@
         .mb-2 { margin-bottom: 1rem; }
         .mb-3 { margin-bottom: 1.5rem; }
         .mb-4 { margin-bottom: 2rem; }
-        .mt-1 { margin-top: 0.5rem; }
-        .mt-2 { margin-top: 1rem; }
-        .mt-3 { margin-top: 1.5rem; }
-        .w-100 { width: 100%; }
         .d-flex { display: flex; }
         .d-none { display: none; }
         .justify-between { justify-content: space-between; }
         .align-center { align-items: center; }
         .gap-1 { gap: 0.5rem; }
         .gap-2 { gap: 1rem; }
+        .gap-3 { gap: 1.5rem; }
+        .w-100 { width: 100%; }
+        .rounded { border-radius: var(--radius-md); }
+        .rounded-lg { border-radius: var(--radius-lg); }
 
         /* ==================== TYPOGRAPHY ==================== */
         h1 {
             font-size: 2.5rem;
             font-weight: 800;
             margin-bottom: 1rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, #7c3aed 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -127,9 +135,6 @@
             justify-content: center;
             gap: 10px;
             width: 100%;
-            margin-bottom: 12px;
-            position: relative;
-            overflow: hidden;
         }
 
         .btn:active {
@@ -137,7 +142,7 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, #7c3aed 100%);
             color: white;
             box-shadow: var(--shadow-md);
         }
@@ -149,7 +154,7 @@
 
         .btn-outline {
             background: transparent;
-            border: 2px solid var(--text-light);
+            border: 2px solid var(--border);
             color: var(--text-main);
         }
 
@@ -166,15 +171,15 @@
 
         /* ==================== CARDS ==================== */
         .card {
-            background: var(--card-bg);
+            background: var(--light-card);
             border-radius: var(--radius-lg);
             padding: 1.5rem;
             box-shadow: var(--shadow-lg);
             margin-bottom: 1.5rem;
-            border: 1px solid rgba(0,0,0,0.05);
+            border: 1px solid var(--border);
         }
 
-        /* ==================== FORM ELEMENTS ==================== */
+        /* ==================== FORM ==================== */
         .form-group {
             margin-bottom: 1.5rem;
         }
@@ -189,7 +194,7 @@
         input, select, textarea {
             width: 100%;
             padding: 14px;
-            border: 2px solid #e2e8f0;
+            border: 2px solid var(--border);
             border-radius: var(--radius-md);
             background: var(--light-bg);
             color: var(--text-main);
@@ -205,13 +210,17 @@
 
         /* ==================== HEADER ==================== */
         header {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             padding: 1rem 0;
             position: sticky;
             top: 0;
             z-index: 1000;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            border-bottom: 1px solid var(--border);
+        }
+
+        body.dark-mode header {
+            background: rgba(30, 41, 59, 0.95);
         }
 
         .header-content {
@@ -229,7 +238,7 @@
         .brand-logo {
             width: 40px;
             height: 40px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, #7c3aed 100%);
             border-radius: var(--radius-md);
             display: flex;
             align-items: center;
@@ -240,7 +249,7 @@
         .brand-text {
             font-size: 1.5rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, #7c3aed 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -265,8 +274,8 @@
         }
 
         .header-btn:hover {
-            background: #e2e8f0;
-            transform: scale(1.05);
+            background: var(--primary);
+            color: white;
         }
 
         /* ==================== MAIN CONTENT ==================== */
@@ -288,7 +297,7 @@
             to { opacity: 1; }
         }
 
-        /* ==================== HOME SECTION ==================== */
+        /* ==================== HOME ==================== */
         .hero {
             text-align: center;
             margin-bottom: 2rem;
@@ -296,7 +305,7 @@
 
         .quick-actions {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 1rem;
             margin-bottom: 2rem;
         }
@@ -309,7 +318,7 @@
         }
 
         .category-card {
-            background: var(--card-bg);
+            background: var(--light-card);
             border-radius: var(--radius-lg);
             padding: 1.5rem;
             text-align: center;
@@ -320,15 +329,15 @@
 
         .category-card:hover {
             transform: translateY(-5px);
-            box-shadow: var(--shadow-lg);
             border-color: var(--primary);
+            box-shadow: var(--shadow-xl);
         }
 
         .category-icon {
             width: 60px;
             height: 60px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, #7c3aed 100%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -337,18 +346,39 @@
             margin: 0 auto 1rem;
         }
 
-        /* ==================== ORDER SECTION ==================== */
-        .search-container {
-            position: relative;
+        /* ==================== ORDER ==================== */
+        .filter-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
             margin-bottom: 1.5rem;
         }
 
-        .search-icon {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-light);
+        .service-list {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-item {
+            background: var(--light-bg);
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            margin-bottom: 0.75rem;
+            border-left: 4px solid var(--primary);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .service-item:hover {
+            transform: translateX(5px);
+            background: rgba(37, 99, 235, 0.05);
+        }
+
+        .service-price {
+            font-weight: 700;
+            color: var(--primary);
+            margin-top: 5px;
         }
 
         .cart-item {
@@ -356,7 +386,7 @@
             padding: 1rem;
             border-radius: var(--radius-md);
             margin-bottom: 0.75rem;
-            border-left: 4px solid var(--primary);
+            border-left: 4px solid var(--secondary);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -369,13 +399,12 @@
             left: 0;
             right: 0;
             height: 80px;
-            background: white;
+            background: var(--light-card);
             display: flex;
             justify-content: space-around;
             align-items: center;
-            border-top: 1px solid #e5e7eb;
+            border-top: 1px solid var(--border);
             z-index: 1000;
-            padding-bottom: env(safe-area-inset-bottom);
         }
 
         .nav-link {
@@ -405,11 +434,11 @@
             top: 20px;
             left: 50%;
             transform: translateX(-50%) translateY(-100px);
-            background: var(--dark-bg);
+            background: var(--dark-card);
             color: white;
-            padding: 12px 24px;
+            padding: 1rem 1.5rem;
             border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-lg);
+            box-shadow: var(--shadow-xl);
             z-index: 9999;
             transition: var(--transition);
             opacity: 0;
@@ -422,7 +451,7 @@
 
         .toast-success { background: var(--secondary); }
         .toast-error { background: var(--danger); }
-        .toast-warning { background: var(--warning); }
+        .toast-warning { background: var(--accent); }
 
         /* ==================== LOADER ==================== */
         .loader {
@@ -431,12 +460,16 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(5px);
             display: none;
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            backdrop-filter: blur(5px);
+        }
+
+        body.dark-mode .loader {
+            background: rgba(15, 23, 42, 0.95);
         }
 
         .loader.show {
@@ -446,7 +479,7 @@
         .spinner {
             width: 50px;
             height: 50px;
-            border: 4px solid #e2e8f0;
+            border: 4px solid var(--border);
             border-top-color: var(--primary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
@@ -456,37 +489,12 @@
             to { transform: rotate(360deg); }
         }
 
-        /* ==================== AI ASSISTANT ==================== */
-        .ai-assistant {
-            position: fixed;
-            bottom: 90px;
-            right: 20px;
-            z-index: 900;
-        }
-
-        .ai-toggle {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            box-shadow: var(--shadow-lg);
-            transition: var(--transition);
-        }
-
-        .ai-toggle:hover {
-            transform: scale(1.1);
-        }
-
         /* ==================== RESPONSIVE ==================== */
         @media (max-width: 768px) {
             h1 { font-size: 2rem; }
             h2 { font-size: 1.5rem; }
             .container { padding: 0 15px; }
-            .quick-actions { grid-template-columns: 1fr; }
+            .filter-section { grid-template-columns: 1fr; }
             .category-grid { grid-template-columns: 1fr 1fr; }
             .nav-link span { display: none; }
             .nav-link i { margin-bottom: 0; font-size: 1.8rem; }
@@ -494,51 +502,18 @@
 
         @media (max-width: 480px) {
             .category-grid { grid-template-columns: 1fr; }
-            .header-actions { gap: 5px; }
             .brand-text { display: none; }
-        }
-
-        /* ==================== DARK MODE ==================== */
-        body.dark-mode {
-            --light-bg: #0f172a;
-            --card-bg: #1e293b;
-            --text-main: #f1f5f9;
-            --text-light: #94a3b8;
-        }
-
-        body.dark-mode .header-btn {
-            background: #334155;
-            color: #f1f5f9;
-        }
-
-        body.dark-mode input,
-        body.dark-mode select,
-        body.dark-mode textarea {
-            background: #1e293b;
-            border-color: #475569;
-            color: #f1f5f9;
-        }
-
-        body.dark-mode .loader {
-            background: rgba(15, 23, 42, 0.9);
         }
     </style>
 </head>
 <body>
-    <!-- Loading Overlay -->
+    <!-- Loader -->
     <div class="loader" id="loader">
         <div class="spinner"></div>
     </div>
 
-    <!-- Toast Container -->
+    <!-- Toast -->
     <div class="toast" id="toast"></div>
-
-    <!-- AI Assistant -->
-    <div class="ai-assistant">
-        <button class="ai-toggle" id="aiToggle">
-            <i class="fas fa-robot"></i>
-        </button>
-    </div>
 
     <!-- Header -->
     <header>
@@ -546,16 +521,13 @@
             <div class="header-content">
                 <div class="brand">
                     <div class="brand-logo">
-                        <i class="fas fa-microchip"></i>
+                        <i class="fas fa-tools"></i>
                     </div>
                     <div class="brand-text">Malik Service</div>
                 </div>
                 <div class="header-actions">
                     <button class="header-btn" id="themeToggle">
                         <i class="fas fa-moon"></i>
-                    </button>
-                    <button class="header-btn" id="notificationBtn">
-                        <i class="fas fa-bell"></i>
                     </button>
                 </div>
             </div>
@@ -564,74 +536,84 @@
 
     <!-- Main Content -->
     <main class="container">
-        <!-- Home Section -->
+        <!-- Home -->
         <section id="home-section" class="section active">
             <div class="hero">
-                <h1>Servis Cerdas & Terpercaya</h1>
-                <p>Teknologi AI + Pengalaman Teknisi Professional</p>
+                <h1>Malik Service Center</h1>
+                <p>Servis Professional HP, Laptop, PC & Elektronik</p>
             </div>
 
             <div class="quick-actions">
-                <button class="btn btn-primary" onclick="openWizard()">
-                    <i class="fas fa-stethoscope"></i>
-                    Diagnosis AI
+                <button class="btn btn-primary" onclick="navigateTo('order')">
+                    <i class="fas fa-wrench"></i>
+                    Booking Servis
                 </button>
-                <button class="btn btn-secondary" onclick="navigateTo('order')">
-                    <i class="fas fa-bolt"></i>
-                    Express Servis
+                <button class="btn btn-secondary" onclick="navigateTo('track')">
+                    <i class="fas fa-search"></i>
+                    Cek Status
                 </button>
             </div>
 
             <h2>Kategori Servis</h2>
             <div class="category-grid" id="categoryGrid">
-                <!-- Categories loaded by JavaScript -->
+                <!-- Loaded by JS -->
             </div>
 
             <div class="card">
-                <h3>Mengapa Memilih Kami?</h3>
-                <div class="trust-badges">
-                    <div class="trust-badge">
-                        <i class="fas fa-user-shield"></i>
-                        Garansi 3 Bulan
+                <h3>Kenapa Pilih Kami?</h3>
+                <div class="d-flex gap-2 flex-wrap">
+                    <div class="d-flex align-center gap-1">
+                        <i class="fas fa-user-shield text-primary"></i>
+                        <span>Garansi Servis</span>
                     </div>
-                    <div class="trust-badge">
-                        <i class="fas fa-medal"></i>
-                        Teknisi Certified
+                    <div class="d-flex align-center gap-1">
+                        <i class="fas fa-medal text-primary"></i>
+                        <span>Teknisi Certified</span>
+                    </div>
+                    <div class="d-flex align-center gap-1">
+                        <i class="fas fa-bolt text-primary"></i>
+                        <span>Cepat & Tepat</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Order Section -->
+        <!-- Order -->
         <section id="order-section" class="section">
             <h2>Booking Servis</h2>
 
-            <div class="search-container">
-                <input type="text" id="searchInput" placeholder="Cari kerusakan...">
-                <i class="fas fa-search search-icon"></i>
+            <div class="filter-section">
+                <div class="form-group">
+                    <label for="deviceCategory">Kategori</label>
+                    <select id="deviceCategory" onchange="filterServices()">
+                        <option value="">Semua Kategori</option>
+                        <option value="ANDROID">Android</option>
+                        <option value="LAPTOP">Laptop</option>
+                        <option value="PC">PC</option>
+                        <option value="PRINTER">Printer</option>
+                        <option value="TV">TV</option>
+                        <option value="MONITOR">Monitor</option>
+                        <option value="CCTV">CCTV</option>
+                        <option value="CONSOLE">Console</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="issueType">Tipe Masalah</label>
+                    <select id="issueType" onchange="filterServices()">
+                        <option value="">Semua Masalah</option>
+                        <!-- Loaded by JS -->
+                    </select>
+                </div>
             </div>
 
-            <div class="card">
-                <div class="form-group">
-                    <label for="deviceType">Tipe Perangkat</label>
-                    <select id="deviceType" onchange="filterServices()">
-                        <option value="">Pilih Tipe</option>
-                        <option value="HP Android">HP Android</option>
-                        <option value="iPhone">iPhone</option>
-                        <option value="Laptop">Laptop</option>
-                    </select>
-                </div>
+            <div class="form-group">
+                <input type="text" id="searchInput" placeholder="Cari layanan..." 
+                       oninput="searchServices()">
+            </div>
 
-                <div class="form-group">
-                    <label for="serviceSelect">Pilih Layanan</label>
-                    <select id="serviceSelect">
-                        <option value="">Pilih layanan...</option>
-                    </select>
-                </div>
-
-                <button class="btn btn-primary" onclick="addToCart()">
-                    <i class="fas fa-plus"></i> Tambah ke Keranjang
-                </button>
+            <div class="service-list" id="serviceList">
+                <!-- Loaded by JS -->
             </div>
 
             <div id="cartContainer" class="d-none">
@@ -655,9 +637,23 @@
                     <input type="tel" id="customerPhone" placeholder="Nomor WhatsApp" required>
                 </div>
                 <div class="form-group">
+                    <textarea id="customerAddress" placeholder="Alamat (opsional)" rows="2"></textarea>
+                </div>
+                <div class="form-group">
                     <textarea id="customerNotes" placeholder="Catatan tambahan..." rows="3"></textarea>
                 </div>
-                <button class="btn btn-whatsapp" onclick="submitOrder()">
+                
+                <div class="form-group">
+                    <label class="d-flex align-center gap-1">
+                        <input type="checkbox" id="needPickup" onchange="togglePickup()">
+                        <span>Butuh jemput unit? (+biaya)</span>
+                    </label>
+                    <div id="pickupDetails" class="d-none mt-2">
+                        <input type="number" id="pickupDistance" placeholder="Jarak (km)" min="1" max="50">
+                    </div>
+                </div>
+
+                <button class="btn btn-whatsapp mb-2" onclick="submitOrder()">
                     <i class="fab fa-whatsapp"></i> Booking via WhatsApp
                 </button>
                 <button class="btn btn-outline" onclick="navigateTo('home')">
@@ -666,7 +662,7 @@
             </div>
         </section>
 
-        <!-- Track Section -->
+        <!-- Track -->
         <section id="track-section" class="section">
             <h2>Cek Status Order</h2>
             <div class="card">
@@ -683,7 +679,7 @@
             </button>
         </section>
 
-        <!-- Admin Section -->
+        <!-- Admin -->
         <section id="admin-section" class="section">
             <h2>Login Admin</h2>
             <div class="card">
@@ -691,7 +687,7 @@
                     <input type="text" id="adminUser" placeholder="Username">
                 </div>
                 <div class="form-group">
-                    <input type="password" id="adminPin" placeholder="PIN 6 digit">
+                    <input type="password" id="adminPin" placeholder="PIN 6 digit" maxlength="6">
                 </div>
                 <button class="btn btn-primary" onclick="loginAdmin()">
                     <i class="fas fa-sign-in-alt"></i> Login
@@ -703,7 +699,7 @@
         </section>
     </main>
 
-    <!-- Bottom Navigation -->
+    <!-- Bottom Nav -->
     <nav class="bottom-nav">
         <a href="#home" class="nav-link active" onclick="navigateTo('home')">
             <i class="fas fa-home"></i>
@@ -723,97 +719,57 @@
         </a>
     </nav>
 
-    <!-- JAVASCRIPT -->
     <script>
-        // ==========================================
-        // CONFIGURATION
-        // ==========================================
+        // ==================== CONFIG ====================
         const CONFIG = {
-            BACKEND_URL: "https://script.google.com/macros/s/AKfycbyvsVM1Jg1J8jYuE1gO8v0fQiZSAvmgQ5mOEsk2rO_4VOeJ-GTcEBXBNzMvhv_MmmCJ/exec",
+            BACKEND_URL: "https://script.google.com/macros/s/AKfycbzt9chTu5Emd-AR--bg55bA8_CEg-Z9Fqrtd3A1R1WE5F3D2V-66-9Ku0GDvOxDXriA/exec",
             ADMIN_WA: "6285713087659",
-            APP_VERSION: "2.1.0"
+            APP_VERSION: "3.0.0"
         };
 
-        // ==========================================
-        // STATE MANAGEMENT
-        // ==========================================
-        let appState = {
-            currentSection: 'home',
-            cart: JSON.parse(localStorage.getItem('cart') || '[]'),
+        // ==================== STATE ====================
+        let state = {
             services: [],
+            cart: [],
+            currentSection: 'home',
             theme: localStorage.getItem('theme') || 'light',
             isAdmin: localStorage.getItem('isAdmin') === 'true'
         };
 
-        // ==========================================
-        // INITIALIZATION
-        // ==========================================
+        // ==================== INIT ====================
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 Malik Service v' + CONFIG.APP_VERSION + ' loaded');
+            console.log('🚀 Malik Service v' + CONFIG.APP_VERSION);
             
-            // Apply theme
-            if (appState.theme === 'dark') {
+            // Load theme
+            if (state.theme === 'dark') {
                 document.body.classList.add('dark-mode');
                 document.getElementById('themeToggle').innerHTML = '<i class="fas fa-sun"></i>';
             }
             
-            // Initialize categories
+            // Load cart
+            const savedCart = localStorage.getItem('malik_cart');
+            if (savedCart) state.cart = JSON.parse(savedCart);
+            
+            // Setup
             loadCategories();
-            
-            // Load services
             fetchServices();
-            
-            // Setup event listeners
-            setupEventListeners();
-            
-            // Update cart display
             updateCart();
             
-            // Check hash for navigation
+            // Event listeners
+            document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+            
+            // Handle hash
             const hash = window.location.hash.substring(1);
             if (hash && ['home', 'order', 'track', 'admin'].includes(hash)) {
                 navigateTo(hash);
             }
         });
 
-        // ==========================================
-        // EVENT LISTENERS
-        // ==========================================
-        function setupEventListeners() {
-            // Theme toggle
-            document.getElementById('themeToggle').addEventListener('click', toggleTheme);
-            
-            // AI Assistant
-            document.getElementById('aiToggle').addEventListener('click', function() {
-                showToast('AI Assistant coming soon!', 'info');
-            });
-            
-            // Search input with debounce
-            let searchTimeout;
-            document.getElementById('searchInput').addEventListener('input', function(e) {
-                clearTimeout(searchTimeout);
-                searchTimeout = setTimeout(() => {
-                    searchServices(e.target.value);
-                }, 300);
-            });
-            
-            // Notification button
-            document.getElementById('notificationBtn').addEventListener('click', function() {
-                showToast('No new notifications', 'info');
-            });
-            
-            // Device type change
-            document.getElementById('deviceType').addEventListener('change', filterServices);
-        }
-
-        // ==========================================
-        // NAVIGATION
-        // ==========================================
+        // ==================== NAVIGATION ====================
         function navigateTo(section) {
-            // Update state
-            appState.currentSection = section;
+            state.currentSection = section;
             
-            // Update URL hash
+            // Update URL
             window.location.hash = section;
             
             // Hide all sections
@@ -821,10 +777,10 @@
                 el.classList.remove('active');
             });
             
-            // Show target section
+            // Show target
             document.getElementById(section + '-section').classList.add('active');
             
-            // Update nav links
+            // Update nav
             document.querySelectorAll('.nav-link').forEach(link => {
                 link.classList.remove('active');
                 if (link.getAttribute('href') === '#' + section) {
@@ -835,55 +791,42 @@
             // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
             
-            // Section-specific actions
-            switch(section) {
-                case 'home':
-                    loadCategories();
-                    break;
-                case 'order':
-                    filterServices();
-                    break;
-                case 'admin':
-                    if (!appState.isAdmin) {
-                        // Show login form
-                    }
-                    break;
+            // Section specific
+            if (section === 'order') {
+                filterServices();
             }
         }
 
-        // ==========================================
-        // THEME TOGGLE
-        // ==========================================
+        // ==================== THEME ====================
         function toggleTheme() {
             const isDark = document.body.classList.toggle('dark-mode');
-            appState.theme = isDark ? 'dark' : 'light';
-            localStorage.setItem('theme', appState.theme);
+            state.theme = isDark ? 'dark' : 'light';
+            localStorage.setItem('theme', state.theme);
             
             const icon = document.getElementById('themeToggle').querySelector('i');
             icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
             
-            showToast(`Mode ${isDark ? 'gelap' : 'terang'} diaktifkan`, 'info');
+            showToast(`Mode ${isDark ? 'gelap' : 'terang'}`, 'info');
         }
 
-        // ==========================================
-        // DATA FETCHING
-        // ==========================================
+        // ==================== SERVICES ====================
         async function fetchServices() {
             try {
                 showLoader(true);
                 
-                // Try cache first
+                // Check cache
                 const cached = localStorage.getItem('cached_services');
                 const cacheTime = localStorage.getItem('cached_services_time');
                 
                 if (cached && cacheTime && Date.now() - cacheTime < 3600000) {
-                    appState.services = JSON.parse(cached);
-                    populateServices();
+                    state.services = JSON.parse(cached);
+                    populateIssueTypes();
+                    renderServices();
                     showLoader(false);
                     return;
                 }
                 
-                // Fetch fresh data
+                // Fetch fresh
                 const response = await fetch(CONFIG.BACKEND_URL, {
                     method: 'POST',
                     body: JSON.stringify({ action: "get_price_list" })
@@ -892,199 +835,240 @@
                 const result = await response.json();
                 
                 if (result.success) {
-                    appState.services = result.data;
+                    state.services = result.data;
                     
-                    // Cache the data
+                    // Cache
                     localStorage.setItem('cached_services', JSON.stringify(result.data));
                     localStorage.setItem('cached_services_time', Date.now());
                     
-                    populateServices();
+                    populateIssueTypes();
+                    renderServices();
+                    showToast(`Memuat ${result.data.length} layanan`, 'success');
                 } else {
-                    showToast('Gagal memuat data layanan', 'error');
+                    showToast('Gagal memuat layanan', 'error');
                 }
             } catch (error) {
-                console.error('Error fetching services:', error);
-                showToast('Koneksi error, menggunakan data lokal', 'warning');
+                console.error('Error:', error);
+                showToast('Gagal memuat data', 'error');
             } finally {
                 showLoader(false);
             }
         }
 
-        function populateServices() {
-            const select = document.getElementById('serviceSelect');
-            select.innerHTML = '<option value="">Pilih layanan...</option>';
+        function populateIssueTypes() {
+            const select = document.getElementById('issueType');
+            const issues = [...new Set(state.services.map(s => s.Tipe_Masalah || s.issue))].filter(Boolean);
             
-            appState.services.forEach(service => {
+            select.innerHTML = '<option value="">Semua Masalah</option>';
+            issues.forEach(issue => {
                 const option = document.createElement('option');
-                option.value = JSON.stringify(service);
-                option.textContent = `${service.item} - Rp ${formatNumber(service.price)}`;
+                option.value = issue;
+                option.textContent = issue;
                 select.appendChild(option);
             });
         }
 
         function filterServices() {
-            const deviceType = document.getElementById('deviceType').value;
-            const select = document.getElementById('serviceSelect');
+            const category = document.getElementById('deviceCategory').value;
+            const issue = document.getElementById('issueType').value;
             
-            select.innerHTML = '<option value="">Pilih layanan...</option>';
+            let filtered = state.services;
             
-            if (!deviceType) {
-                populateServices();
-                return;
+            if (category) {
+                filtered = filtered.filter(s => 
+                    (s.Kategori || s.cat) === category
+                );
             }
             
-            const filtered = appState.services.filter(service => 
-                service.cat === deviceType
-            );
+            if (issue) {
+                filtered = filtered.filter(s => 
+                    (s.Tipe_Masalah || s.issue) === issue
+                );
+            }
             
-            filtered.forEach(service => {
-                const option = document.createElement('option');
-                option.value = JSON.stringify(service);
-                option.textContent = `${service.item} - Rp ${formatNumber(service.price)}`;
-                select.appendChild(option);
-            });
+            renderServices(filtered);
         }
 
-        function searchServices(query) {
+        function searchServices() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            
             if (!query.trim()) {
                 filterServices();
                 return;
             }
             
-            const select = document.getElementById('serviceSelect');
-            select.innerHTML = '<option value="">Pilih layanan...</option>';
-            
-            const filtered = appState.services.filter(service => 
-                service.item.toLowerCase().includes(query.toLowerCase()) ||
-                service.issue.toLowerCase().includes(query.toLowerCase())
+            const filtered = state.services.filter(s => 
+                (s.Nama_Item || s.item).toLowerCase().includes(query) ||
+                (s.Tipe_Masalah || s.issue).toLowerCase().includes(query) ||
+                (s.Keterangan || s.desc).toLowerCase().includes(query)
             );
             
-            filtered.forEach(service => {
-                const option = document.createElement('option');
-                option.value = JSON.stringify(service);
-                option.textContent = `${service.item} - Rp ${formatNumber(service.price)}`;
-                select.appendChild(option);
-            });
+            renderServices(filtered);
         }
 
-        // ==========================================
-        // CART MANAGEMENT
-        // ==========================================
-        function addToCart() {
-            const select = document.getElementById('serviceSelect');
-            const selectedValue = select.value;
+        function renderServices(services = state.services) {
+            const container = document.getElementById('serviceList');
             
-            if (!selectedValue) {
-                showToast('Pilih layanan terlebih dahulu!', 'error');
+            if (services.length === 0) {
+                container.innerHTML = '<p class="text-center">Tidak ada layanan ditemukan</p>';
                 return;
             }
             
-            const service = JSON.parse(selectedValue);
-            appState.cart.push(service);
-            localStorage.setItem('cart', JSON.stringify(appState.cart));
-            
+            container.innerHTML = services.map(service => `
+                <div class="service-item" onclick="addToCart('${encodeURIComponent(JSON.stringify(service))}')">
+                    <div>
+                        <div style="font-weight: 600;">${service.Nama_Item || service.item}</div>
+                        <div style="font-size: 0.9rem; color: var(--text-light);">
+                            ${service.Tipe_Masalah || service.issue} • ${service.Jenis_Biaya || service.type}
+                        </div>
+                        <div style="font-size: 0.85rem; color: var(--text-light); margin-top: 5px;">
+                            ${service.Keterangan || service.desc || ''}
+                        </div>
+                    </div>
+                    <div>
+                        <div class="service-price">Rp ${formatNumber(service.Harga_Rp || service.price)}</div>
+                        <div style="font-size: 0.8rem; color: var(--text-light);">
+                            ${service.Estimasi_Waktu || service.est || '-'}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ==================== CART ====================
+        function addToCart(serviceJson) {
+            try {
+                const service = JSON.parse(decodeURIComponent(serviceJson));
+                
+                // Check if already in cart
+                const exists = state.cart.some(item => 
+                    item.Nama_Item === service.Nama_Item && 
+                    item.Jenis_Biaya === service.Jenis_Biaya
+                );
+                
+                if (exists) {
+                    showToast('Layanan sudah ada di keranjang', 'warning');
+                    return;
+                }
+                
+                state.cart.push(service);
+                saveCart();
+                updateCart();
+                showToast('Ditambahkan ke keranjang', 'success');
+                
+            } catch (error) {
+                showToast('Gagal menambahkan', 'error');
+            }
+        }
+
+        function removeFromCart(index) {
+            state.cart.splice(index, 1);
+            saveCart();
             updateCart();
-            showToast(`${service.item} ditambahkan ke keranjang`, 'success');
+            showToast('Item dihapus', 'info');
         }
 
         function updateCart() {
             const container = document.getElementById('cartContainer');
             const itemsContainer = document.getElementById('cartItems');
-            const totalPriceElement = document.getElementById('totalPrice');
+            const totalElement = document.getElementById('totalPrice');
             
-            if (appState.cart.length === 0) {
+            if (state.cart.length === 0) {
                 container.classList.add('d-none');
                 return;
             }
             
             container.classList.remove('d-none');
             
-            // Render cart items
-            itemsContainer.innerHTML = appState.cart.map((item, index) => `
+            // Render items
+            itemsContainer.innerHTML = state.cart.map((item, index) => `
                 <div class="cart-item">
                     <div>
-                        <div style="font-weight: 600;">${item.item}</div>
-                        <div style="font-size: 0.9rem; color: var(--text-light);">${item.issue}</div>
-                    </div>
-                    <div>
-                        <div style="font-weight: 700; color: var(--primary);">
-                            Rp ${formatNumber(item.price)}
+                        <div style="font-weight: 600;">${item.Nama_Item || item.item}</div>
+                        <div style="font-size: 0.9rem; color: var(--text-light);">
+                            ${item.Jenis_Biaya || item.type} • ${item.Estimasi_Waktu || item.est || '-'}
                         </div>
-                        <button onclick="removeFromCart(${index})" style="background: none; border: none; color: var(--danger); cursor: pointer;">
-                            <i class="fas fa-trash"></i>
-                        </button>
+                        <div style="font-weight: 700; color: var(--primary); margin-top: 5px;">
+                            Rp ${formatNumber(item.Harga_Rp || item.price)}
+                        </div>
                     </div>
+                    <button onclick="removeFromCart(${index})" style="background:none; border:none; color:var(--danger); cursor:pointer;">
+                        <i class="fas fa-trash"></i>
+                    </button>
                 </div>
             `).join('');
             
             // Calculate total
-            const total = appState.cart.reduce((sum, item) => sum + Number(item.price), 0);
-            totalPriceElement.textContent = `Rp ${formatNumber(total)}`;
+            const total = state.cart.reduce((sum, item) => sum + Number(item.Harga_Rp || item.price), 0);
+            totalElement.textContent = `Rp ${formatNumber(total)}`;
         }
 
-        function removeFromCart(index) {
-            appState.cart.splice(index, 1);
-            localStorage.setItem('cart', JSON.stringify(appState.cart));
+        function saveCart() {
+            localStorage.setItem('malik_cart', JSON.stringify(state.cart));
+        }
+
+        function clearCart() {
+            state.cart = [];
+            saveCart();
             updateCart();
-            showToast('Item dihapus dari keranjang', 'info');
         }
 
-        // ==========================================
-        // ORDER SUBMISSION
-        // ==========================================
+        // ==================== ORDER ====================
+        function togglePickup() {
+            const pickupDetails = document.getElementById('pickupDetails');
+            if (document.getElementById('needPickup').checked) {
+                pickupDetails.classList.remove('d-none');
+            } else {
+                pickupDetails.classList.add('d-none');
+            }
+        }
+
         async function submitOrder() {
+            // Validation
             const name = document.getElementById('customerName').value.trim();
             const phone = document.getElementById('customerPhone').value.trim();
+            const address = document.getElementById('customerAddress').value.trim();
             const notes = document.getElementById('customerNotes').value.trim();
             
-            // Validation
             if (!name || !phone) {
-                showToast('Nama dan nomor WhatsApp wajib diisi!', 'error');
+                showToast('Nama dan WA wajib diisi', 'error');
                 return;
             }
             
-            if (appState.cart.length === 0) {
-                showToast('Tambahkan layanan ke keranjang terlebih dahulu!', 'error');
+            if (state.cart.length === 0) {
+                showToast('Tambahkan layanan terlebih dahulu', 'error');
                 return;
             }
             
             // Generate order ID
-            const orderId = `INV-${Date.now().toString().slice(-6)}`;
-            const total = appState.cart.reduce((sum, item) => sum + Number(item.price), 0);
+            const date = new Date();
+            const orderId = `INV-${date.getFullYear()}${(date.getMonth()+1).toString().padStart(2,'0')}${date.getDate().toString().padStart(2,'0')}-${Math.floor(1000 + Math.random() * 9000)}`;
             
-            // Prepare WhatsApp message
-            let whatsappMessage = `Halo Admin Malik Service,\n\n`;
-            whatsappMessage += `Saya mau booking servis dengan detail berikut:\n\n`;
-            whatsappMessage += `📋 ORDER ID: ${orderId}\n`;
-            whatsappMessage += `👤 Nama: ${name}\n`;
-            whatsappMessage += `📱 WhatsApp: ${phone}\n\n`;
-            whatsappMessage += `🔧 LAYANAN YANG DIPILIH:\n`;
+            // Prepare data
+            const orderData = {
+                action: "save_order",
+                orderId: orderId,
+                name: name,
+                wa: phone,
+                address: address || '-',
+                items: state.cart.map(item => ({
+                    cat: item.Kategori || item.cat,
+                    issue: item.Tipe_Masalah || item.issue,
+                    item: item.Nama_Item || item.item,
+                    type: item.Jenis_Biaya || item.type,
+                    price: item.Harga_Rp || item.price,
+                    est: item.Estimasi_Waktu || item.est,
+                    desc: item.Keterangan || item.desc
+                })),
+                total: state.cart.reduce((sum, item) => sum + Number(item.Harga_Rp || item.price), 0),
+                category: state.cart.length > 1 ? 'Multiple' : (state.cart[0].Kategori || state.cart[0].cat),
+                custNotes: notes,
+                pickupInfo: document.getElementById('needPickup').checked ? 
+                    `Jarak: ${document.getElementById('pickupDistance').value || 0} KM` : '-'
+            };
             
-            appState.cart.forEach((item, index) => {
-                whatsappMessage += `${index + 1}. ${item.item} (${item.issue}) - Rp ${formatNumber(item.price)}\n`;
-            });
-            
-            whatsappMessage += `\n💰 TOTAL: Rp ${formatNumber(total)}\n`;
-            
-            if (notes) {
-                whatsappMessage += `📝 Catatan: ${notes}\n`;
-            }
-            
-            whatsappMessage += `\nMohon konfirmasi ketersediaan ya, terima kasih!`;
-            
-            // Save order to backend
             try {
                 showLoader(true);
-                
-                const orderData = {
-                    action: "save_order",
-                    orderId: orderId,
-                    name: name,
-                    wa: phone,
-                    items: appState.cart,
-                    total: total,
-                    custNotes: notes
-                };
                 
                 const response = await fetch(CONFIG.BACKEND_URL, {
                     method: 'POST',
@@ -1094,47 +1078,78 @@
                 const result = await response.json();
                 
                 if (result.success) {
-                    // Clear cart
-                    appState.cart = [];
-                    localStorage.removeItem('cart');
-                    updateCart();
+                    // Send WhatsApp
+                    sendWhatsApp(orderId, name, phone, orderData);
                     
-                    // Clear form
+                    // Clear
+                    clearCart();
                     document.getElementById('customerName').value = '';
                     document.getElementById('customerPhone').value = '';
+                    document.getElementById('customerAddress').value = '';
                     document.getElementById('customerNotes').value = '';
                     
-                    // Open WhatsApp
-                    const encodedMessage = encodeURIComponent(whatsappMessage);
-                    window.open(`https://wa.me/${CONFIG.ADMIN_WA}?text=${encodedMessage}`, '_blank');
+                    showToast(`Order ${orderId} berhasil!`, 'success');
                     
-                    showToast('Order berhasil dibuat!', 'success');
-                    
-                    // Navigate to tracking
+                    // Navigate to track
                     setTimeout(() => {
                         navigateTo('track');
                         document.getElementById('trackId').value = orderId;
-                    }, 1000);
+                    }, 1500);
                     
                 } else {
-                    showToast('Gagal menyimpan order: ' + result.message, 'error');
+                    showToast('Gagal: ' + result.message, 'error');
                 }
             } catch (error) {
-                console.error('Error submitting order:', error);
+                console.error('Submit error:', error);
                 showToast('Gagal menyimpan order', 'error');
             } finally {
                 showLoader(false);
             }
         }
 
-        // ==========================================
-        // ORDER TRACKING
-        // ==========================================
+        function sendWhatsApp(orderId, name, phone, orderData) {
+            let message = `Halo Admin Malik Service,\n\n`;
+            message += `Saya mau booking servis:\n\n`;
+            message += `📋 ORDER ID: ${orderId}\n`;
+            message += `👤 Nama: ${name}\n`;
+            message += `📱 WA: ${phone}\n`;
+            
+            if (orderData.address !== '-') {
+                message += `📍 Alamat: ${orderData.address}\n`;
+            }
+            
+            message += `\n🔧 DETAIL SERVIS:\n`;
+            message += `══════════════════\n`;
+            
+            orderData.items.forEach((item, index) => {
+                message += `${index + 1}. ${item.item}\n`;
+                message += `   ▸ ${item.issue} • ${item.type}\n`;
+                message += `   ▸ Rp ${formatNumber(item.price)} • ${item.est}\n`;
+                if (item.desc) message += `   ▸ ${item.desc}\n`;
+            });
+            
+            message += `══════════════════\n`;
+            message += `💰 TOTAL: Rp ${formatNumber(orderData.total)}\n\n`;
+            
+            if (orderData.custNotes) {
+                message += `📝 Catatan: ${orderData.custNotes}\n\n`;
+            }
+            
+            if (orderData.pickupInfo !== '-') {
+                message += `🚗 Jemput: ${orderData.pickupInfo}\n\n`;
+            }
+            
+            message += `Mohon diproses ya, terima kasih!`;
+            
+            window.open(`https://wa.me/${CONFIG.ADMIN_WA}?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        // ==================== TRACKING ====================
         async function trackOrder() {
             const orderId = document.getElementById('trackId').value.trim();
             
             if (!orderId) {
-                showToast('Masukkan Order ID terlebih dahulu', 'error');
+                showToast('Masukkan Order ID', 'error');
                 return;
             }
             
@@ -1150,43 +1165,77 @@
                 const trackResult = document.getElementById('trackResult');
                 
                 if (result.success) {
-                    const order = result.data.find(o => o.orderId === orderId);
+                    const order = result.data.find(o => o.OrderID === orderId || o.orderId === orderId);
                     
                     if (order) {
+                        let itemsHtml = '';
+                        try {
+                            const items = JSON.parse(order.Items || '[]');
+                            itemsHtml = items.map(item => `
+                                <div style="padding: 10px 0; border-bottom: 1px solid var(--border);">
+                                    <div style="font-weight: 600;">${item.item}</div>
+                                    <div style="font-size: 0.9rem; color: var(--text-light);">
+                                        ${item.issue} • ${item.type}
+                                    </div>
+                                    <div style="color: var(--primary); font-weight: 600;">
+                                        Rp ${formatNumber(item.price)}
+                                    </div>
+                                </div>
+                            `).join('');
+                        } catch (e) {
+                            itemsHtml = '<p>Tidak ada detail item</p>';
+                        }
+                        
+                        const statusColor = order.Status === 'Selesai' ? 'var(--secondary)' : 
+                                          order.Status === 'Sedang Dikerjakan' ? 'var(--accent)' : 'var(--danger)';
+                        
                         trackResult.innerHTML = `
                             <div class="card">
-                                <h3>Status Order: ${orderId}</h3>
-                                <div style="margin: 1rem 0;">
-                                    <p><strong>Nama:</strong> ${order.customerName}</p>
-                                    <p><strong>Status:</strong> <span style="color: var(--primary); font-weight: 600;">${order.status}</span></p>
-                                    <p><strong>Total:</strong> Rp ${formatNumber(order.total)}</p>
-                                    <p><strong>Tanggal:</strong> ${new Date(order.timestamp).toLocaleDateString('id-ID')}</p>
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                                    <h3 style="margin: 0; color: var(--primary);">${order.OrderID || order.orderId}</h3>
+                                    <span style="background: ${statusColor}; color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.9rem;">
+                                        ${order.Status || order.status}
+                                    </span>
+                                </div>
+                                
+                                <p style="margin-bottom: 10px;">
+                                    <strong>👤 Nama:</strong> ${order.CustomerName || order.customerName}<br>
+                                    <strong>📱 WA:</strong> ${order.Whatsapp || order.wa}<br>
+                                    <strong>📅 Tanggal:</strong> ${new Date(order.Timestamp).toLocaleDateString('id-ID')}
+                                </p>
+                                
+                                <div style="margin-top: 20px;">
+                                    <h4>Rincian Servis:</h4>
+                                    ${itemsHtml}
+                                </div>
+                                
+                                <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--border); font-size: 1.2rem; font-weight: 800; display: flex; justify-content: space-between;">
+                                    <span>Total Bayar</span>
+                                    <span style="color: var(--primary);">Rp ${formatNumber(order.TotalHarga || order.total)}</span>
                                 </div>
                             </div>
                         `;
                     } else {
                         trackResult.innerHTML = `
-                            <div class="card" style="text-align: center;">
-                                <i class="fas fa-search" style="font-size: 3rem; color: var(--text-light); margin-bottom: 1rem;"></i>
+                            <div class="card text-center">
+                                <i class="fas fa-search" style="font-size: 3rem; color: var(--text-light); margin-bottom: 15px;"></i>
                                 <h3>Order tidak ditemukan</h3>
                                 <p>Pastikan Order ID sudah benar</p>
                             </div>
                         `;
                     }
                 } else {
-                    showToast('Gagal mengambil data order', 'error');
+                    showToast('Gagal mengambil data', 'error');
                 }
             } catch (error) {
-                console.error('Error tracking order:', error);
-                showToast('Gagal cek status order', 'error');
+                console.error('Track error:', error);
+                showToast('Gagal cek status', 'error');
             } finally {
                 showLoader(false);
             }
         }
 
-        // ==========================================
-        // ADMIN FUNCTIONS
-        // ==========================================
+        // ==================== ADMIN ====================
         async function loginAdmin() {
             const username = document.getElementById('adminUser').value.trim();
             const pin = document.getElementById('adminPin').value.trim();
@@ -1204,7 +1253,7 @@
             try {
                 showLoader(true);
                 
-                // Simple hash for PIN
+                // Hash PIN
                 const pinHash = await hashPIN(pin);
                 
                 const response = await fetch(CONFIG.BACKEND_URL, {
@@ -1219,16 +1268,15 @@
                 const result = await response.json();
                 
                 if (result.success) {
-                    appState.isAdmin = true;
+                    state.isAdmin = true;
                     localStorage.setItem('isAdmin', 'true');
                     showToast('Login admin berhasil!', 'success');
                     
-                    // Redirect to admin dashboard (simplified)
+                    // In production, redirect to admin dashboard
                     setTimeout(() => {
                         showToast('Dashboard admin dalam pengembangan', 'info');
                         navigateTo('home');
                     }, 1000);
-                    
                 } else {
                     showToast('Login gagal: ' + result.message, 'error');
                 }
@@ -1241,7 +1289,6 @@
         }
 
         async function hashPIN(pin) {
-            // Simple hash function
             const encoder = new TextEncoder();
             const data = encoder.encode(pin);
             const hashBuffer = await crypto.subtle.digest('SHA-256', data);
@@ -1249,15 +1296,15 @@
             return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
         }
 
-        // ==========================================
-        // UI COMPONENTS
-        // ==========================================
+        // ==================== UI HELPERS ====================
         function loadCategories() {
             const categories = [
-                { name: 'LCD & Display', icon: 'mobile-screen', color: '#3b82f6', count: 8 },
-                { name: 'Baterai', icon: 'battery-full', color: '#ef4444', count: 6 },
-                { name: 'Software', icon: 'code', color: '#8b5cf6', count: 5 },
-                { name: 'Water Damage', icon: 'droplet', color: '#06b6d4', count: 4 }
+                { name: 'Android', icon: 'mobile-alt', color: '#3b82f6' },
+                { name: 'Laptop', icon: 'laptop', color: '#8b5cf6' },
+                { name: 'PC', icon: 'desktop', color: '#f59e0b' },
+                { name: 'Printer', icon: 'print', color: '#10b981' },
+                { name: 'TV/Monitor', icon: 'tv', color: '#ef4444' },
+                { name: 'CCTV', icon: 'video', color: '#06b6d4' }
             ];
             
             const container = document.getElementById('categoryGrid');
@@ -1267,7 +1314,6 @@
                         <i class="fas fa-${cat.icon}"></i>
                     </div>
                     <h4>${cat.name}</h4>
-                    <p>${cat.count} jenis servis</p>
                 </div>
             `).join('');
         }
@@ -1275,21 +1321,9 @@
         function filterByCategory(category) {
             navigateTo('order');
             setTimeout(() => {
-                const deviceType = category.includes('LCD') ? 'HP Android' : 
-                    category.includes('Baterai') ? 'HP Android' : 
-                    category.includes('Software') ? 'HP Android' : 'HP Android';
-                
-                document.getElementById('deviceType').value = deviceType;
+                document.getElementById('deviceCategory').value = category.toUpperCase();
                 filterServices();
             }, 100);
-        }
-
-        function openWizard() {
-            showToast('AI Diagnosis Wizard coming soon!', 'info');
-        }
-
-        function showLoader(show) {
-            document.getElementById('loader').classList.toggle('show', show);
         }
 
         function showToast(message, type = 'info') {
@@ -1297,30 +1331,35 @@
             toast.textContent = message;
             toast.className = `toast toast-${type}`;
             
-            // Show
             setTimeout(() => toast.classList.add('show'), 10);
-            
-            // Auto hide
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        function showLoader(show) {
+            document.getElementById('loader').classList.toggle('show', show);
         }
 
         function formatNumber(num) {
             return Number(num).toLocaleString('id-ID');
         }
 
-        // Expose functions to global scope for onclick handlers
+        // Expose functions
         window.navigateTo = navigateTo;
+        window.filterByCategory = filterByCategory;
         window.addToCart = addToCart;
         window.removeFromCart = removeFromCart;
         window.submitOrder = submitOrder;
         window.trackOrder = trackOrder;
         window.loginAdmin = loginAdmin;
-        window.openWizard = openWizard;
-        window.filterByCategory = filterByCategory;
+        window.togglePickup = togglePickup;
+
+        // Handle hash changes
+        window.addEventListener('hashchange', () => {
+            const hash = window.location.hash.substring(1);
+            if (hash && ['home', 'order', 'track', 'admin'].includes(hash)) {
+                navigateTo(hash);
+            }
+        });
     </script>
 </body>
 </html>
-
-
