@@ -927,11 +927,12 @@
                             <thead>
                                 <tr>
                                     <th>Kategori</th>
-                                    <th>Tipe</th>
+                                    <th>Tipe Masalah</th>
                                     <th>Nama Layanan</th>
+                                    <th>Jenis Biaya</th>
                                     <th>Harga Dasar</th>
                                     <th>Harga Jual</th>
-                                    <th>Estimasi</th>
+                                    <th>Estimasi Waktu</th>
                                     <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -953,9 +954,11 @@
                             <select id="order-filter" class="form-control" style="width: 150px;" onchange="filterOrders()">
                                 <option value="">Semua Status</option>
                                 <option value="Pending">Pending</option>
+                                <option value="Dikonfirmasi">Dikonfirmasi</option>
                                 <option value="Diproses">Diproses</option>
                                 <option value="Selesai">Selesai</option>
                                 <option value="Dibatalkan">Dibatalkan</option>
+                                <option value="Menunggu_Part">Menunggu Part</option>
                             </select>
                             <button class="btn btn-outline btn-sm" onclick="refreshOrders()">
                                 <i class="fas fa-sync"></i> Refresh
@@ -969,7 +972,7 @@
                                     <th>Order ID</th>
                                     <th>Pelanggan</th>
                                     <th>WhatsApp</th>
-                                    <th>Layanan</th>
+                                    <th>Kategori</th>
                                     <th>Total</th>
                                     <th>Status</th>
                                     <th>Pembayaran</th>
@@ -1043,15 +1046,43 @@
                                 <label>Status Awal</label>
                                 <select id="manual-status" class="form-control">
                                     <option value="Pending">Pending</option>
+                                    <option value="Dikonfirmasi">Dikonfirmasi</option>
                                     <option value="Diproses">Diproses</option>
                                     <option value="Selesai">Selesai</option>
                                 </select>
                             </div>
                         </div>
                         
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Metode Bayar</label>
+                                <select id="manual-payment-method" class="form-control">
+                                    <option value="">Pilih Metode</option>
+                                    <option value="Cash">Cash</option>
+                                    <option value="Transfer">Transfer</option>
+                                    <option value="QRIS">QRIS</option>
+                                    <option value="Debit/Credit">Debit/Credit</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Status Bayar</label>
+                                <select id="manual-payment-status" class="form-control">
+                                    <option value="Belum_Bayar">Belum Bayar</option>
+                                    <option value="DP_50%">DP 50%</option>
+                                    <option value="Lunas">Lunas</option>
+                                    <option value="Gratis">Gratis</option>
+                                </select>
+                            </div>
+                        </div>
+                        
                         <div class="form-group">
-                            <label>Catatan</label>
-                            <textarea id="manual-notes" class="form-control" rows="3"></textarea>
+                            <label>Catatan Admin</label>
+                            <textarea id="manual-admin-notes" class="form-control" rows="3"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Catatan Pelanggan</label>
+                            <textarea id="manual-customer-notes" class="form-control" rows="2"></textarea>
                         </div>
                         
                         <div class="form-footer">
@@ -1067,6 +1098,44 @@
                             <h4>Rincian Order:</h4>
                             <div id="manual-summary"></div>
                         </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Discounts Section -->
+            <section id="discounts-section" class="section">
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3>Manajemen Diskon</h3>
+                        <div class="table-actions">
+                            <button class="btn btn-primary btn-sm" onclick="showDiscountForm()">
+                                <i class="fas fa-plus"></i> Tambah Diskon
+                            </button>
+                            <button class="btn btn-outline btn-sm" onclick="refreshDiscounts()">
+                                <i class="fas fa-sync"></i> Refresh
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="discounts-table">
+                            <thead>
+                                <tr>
+                                    <th>Kode</th>
+                                    <th>Tipe</th>
+                                    <th>Nilai</th>
+                                    <th>Min Order</th>
+                                    <th>Maks Diskon</th>
+                                    <th>Berlaku Mulai</th>
+                                    <th>Berlaku Hingga</th>
+                                    <th>Status</th>
+                                    <th>Digunakan</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Loaded by JavaScript -->
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </section>
@@ -1170,6 +1239,83 @@
             </div>
         </div>
     </div>
+    
+    <!-- Discount Form Modal -->
+    <div id="discount-form-modal" class="form-modal">
+        <div class="form-container">
+            <div class="form-header">
+                <h3 id="discount-form-title">Tambah Diskon Baru</h3>
+                <button class="btn btn-icon btn-outline" onclick="hideDiscountForm()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="form-body">
+                <form id="discount-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Kode Diskon *</label>
+                            <input type="text" id="discount-code" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Tipe Diskon *</label>
+                            <select id="discount-type" class="form-control" required>
+                                <option value="persen">Persentase</option>
+                                <option value="nominal">Nominal</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Nilai Diskon *</label>
+                            <input type="number" id="discount-value" class="form-control" min="0" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Minimal Order (Rp)</label>
+                            <input type="number" id="discount-min-order" class="form-control" min="0">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Maksimal Diskon (Rp)</label>
+                            <input type="number" id="discount-max-discount" class="form-control" min="0">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select id="discount-status" class="form-control">
+                                <option value="active">Aktif</option>
+                                <option value="inactive">Nonaktif</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Berlaku Mulai *</label>
+                            <input type="date" id="discount-start-date" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Berlaku Hingga *</label>
+                            <input type="date" id="discount-end-date" class="form-control" required>
+                        </div>
+                    </div>
+                    
+                    <input type="hidden" id="discount-id">
+                </form>
+            </div>
+            
+            <div class="form-footer">
+                <button type="button" class="btn btn-outline" onclick="hideDiscountForm()">Batal</button>
+                <button type="button" class="btn btn-primary" onclick="saveDiscount()">Simpan</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Order Detail Modal -->
     <div id="order-detail-modal" class="form-modal">
@@ -1183,6 +1329,53 @@
             
             <div class="form-body" id="order-detail-content">
                 <!-- Loaded by JavaScript -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Payment Update Modal -->
+    <div id="payment-modal" class="form-modal">
+        <div class="form-container">
+            <div class="form-header">
+                <h3>Update Pembayaran</h3>
+                <button class="btn btn-icon btn-outline" onclick="hidePaymentModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="form-body">
+                <div class="form-group">
+                    <label>Metode Bayar</label>
+                    <select id="payment-method" class="form-control">
+                        <option value="">Pilih Metode</option>
+                        <option value="Cash">Cash</option>
+                        <option value="Transfer">Transfer</option>
+                        <option value="QRIS">QRIS</option>
+                        <option value="Debit/Credit">Debit/Credit</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Status Bayar</label>
+                    <select id="payment-status" class="form-control">
+                        <option value="Belum_Bayar">Belum Bayar</option>
+                        <option value="DP_50%">DP 50%</option>
+                        <option value="Lunas">Lunas</option>
+                        <option value="Gratis">Gratis</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Catatan</label>
+                    <textarea id="payment-notes" class="form-control" rows="3" placeholder="Catatan pembayaran..."></textarea>
+                </div>
+                
+                <input type="hidden" id="payment-order-id">
+            </div>
+            
+            <div class="form-footer">
+                <button type="button" class="btn btn-outline" onclick="hidePaymentModal()">Batal</button>
+                <button type="button" class="btn btn-primary" onclick="updatePayment()">Simpan</button>
             </div>
         </div>
     </div>
@@ -1203,6 +1396,7 @@
             currentSection: 'dashboard',
             services: [],
             orders: [],
+            discounts: [],
             stats: null
         };
 
@@ -1343,6 +1537,9 @@
                 case 'orders':
                     loadOrders();
                     break;
+                case 'discounts':
+                    loadDiscounts();
+                    break;
             }
         }
 
@@ -1424,28 +1621,28 @@
                 {
                     icon: 'fas fa-shopping-cart',
                     color: '#3b82f6',
-                    value: stats.total_orders,
+                    value: stats.total_orders || 0,
                     label: 'Total Pesanan',
                     change: '+12%'
                 },
                 {
                     icon: 'fas fa-money-bill-wave',
                     color: '#10b981',
-                    value: 'Rp ' + formatNumber(stats.total_revenue),
+                    value: 'Rp ' + formatNumber(stats.total_revenue || 0),
                     label: 'Total Pendapatan',
                     change: '+8%'
                 },
                 {
                     icon: 'fas fa-clock',
                     color: '#f59e0b',
-                    value: stats.pending_orders,
+                    value: stats.pending_orders || 0,
                     label: 'Menunggu Diproses',
                     change: stats.pending_orders > 5 ? 'Perlu Tindakan' : null
                 },
                 {
                     icon: 'fas fa-wrench',
                     color: '#8b5cf6',
-                    value: stats.total_services,
+                    value: stats.total_services || 0,
                     label: 'Jumlah Layanan',
                     change: null
                 }
@@ -1486,14 +1683,14 @@
             tbody.innerHTML = orders.map(order => {
                 const details = order.details || {};
                 const services = details.items || [];
-                const serviceNames = services.map(s => s.name).join(', ').substring(0, 30) + '...';
+                const serviceNames = services.map(s => s.name || s.nama).join(', ').substring(0, 30);
                 
                 return `
                     <tr>
                         <td><strong>${order.Order_ID}</strong></td>
                         <td>${order.Nama_Pelanggan}</td>
-                        <td>${serviceNames}</td>
-                        <td>Rp ${formatNumber(order.Total_Bayar)}</td>
+                        <td>${serviceNames}${serviceNames.length > 30 ? '...' : ''}</td>
+                        <td>Rp ${formatNumber(order.Total_Bayar || 0)}</td>
                         <td><span class="badge ${getStatusBadgeClass(order.Status)}">${order.Status}</span></td>
                         <td>${new Date(order.Timestamp).toLocaleDateString('id-ID')}</td>
                         <td>
@@ -1532,7 +1729,7 @@
             if (state.services.length === 0) {
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="8" class="text-center">Tidak ada layanan</td>
+                        <td colspan="9" class="text-center">Tidak ada layanan</td>
                     </tr>
                 `;
                 return;
@@ -1540,15 +1737,16 @@
             
             tbody.innerHTML = state.services.map(service => `
                 <tr>
-                    <td>${service.kategori}</td>
-                    <td>${service.tipe}</td>
-                    <td><strong>${service.nama}</strong></td>
-                    <td>Rp ${formatNumber(service.harga_dasar)}</td>
-                    <td>Rp ${formatNumber(service.harga_jual)}</td>
-                    <td>${service.estimasi}</td>
+                    <td>${service.Kategori || service.kategori}</td>
+                    <td>${service.Tipe_Masalah || service.tipe}</td>
+                    <td><strong>${service.Nama_Layanan || service.nama}</strong></td>
+                    <td>${service.Jenis_Biaya || service.jenis_biaya}</td>
+                    <td>Rp ${formatNumber(service.Harga_Dasar || service.harga_dasar || 0)}</td>
+                    <td>Rp ${formatNumber(service.Harga_Jual || service.harga_jual || 0)}</td>
+                    <td>${service.Estimasi_Waktu || service.estimasi}</td>
                     <td>
-                        <span class="badge ${service.status === 'active' ? 'badge-success' : 'badge-danger'}">
-                            ${service.status === 'active' ? 'Aktif' : 'Nonaktif'}
+                        <span class="badge ${(service.Status || service.status) === 'active' ? 'badge-success' : 'badge-danger'}">
+                            ${(service.Status || service.status) === 'active' ? 'Aktif' : 'Nonaktif'}
                         </span>
                     </td>
                     <td>
@@ -1573,15 +1771,15 @@
                 const service = state.services.find(s => s.id === serviceId);
                 if (service) {
                     document.getElementById('service-id').value = service.id;
-                    document.getElementById('service-category').value = service.kategori;
-                    document.getElementById('service-type').value = service.tipe;
-                    document.getElementById('service-name').value = service.nama;
-                    document.getElementById('service-cost-type').value = service.jenis_biaya;
-                    document.getElementById('service-estimate').value = service.estimasi;
-                    document.getElementById('service-base-price').value = service.harga_dasar;
-                    document.getElementById('service-sell-price').value = service.harga_jual;
-                    document.getElementById('service-description').value = service.deskripsi || '';
-                    document.getElementById('service-status').value = service.status;
+                    document.getElementById('service-category').value = service.Kategori || service.kategori;
+                    document.getElementById('service-type').value = service.Tipe_Masalah || service.tipe;
+                    document.getElementById('service-name').value = service.Nama_Layanan || service.nama;
+                    document.getElementById('service-cost-type').value = service.Jenis_Biaya || service.jenis_biaya;
+                    document.getElementById('service-estimate').value = service.Estimasi_Waktu || service.estimasi;
+                    document.getElementById('service-base-price').value = service.Harga_Dasar || service.harga_dasar;
+                    document.getElementById('service-sell-price').value = service.Harga_Jual || service.harga_jual;
+                    document.getElementById('service-description').value = service.Deskripsi || service.deskripsi || '';
+                    document.getElementById('service-status').value = service.Status || service.status;
                 }
             } else {
                 title.textContent = 'Tambah Layanan Baru';
@@ -1708,17 +1906,13 @@
             }
             
             tbody.innerHTML = state.orders.map(order => {
-                const details = order.details || {};
-                const services = details.items || [];
-                const serviceNames = services.slice(0, 2).map(s => s.name).join(', ');
-                
                 return `
                     <tr>
                         <td><strong>${order.Order_ID}</strong></td>
                         <td>${order.Nama_Pelanggan}</td>
                         <td>${order.WhatsApp}</td>
-                        <td>${serviceNames}${services.length > 2 ? '...' : ''}</td>
-                        <td>Rp ${formatNumber(order.Total_Bayar)}</td>
+                        <td>${order.Kategori}</td>
+                        <td>Rp ${formatNumber(order.Total_Bayar || 0)}</td>
                         <td><span class="badge ${getStatusBadgeClass(order.Status)}">${order.Status}</span></td>
                         <td><span class="badge ${getPaymentBadgeClass(order.Status_Bayar)}">${order.Status_Bayar}</span></td>
                         <td>${new Date(order.Timestamp).toLocaleDateString('id-ID')}</td>
@@ -1726,8 +1920,8 @@
                             <button class="btn btn-sm btn-outline" onclick="viewOrderDetail('${order.Order_ID}')">
                                 <i class="fas fa-eye"></i>
                             </button>
-                            <button class="btn btn-sm btn-outline" onclick="updateOrderStatusPrompt('${order.Order_ID}')">
-                                <i class="fas fa-edit"></i>
+                            <button class="btn btn-sm btn-outline" onclick="showPaymentModal('${order.Order_ID}')">
+                                <i class="fas fa-money-bill"></i>
                             </button>
                             <button class="btn btn-sm btn-outline" onclick="printReceipt('${order.Order_ID}')">
                                 <i class="fas fa-print"></i>
@@ -1749,10 +1943,11 @@
                     const modal = document.getElementById('order-detail-modal');
                     const content = document.getElementById('order-detail-content');
                     
-                    const servicesHTML = order.services.map((service, index) => `
+                    const services = order.details?.items || [];
+                    const servicesHTML = services.map((service, index) => `
                         <div style="padding: 10px; background: #f8fafc; border-radius: 8px; margin-bottom: 10px;">
-                            <div style="font-weight: 600;">${index + 1}. ${service.name}</div>
-                            <div style="color: #64748b; font-size: 0.9em;">Rp ${formatNumber(service.price)}</div>
+                            <div style="font-weight: 600;">${index + 1}. ${service.name || service.nama}</div>
+                            <div style="color: #64748b; font-size: 0.9em;">Rp ${formatNumber(service.price || service.harga || 0)}</div>
                         </div>
                     `).join('');
                     
@@ -1760,37 +1955,56 @@
                         <div style="margin-bottom: 20px;">
                             <h4>Informasi Order</h4>
                             <table style="width: 100%;">
-                                <tr><td style="width: 120px; padding: 5px 0;">Order ID:</td><td><strong>${order.id}</strong></td></tr>
-                                <tr><td style="padding: 5px 0;">Receipt:</td><td>${order.receipt}</td></tr>
-                                <tr><td style="padding: 5px 0;">Tanggal:</td><td>${order.created_date}</td></tr>
-                                <tr><td style="padding: 5px 0;">Status:</td><td><span class="badge ${getStatusBadgeClass(order.status)}">${order.status}</span></td></tr>
-                                <tr><td style="padding: 5px 0;">Pembayaran:</td><td><span class="badge ${getPaymentBadgeClass(order.payment_status)}">${order.payment_status}</span></td></tr>
-                                <tr><td style="padding: 5px 0;">Teknisi:</td><td>${order.technician || '-'}</td></tr>
+                                <tr><td style="width: 120px; padding: 5px 0;">Order ID:</td><td><strong>${order.Order_ID || order.id}</strong></td></tr>
+                                <tr><td style="padding: 5px 0;">Receipt:</td><td>${order.Resi_Number || order.receipt}</td></tr>
+                                <tr><td style="padding: 5px 0;">Tanggal:</td><td>${new Date(order.Timestamp || order.created_date).toLocaleString('id-ID')}</td></tr>
+                                <tr><td style="padding: 5px 0;">Status:</td><td><span class="badge ${getStatusBadgeClass(order.Status || order.status)}">${order.Status || order.status}</span></td></tr>
+                                <tr><td style="padding: 5px 0;">Pembayaran:</td><td><span class="badge ${getPaymentBadgeClass(order.Status_Bayar || order.payment_status)}">${order.Status_Bayar || order.payment_status}</span></td></tr>
+                                <tr><td style="padding: 5px 0;">Metode:</td><td>${order.Metode_Bayar || '-'}</td></tr>
+                                <tr><td style="padding: 5px 0;">Teknisi:</td><td>${order.Teknisi || '-'}</td></tr>
                             </table>
                         </div>
                         
                         <div style="margin-bottom: 20px;">
                             <h4>Data Pelanggan</h4>
                             <table style="width: 100%;">
-                                <tr><td style="width: 120px; padding: 5px 0;">Nama:</td><td>${order.customer_name}</td></tr>
+                                <tr><td style="width: 120px; padding: 5px 0;">Nama:</td><td>${order.Nama_Pelanggan || order.customer_name}</td></tr>
                                 <tr><td style="padding: 5px 0;">WhatsApp:</td><td>${order.WhatsApp || '-'}</td></tr>
+                                <tr><td style="padding: 5px 0;">Alamat:</td><td>${order.Alamat || '-'}</td></tr>
                             </table>
                         </div>
                         
                         <div style="margin-bottom: 20px;">
                             <h4>Layanan</h4>
-                            ${servicesHTML}
+                            ${servicesHTML || '<p>Tidak ada layanan</p>'}
                         </div>
                         
                         <div style="border-top: 2px solid #e2e8f0; padding-top: 15px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span>Subtotal:</span>
+                                <span>Rp ${formatNumber(order.Subtotal || order.subtotal || 0)}</span>
+                            </div>
+                            ${(order.Diskon || order.discount || 0) > 0 ? `
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span>Diskon:</span>
+                                <span>- Rp ${formatNumber(order.Diskon || order.discount || 0)}</span>
+                            </div>
+                            ` : ''}
+                            ${(order.Biaya_Tambahan || order.additional_fees || 0) > 0 ? `
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <span>Biaya Tambahan:</span>
+                                <span>+ Rp ${formatNumber(order.Biaya_Tambahan || order.additional_fees || 0)}</span>
+                            </div>
+                            ` : ''}
+                            <hr style="margin: 10px 0;">
                             <div style="display: flex; justify-content: space-between; font-size: 1.2em; font-weight: 600;">
                                 <span>Total:</span>
-                                <span>Rp ${formatNumber(order.total)}</span>
+                                <span>Rp ${formatNumber(order.Total_Bayar || order.total || 0)}</span>
                             </div>
                         </div>
                         
                         <div style="margin-top: 20px; display: flex; gap: 10px;">
-                            <button class="btn btn-primary" onclick="printReceipt('${order.id}')">
+                            <button class="btn btn-primary" onclick="printReceipt('${order.Order_ID || order.id}')">
                                 <i class="fas fa-print"></i> Print Receipt
                             </button>
                             <button class="btn btn-outline" onclick="hideOrderDetail()">
@@ -1822,6 +2036,47 @@
         function refreshOrders() {
             loadOrders();
         }
+        
+        // ==================== PAYMENT MANAGEMENT ====================
+        function showPaymentModal(orderId) {
+            document.getElementById('payment-order-id').value = orderId;
+            document.getElementById('payment-modal').classList.add('active');
+        }
+        
+        function hidePaymentModal() {
+            document.getElementById('payment-modal').classList.remove('active');
+        }
+        
+        async function updatePayment() {
+            const orderId = document.getElementById('payment-order-id').value;
+            const paymentData = {
+                method: document.getElementById('payment-method').value,
+                status: document.getElementById('payment-status').value,
+                notes: document.getElementById('payment-notes').value
+            };
+            
+            try {
+                showLoader(true);
+                
+                const response = await fetchData('update_payment', {
+                    orderId: orderId,
+                    paymentData: paymentData
+                });
+                
+                if (response.success) {
+                    showToast('Pembayaran berhasil diupdate', 'success');
+                    hidePaymentModal();
+                    loadOrders();
+                } else {
+                    showToast('Gagal mengupdate pembayaran', 'error');
+                }
+            } catch (error) {
+                console.error('Error updating payment:', error);
+                showToast('Error mengupdate pembayaran', 'error');
+            } finally {
+                showLoader(false);
+            }
+        }
 
         // ==================== MANUAL ORDER ====================
         function calculateManualTotal() {
@@ -1839,12 +2094,12 @@
                 if (match) {
                     const serviceName = match[2].trim();
                     const price = parseFloat(match[3].replace(/[.,]/g, ''));
-                    services.push({ name: serviceName, price: price });
+                    services.push({ nama: serviceName, harga: price });
                     subtotal += price;
                 }
             });
             
-            const total = subtotal - discount + additionalFees;
+            const total = Math.max(0, subtotal - discount + additionalFees);
             
             const display = document.getElementById('manual-total-display');
             const summary = document.getElementById('manual-summary');
@@ -1910,10 +2165,13 @@
                 customer_address: document.getElementById('manual-customer-address').value.trim(),
                 services: services,
                 category: document.getElementById('manual-category').value,
-                discount: document.getElementById('manual-discount').value,
-                additional_fees: document.getElementById('manual-additional-fees').value,
+                discount: parseFloat(document.getElementById('manual-discount').value) || 0,
+                additional_fees: parseFloat(document.getElementById('manual-additional-fees').value) || 0,
                 status: document.getElementById('manual-status').value,
-                customer_notes: document.getElementById('manual-notes').value.trim()
+                payment_method: document.getElementById('manual-payment-method').value,
+                payment_status: document.getElementById('manual-payment-status').value,
+                admin_notes: document.getElementById('manual-admin-notes').value.trim(),
+                customer_notes: document.getElementById('manual-customer-notes').value.trim()
             };
             
             try {
@@ -1925,7 +2183,21 @@
                     showToast(`Order manual berhasil dibuat! ID: ${response.order_id}`, 'success');
                     
                     // Reset form
-                    document.querySelector('#manual-order-section form').reset();
+                    const formElements = [
+                        'manual-customer-name',
+                        'manual-customer-phone',
+                        'manual-customer-address',
+                        'manual-services',
+                        'manual-discount',
+                        'manual-additional-fees',
+                        'manual-admin-notes',
+                        'manual-customer-notes'
+                    ];
+                    
+                    formElements.forEach(id => {
+                        document.getElementById(id).value = '';
+                    });
+                    
                     document.getElementById('manual-total-display').style.display = 'none';
                     
                     // Switch to orders section
@@ -1940,6 +2212,187 @@
             } finally {
                 showLoader(false);
             }
+        }
+        
+        // ==================== DISCOUNT MANAGEMENT ====================
+        async function loadDiscounts() {
+            try {
+                showLoader(true);
+                
+                const response = await fetchData('get_discounts');
+                if (response.success) {
+                    state.discounts = response.data;
+                    renderDiscountsTable();
+                } else {
+                    showToast('Gagal memuat diskon', 'error');
+                }
+            } catch (error) {
+                console.error('Error loading discounts:', error);
+                showToast('Error memuat diskon', 'error');
+            } finally {
+                showLoader(false);
+            }
+        }
+        
+        function renderDiscountsTable() {
+            const tbody = document.querySelector('#discounts-table tbody');
+            
+            if (state.discounts.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="10" class="text-center">Tidak ada diskon</td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            tbody.innerHTML = state.discounts.map(discount => {
+                const nilai = discount.Tipe === 'persen' ? `${discount.Nilai}%` : `Rp ${formatNumber(discount.Nilai)}`;
+                
+                return `
+                    <tr>
+                        <td><strong>${discount.Kode}</strong></td>
+                        <td>${discount.Tipe === 'persen' ? 'Persentase' : 'Nominal'}</td>
+                        <td>${nilai}</td>
+                        <td>Rp ${formatNumber(discount.Min_Order || 0)}</td>
+                        <td>Rp ${formatNumber(discount.Maks_Diskon || 0)}</td>
+                        <td>${new Date(discount.Berlaku_Mulai).toLocaleDateString('id-ID')}</td>
+                        <td>${new Date(discount.Berlaku_Hingga).toLocaleDateString('id-ID')}</td>
+                        <td>
+                            <span class="badge ${discount.Status === 'active' ? 'badge-success' : 'badge-danger'}">
+                                ${discount.Status === 'active' ? 'Aktif' : 'Nonaktif'}
+                            </span>
+                        </td>
+                        <td>${discount.Digunakan || 0}</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline" onclick="editDiscount('${discount.Kode}')">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline" onclick="deleteDiscount('${discount.Kode}')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+        
+        function showDiscountForm(discountCode = null) {
+            const modal = document.getElementById('discount-form-modal');
+            const title = document.getElementById('discount-form-title');
+            const form = document.getElementById('discount-form');
+            
+            if (discountCode) {
+                title.textContent = 'Edit Diskon';
+                const discount = state.discounts.find(d => d.Kode === discountCode);
+                if (discount) {
+                    document.getElementById('discount-id').value = discount.Kode;
+                    document.getElementById('discount-code').value = discount.Kode;
+                    document.getElementById('discount-type').value = discount.Tipe;
+                    document.getElementById('discount-value').value = discount.Nilai;
+                    document.getElementById('discount-min-order').value = discount.Min_Order || '';
+                    document.getElementById('discount-max-discount').value = discount.Maks_Diskon || '';
+                    document.getElementById('discount-status').value = discount.Status;
+                    document.getElementById('discount-start-date').value = new Date(discount.Berlaku_Mulai).toISOString().split('T')[0];
+                    document.getElementById('discount-end-date').value = new Date(discount.Berlaku_Hingga).toISOString().split('T')[0];
+                }
+            } else {
+                title.textContent = 'Tambah Diskon Baru';
+                form.reset();
+                document.getElementById('discount-id').value = '';
+                // Set default dates
+                const today = new Date().toISOString().split('T')[0];
+                const nextMonth = new Date();
+                nextMonth.setMonth(nextMonth.getMonth() + 1);
+                const nextMonthStr = nextMonth.toISOString().split('T')[0];
+                
+                document.getElementById('discount-start-date').value = today;
+                document.getElementById('discount-end-date').value = nextMonthStr;
+            }
+            
+            modal.classList.add('active');
+        }
+        
+        function hideDiscountForm() {
+            document.getElementById('discount-form-modal').classList.remove('active');
+        }
+        
+        async function saveDiscount() {
+            const form = document.getElementById('discount-form');
+            const discountCode = document.getElementById('discount-id').value;
+            
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+            
+            const discountData = {
+                code: document.getElementById('discount-code').value,
+                type: document.getElementById('discount-type').value,
+                value: parseFloat(document.getElementById('discount-value').value),
+                min_order: parseFloat(document.getElementById('discount-min-order').value) || 0,
+                max_discount: parseFloat(document.getElementById('discount-max-discount').value) || 0,
+                start_date: document.getElementById('discount-start-date').value,
+                end_date: document.getElementById('discount-end-date').value,
+                status: document.getElementById('discount-status').value
+            };
+            
+            try {
+                showLoader(true);
+                
+                const action = discountCode ? 'update_discount' : 'add_discount';
+                const params = discountCode ? 
+                    { code: discountCode, updates: discountData } : 
+                    { discount: discountData };
+                
+                const response = await fetchData(action, params);
+                
+                if (response.success) {
+                    showToast('Diskon berhasil disimpan', 'success');
+                    hideDiscountForm();
+                    loadDiscounts();
+                } else {
+                    showToast('Gagal menyimpan: ' + response.message, 'error');
+                }
+            } catch (error) {
+                console.error('Error saving discount:', error);
+                showToast('Error menyimpan diskon', 'error');
+            } finally {
+                showLoader(false);
+            }
+        }
+        
+        async function deleteDiscount(code) {
+            if (!confirm('Yakin ingin menghapus diskon ini?')) return;
+            
+            try {
+                showLoader(true);
+                
+                const response = await fetchData('update_discount', {
+                    code: code,
+                    updates: { Status: 'inactive' }
+                });
+                
+                if (response.success) {
+                    showToast('Diskon berhasil dinonaktifkan', 'success');
+                    loadDiscounts();
+                } else {
+                    showToast('Gagal menghapus: ' + response.message, 'error');
+                }
+            } catch (error) {
+                console.error('Error deleting discount:', error);
+                showToast('Error menghapus diskon', 'error');
+            } finally {
+                showLoader(false);
+            }
+        }
+        
+        function editDiscount(code) {
+            showDiscountForm(code);
+        }
+        
+        function refreshDiscounts() {
+            loadDiscounts();
         }
 
         // ==================== UTILITY FUNCTIONS ====================
@@ -1966,7 +2419,9 @@
             switch(status) {
                 case 'Selesai': return 'badge-success';
                 case 'Diproses': return 'badge-warning';
+                case 'Dikonfirmasi': return 'badge-info';
                 case 'Pending': return 'badge-info';
+                case 'Menunggu_Part': return 'badge-warning';
                 case 'Dibatalkan': return 'badge-danger';
                 default: return 'badge-info';
             }
@@ -1976,6 +2431,7 @@
             switch(status) {
                 case 'Lunas': return 'badge-success';
                 case 'DP_50%': return 'badge-warning';
+                case 'Gratis': return 'badge-info';
                 case 'Belum_Bayar': return 'badge-danger';
                 default: return 'badge-info';
             }
@@ -1985,7 +2441,7 @@
             try {
                 const response = await fetchData('print_receipt', { orderId: orderId });
                 
-                if (response.success) {
+                if (response.success && response.html_receipt) {
                     // Open receipt in new window for printing
                     const printWindow = window.open('', '_blank');
                     printWindow.document.write(response.html_receipt);
@@ -1994,6 +2450,8 @@
                     setTimeout(() => {
                         printWindow.print();
                     }, 500);
+                } else {
+                    showToast('Gagal mencetak receipt', 'error');
                 }
             } catch (error) {
                 console.error('Error printing receipt:', error);
@@ -2002,9 +2460,9 @@
         }
 
         async function updateOrderStatusPrompt(orderId) {
-            const status = prompt('Masukkan status baru (Pending/Diproses/Selesai/Dibatalkan):', 'Diproses');
+            const status = prompt('Masukkan status baru (Pending/Dikonfirmasi/Diproses/Selesai/Dibatalkan/Menunggu_Part):', 'Diproses');
             
-            if (status && ['Pending', 'Diproses', 'Selesai', 'Dibatalkan'].includes(status)) {
+            if (status && ['Pending', 'Dikonfirmasi', 'Diproses', 'Selesai', 'Dibatalkan', 'Menunggu_Part'].includes(status)) {
                 try {
                     showLoader(true);
                     
@@ -2053,7 +2511,15 @@
         window.printReceipt = printReceipt;
         window.updateOrderStatusPrompt = updateOrderStatusPrompt;
         window.showNotifications = showNotifications;
+        window.showDiscountForm = showDiscountForm;
+        window.hideDiscountForm = hideDiscountForm;
+        window.saveDiscount = saveDiscount;
+        window.editDiscount = editDiscount;
+        window.deleteDiscount = deleteDiscount;
+        window.refreshDiscounts = refreshDiscounts;
+        window.showPaymentModal = showPaymentModal;
+        window.hidePaymentModal = hidePaymentModal;
+        window.updatePayment = updatePayment;
     </script>
 </body>
 </html>
-
