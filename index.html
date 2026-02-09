@@ -21,6 +21,9 @@
             background-color: #f3f4f6;
             color: #333;
             line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
         
         .container {
@@ -86,6 +89,7 @@
         .section {
             display: none;
             padding: 40px 0;
+            flex: 1;
         }
         
         .section.active {
@@ -133,6 +137,11 @@
             box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
         }
         
+        textarea.form-input {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
         /* BUTTONS */
         .btn {
             display: inline-flex;
@@ -172,6 +181,10 @@
             background: transparent;
             border: 1px solid #d1d5db;
             color: #374151;
+        }
+        
+        .btn-outline:hover {
+            background: #f9fafb;
         }
         
         /* TABLES */
@@ -237,6 +250,18 @@
             color: #991b1b;
         }
         
+        .alert-warning {
+            background: #fef3c7;
+            border: 1px solid #fde68a;
+            color: #92400e;
+        }
+        
+        .alert-info {
+            background: #dbeafe;
+            border: 1px solid #bfdbfe;
+            color: #1e40af;
+        }
+        
         /* MODAL */
         .modal {
             position: fixed;
@@ -294,7 +319,7 @@
             background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
             color: white;
             padding: 40px 0;
-            margin-top: 60px;
+            margin-top: auto;
         }
         
         .footer-grid {
@@ -325,7 +350,17 @@
             }
             
             .mobile-menu.show {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .mobile-menu .nav-link {
                 display: block;
+            }
+            
+            .section {
+                padding: 20px 0;
             }
         }
         
@@ -346,6 +381,57 @@
             .grid-cols-4 {
                 grid-template-columns: 1fr;
             }
+        }
+        
+        /* ADMIN TABS */
+        .admin-tab {
+            display: none;
+        }
+        
+        .admin-tab.active {
+            display: block;
+        }
+        
+        /* FORM VALIDATION */
+        .form-input.error {
+            border-color: #ef4444;
+        }
+        
+        .error-message {
+            color: #ef4444;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        
+        /* UTILITY CLASSES */
+        .text-center { text-align: center; }
+        .mt-1 { margin-top: 0.25rem; }
+        .mt-2 { margin-top: 0.5rem; }
+        .mt-3 { margin-top: 1rem; }
+        .mt-4 { margin-top: 1.5rem; }
+        .mb-1 { margin-bottom: 0.25rem; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        .mb-3 { margin-bottom: 1rem; }
+        .mb-4 { margin-bottom: 1.5rem; }
+        
+        /* SCROLLBAR STYLING */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a1a1a1;
         }
     </style>
 </head>
@@ -509,7 +595,7 @@
                     </button>
                     
                     <div style="text-align: center; margin-top: 20px;">
-                        <p>Belum punya akun? <a href="#" onclick="showRegisterForm()" style="color: #3b82f6;">Daftar disini</a></p>
+                        <p>Belum punya akun? <a href="#" onclick="showRegisterForm()" style="color: #3b82f6; text-decoration: underline;">Daftar disini</a></p>
                     </div>
                 </div>
                 
@@ -547,7 +633,7 @@
                     </button>
                     
                     <div style="text-align: center; margin-top: 20px;">
-                        <p>Sudah punya akun? <a href="#" onclick="showLoginForm()" style="color: #3b82f6;">Login disini</a></p>
+                        <p>Sudah punya akun? <a href="#" onclick="showLoginForm()" style="color: #3b82f6; text-decoration: underline;">Login disini</a></p>
                     </div>
                 </div>
             </div>
@@ -562,16 +648,16 @@
                 </div>
                 
                 <!-- ADMIN TABS -->
-                <div style="border-bottom: 2px solid #e5e7eb; margin-bottom: 20px;">
-                    <button class="btn btn-outline" onclick="showAdminTab('dashboard')" id="tabDashboard">Dashboard</button>
-                    <button class="btn btn-outline" onclick="showAdminTab('services')" id="tabServices">Layanan</button>
-                    <button class="btn btn-outline" onclick="showAdminTab('orders')" id="tabOrders">Orders</button>
-                    <button class="btn btn-outline" onclick="showAdminTab('users')" id="tabUsers">Users</button>
-                    <button class="btn btn-outline" onclick="showAdminTab('import')" id="tabImport">Import Data</button>
+                <div style="border-bottom: 2px solid #e5e7eb; margin-bottom: 20px; display: flex; gap: 5px; flex-wrap: wrap;">
+                    <button class="btn btn-outline admin-tab-btn" onclick="showAdminTab('dashboard')" id="tabDashboard">Dashboard</button>
+                    <button class="btn btn-outline admin-tab-btn" onclick="showAdminTab('services')" id="tabServices">Layanan</button>
+                    <button class="btn btn-outline admin-tab-btn" onclick="showAdminTab('orders')" id="tabOrders">Orders</button>
+                    <button class="btn btn-outline admin-tab-btn" onclick="showAdminTab('users')" id="tabUsers">Users</button>
+                    <button class="btn btn-outline admin-tab-btn" onclick="showAdminTab('import')" id="tabImport">Import Data</button>
                 </div>
                 
                 <!-- DASHBOARD TAB -->
-                <div id="adminDashboardTab" class="admin-tab">
+                <div id="adminDashboardTab" class="admin-tab active">
                     <div class="grid grid-cols-4" style="gap: 15px; margin-bottom: 30px;">
                         <div class="card">
                             <div style="text-align: center;">
@@ -631,7 +717,7 @@
                 </div>
                 
                 <!-- SERVICES TAB -->
-                <div id="adminServicesTab" class="admin-tab" style="display: none;">
+                <div id="adminServicesTab" class="admin-tab">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                         <h3>Manajemen Layanan</h3>
                         <button class="btn btn-primary" onclick="showServiceModal()">
@@ -648,7 +734,7 @@
                 </div>
                 
                 <!-- ORDERS TAB -->
-                <div id="adminOrdersTab" class="admin-tab" style="display: none;">
+                <div id="adminOrdersTab" class="admin-tab">
                     <div style="margin-bottom: 20px;">
                         <input type="text" id="searchOrders" class="form-input" placeholder="Cari order..." 
                                onkeyup="searchAdminOrders()" style="margin-bottom: 10px;">
@@ -682,7 +768,7 @@
                 </div>
                 
                 <!-- USERS TAB -->
-                <div id="adminUsersTab" class="admin-tab" style="display: none;">
+                <div id="adminUsersTab" class="admin-tab">
                     <div class="table-container">
                         <table>
                             <thead>
@@ -704,7 +790,7 @@
                 </div>
                 
                 <!-- IMPORT TAB -->
-                <div id="adminImportTab" class="admin-tab" style="display: none;">
+                <div id="adminImportTab" class="admin-tab">
                     <div class="card">
                         <h3 style="margin-bottom: 20px;">Import Data Harga</h3>
                         
@@ -715,7 +801,7 @@
                                 <li>Cari sheet "DataHarga"</li>
                                 <li>Input data langsung di spreadsheet dengan format kolom:</li>
                             </ol>
-                            <div style="background: #f3f4f6; padding: 15px; border-radius: 6px; margin-top: 10px;">
+                            <div style="background: #f3f4f6; padding: 15px; border-radius: 6px; margin-top: 10px; font-family: monospace;">
                                 <strong>Kategori | Tipe_Masalah | Nama_Layanan | Jenis_Biaya | Harga_Dasar | Harga_Jual | Estimasi_Waktu | Deskripsi | Status</strong>
                             </div>
                         </p>
@@ -851,7 +937,7 @@
         // ==========================================
         // CONFIGURATION
         // ==========================================
-        const API_URL = 'https://script.google.com/macros/s/AKfycbzuf3P31GtAJMQtIALxcLwiDDq-XbFmnIs6__YO0YsMAMJ0NmQz3nt69K8kzvZDbsKm/exec'; // Ganti dengan URL Apps Script Anda
+        const API_URL = 'https://script.google.com/macros/s/AKfycbzuf3P31GtAJMQtIALxcLwiDDq-XbFmnIs6__YO0YsMAMJ0NmQz3nt69K8kzvZDbsKm/exec';
         const STORAGE_KEYS = {
             TOKEN: 'malik_token',
             USER: 'malik_user'
@@ -878,7 +964,20 @@
             checkUrlParams();
             
             // Initialize event listeners
-            document.getElementById('serviceForm').addEventListener('submit', saveService);
+            const serviceForm = document.getElementById('serviceForm');
+            if (serviceForm) {
+                serviceForm.addEventListener('submit', saveService);
+            }
+            
+            // Add CSS for admin tab buttons
+            const style = document.createElement('style');
+            style.textContent = `
+                .admin-tab-btn.active {
+                    background: #3b82f6;
+                    color: white;
+                }
+            `;
+            document.head.appendChild(style);
         });
         
         function checkUrlParams() {
@@ -909,7 +1008,7 @@
                     updateAuthUI();
                     
                     if (['admin', 'superadmin'].includes(currentUser.role)) {
-                        showAdminDashboard();
+                        // Don't auto-show admin dashboard, let user navigate
                     }
                 } catch (e) {
                     console.error('Error parsing user data:', e);
@@ -938,6 +1037,8 @@
                 document.getElementById('mobileLogin').style.display = 'block';
                 document.getElementById('mobileAdmin').style.display = 'none';
                 document.getElementById('mobileLogout').style.display = 'none';
+                
+                document.getElementById('adminWelcome').innerHTML = '';
             }
         }
         
@@ -974,7 +1075,7 @@
                     setTimeout(() => {
                         if (['admin', 'superadmin'].includes(currentUser.role)) {
                             showSection('admin');
-                            showAdminDashboard();
+                            showAdminTab('dashboard');
                         } else {
                             showSection('home');
                         }
@@ -1070,7 +1171,10 @@
             });
             
             // Show selected section
-            document.getElementById(sectionId).classList.add('active');
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
             
             // Update active nav
             document.querySelectorAll('.nav-link').forEach(link => {
@@ -1091,6 +1195,12 @@
                     }
                     break;
             }
+            
+            // Close mobile menu if open
+            const mobileMenu = document.getElementById('mobileMenu');
+            if (mobileMenu && mobileMenu.classList.contains('show')) {
+                toggleMobileMenu();
+            }
         }
         
         function toggleMobileMenu() {
@@ -1103,6 +1213,7 @@
         // ==========================================
         async function loadServices() {
             const container = document.getElementById('servicesList');
+            if (!container) return;
             
             try {
                 const response = await callAPI('get_services');
@@ -1132,6 +1243,7 @@
         
         function displayServices(services) {
             const container = document.getElementById('servicesList');
+            if (!container) return;
             
             if (services.length === 0) {
                 container.innerHTML = `
@@ -1182,6 +1294,8 @@
         
         function updateCategoryFilter(categories) {
             const filter = document.getElementById('filterCategory');
+            if (!filter) return;
+            
             filter.innerHTML = '<option value="">Semua Kategori</option>';
             
             categories.forEach(category => {
@@ -1193,7 +1307,7 @@
         }
         
         function searchServices() {
-            const searchTerm = document.getElementById('searchServices').value.toLowerCase();
+            const searchTerm = document.getElementById('searchServices')?.value.toLowerCase() || '';
             const filtered = allServices.filter(service => 
                 service.nama.toLowerCase().includes(searchTerm) ||
                 service.deskripsi.toLowerCase().includes(searchTerm) ||
@@ -1203,8 +1317,8 @@
         }
         
         function filterServices() {
-            const category = document.getElementById('filterCategory').value;
-            const type = document.getElementById('filterType').value;
+            const category = document.getElementById('filterCategory')?.value || '';
+            const type = document.getElementById('filterType')?.value || '';
             
             let filtered = allServices;
             
@@ -1291,7 +1405,7 @@
                 
                 if (response.success) {
                     showAlert(null, 'success', `Order berhasil dibuat! ID: ${response.order_id}`);
-                    document.querySelector('.modal').remove();
+                    document.querySelector('.modal')?.remove();
                     
                     // Show order details
                     showSection('track');
@@ -1311,7 +1425,7 @@
         // TRACK ORDER
         // ==========================================
         async function trackOrder() {
-            const orderId = document.getElementById('trackInput').value.trim();
+            const orderId = document.getElementById('trackInput')?.value.trim();
             const resultDiv = document.getElementById('trackResult');
             
             if (!orderId) {
@@ -1362,6 +1476,10 @@
             };
             
             const resultDiv = document.getElementById('trackResult');
+            if (!resultDiv) return;
+            
+            const statusColor = statusColors[order.Status] || '#6b7280';
+            
             resultDiv.innerHTML = `
                 <div class="card">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
@@ -1369,7 +1487,7 @@
                             <h3>Order #${order.Order_ID}</h3>
                             <p style="color: #6b7280;">${formatDate(order.Created_At)}</p>
                         </div>
-                        <span class="badge" style="background: ${statusColors[order.Status] || '#6b7280'}; color: white;">
+                        <span class="badge" style="background: ${statusColor}; color: white;">
                             ${order.Status}
                         </span>
                     </div>
@@ -1426,18 +1544,30 @@
         // ==========================================
         // ADMIN FUNCTIONS
         // ==========================================
-        function showAdminDashboard() {
-            showSection('admin');
-        }
-        
         function showAdminTab(tabName) {
             // Hide all tabs
             document.querySelectorAll('.admin-tab').forEach(tab => {
+                tab.classList.remove('active');
                 tab.style.display = 'none';
             });
             
+            // Update tab buttons
+            document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
             // Show selected tab
-            document.getElementById(`admin${capitalize(tabName)}Tab`).style.display = 'block';
+            const tabElement = document.getElementById(`admin${capitalize(tabName)}Tab`);
+            if (tabElement) {
+                tabElement.style.display = 'block';
+                tabElement.classList.add('active');
+            }
+            
+            // Update tab button
+            const tabBtn = document.getElementById(`tab${capitalize(tabName)}`);
+            if (tabBtn) {
+                tabBtn.classList.add('active');
+            }
             
             // Load tab data
             switch(tabName) {
@@ -1462,16 +1592,17 @@
                 
                 if (response.success) {
                     // Update stats
-                    document.getElementById('statTotalOrders').textContent = response.stats.total_orders;
-                    document.getElementById('statRevenue').textContent = `Rp ${formatNumber(response.stats.total_revenue)}`;
-                    document.getElementById('statPending').textContent = response.stats.pending_orders;
-                    document.getElementById('statServices').textContent = response.stats.active_services;
+                    const stats = response.stats || {};
+                    document.getElementById('statTotalOrders').textContent = stats.total_orders || 0;
+                    document.getElementById('statRevenue').textContent = `Rp ${formatNumber(stats.total_revenue || 0)}`;
+                    document.getElementById('statPending').textContent = stats.pending_orders || 0;
+                    document.getElementById('statServices').textContent = stats.active_services || 0;
                     
                     // Update recent orders
                     const recentDiv = document.getElementById('recentOrders');
-                    if (response.stats.recent_orders.length > 0) {
+                    if (recentDiv && stats.recent_orders && stats.recent_orders.length > 0) {
                         let html = '';
-                        response.stats.recent_orders.forEach(order => {
+                        stats.recent_orders.forEach(order => {
                             html += `
                                 <div style="padding: 10px 0; border-bottom: 1px solid #e5e7eb; display: flex; justify-content: space-between;">
                                     <div>
@@ -1486,7 +1617,7 @@
                             `;
                         });
                         recentDiv.innerHTML = html;
-                    } else {
+                    } else if (recentDiv) {
                         recentDiv.innerHTML = '<p style="color: #6b7280; text-align: center;">Belum ada order</p>';
                     }
                 }
@@ -1497,6 +1628,7 @@
         
         async function loadAdminServices() {
             const container = document.getElementById('adminServicesList');
+            if (!container) return;
             
             try {
                 const response = await callAPI('get_services', { token: currentToken });
@@ -1528,7 +1660,7 @@
                                         <button class="btn btn-outline" onclick="editService('${service.id}')">
                                             <i class="fas fa-edit"></i>
                                         </button>
-                                        ${currentUser.role === 'superadmin' ? `
+                                        ${currentUser && currentUser.role === 'superadmin' ? `
                                         <button class="btn btn-outline" onclick="deleteService('${service.id}')">
                                             <i class="fas fa-trash"></i>
                                         </button>
@@ -1554,6 +1686,7 @@
         
         async function loadAdminOrders() {
             const container = document.getElementById('adminOrdersList');
+            if (!container) return;
             
             try {
                 const response = await callAPI('get_orders', { token: currentToken });
@@ -1596,20 +1729,23 @@
         }
         
         async function loadAdminUsers() {
+            const container = document.getElementById('adminUsersList');
+            if (!container) return;
+            
             // This would require a separate API endpoint
             // For now, show message
-            document.getElementById('adminUsersList').innerHTML = `
+            container.innerHTML = `
                 <tr>
                     <td colspan="7" style="text-align: center; padding: 20px;">
                         <p>Fitur manajemen user akan segera tersedia</p>
-                        <p class="text-sm text-gray-500">Untuk saat ini, user dapat register sendiri melalui form registrasi</p>
+                        <p style="color: #6b7280; font-size: 0.9rem;">Untuk saat ini, user dapat register sendiri melalui form registrasi</p>
                     </td>
                 </tr>
             `;
         }
         
         function searchAdminOrders() {
-            const searchTerm = document.getElementById('searchOrders').value.toLowerCase();
+            const searchTerm = document.getElementById('searchOrders')?.value.toLowerCase() || '';
             const rows = document.querySelectorAll('#adminOrdersList tr');
             
             rows.forEach(row => {
@@ -1619,7 +1755,7 @@
         }
         
         function filterAdminOrders() {
-            const status = document.getElementById('filterOrderStatus').value;
+            const status = document.getElementById('filterOrderStatus')?.value || '';
             const rows = document.querySelectorAll('#adminOrdersList tr');
             
             rows.forEach(row => {
@@ -1673,6 +1809,8 @@
             const modal = document.getElementById('serviceModal');
             const form = document.getElementById('serviceForm');
             
+            if (!modal || !form) return;
+            
             if (service) {
                 // Edit mode
                 document.getElementById('modalServiceId').value = service.id;
@@ -1695,7 +1833,10 @@
         }
         
         function hideServiceModal() {
-            document.getElementById('serviceModal').style.display = 'none';
+            const modal = document.getElementById('serviceModal');
+            if (modal) {
+                modal.style.display = 'none';
+            }
         }
         
         async function saveService(e) {
@@ -1769,7 +1910,7 @@
             const fileInput = document.getElementById('csvFile');
             const resultDiv = document.getElementById('importResult');
             
-            if (!fileInput.files.length) {
+            if (!fileInput || !fileInput.files.length) {
                 showAlert(resultDiv, 'error', 'Pilih file terlebih dahulu');
                 return;
             }
@@ -1787,18 +1928,34 @@
                     const line = lines[i].trim();
                     if (!line) continue;
                     
-                    const parts = line.split(',');
+                    // Handle CSV with quotes
+                    const parts = [];
+                    let inQuotes = false;
+                    let currentPart = '';
+                    
+                    for (let char of line) {
+                        if (char === '"') {
+                            inQuotes = !inQuotes;
+                        } else if (char === ',' && !inQuotes) {
+                            parts.push(currentPart.trim());
+                            currentPart = '';
+                        } else {
+                            currentPart += char;
+                        }
+                    }
+                    parts.push(currentPart.trim());
+                    
                     if (parts.length >= 8) {
                         services.push({
-                            kategori: parts[0].trim(),
-                            tipe: parts[1].trim(),
-                            nama: parts[2].trim(),
-                            jenis_biaya: parts[3].trim(),
+                            kategori: parts[0],
+                            tipe: parts[1],
+                            nama: parts[2],
+                            jenis_biaya: parts[3],
                             harga_dasar: Number(parts[4]) || 0,
                             harga_jual: Number(parts[5]) || 0,
-                            estimasi: parts[6].trim(),
-                            deskripsi: parts[7].trim(),
-                            status: parts[8] ? parts[8].trim() : 'active'
+                            estimasi: parts[6],
+                            deskripsi: parts[7],
+                            status: parts[8] ? parts[8] : 'active'
                         });
                     }
                 }
@@ -1813,7 +1970,7 @@
                     
                     if (response.success) {
                         showAlert(resultDiv, 'success', 
-                            `Berhasil mengimport ${response.stats.success} layanan. ${response.stats.failed} gagal.`);
+                            `Berhasil mengimport ${response.stats?.success || 0} layanan. ${response.stats?.failed || 0} gagal.`);
                         
                         // Refresh services
                         setTimeout(() => {
@@ -1897,12 +2054,16 @@
         }
         
         function formatDate(dateString) {
-            const date = new Date(dateString);
-            return date.toLocaleDateString('id-ID', {
-                day: '2-digit',
-                month: 'long',
-                year: 'numeric'
-            });
+            try {
+                const date = new Date(dateString);
+                return date.toLocaleDateString('id-ID', {
+                    day: '2-digit',
+                    month: 'long',
+                    year: 'numeric'
+                });
+            } catch (e) {
+                return dateString;
+            }
         }
         
         function capitalize(str) {
@@ -1921,6 +2082,11 @@
                 container.innerHTML = '';
                 container.appendChild(alertDiv);
                 container.style.display = 'block';
+                
+                // Auto-hide after 5 seconds
+                setTimeout(() => {
+                    container.style.display = 'none';
+                }, 5000);
             } else {
                 // Show as toast
                 alertDiv.style.position = 'fixed';
@@ -1956,7 +2122,7 @@
             // Test API connection
             setTimeout(() => {
                 callAPI('test').then(response => {
-                    if (response.success) {
+                    if (response && response.success) {
                         console.log('✅ API connected:', response.message);
                     }
                 }).catch(error => {
@@ -1969,4 +2135,3 @@
     </script>
 </body>
 </html>
-
