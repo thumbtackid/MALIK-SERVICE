@@ -8,26 +8,21 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
     <style>
-        /* Reset & Base Styles */
+        /* RESET & BASE STYLES */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f3f4f6;
             color: #333;
             line-height: 1.6;
-            min-height: 100vh;
         }
         
-        /* Utility Classes */
         .container {
             width: 100%;
             max-width: 1200px;
@@ -35,146 +30,10 @@
             padding: 0 15px;
         }
         
-        .text-center { text-align: center; }
-        .text-right { text-align: right; }
-        .text-left { text-align: left; }
-        
-        .hidden { display: none !important; }
-        .block { display: block; }
-        .flex { display: flex; }
-        .grid { display: grid; }
-        
-        .items-center { align-items: center; }
-        .justify-between { justify-content: space-between; }
-        .justify-center { justify-content: center; }
-        
-        .w-full { width: 100%; }
-        .h-full { height: 100%; }
-        
-        .cursor-pointer { cursor: pointer; }
-        .transition { transition: all 0.3s ease; }
-        
-        /* Spacing */
-        .p-2 { padding: 0.5rem; }
-        .p-4 { padding: 1rem; }
-        .p-6 { padding: 1.5rem; }
-        .p-8 { padding: 2rem; }
-        
-        .px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
-        .px-4 { padding-left: 1rem; padding-right: 1rem; }
-        .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
-        
-        .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
-        .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
-        .py-6 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
-        
-        .m-0 { margin: 0; }
-        .m-4 { margin: 1rem; }
-        .mx-auto { margin-left: auto; margin-right: auto; }
-        
-        .mt-2 { margin-top: 0.5rem; }
-        .mt-4 { margin-top: 1rem; }
-        .mt-6 { margin-top: 1.5rem; }
-        .mt-8 { margin-top: 2rem; }
-        
-        .mb-2 { margin-bottom: 0.5rem; }
-        .mb-4 { margin-bottom: 1rem; }
-        .mb-6 { margin-bottom: 1.5rem; }
-        .mb-8 { margin-bottom: 2rem; }
-        
-        .mr-2 { margin-right: 0.5rem; }
-        .mr-4 { margin-right: 1rem; }
-        
-        /* Typography */
-        .text-xs { font-size: 0.75rem; }
-        .text-sm { font-size: 0.875rem; }
-        .text-base { font-size: 1rem; }
-        .text-lg { font-size: 1.125rem; }
-        .text-xl { font-size: 1.25rem; }
-        .text-2xl { font-size: 1.5rem; }
-        .text-3xl { font-size: 1.875rem; }
-        .text-4xl { font-size: 2.25rem; }
-        
-        .font-light { font-weight: 300; }
-        .font-normal { font-weight: 400; }
-        .font-medium { font-weight: 500; }
-        .font-semibold { font-weight: 600; }
-        .font-bold { font-weight: 700; }
-        
-        /* Colors */
-        .text-white { color: #ffffff; }
-        .text-gray-500 { color: #6b7280; }
-        .text-gray-600 { color: #4b5563; }
-        .text-gray-700 { color: #374151; }
-        .text-gray-800 { color: #1f2937; }
-        
-        .text-blue-500 { color: #3b82f6; }
-        .text-blue-600 { color: #2563eb; }
-        .text-blue-700 { color: #1d4ed8; }
-        .text-blue-900 { color: #1e3a8a; }
-        
-        .text-green-500 { color: #10b981; }
-        .text-green-600 { color: #059669; }
-        .text-green-700 { color: #047857; }
-        
-        .text-red-500 { color: #ef4444; }
-        .text-red-600 { color: #dc2626; }
-        
-        .text-yellow-500 { color: #f59e0b; }
-        .text-yellow-600 { color: #d97706; }
-        
-        .bg-white { background-color: #ffffff; }
-        .bg-gray-50 { background-color: #f9fafb; }
-        .bg-gray-100 { background-color: #f3f4f6; }
-        .bg-gray-200 { background-color: #e5e7eb; }
-        
-        .bg-blue-50 { background-color: #eff6ff; }
-        .bg-blue-100 { background-color: #dbeafe; }
-        .bg-blue-500 { background-color: #3b82f6; }
-        .bg-blue-600 { background-color: #2563eb; }
-        .bg-blue-700 { background-color: #1d4ed8; }
-        .bg-blue-800 { background-color: #1e40af; }
-        .bg-blue-900 { background-color: #1e3a8a; }
-        
-        .bg-green-50 { background-color: #f0fdf4; }
-        .bg-green-100 { background-color: #dcfce7; }
-        .bg-green-500 { background-color: #10b981; }
-        
-        .bg-red-50 { background-color: #fef2f2; }
-        .bg-red-100 { background-color: #fee2e2; }
-        .bg-red-500 { background-color: #ef4444; }
-        
-        .bg-yellow-50 { background-color: #fffbeb; }
-        .bg-yellow-100 { background-color: #fef3c7; }
-        
-        /* Borders */
-        .border { border: 1px solid #e5e7eb; }
-        .border-0 { border: 0; }
-        .border-2 { border-width: 2px; }
-        
-        .border-t { border-top: 1px solid #e5e7eb; }
-        .border-b { border-bottom: 1px solid #e5e7eb; }
-        
-        .border-blue-200 { border-color: #bfdbfe; }
-        .border-blue-500 { border-color: #3b82f6; }
-        .border-gray-200 { border-color: #e5e7eb; }
-        .border-gray-300 { border-color: #d1d5db; }
-        
-        .rounded { border-radius: 0.25rem; }
-        .rounded-lg { border-radius: 0.5rem; }
-        .rounded-xl { border-radius: 0.75rem; }
-        .rounded-full { border-radius: 9999px; }
-        
-        /* Shadows */
-        .shadow { box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); }
-        .shadow-md { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
-        .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
-        .shadow-xl { box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
-        
-        /* Navigation */
+        /* NAVIGATION */
         nav {
-            background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 100%);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -197,12 +56,9 @@
             font-weight: bold;
         }
         
-        .logo i {
-            font-size: 1.5rem;
-        }
-        
         .nav-links {
-            display: none;
+            display: flex;
+            gap: 20px;
         }
         
         .nav-link {
@@ -210,63 +66,31 @@
             text-decoration: none;
             padding: 8px 16px;
             border-radius: 4px;
-            transition: background-color 0.3s;
+            transition: background 0.3s;
         }
         
-        .nav-link:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-        
-        .nav-link.active {
-            background-color: rgba(255, 255, 255, 0.2);
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255,255,255,0.2);
         }
         
         .mobile-menu-btn {
+            display: none;
             background: none;
             border: none;
             color: white;
             font-size: 1.5rem;
             cursor: pointer;
-            padding: 8px;
         }
         
-        .mobile-menu {
-            background-color: #1e40af;
-            padding: 1rem;
-            position: absolute;
-            top: 64px;
-            left: 0;
-            right: 0;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-        
-        .mobile-menu-link {
-            display: block;
-            color: white;
-            text-decoration: none;
-            padding: 12px;
-            border-radius: 4px;
-            margin-bottom: 4px;
-            transition: background-color 0.3s;
-        }
-        
-        .mobile-menu-link:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-        
-        /* Main Content */
-        main {
-            min-height: calc(100vh - 200px);
-            padding: 2rem 0;
-        }
-        
+        /* SECTIONS */
         .section {
             display: none;
+            padding: 40px 0;
         }
         
         .section.active {
             display: block;
-            animation: fadeIn 0.5s ease;
+            animation: fadeIn 0.5s;
         }
         
         @keyframes fadeIn {
@@ -274,116 +98,50 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
-        /* Cards */
+        /* CARDS */
         .card {
             background: white;
             border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 25px;
+            margin-bottom: 20px;
         }
         
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-        
-        .card-header {
-            padding: 1.5rem;
-            border-bottom: 1px solid #e5e7eb;
-        }
-        
-        .card-body {
-            padding: 1.5rem;
-        }
-        
-        .card-footer {
-            padding: 1.5rem;
-            border-top: 1px solid #e5e7eb;
-            background-color: #f9fafb;
-        }
-        
-        /* Status Badges */
-        .status-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-        
-        .status-pending {
-            background-color: #fef3c7;
-            color: #92400e;
-        }
-        
-        .status-dikonfirmasi {
-            background-color: #dbeafe;
-            color: #1e40af;
-        }
-        
-        .status-diproses {
-            background-color: #e0f2fe;
-            color: #0c4a6e;
-        }
-        
-        .status-selesai {
-            background-color: #d1fae5;
-            color: #065f46;
-        }
-        
-        .status-dibatalkan {
-            background-color: #fee2e2;
-            color: #991b1b;
-        }
-        
-        /* Forms */
+        /* FORMS */
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 20px;
         }
         
         .form-label {
             display: block;
-            margin-bottom: 0.5rem;
+            margin-bottom: 8px;
             font-weight: 500;
             color: #374151;
         }
         
         .form-input {
             width: 100%;
-            padding: 10px 12px;
+            padding: 12px;
             border: 1px solid #d1d5db;
             border-radius: 6px;
-            font-size: 1rem;
-            transition: border-color 0.3s, box-shadow 0.3s;
+            font-size: 16px;
         }
         
         .form-input:focus {
             outline: none;
             border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
         }
         
-        .form-input.error {
-            border-color: #ef4444;
-        }
-        
-        .form-error {
-            color: #ef4444;
-            font-size: 0.875rem;
-            margin-top: 0.25rem;
-        }
-        
-        /* Buttons */
+        /* BUTTONS */
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border: none;
             border-radius: 6px;
-            font-size: 1rem;
+            font-size: 16px;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.3s;
@@ -391,134 +149,131 @@
             gap: 8px;
         }
         
-        .btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-        
         .btn-primary {
-            background-color: #3b82f6;
+            background: #3b82f6;
             color: white;
         }
         
-        .btn-primary:hover:not(:disabled) {
-            background-color: #2563eb;
-        }
-        
-        .btn-secondary {
-            background-color: #6b7280;
-            color: white;
-        }
-        
-        .btn-secondary:hover:not(:disabled) {
-            background-color: #4b5563;
+        .btn-primary:hover {
+            background: #2563eb;
         }
         
         .btn-success {
-            background-color: #10b981;
+            background: #10b981;
             color: white;
-        }
-        
-        .btn-success:hover:not(:disabled) {
-            background-color: #059669;
         }
         
         .btn-danger {
-            background-color: #ef4444;
+            background: #ef4444;
             color: white;
         }
         
-        .btn-danger:hover:not(:disabled) {
-            background-color: #dc2626;
-        }
-        
         .btn-outline {
-            background-color: transparent;
+            background: transparent;
             border: 1px solid #d1d5db;
             color: #374151;
         }
         
-        .btn-outline:hover:not(:disabled) {
-            background-color: #f9fafb;
-        }
-        
-        .btn-sm {
-            padding: 6px 12px;
-            font-size: 0.875rem;
-        }
-        
-        .btn-lg {
-            padding: 12px 24px;
-            font-size: 1.125rem;
-        }
-        
-        /* Tables */
+        /* TABLES */
         .table-container {
             overflow-x: auto;
+            background: white;
             border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
         
         table {
             width: 100%;
             border-collapse: collapse;
-            background: white;
-        }
-        
-        thead {
-            background-color: #f9fafb;
         }
         
         th {
-            padding: 12px 16px;
+            background: #f9fafb;
+            padding: 12px;
             text-align: left;
             font-weight: 600;
-            color: #374151;
             border-bottom: 2px solid #e5e7eb;
         }
         
         td {
-            padding: 12px 16px;
+            padding: 12px;
             border-bottom: 1px solid #e5e7eb;
         }
         
-        tbody tr:hover {
-            background-color: #f9fafb;
+        tr:hover {
+            background: #f9fafb;
         }
         
-        /* Alerts */
+        /* STATUS BADGES */
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .badge-success { background: #d1fae5; color: #065f46; }
+        .badge-warning { background: #fef3c7; color: #92400e; }
+        .badge-danger { background: #fee2e2; color: #991b1b; }
+        .badge-info { background: #dbeafe; color: #1e40af; }
+        
+        /* ALERTS */
         .alert {
-            padding: 1rem;
+            padding: 15px;
             border-radius: 6px;
-            margin-bottom: 1rem;
-            border: 1px solid transparent;
+            margin-bottom: 20px;
         }
         
         .alert-success {
-            background-color: #d1fae5;
-            border-color: #a7f3d0;
+            background: #d1fae5;
+            border: 1px solid #a7f3d0;
             color: #065f46;
         }
         
         .alert-error {
-            background-color: #fee2e2;
-            border-color: #fecaca;
+            background: #fee2e2;
+            border: 1px solid #fecaca;
             color: #991b1b;
         }
         
-        .alert-info {
-            background-color: #dbeafe;
-            border-color: #bfdbfe;
-            color: #1e40af;
+        /* MODAL */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 20px;
         }
         
-        .alert-warning {
-            background-color: #fef3c7;
-            border-color: #fde68a;
-            color: #92400e;
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
         }
         
-        /* Loading */
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-body {
+            padding: 20px;
+        }
+        
+        /* LOADING */
         .loading {
             display: inline-block;
             width: 20px;
@@ -534,311 +289,68 @@
             100% { transform: rotate(360deg); }
         }
         
-        /* Modal */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            padding: 1rem;
+        /* FOOTER */
+        footer {
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+            color: white;
+            padding: 40px 0;
+            margin-top: 60px;
         }
         
-        .modal-content {
-            background: white;
-            border-radius: 12px;
-            max-width: 600px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            animation: modalFadeIn 0.3s ease;
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
         }
         
-        @keyframes modalFadeIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .mobile-menu {
+                display: none;
+                background: #1e40af;
+                padding: 15px;
+                position: absolute;
+                top: 64px;
+                left: 0;
+                right: 0;
+                z-index: 1000;
+            }
+            
+            .mobile-menu.show {
+                display: block;
+            }
         }
         
-        .modal-header {
-            padding: 1.5rem;
-            border-bottom: 1px solid #e5e7eb;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        /* GRID */
+        .grid {
+            display: grid;
+            gap: 20px;
         }
         
-        .modal-body {
-            padding: 1.5rem;
-        }
-        
-        .modal-footer {
-            padding: 1.5rem;
-            border-top: 1px solid #e5e7eb;
-            background-color: #f9fafb;
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-        }
-        
-        /* Grid System */
-        .grid-cols-1 { grid-template-columns: repeat(1, 1fr); }
+        .grid-cols-1 { grid-template-columns: 1fr; }
         .grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
         .grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
         .grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
         
-        .gap-4 { gap: 1rem; }
-        .gap-6 { gap: 1.5rem; }
-        .gap-8 { gap: 2rem; }
-        
-        /* Footer */
-        footer {
-            background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 100%);
-            color: white;
-            padding: 3rem 0 2rem;
-            margin-top: 3rem;
-        }
-        
-        .footer-content {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 2rem;
-        }
-        
-        .footer-section h3 {
-            font-size: 1.25rem;
-            margin-bottom: 1rem;
-            color: white;
-        }
-        
-        .footer-section p {
-            color: #dbeafe;
-            margin-bottom: 0.5rem;
-        }
-        
-        .footer-bottom {
-            text-align: center;
-            padding-top: 2rem;
-            margin-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: #dbeafe;
-            font-size: 0.875rem;
-        }
-        
-        /* Responsive */
-        @media (min-width: 768px) {
-            .nav-links {
-                display: flex;
-                gap: 10px;
-            }
-            
-            .mobile-menu-btn {
-                display: none;
-            }
-            
-            .footer-content {
-                grid-template-columns: repeat(3, 1fr);
-            }
-            
-            .grid-cols-1-md { grid-template-columns: repeat(1, 1fr); }
-            .grid-cols-2-md { grid-template-columns: repeat(2, 1fr); }
-            .grid-cols-3-md { grid-template-columns: repeat(3, 1fr); }
-            .grid-cols-4-md { grid-template-columns: repeat(4, 1fr); }
-        }
-        
-        @media (min-width: 1024px) {
-            .container {
-                padding: 0 20px;
-            }
-            
-            .grid-cols-1-lg { grid-template-columns: repeat(1, 1fr); }
-            .grid-cols-2-lg { grid-template-columns: repeat(2, 1fr); }
-            .grid-cols-3-lg { grid-template-columns: repeat(3, 1fr); }
-            .grid-cols-4-lg { grid-template-columns: repeat(4, 1fr); }
-        }
-        
-        /* Custom Styles */
-        .hero-section {
-            text-align: center;
-            padding: 3rem 0;
-            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-            border-radius: 12px;
-            margin-bottom: 2rem;
-        }
-        
-        .service-card {
-            border-left: 4px solid #3b82f6;
-        }
-        
-        .service-card.light { border-left-color: #10b981; }
-        .service-card.medium { border-left-color: #f59e0b; }
-        .service-card.heavy { border-left-color: #ef4444; }
-        
-        .price-tag {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #1e3a8a;
-        }
-        
-        .estimate-time {
-            font-size: 0.875rem;
-            color: #6b7280;
-        }
-        
-        .action-buttons {
-            display: flex;
-            gap: 8px;
-            justify-content: flex-end;
-        }
-        
-        /* Dashboard Stats */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-        }
-        
-        .stat-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-        
-        .stat-value {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #1e3a8a;
-        }
-        
-        .stat-label {
-            font-size: 0.875rem;
-            color: #6b7280;
-            margin-top: 0.25rem;
-        }
-        
-        /* Authentication */
-        .auth-container {
-            max-width: 400px;
-            margin: 0 auto;
-        }
-        
-        .auth-card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
-        }
-        
-        .auth-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        
-        .auth-icon {
-            font-size: 3rem;
-            color: #3b82f6;
-            margin-bottom: 1rem;
-        }
-        
-        /* Search and Filter */
-        .search-filter {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            align-items: center;
-        }
-        
-        .search-input {
-            flex: 1;
-            min-width: 200px;
-        }
-        
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 3rem;
-            color: #6b7280;
-        }
-        
-        .empty-state i {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: #d1d5db;
-        }
-        
-        /* Receipt */
-        .receipt {
-            background: white;
-            padding: 2rem;
-            border-radius: 8px;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-        
-        .receipt-header {
-            text-align: center;
-            border-bottom: 2px solid #1e3a8a;
-            padding-bottom: 1rem;
-            margin-bottom: 2rem;
-        }
-        
-        .receipt-details {
-            margin-bottom: 2rem;
-        }
-        
-        .receipt-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.5rem;
-        }
-        
-        .receipt-total {
-            border-top: 2px solid #374151;
-            padding-top: 1rem;
-            margin-top: 1rem;
-            font-weight: bold;
-            font-size: 1.25rem;
-        }
-        
-        /* Fix for text visibility */
-        .text-visible {
-            color: #1f2937 !important;
-            text-shadow: none !important;
-        }
-        
-        .bg-visible {
-            background-color: transparent !important;
-        }
-        
-        /* Print styles */
-        @media print {
-            nav, footer, .no-print {
-                display: none !important;
-            }
-            
-            body {
-                background: white !important;
-                color: black !important;
-            }
-            
-            .receipt {
-                box-shadow: none !important;
-                max-width: 100% !important;
+        @media (max-width: 768px) {
+            .grid-cols-2,
+            .grid-cols-3,
+            .grid-cols-4 {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
+    <!-- NAVIGATION -->
     <nav>
         <div class="container nav-container">
             <a href="#" class="logo" onclick="showSection('home')">
@@ -849,8 +361,10 @@
             <div class="nav-links">
                 <a href="#" class="nav-link" onclick="showSection('home')">Beranda</a>
                 <a href="#" class="nav-link" onclick="showSection('services')">Layanan</a>
-                <a href="#" class="nav-link" onclick="showSection('track')">Lacak Order</a>
-                <a href="#" class="nav-link" onclick="showSection('admin')">Admin</a>
+                <a href="#" class="nav-link" onclick="showSection('track')">Lacak</a>
+                <a href="#" class="nav-link" onclick="showSection('login')" id="loginNav">Login</a>
+                <a href="#" class="nav-link" onclick="showSection('admin')" id="adminNav" style="display:none">Admin</a>
+                <a href="#" class="nav-link" onclick="logout()" id="logoutNav" style="display:none">Logout</a>
             </div>
             
             <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
@@ -858,499 +372,697 @@
             </button>
         </div>
         
-        <div id="mobileMenu" class="mobile-menu hidden">
-            <a href="#" class="mobile-menu-link" onclick="showSection('home'); toggleMobileMenu()">Beranda</a>
-            <a href="#" class="mobile-menu-link" onclick="showSection('services'); toggleMobileMenu()">Layanan</a>
-            <a href="#" class="mobile-menu-link" onclick="showSection('track'); toggleMobileMenu()">Lacak Order</a>
-            <a href="#" class="mobile-menu-link" onclick="showSection('admin'); toggleMobileMenu()">Admin</a>
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="#" class="nav-link" onclick="showSection('home'); toggleMobileMenu()">Beranda</a>
+            <a href="#" class="nav-link" onclick="showSection('services'); toggleMobileMenu()">Layanan</a>
+            <a href="#" class="nav-link" onclick="showSection('track'); toggleMobileMenu()">Lacak</a>
+            <a href="#" class="nav-link" onclick="showSection('login'); toggleMobileMenu()" id="mobileLogin">Login</a>
+            <a href="#" class="nav-link" onclick="showSection('admin'); toggleMobileMenu()" id="mobileAdmin" style="display:none">Admin</a>
+            <a href="#" class="nav-link" onclick="logout(); toggleMobileMenu()" id="mobileLogout" style="display:none">Logout</a>
         </div>
     </nav>
 
-    <!-- Main Content -->
+    <!-- MAIN CONTENT -->
     <main class="container">
-        <!-- Home Section -->
+        <!-- HOME SECTION -->
         <section id="home" class="section active">
-            <div class="hero-section">
-                <h1 class="text-3xl font-bold text-blue-900 mb-4">Selamat Datang di Malik Service Center</h1>
-                <p class="text-lg text-gray-700 mb-6">Solusi terpercaya untuk perbaikan smartphone, laptop, PC, dan perangkat elektronik lainnya</p>
-                <div class="flex flex-wrap justify-center gap-4">
+            <div class="card">
+                <h1 style="font-size: 2.5rem; color: #1e3a8a; margin-bottom: 20px;">Selamat Datang di Malik Service Center</h1>
+                <p style="font-size: 1.2rem; color: #4b5563; margin-bottom: 30px;">
+                    Solusi terpercaya untuk perbaikan smartphone, laptop, PC, dan perangkat elektronik lainnya.
+                    Layanan profesional dengan harga terjangkau.
+                </p>
+                
+                <div class="grid grid-cols-3" style="gap: 20px; margin: 40px 0;">
+                    <div class="card">
+                        <div style="text-align: center;">
+                            <i class="fas fa-mobile-alt" style="font-size: 3rem; color: #3b82f6; margin-bottom: 15px;"></i>
+                            <h3>Smartphone & Tablet</h3>
+                            <p>Ganti LCD, baterai, port charging, motherboard</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div style="text-align: center;">
+                            <i class="fas fa-laptop" style="font-size: 3rem; color: #10b981; margin-bottom: 15px;"></i>
+                            <h3>Laptop & PC</h3>
+                            <p>Install OS, upgrade hardware, perbaikan motherboard</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div style="text-align: center;">
+                            <i class="fas fa-print" style="font-size: 3rem; color: #8b5cf6; margin-bottom: 15px;"></i>
+                            <h3>Printer & Scanner</h3>
+                            <p>Refill tinta, ganti printhead, perawatan berkala</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 40px;">
                     <button class="btn btn-primary" onclick="showSection('services')">
-                        <i class="fas fa-search mr-2"></i>Cari Layanan
+                        <i class="fas fa-search"></i> Cari Layanan
                     </button>
-                    <button class="btn btn-outline" onclick="showSection('track')">
-                        <i class="fas fa-shipping-fast mr-2"></i>Lacak Order
+                    <button class="btn btn-outline" onclick="showSection('track')" style="margin-left: 10px;">
+                        <i class="fas fa-shipping-fast"></i> Lacak Order
                     </button>
-                </div>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="flex items-center mb-4">
-                            <div class="bg-blue-100 p-3 rounded-lg mr-4">
-                                <i class="fas fa-mobile-alt text-blue-600 text-2xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-bold text-lg">Smartphone & Tablet</h3>
-                                <p class="text-gray-600">10+ layanan perbaikan</p>
-                            </div>
-                        </div>
-                        <p class="text-gray-700">Ganti LCD, baterai, port charging, dan perbaikan motherboard</p>
-                    </div>
-                </div>
-                
-                <div class="card">
-                    <div class="card-body">
-                        <div class="flex items-center mb-4">
-                            <div class="bg-green-100 p-3 rounded-lg mr-4">
-                                <i class="fas fa-laptop text-green-600 text-2xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-bold text-lg">Laptop & PC</h3>
-                                <p class="text-gray-600">11+ layanan perbaikan</p>
-                            </div>
-                        </div>
-                        <p class="text-gray-700">Instal OS, upgrade hardware, perbaikan motherboard, dan data recovery</p>
-                    </div>
-                </div>
-                
-                <div class="card">
-                    <div class="card-body">
-                        <div class="flex items-center mb-4">
-                            <div class="bg-purple-100 p-3 rounded-lg mr-4">
-                                <i class="fas fa-print text-purple-600 text-2xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-bold text-lg">Printer & Scanner</h3>
-                                <p class="text-gray-600">2+ layanan perbaikan</p>
-                            </div>
-                        </div>
-                        <p class="text-gray-700">Refill tinta, ganti printhead, dan perawatan berkala</p>
-                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Services Section -->
+        <!-- SERVICES SECTION -->
         <section id="services" class="section">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-                <h2 class="text-2xl font-bold text-blue-900 mb-4 md:mb-0">Daftar Layanan Perbaikan</h2>
-                <div class="flex flex-col md:flex-row gap-4 w-full md:w-auto">
-                    <select id="categoryFilter" class="form-input" onchange="filterServices()">
-                        <option value="">Semua Kategori</option>
-                    </select>
-                    <select id="typeFilter" class="form-input" onchange="filterServices()">
-                        <option value="">Semua Tipe</option>
-                        <option value="Ringan">Ringan</option>
-                        <option value="Sedang">Sedang</option>
-                        <option value="Berat">Berat</option>
-                    </select>
-                </div>
-            </div>
-            
-            <div id="servicesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Services will be loaded here -->
-            </div>
-        </section>
-
-        <!-- Track Order Section -->
-        <section id="track" class="section">
-            <div class="auth-container">
-                <div class="card">
-                    <div class="card-body">
-                        <h2 class="text-2xl font-bold text-center text-blue-900 mb-6">Lacak Status Perbaikan</h2>
-                        
-                        <div class="form-group">
-                            <label class="form-label">Masukkan Order ID atau Nomor Resi</label>
-                            <div class="flex">
-                                <input type="text" id="trackInput" placeholder="Contoh: ORD20240115001" 
-                                       class="form-input rounded-r-none">
-                                <button onclick="trackOrder()" class="btn btn-primary rounded-l-none">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div id="trackResult"></div>
-                        
-                        <div class="text-center mt-6">
-                            <p class="text-gray-600 mb-2">Tidak punya Order ID?</p>
-                            <button onclick="showSection('services')" class="btn btn-outline">
-                                Buat order baru sekarang
-                            </button>
-                        </div>
+            <div class="card">
+                <h2 style="font-size: 2rem; color: #1e3a8a; margin-bottom: 20px;">Daftar Layanan</h2>
+                
+                <div style="margin-bottom: 20px;">
+                    <input type="text" id="searchServices" class="form-input" placeholder="Cari layanan..." 
+                           onkeyup="searchServices()" style="margin-bottom: 10px;">
+                    
+                    <div class="grid grid-cols-2" style="gap: 10px;">
+                        <select id="filterCategory" class="form-input" onchange="filterServices()">
+                            <option value="">Semua Kategori</option>
+                        </select>
+                        <select id="filterType" class="form-input" onchange="filterServices()">
+                            <option value="">Semua Tipe</option>
+                            <option value="Ringan">Ringan</option>
+                            <option value="Sedang">Sedang</option>
+                            <option value="Berat">Berat</option>
+                        </select>
                     </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Admin Section -->
-        <section id="admin" class="section">
-            <!-- Login Form -->
-            <div id="loginForm">
-                <div class="auth-container">
-                    <div class="auth-card">
-                        <div class="auth-header">
-                            <div class="auth-icon">
-                                <i class="fas fa-user-shield"></i>
-                            </div>
-                            <h2 class="text-2xl font-bold text-blue-900">Admin Login</h2>
-                            <p class="text-gray-600">Masuk ke dashboard admin</p>
-                        </div>
-                        
-                        <form id="loginFormElement" onsubmit="loginAdmin(event)">
-                            <div class="form-group">
-                                <label class="form-label">Username</label>
-                                <input type="text" id="username" required
-                                       class="form-input" placeholder="Masukkan username">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">Password</label>
-                                <input type="password" id="password" required
-                                       class="form-input" placeholder="Masukkan password">
-                                <small class="text-gray-500">Password sudah ada di backend system</small>
-                            </div>
-                            
-                            <div id="loginMessage" class="form-error mb-4"></div>
-                            
-                            <button type="submit" id="loginBtn" class="btn btn-primary w-full">
-                                <span>Login</span>
-                                <span id="loginLoading" class="loading hidden"></span>
-                            </button>
-                            
-                            <div class="text-center mt-4 text-sm text-gray-600">
-                                <p>Hubungi administrator untuk mendapatkan akses</p>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Admin Dashboard -->
-            <div id="adminDashboard" class="hidden">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-                    <div>
-                        <h2 class="text-2xl font-bold text-blue-900">Admin Dashboard</h2>
-                        <p id="adminWelcome" class="text-gray-600">Selamat datang, Admin!</p>
-                    </div>
-                    <button onclick="logoutAdmin()" class="btn btn-danger mt-4 md:mt-0">
-                        <i class="fas fa-sign-out-alt mr-2"></i>Logout
-                    </button>
                 </div>
                 
-                <!-- Admin Tabs -->
-                <div class="card mb-6">
-                    <div class="card-body p-0">
-                        <div class="flex flex-wrap border-b">
-                            <button onclick="showAdminTab('dashboard')" 
-                                    class="px-6 py-4 font-medium border-b-2 border-transparent hover:text-blue-600 admin-tab">
-                                <i class="fas fa-tachometer-alt mr-2"></i>Dashboard
-                            </button>
-                            <button onclick="showAdminTab('orders')" 
-                                    class="px-6 py-4 font-medium border-b-2 border-transparent hover:text-blue-600 admin-tab">
-                                <i class="fas fa-clipboard-list mr-2"></i>Orders
-                            </button>
-                            <button onclick="showAdminTab('services')" 
-                                    class="px-6 py-4 font-medium border-b-2 border-transparent hover:text-blue-600 admin-tab">
-                                <i class="fas fa-concierge-bell mr-2"></i>Layanan
-                            </button>
+                <div id="servicesList">
+                    <!-- Services will be loaded here -->
+                    <div style="text-align: center; padding: 40px;">
+                        <div class="loading"></div>
+                        <p style="margin-top: 10px;">Memuat layanan...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TRACK ORDER SECTION -->
+        <section id="track" class="section">
+            <div class="card">
+                <h2 style="font-size: 2rem; color: #1e3a8a; margin-bottom: 20px;">Lacak Order</h2>
+                
+                <div class="form-group">
+                    <label class="form-label">Masukkan Order ID atau Nomor Resi</label>
+                    <div style="display: flex;">
+                        <input type="text" id="trackInput" class="form-input" placeholder="Contoh: ORD20241215001"
+                               style="border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                        <button class="btn btn-primary" onclick="trackOrder()"
+                                style="border-top-left-radius: 0; border-bottom-left-radius: 0;">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="trackResult">
+                    <!-- Track result will appear here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- LOGIN SECTION -->
+        <section id="login" class="section">
+            <div class="card" style="max-width: 400px; margin: 0 auto;">
+                <h2 style="font-size: 2rem; color: #1e3a8a; text-align: center; margin-bottom: 30px;">Login</h2>
+                
+                <div id="loginForm">
+                    <div class="form-group">
+                        <label class="form-label">Username</label>
+                        <input type="text" id="username" class="form-input" placeholder="Masukkan username">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" id="password" class="form-input" placeholder="Masukkan password">
+                    </div>
+                    
+                    <div id="loginMessage" class="alert" style="display: none;"></div>
+                    
+                    <button class="btn btn-primary" onclick="login()" style="width: 100%;">
+                        <span id="loginText">Login</span>
+                        <span id="loginLoading" class="loading" style="display: none;"></span>
+                    </button>
+                    
+                    <div style="text-align: center; margin-top: 20px;">
+                        <p>Belum punya akun? <a href="#" onclick="showRegisterForm()" style="color: #3b82f6;">Daftar disini</a></p>
+                    </div>
+                </div>
+                
+                <div id="registerForm" style="display: none;">
+                    <div class="form-group">
+                        <label class="form-label">Username</label>
+                        <input type="text" id="regUsername" class="form-input" placeholder="Pilih username">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" id="regPassword" class="form-input" placeholder="Buat password">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Nama Lengkap</label>
+                        <input type="text" id="regName" class="form-input" placeholder="Nama lengkap">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Nomor WhatsApp</label>
+                        <input type="tel" id="regPhone" class="form-input" placeholder="081234567890">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Email (opsional)</label>
+                        <input type="email" id="regEmail" class="form-input" placeholder="email@contoh.com">
+                    </div>
+                    
+                    <div id="registerMessage" class="alert" style="display: none;"></div>
+                    
+                    <button class="btn btn-success" onclick="register()" style="width: 100%;">
+                        <span id="registerText">Daftar</span>
+                        <span id="registerLoading" class="loading" style="display: none;"></span>
+                    </button>
+                    
+                    <div style="text-align: center; margin-top: 20px;">
+                        <p>Sudah punya akun? <a href="#" onclick="showLoginForm()" style="color: #3b82f6;">Login disini</a></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ADMIN SECTION -->
+        <section id="admin" class="section">
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+                    <h2 style="font-size: 2rem; color: #1e3a8a;">Admin Dashboard</h2>
+                    <div id="adminWelcome" style="color: #4b5563;"></div>
+                </div>
+                
+                <!-- ADMIN TABS -->
+                <div style="border-bottom: 2px solid #e5e7eb; margin-bottom: 20px;">
+                    <button class="btn btn-outline" onclick="showAdminTab('dashboard')" id="tabDashboard">Dashboard</button>
+                    <button class="btn btn-outline" onclick="showAdminTab('services')" id="tabServices">Layanan</button>
+                    <button class="btn btn-outline" onclick="showAdminTab('orders')" id="tabOrders">Orders</button>
+                    <button class="btn btn-outline" onclick="showAdminTab('users')" id="tabUsers">Users</button>
+                    <button class="btn btn-outline" onclick="showAdminTab('import')" id="tabImport">Import Data</button>
+                </div>
+                
+                <!-- DASHBOARD TAB -->
+                <div id="adminDashboardTab" class="admin-tab">
+                    <div class="grid grid-cols-4" style="gap: 15px; margin-bottom: 30px;">
+                        <div class="card">
+                            <div style="text-align: center;">
+                                <div style="font-size: 2.5rem; font-weight: bold; color: #1e3a8a;" id="statTotalOrders">0</div>
+                                <div style="color: #6b7280;">Total Orders</div>
+                            </div>
                         </div>
                         
-                        <!-- Dashboard Tab -->
-                        <div id="adminDashboardTab" class="admin-tab-content p-6">
-                            <div class="stats-grid mb-6">
-                                <div class="stat-card">
-                                    <div class="stat-value" id="statTotalOrders">0</div>
-                                    <div class="stat-label">Total Orders</div>
-                                </div>
-                                <div class="stat-card">
-                                    <div class="stat-value" id="statRevenue">Rp 0</div>
-                                    <div class="stat-label">Pendapatan</div>
-                                </div>
-                                <div class="stat-card">
-                                    <div class="stat-value" id="statPending">0</div>
-                                    <div class="stat-label">Order Pending</div>
-                                </div>
-                                <div class="stat-card">
-                                    <div class="stat-value" id="statServices">0</div>
-                                    <div class="stat-label">Layanan Aktif</div>
-                                </div>
+                        <div class="card">
+                            <div style="text-align: center;">
+                                <div style="font-size: 2.5rem; font-weight: bold; color: #10b981;" id="statRevenue">Rp 0</div>
+                                <div style="color: #6b7280;">Total Revenue</div>
                             </div>
-                            
-                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="font-bold">Order Terbaru</h3>
-                                    </div>
-                                    <div class="card-body">
-                                        <div id="recentOrders" class="empty-state">
-                                            <i class="fas fa-clipboard-list"></i>
-                                            <p>Memuat data...</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="font-bold">Statistik Order</h3>
-                                    </div>
-                                    <div class="card-body">
-                                        <canvas id="orderChart"></canvas>
-                                    </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div style="text-align: center;">
+                                <div style="font-size: 2.5rem; font-weight: bold; color: #f59e0b;" id="statPending">0</div>
+                                <div style="color: #6b7280;">Pending Orders</div>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div style="text-align: center;">
+                                <div style="font-size: 2.5rem; font-weight: bold; color: #8b5cf6;" id="statServices">0</div>
+                                <div style="color: #6b7280;">Active Services</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-2" style="gap: 20px;">
+                        <div class="card">
+                            <h3 style="margin-bottom: 15px;">Order Terbaru</h3>
+                            <div id="recentOrders">
+                                <div style="text-align: center; padding: 20px;">
+                                    <div class="loading"></div>
+                                    <p style="margin-top: 10px;">Memuat data...</p>
                                 </div>
                             </div>
                         </div>
                         
-                        <!-- Orders Tab -->
-                        <div id="adminOrdersTab" class="admin-tab-content hidden p-6">
-                            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-                                <h3 class="text-xl font-bold mb-4 md:mb-0">Manajemen Order</h3>
-                                <button onclick="showNewOrderModal()" class="btn btn-success">
-                                    <i class="fas fa-plus mr-2"></i>Order Manual
+                        <div class="card">
+                            <h3 style="margin-bottom: 15px;">Quick Actions</h3>
+                            <div style="display: flex; flex-direction: column; gap: 10px;">
+                                <button class="btn btn-primary" onclick="showAdminTab('import')">
+                                    <i class="fas fa-file-import"></i> Import Data Harga
+                                </button>
+                                <button class="btn btn-success" onclick="exportData()">
+                                    <i class="fas fa-file-export"></i> Export Data
+                                </button>
+                                <button class="btn btn-outline" onclick="refreshDashboard()">
+                                    <i class="fas fa-sync-alt"></i> Refresh Data
                                 </button>
                             </div>
-                            
-                            <div class="search-filter mb-6">
-                                <input type="text" id="orderSearch" placeholder="Cari order..." 
-                                       class="form-input search-input" onkeyup="searchOrders()">
-                                <select id="orderStatusFilter" class="form-input" onchange="filterOrders()">
-                                    <option value="">Semua Status</option>
-                                    <option value="Pending">Pending</option>
-                                    <option value="Dikonfirmasi">Dikonfirmasi</option>
-                                    <option value="Diproses">Diproses</option>
-                                    <option value="Selesai">Selesai</option>
-                                    <option value="Dibatalkan">Dibatalkan</option>
-                                </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- SERVICES TAB -->
+                <div id="adminServicesTab" class="admin-tab" style="display: none;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h3>Manajemen Layanan</h3>
+                        <button class="btn btn-primary" onclick="showServiceModal()">
+                            <i class="fas fa-plus"></i> Tambah Layanan
+                        </button>
+                    </div>
+                    
+                    <div id="adminServicesList">
+                        <div style="text-align: center; padding: 40px;">
+                            <div class="loading"></div>
+                            <p style="margin-top: 10px;">Memuat layanan...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ORDERS TAB -->
+                <div id="adminOrdersTab" class="admin-tab" style="display: none;">
+                    <div style="margin-bottom: 20px;">
+                        <input type="text" id="searchOrders" class="form-input" placeholder="Cari order..." 
+                               onkeyup="searchAdminOrders()" style="margin-bottom: 10px;">
+                        
+                        <select id="filterOrderStatus" class="form-input" onchange="filterAdminOrders()">
+                            <option value="">Semua Status</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Diproses">Diproses</option>
+                            <option value="Selesai">Selesai</option>
+                            <option value="Dibatalkan">Dibatalkan</option>
+                        </select>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Pelanggan</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                    <th>Tanggal</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminOrdersList">
+                                <!-- Orders will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- USERS TAB -->
+                <div id="adminUsersTab" class="admin-tab" style="display: none;">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Nama</th>
+                                    <th>Email</th>
+                                    <th>Telepon</th>
+                                    <th>Role</th>
+                                    <th>Status</th>
+                                    <th>Tanggal Daftar</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminUsersList">
+                                <!-- Users will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- IMPORT TAB -->
+                <div id="adminImportTab" class="admin-tab" style="display: none;">
+                    <div class="card">
+                        <h3 style="margin-bottom: 20px;">Import Data Harga</h3>
+                        
+                        <p style="margin-bottom: 20px; color: #6b7280;">
+                            <strong>Cara cepat input data:</strong>
+                            <ol style="margin-left: 20px; margin-top: 10px;">
+                                <li>Buka Google Sheets backend</li>
+                                <li>Cari sheet "DataHarga"</li>
+                                <li>Input data langsung di spreadsheet dengan format kolom:</li>
+                            </ol>
+                            <div style="background: #f3f4f6; padding: 15px; border-radius: 6px; margin-top: 10px;">
+                                <strong>Kategori | Tipe_Masalah | Nama_Layanan | Jenis_Biaya | Harga_Dasar | Harga_Jual | Estimasi_Waktu | Deskripsi | Status</strong>
                             </div>
+                        </p>
+                        
+                        <div style="border: 2px dashed #d1d5db; border-radius: 8px; padding: 40px; text-align: center; margin-top: 30px;">
+                            <i class="fas fa-file-excel" style="font-size: 3rem; color: #10b981; margin-bottom: 20px;"></i>
+                            <h4>Atau Import dari Excel/CSV</h4>
+                            <p style="color: #6b7280; margin-bottom: 20px;">Upload file Excel atau CSV dengan format yang sama</p>
                             
-                            <div class="table-container">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Order ID</th>
-                                            <th>Pelanggan</th>
-                                            <th>Total</th>
-                                            <th>Status</th>
-                                            <th>Tanggal</th>
-                                            <th>Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="ordersTable">
-                                        <!-- Orders will be loaded here -->
-                                    </tbody>
-                                </table>
-                            </div>
+                            <input type="file" id="csvFile" accept=".csv,.xlsx,.xls" style="margin-bottom: 20px;">
+                            
+                            <button class="btn btn-success" onclick="importCSV()">
+                                <i class="fas fa-upload"></i> Upload dan Import
+                            </button>
                         </div>
                         
-                        <!-- Services Tab -->
-                        <div id="adminServicesTab" class="admin-tab-content hidden p-6">
-                            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-                                <h3 class="text-xl font-bold mb-4 md:mb-0">Manajemen Layanan</h3>
-                                <button onclick="showNewServiceModal()" class="btn btn-primary">
-                                    <i class="fas fa-plus mr-2"></i>Tambah Layanan
-                                </button>
-                            </div>
-                            
-                            <div id="adminServicesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                <!-- Admin services will be loaded here -->
-                            </div>
-                        </div>
+                        <div id="importResult" style="margin-top: 20px;"></div>
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- Footer -->
+    <!-- FOOTER -->
     <footer>
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>Malik Service Center</h3>
+            <div class="footer-grid">
+                <div>
+                    <h3 style="color: white; margin-bottom: 15px;">Malik Service Center</h3>
                     <p>Solusi perbaikan elektronik terpercaya sejak 2020.</p>
                     <p>Layanan profesional dengan harga terjangkau.</p>
                 </div>
                 
-                <div class="footer-section">
-                    <h3>Kontak</h3>
-                    <p><i class="fas fa-phone mr-2"></i> 0857-1308-7659</p>
-                    <p><i class="fas fa-envelope mr-2"></i> thumbtackid@gmail.com</p>
-                    <p><i class="fas fa-map-marker-alt mr-2"></i> Semarang, Indonesia</p>
+                <div>
+                    <h3 style="color: white; margin-bottom: 15px;">Kontak</h3>
+                    <p><i class="fas fa-phone"></i> 0857-1308-7659</p>
+                    <p><i class="fas fa-envelope"></i> thumbtackid@gmail.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Semarang, Indonesia</p>
                 </div>
                 
-                <div class="footer-section">
-                    <h3>Jam Operasional</h3>
+                <div>
+                    <h3 style="color: white; margin-bottom: 15px;">Jam Operasional</h3>
                     <p>Senin - Jumat: 10:00 - 17:00</p>
                     <p>Sabtu: 10:00 - 15:00</p>
                     <p>Minggu: 10:00 - 15:00</p>
                 </div>
             </div>
             
-            <div class="footer-bottom">
+            <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
                 <p>&copy; 2024 Malik Service Center. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
-    <!-- Order Modal -->
-    <div id="orderModal" class="modal hidden">
+    <!-- SERVICE MODAL -->
+    <div id="serviceModal" class="modal" style="display: none;">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="text-xl font-bold">Pesan Layanan</h3>
-                <button onclick="closeOrderModal()" class="btn btn-outline btn-sm">
+                <h3>Tambah/Edit Layanan</h3>
+                <button class="btn btn-outline" onclick="hideServiceModal()">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <div class="modal-body">
-                <div id="orderDetails" class="mb-6 p-4 bg-blue-50 rounded-lg"></div>
-                
-                <form id="orderForm" onsubmit="submitOrder(event)">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <form id="serviceForm">
+                    <div class="form-group">
+                        <label class="form-label">Kategori</label>
+                        <input type="text" id="modalKategori" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Tipe Masalah</label>
+                        <select id="modalTipe" class="form-input" required>
+                            <option value="Ringan">Ringan</option>
+                            <option value="Sedang">Sedang</option>
+                            <option value="Berat">Berat</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Nama Layanan</label>
+                        <input type="text" id="modalNama" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Jenis Biaya</label>
+                        <input type="text" id="modalJenisBiaya" class="form-input" value="Sparepart + Jasa" required>
+                    </div>
+                    
+                    <div class="grid grid-cols-2" style="gap: 15px;">
                         <div class="form-group">
-                            <label class="form-label">Nama Lengkap *</label>
-                            <input type="text" id="customerName" required class="form-input">
+                            <label class="form-label">Harga Dasar</label>
+                            <input type="number" id="modalHargaDasar" class="form-input" required>
                         </div>
+                        
                         <div class="form-group">
-                            <label class="form-label">No. WhatsApp *</label>
-                            <input type="tel" id="customerPhone" required class="form-input">
-                        </div>
-                        <div class="form-group md:col-span-2">
-                            <label class="form-label">Alamat Lengkap</label>
-                            <textarea id="customerAddress" rows="2" class="form-input"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Kode Diskon (Opsional)</label>
-                            <div class="flex">
-                                <input type="text" id="discountCode" class="form-input rounded-r-none">
-                                <button type="button" onclick="checkDiscount()" class="btn btn-primary rounded-l-none">
-                                    Cek
-                                </button>
-                            </div>
-                            <div id="discountMessage" class="mt-2 text-sm"></div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Biaya Tambahan (Opsional)</label>
-                            <input type="number" id="additionalFees" min="0" value="0" class="form-input">
+                            <label class="form-label">Harga Jual</label>
+                            <input type="number" id="modalHargaJual" class="form-input" required>
                         </div>
                     </div>
                     
-                    <div class="form-group mb-6">
-                        <label class="form-label">Catatan untuk Teknisi</label>
-                        <textarea id="orderNotes" rows="3" class="form-input" 
-                                  placeholder="Deskripsikan masalah perangkat Anda secara detail..."></textarea>
+                    <div class="form-group">
+                        <label class="form-label">Estimasi Waktu</label>
+                        <input type="text" id="modalEstimasi" class="form-input" value="1-2 Jam" required>
                     </div>
                     
-                    <div class="bg-gray-50 p-4 rounded-lg mb-6">
-                        <div class="receipt-item">
-                            <span>Subtotal:</span>
-                            <span id="orderSubtotal">Rp 0</span>
-                        </div>
-                        <div class="receipt-item">
-                            <span>Diskon:</span>
-                            <span id="orderDiscount">Rp 0</span>
-                        </div>
-                        <div class="receipt-item">
-                            <span>Biaya Tambahan:</span>
-                            <span id="orderAdditional">Rp 0</span>
-                        </div>
-                        <div class="receipt-item receipt-total">
-                            <span>TOTAL:</span>
-                            <span id="orderTotal">Rp 0</span>
-                        </div>
+                    <div class="form-group">
+                        <label class="form-label">Deskripsi</label>
+                        <textarea id="modalDeskripsi" class="form-input" rows="3"></textarea>
                     </div>
                     
-                    <div class="modal-footer">
-                        <button type="button" onclick="closeOrderModal()" class="btn btn-outline">
-                            Batal
-                        </button>
-                        <button type="submit" id="submitOrderBtn" class="btn btn-primary">
-                            <span>Buat Order</span>
-                            <span id="orderLoading" class="loading hidden"></span>
-                        </button>
+                    <div class="form-group">
+                        <label class="form-label">Status</label>
+                        <select id="modalStatus" class="form-input">
+                            <option value="active">Aktif</option>
+                            <option value="inactive">Nonaktif</option>
+                        </select>
+                    </div>
+                    
+                    <input type="hidden" id="modalServiceId">
+                    
+                    <div style="display: flex; gap: 10px; margin-top: 20px;">
+                        <button type="button" class="btn btn-outline" onclick="hideServiceModal()">Batal</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- JavaScript -->
+    <!-- JAVASCRIPT -->
     <script>
         // ==========================================
-        // KONFIGURASI & STATE
+        // CONFIGURATION
         // ==========================================
-        
+        const API_URL = 'YOUR_WEB_APP_URL'; // Ganti dengan URL Apps Script Anda
         const STORAGE_KEYS = {
-            TOKEN: 'malik_service_token',
-            USER: 'malik_service_user',
-            ORDERS: 'malik_service_orders',
-            SERVICES: 'malik_service_services'
+            TOKEN: 'malik_token',
+            USER: 'malik_user'
         };
         
-        // API URL - SUDAH DIPERBARUI DENGAN URL APPS SCRIPT ANDA
-        const API_URL = 'https://script.google.com/macros/s/AKfycbwxIzyGy3D9a4d4Sq1W3wCyNtkwlWmYNldggxbbQNcXYaznTNbnYkhylS1VsFhYI-w_/exec';
-        
         let currentUser = null;
-        let adminToken = null;
+        let currentToken = null;
         let allServices = [];
         let allOrders = [];
-        let currentOrder = null;
-        let discountApplied = null;
-        let charts = {};
         
         // ==========================================
-        // INISIALISASI
+        // INITIALIZATION
         // ==========================================
-        
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('Malik Service System v4.0 - Frontend Initialized');
-            console.log('API URL:', API_URL);
+            console.log('Malik Service Center v1.0 - Initialized');
             
-            // Cek auth status
+            // Check authentication
             checkAuth();
             
-            // Load initial data
-            initializeData();
+            // Load services
+            loadServices();
             
-            // Setup event listeners
-            setupEventListeners();
+            // Check URL parameters
+            checkUrlParams();
             
-            // Show home section by default
-            showSection('home');
-            
-            // Update active nav
-            updateActiveNav('home');
+            // Initialize event listeners
+            document.getElementById('serviceForm').addEventListener('submit', saveService);
         });
         
-        function initializeData() {
-            // Load sample services
-            loadSampleServices();
-            
-            // Load orders from storage
-            loadOrdersFromStorage();
-            
-            // Initialize category filter
-            initializeCategoryFilter();
-        }
-        
-        function setupEventListeners() {
-            // Update order summary when additional fees change
-            document.getElementById('additionalFees')?.addEventListener('input', updateOrderSummary);
-            
-            // Auto-track order if ID is in URL
+        function checkUrlParams() {
             const urlParams = new URLSearchParams(window.location.search);
-            const orderId = urlParams.get('track');
-            if (orderId) {
+            const trackId = urlParams.get('track');
+            const section = urlParams.get('section');
+            
+            if (trackId) {
                 showSection('track');
-                document.getElementById('trackInput').value = orderId;
+                document.getElementById('trackInput').value = trackId;
                 setTimeout(() => trackOrder(), 500);
+            } else if (section) {
+                showSection(section);
             }
         }
         
         // ==========================================
-        // NAVIGASI
+        // AUTHENTICATION
         // ==========================================
+        function checkAuth() {
+            const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
+            const user = localStorage.getItem(STORAGE_KEYS.USER);
+            
+            if (token && user) {
+                try {
+                    currentToken = token;
+                    currentUser = JSON.parse(user);
+                    updateAuthUI();
+                    
+                    if (['admin', 'superadmin'].includes(currentUser.role)) {
+                        showAdminDashboard();
+                    }
+                } catch (e) {
+                    console.error('Error parsing user data:', e);
+                    logout();
+                }
+            }
+        }
         
+        function updateAuthUI() {
+            if (currentUser) {
+                document.getElementById('loginNav').style.display = 'none';
+                document.getElementById('adminNav').style.display = 'block';
+                document.getElementById('logoutNav').style.display = 'block';
+                
+                document.getElementById('mobileLogin').style.display = 'none';
+                document.getElementById('mobileAdmin').style.display = 'block';
+                document.getElementById('mobileLogout').style.display = 'block';
+                
+                document.getElementById('adminWelcome').innerHTML = 
+                    `Selamat datang, <strong>${currentUser.name}</strong>`;
+            } else {
+                document.getElementById('loginNav').style.display = 'block';
+                document.getElementById('adminNav').style.display = 'none';
+                document.getElementById('logoutNav').style.display = 'none';
+                
+                document.getElementById('mobileLogin').style.display = 'block';
+                document.getElementById('mobileAdmin').style.display = 'none';
+                document.getElementById('mobileLogout').style.display = 'none';
+            }
+        }
+        
+        async function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const btn = document.getElementById('loginText');
+            const loading = document.getElementById('loginLoading');
+            const message = document.getElementById('loginMessage');
+            
+            if (!username || !password) {
+                showAlert(message, 'error', 'Username dan password harus diisi');
+                return;
+            }
+            
+            btn.disabled = true;
+            loading.style.display = 'inline-block';
+            message.style.display = 'none';
+            
+            try {
+                const response = await callAPI('login', { username, password });
+                
+                if (response.success) {
+                    // Save token and user
+                    localStorage.setItem(STORAGE_KEYS.TOKEN, response.token);
+                    localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(response.user));
+                    
+                    currentToken = response.token;
+                    currentUser = response.user;
+                    
+                    updateAuthUI();
+                    showAlert(message, 'success', 'Login berhasil!');
+                    
+                    setTimeout(() => {
+                        if (['admin', 'superadmin'].includes(currentUser.role)) {
+                            showSection('admin');
+                            showAdminDashboard();
+                        } else {
+                            showSection('home');
+                        }
+                    }, 1000);
+                    
+                } else {
+                    showAlert(message, 'error', response.message);
+                }
+            } catch (error) {
+                showAlert(message, 'error', 'Koneksi gagal. Coba lagi.');
+                console.error('Login error:', error);
+            } finally {
+                btn.disabled = false;
+                loading.style.display = 'none';
+            }
+        }
+        
+        async function register() {
+            const username = document.getElementById('regUsername').value;
+            const password = document.getElementById('regPassword').value;
+            const name = document.getElementById('regName').value;
+            const phone = document.getElementById('regPhone').value;
+            const email = document.getElementById('regEmail').value;
+            const btn = document.getElementById('registerText');
+            const loading = document.getElementById('registerLoading');
+            const message = document.getElementById('registerMessage');
+            
+            if (!username || !password || !name || !phone) {
+                showAlert(message, 'error', 'Harap isi semua field yang wajib');
+                return;
+            }
+            
+            btn.disabled = true;
+            loading.style.display = 'inline-block';
+            message.style.display = 'none';
+            
+            try {
+                const response = await callAPI('register', {
+                    username,
+                    password,
+                    name,
+                    phone,
+                    email,
+                    role: 'customer'
+                });
+                
+                if (response.success) {
+                    showAlert(message, 'success', 'Registrasi berhasil! Silakan login.');
+                    showLoginForm();
+                } else {
+                    showAlert(message, 'error', response.message);
+                }
+            } catch (error) {
+                showAlert(message, 'error', 'Registrasi gagal. Coba lagi.');
+                console.error('Register error:', error);
+            } finally {
+                btn.disabled = false;
+                loading.style.display = 'none';
+            }
+        }
+        
+        function logout() {
+            if (confirm('Anda yakin ingin logout?')) {
+                localStorage.removeItem(STORAGE_KEYS.TOKEN);
+                localStorage.removeItem(STORAGE_KEYS.USER);
+                
+                currentToken = null;
+                currentUser = null;
+                
+                updateAuthUI();
+                showSection('home');
+                showAlert(null, 'success', 'Logout berhasil');
+            }
+        }
+        
+        function showLoginForm() {
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('registerForm').style.display = 'none';
+        }
+        
+        function showRegisterForm() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'block';
+        }
+        
+        // ==========================================
+        // NAVIGATION
+        // ==========================================
         function showSection(sectionId) {
             // Hide all sections
             document.querySelectorAll('.section').forEach(section => {
@@ -1361,51 +1073,21 @@
             document.getElementById(sectionId).classList.add('active');
             
             // Update active nav
-            updateActiveNav(sectionId);
-            
-            // Handle section-specific logic
-            handleSectionChange(sectionId);
-        }
-        
-        function updateActiveNav(sectionId) {
-            // Update desktop nav
             document.querySelectorAll('.nav-link').forEach(link => {
                 link.classList.remove('active');
-                if (link.textContent.includes(getNavText(sectionId))) {
-                    link.classList.add('active');
-                }
             });
             
-            // Update mobile nav
-            document.querySelectorAll('.mobile-menu-link').forEach(link => {
-                link.classList.remove('active');
-                if (link.textContent.includes(getNavText(sectionId))) {
-                    link.classList.add('active');
-                }
-            });
-        }
-        
-        function getNavText(sectionId) {
+            // Handle section-specific actions
             switch(sectionId) {
-                case 'home': return 'Beranda';
-                case 'services': return 'Layanan';
-                case 'track': return 'Lacak Order';
-                case 'admin': return 'Admin';
-                default: return '';
-            }
-        }
-        
-        function handleSectionChange(sectionId) {
-            switch(sectionId) {
-                case 'admin':
-                    if (isLoggedIn()) {
-                        showAdminDashboard();
-                    }
-                    break;
                 case 'services':
-                    // Refresh services if needed
-                    if (allServices.length === 0) {
-                        loadSampleServices();
+                    loadServices();
+                    break;
+                case 'admin':
+                    if (currentUser && ['admin', 'superadmin'].includes(currentUser.role)) {
+                        showAdminTab('dashboard');
+                        loadDashboard();
+                    } else {
+                        showSection('login');
                     }
                     break;
             }
@@ -1413,336 +1095,116 @@
         
         function toggleMobileMenu() {
             const menu = document.getElementById('mobileMenu');
-            menu.classList.toggle('hidden');
+            menu.classList.toggle('show');
         }
         
         // ==========================================
-        // AUTHENTIKASI
+        // SERVICES MANAGEMENT
         // ==========================================
-        
-        function isLoggedIn() {
-            const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
-            const user = localStorage.getItem(STORAGE_KEYS.USER);
-            return token && user;
-        }
-        
-        function checkAuth() {
-            const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
-            const user = localStorage.getItem(STORAGE_KEYS.USER);
+        async function loadServices() {
+            const container = document.getElementById('servicesList');
             
-            if (token && user) {
-                try {
-                    adminToken = token;
-                    currentUser = JSON.parse(user);
-                } catch (e) {
-                    console.error('Error parsing user data:', e);
-                    logoutAdmin();
+            try {
+                const response = await callAPI('get_services');
+                
+                if (response.success) {
+                    allServices = response.data;
+                    displayServices(allServices);
+                    updateCategoryFilter(response.categories);
+                } else {
+                    container.innerHTML = `
+                        <div class="alert alert-error">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Gagal memuat layanan: ${response.message}
+                        </div>
+                    `;
                 }
+            } catch (error) {
+                console.error('Error loading services:', error);
+                container.innerHTML = `
+                    <div class="alert alert-error">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Tidak dapat terhubung ke server
+                    </div>
+                `;
             }
         }
         
-        async function loginAdmin(event) {
-            if (event) event.preventDefault();
+        function displayServices(services) {
+            const container = document.getElementById('servicesList');
             
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const btn = document.getElementById('loginBtn');
-            const loading = document.getElementById('loginLoading');
-            const message = document.getElementById('loginMessage');
-            
-            // Clear previous message
-            message.textContent = '';
-            
-            // Validate inputs
-            if (!username || !password) {
-                message.textContent = 'Username dan password harus diisi';
+            if (services.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 40px;">
+                        <i class="fas fa-concierge-bell" style="font-size: 3rem; color: #d1d5db;"></i>
+                        <p style="margin-top: 10px; color: #6b7280;">Tidak ada layanan tersedia</p>
+                    </div>
+                `;
                 return;
             }
             
-            // Disable button and show loading
-            btn.disabled = true;
-            loading.classList.remove('hidden');
+            let html = '<div class="grid grid-cols-3" style="gap: 20px;">';
             
-            try {
-                console.log('Attempting login to:', API_URL);
-                const response = await callAPI('login_admin', { username, password });
+            services.forEach(service => {
+                const typeColor = service.tipe === 'Ringan' ? '#10b981' : 
+                                service.tipe === 'Sedang' ? '#f59e0b' : '#ef4444';
                 
-                console.log('Login response:', response);
-                
-                if (response.success) {
-                    // Save token and user data
-                    localStorage.setItem(STORAGE_KEYS.TOKEN, response.token);
-                    localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(response.user));
-                    
-                    adminToken = response.token;
-                    currentUser = response.user;
-                    
-                    showAdminDashboard();
-                    showAlert('success', 'Login berhasil!');
-                } else {
-                    message.textContent = response.message || 'Login gagal. Coba username: admin, password: (kosongkan untuk demo)';
-                }
-            } catch (error) {
-                console.error('Login error:', error);
-                message.textContent = 'Terjadi kesalahan saat login. Coba mode demo dulu.';
-                
-                // Fallback to demo mode
-                await simulateLogin(username, password);
-            } finally {
-                // Re-enable button and hide loading
-                btn.disabled = false;
-                loading.classList.add('hidden');
-            }
+                html += `
+                    <div class="card">
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
+                            <div>
+                                <span class="badge" style="background: ${typeColor}20; color: ${typeColor}; border: 1px solid ${typeColor}30;">
+                                    ${service.tipe}
+                                </span>
+                                <h3 style="margin-top: 10px;">${service.nama}</h3>
+                                <p style="color: #6b7280; font-size: 0.9rem;">${service.kategori}</p>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-size: 1.5rem; font-weight: bold; color: #1e3a8a;">
+                                    Rp ${formatNumber(service.harga_jual)}
+                                </div>
+                                <div style="color: #6b7280; font-size: 0.9rem;">${service.estimasi}</div>
+                            </div>
+                        </div>
+                        
+                        <p style="color: #4b5563; margin-bottom: 20px;">${service.deskripsi}</p>
+                        
+                        <button class="btn btn-primary" onclick="orderService('${service.id}')" style="width: 100%;">
+                            <i class="fas fa-shopping-cart"></i> Pesan Sekarang
+                        </button>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            container.innerHTML = html;
         }
         
-        async function simulateLogin(username, password) {
-            // Simulate API delay
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            
-            // Note: In production, password validation happens in backend only
-            // For demo purposes, we'll accept any non-empty password
-            if (username && password) {
-                // Create demo user data based on username
-                let userData;
-                switch(username.toLowerCase()) {
-                    case 'admin':
-                        userData = {
-                            username: 'admin',
-                            name: 'Administrator Utama',
-                            role: 'superadmin',
-                            permissions: 'all'
-                        };
-                        break;
-                    case 'manager':
-                        userData = {
-                            username: 'manager',
-                            name: 'Manager Operasional',
-                            role: 'manager',
-                            permissions: 'view,edit,orders'
-                        };
-                        break;
-                    case 'teknisi':
-                        userData = {
-                            username: 'teknisi',
-                            name: 'Teknisi Lapangan',
-                            role: 'teknisi',
-                            permissions: 'view,orders'
-                        };
-                        break;
-                    default:
-                        throw new Error('Username tidak dikenali. Coba: admin, manager, atau teknisi');
-                }
-                
-                // Generate demo token
-                const token = btoa(JSON.stringify({
-                    ...userData,
-                    iat: Date.now(),
-                    exp: Date.now() + (3600 * 1000) // 1 hour
-                }));
-                
-                // Save to localStorage
-                localStorage.setItem(STORAGE_KEYS.TOKEN, token);
-                localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(userData));
-                
-                adminToken = token;
-                currentUser = userData;
-                
-                showAdminDashboard();
-                showAlert('info', 'Login demo berhasil! Sistem menggunakan mode demo.');
-            } else {
-                throw new Error('Username dan password harus diisi');
-            }
-        }
-        
-        function logoutAdmin() {
-            if (confirm('Anda yakin ingin logout?')) {
-                localStorage.removeItem(STORAGE_KEYS.TOKEN);
-                localStorage.removeItem(STORAGE_KEYS.USER);
-                
-                adminToken = null;
-                currentUser = null;
-                
-                document.getElementById('loginForm').classList.remove('hidden');
-                document.getElementById('adminDashboard').classList.add('hidden');
-                document.getElementById('loginFormElement').reset();
-                
-                showSection('home');
-                showAlert('success', 'Logout berhasil');
-            }
-        }
-        
-        function showAdminDashboard() {
-            document.getElementById('loginForm').classList.add('hidden');
-            document.getElementById('adminDashboard').classList.remove('hidden');
-            document.getElementById('adminWelcome').textContent = `Selamat datang, ${currentUser?.name || 'Admin'}!`;
-            
-            showAdminTab('dashboard');
-        }
-        
-        // ==========================================
-        // DATA MANAGEMENT
-        // ==========================================
-        
-        function loadSampleServices() {
-            // Sample services data
-            allServices = [
-                {
-                    id: 1,
-                    kategori: "Smartphone & Tablet",
-                    tipe: "Ringan",
-                    nama: "Ganti Battery",
-                    harga_jual: 150000,
-                    estimasi: "1-3 Jam",
-                    deskripsi: "Harga tergantung model dan kapasitas",
-                    status: "active"
-                },
-                {
-                    id: 2,
-                    kategori: "Smartphone & Tablet",
-                    tipe: "Ringan",
-                    nama: "Ganti LCD/Layar",
-                    harga_jual: 300000,
-                    estimasi: "2-4 Jam",
-                    deskripsi: "Original/AMOLED/IPS",
-                    status: "active"
-                },
-                {
-                    id: 3,
-                    kategori: "Smartphone & Tablet",
-                    tipe: "Ringan",
-                    nama: "Ganti Kaca (Glass Only)",
-                    harga_jual: 200000,
-                    estimasi: "2-3 Jam",
-                    deskripsi: "Tanpa ganti LCD",
-                    status: "active"
-                },
-                {
-                    id: 4,
-                    kategori: "Smartphone & Tablet",
-                    tipe: "Sedang",
-                    nama: "Ganti Port Charging",
-                    harga_jual: 150000,
-                    estimasi: "1-2 Jam",
-                    deskripsi: "USB-C/Lightning/Micro USB",
-                    status: "active"
-                },
-                {
-                    id: 5,
-                    kategori: "Smartphone & Tablet",
-                    tipe: "Berat",
-                    nama: "Motherboard Repair",
-                    harga_jual: 500000,
-                    estimasi: "1-3 Hari",
-                    deskripsi: "Microsoldering IC/Resetore Data",
-                    status: "active"
-                },
-                {
-                    id: 6,
-                    kategori: "Laptop & PC",
-                    tipe: "Ringan",
-                    nama: "Instalasi OS & Driver",
-                    harga_jual: 150000,
-                    estimasi: "1-3 Jam",
-                    deskripsi: "Windows/macOS/Linux",
-                    status: "active"
-                },
-                {
-                    id: 7,
-                    kategori: "Laptop & PC",
-                    tipe: "Ringan",
-                    nama: "Pembersihan & Thermal Paste",
-                    harga_jual: 100000,
-                    estimasi: "1-2 Jam",
-                    deskripsi: "Termasuk blower dan pasta baru",
-                    status: "active"
-                },
-                {
-                    id: 8,
-                    kategori: "Printer & Scanner",
-                    tipe: "Ringan",
-                    nama: "Refill Tinta",
-                    harga_jual: 50000,
-                    estimasi: "30 Menit",
-                    deskripsi: "Inkjet, per warna",
-                    status: "active"
-                }
-            ];
-            
-            // Save to localStorage
-            localStorage.setItem(STORAGE_KEYS.SERVICES, JSON.stringify(allServices));
-            
-            // Display services
-            displayServices(allServices);
-            
-            // Update category filter
-            initializeCategoryFilter();
-        }
-        
-        function initializeCategoryFilter() {
-            const categoryFilter = document.getElementById('categoryFilter');
-            if (!categoryFilter) return;
-            
-            const categories = [...new Set(allServices.map(s => s.kategori))];
-            categoryFilter.innerHTML = '<option value="">Semua Kategori</option>';
+        function updateCategoryFilter(categories) {
+            const filter = document.getElementById('filterCategory');
+            filter.innerHTML = '<option value="">Semua Kategori</option>';
             
             categories.forEach(category => {
                 const option = document.createElement('option');
                 option.value = category;
                 option.textContent = category;
-                categoryFilter.appendChild(option);
+                filter.appendChild(option);
             });
         }
         
-        function displayServices(services) {
-            const grid = document.getElementById('servicesGrid');
-            if (!grid) return;
-            
-            if (services.length === 0) {
-                grid.innerHTML = `
-                    <div class="empty-state col-span-3">
-                        <i class="fas fa-concierge-bell"></i>
-                        <p>Tidak ada layanan tersedia</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            let html = '';
-            services.forEach(service => {
-                const typeClass = service.tipe === 'Ringan' ? 'light' : 
-                                service.tipe === 'Sedang' ? 'medium' : 'heavy';
-                
-                html += `
-                    <div class="card service-card ${typeClass}">
-                        <div class="card-body">
-                            <div class="flex justify-between items-start mb-4">
-                                <div>
-                                    <span class="status-badge status-${service.tipe.toLowerCase()}">
-                                        ${service.tipe}
-                                    </span>
-                                    <h3 class="font-bold text-lg mt-2">${service.nama}</h3>
-                                    <p class="text-gray-600 text-sm">${service.kategori}</p>
-                                </div>
-                                <div class="text-right">
-                                    <div class="price-tag">Rp ${formatNumber(service.harga_jual)}</div>
-                                    <div class="estimate-time">${service.estimasi}</div>
-                                </div>
-                            </div>
-                            <p class="text-gray-700 mb-4">${service.deskripsi}</p>
-                            <button onclick="openOrderModal(${service.id})" class="btn btn-primary w-full">
-                                <i class="fas fa-shopping-cart mr-2"></i>Pesan Sekarang
-                            </button>
-                        </div>
-                    </div>
-                `;
-            });
-            
-            grid.innerHTML = html;
+        function searchServices() {
+            const searchTerm = document.getElementById('searchServices').value.toLowerCase();
+            const filtered = allServices.filter(service => 
+                service.nama.toLowerCase().includes(searchTerm) ||
+                service.deskripsi.toLowerCase().includes(searchTerm) ||
+                service.kategori.toLowerCase().includes(searchTerm)
+            );
+            displayServices(filtered);
         }
         
         function filterServices() {
-            const category = document.getElementById('categoryFilter').value;
-            const type = document.getElementById('typeFilter').value;
+            const category = document.getElementById('filterCategory').value;
+            const type = document.getElementById('filterType').value;
             
             let filtered = allServices;
             
@@ -1757,338 +1219,206 @@
             displayServices(filtered);
         }
         
-        function loadOrdersFromStorage() {
-            try {
-                const stored = localStorage.getItem(STORAGE_KEYS.ORDERS);
-                allOrders = stored ? JSON.parse(stored) : [];
-            } catch (e) {
-                console.error('Error loading orders:', e);
-                allOrders = [];
-            }
-        }
-        
-        function saveOrdersToStorage() {
-            localStorage.setItem(STORAGE_KEYS.ORDERS, JSON.stringify(allOrders));
-        }
-        
-        // ==========================================
-        // ORDER MANAGEMENT
-        // ==========================================
-        
-        function openOrderModal(serviceId) {
+        function orderService(serviceId) {
             const service = allServices.find(s => s.id === serviceId);
-            if (!service) {
-                showAlert('error', 'Layanan tidak ditemukan');
+            if (!service) return;
+            
+            if (!currentUser) {
+                showSection('login');
+                showAlert(null, 'info', 'Silakan login terlebih dahulu untuk memesan');
                 return;
             }
             
-            currentOrder = {
-                service: service,
-                items: [{
-                    id: service.id,
-                    nama: service.nama,
-                    kategori: service.kategori,
-                    harga_jual: service.harga_jual,
-                    estimasi: service.estimasi
-                }]
+            // Create order
+            const orderData = {
+                customer_name: currentUser.name,
+                customer_phone: currentUser.phone,
+                customer_id: currentUser.username,
+                subtotal: service.harga_jual,
+                discount: 0,
+                additional_fees: 0,
+                service_details: service,
+                notes: `Pemesanan layanan: ${service.nama}`
             };
             
-            document.getElementById('orderDetails').innerHTML = `
-                <h4 class="font-bold text-lg mb-2">${service.nama}</h4>
-                <div class="receipt-item">
-                    <span>Kategori:</span>
-                    <span>${service.kategori} (${service.tipe})</span>
-                </div>
-                <div class="receipt-item">
-                    <span>Estimasi Waktu:</span>
-                    <span>${service.estimasi}</span>
-                </div>
-                <div class="receipt-item">
-                    <span>Harga:</span>
-                    <span class="font-bold">Rp ${formatNumber(service.harga_jual)}</span>
+            showConfirmOrderModal(service, orderData);
+        }
+        
+        function showConfirmOrderModal(service, orderData) {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.style.display = 'flex';
+            
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Konfirmasi Order</h3>
+                        <button class="btn btn-outline" onclick="this.closest('.modal').remove()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div style="margin-bottom: 20px;">
+                            <h4>${service.nama}</h4>
+                            <p>${service.deskripsi}</p>
+                            <div style="margin-top: 10px;">
+                                <strong>Harga:</strong> Rp ${formatNumber(service.harga_jual)}<br>
+                                <strong>Estimasi:</strong> ${service.estimasi}
+                            </div>
+                        </div>
+                        
+                        <div style="background: #f3f4f6; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
+                            <p><strong>Pelanggan:</strong> ${orderData.customer_name}</p>
+                            <p><strong>Telepon:</strong> ${orderData.customer_phone}</p>
+                        </div>
+                        
+                        <div style="display: flex; gap: 10px;">
+                            <button class="btn btn-outline" onclick="this.closest('.modal').remove()">Batal</button>
+                            <button class="btn btn-primary" onclick="submitOrder(${JSON.stringify(orderData).replace(/"/g, '&quot;')})">
+                                Konfirmasi Order
+                            </button>
+                        </div>
+                    </div>
                 </div>
             `;
             
-            updateOrderSummary();
-            
-            // Reset form
-            document.getElementById('orderForm').reset();
-            document.getElementById('discountMessage').innerHTML = '';
-            discountApplied = null;
-            
-            // Show modal
-            document.getElementById('orderModal').classList.remove('hidden');
+            document.body.appendChild(modal);
         }
         
-        function closeOrderModal() {
-            document.getElementById('orderModal').classList.add('hidden');
-            currentOrder = null;
-            discountApplied = null;
-        }
-        
-        function updateOrderSummary() {
-            if (!currentOrder) return;
-            
-            const subtotal = currentOrder.items.reduce((sum, item) => sum + item.harga_jual, 0);
-            const discount = discountApplied ? discountApplied.discount_amount : 0;
-            const additional = parseInt(document.getElementById('additionalFees')?.value || 0);
-            const total = Math.max(0, subtotal - discount + additional);
-            
-            document.getElementById('orderSubtotal').textContent = `Rp ${formatNumber(subtotal)}`;
-            document.getElementById('orderDiscount').textContent = `Rp ${formatNumber(discount)}`;
-            document.getElementById('orderAdditional').textContent = `Rp ${formatNumber(additional)}`;
-            document.getElementById('orderTotal').textContent = `Rp ${formatNumber(total)}`;
-        }
-        
-        function checkDiscount() {
-            const code = document.getElementById('discountCode').value;
-            if (!code) return;
-            
-            const subtotal = currentOrder.items.reduce((sum, item) => sum + item.harga_jual, 0);
-            const messageEl = document.getElementById('discountMessage');
-            
-            // Sample discount validation
-            const discountCodes = {
-                'WELCOME10': { type: 'percent', value: 10, min_order: 100000, max_discount: 50000 },
-                'GRANDOPENING': { type: 'fixed', value: 50000, min_order: 200000, max_discount: 50000 }
-            };
-            
-            if (discountCodes[code]) {
-                const discount = discountCodes[code];
-                
-                if (subtotal < discount.min_order) {
-                    messageEl.innerHTML = `<span class="text-red-600">Minimal order Rp ${formatNumber(discount.min_order)}</span>`;
-                    discountApplied = null;
-                } else {
-                    let discountAmount = discount.type === 'percent' 
-                        ? subtotal * (discount.value / 100)
-                        : discount.value;
-                    
-                    if (discount.max_discount && discountAmount > discount.max_discount) {
-                        discountAmount = discount.max_discount;
-                    }
-                    
-                    discountApplied = {
-                        code: code,
-                        discount_amount: discountAmount,
-                        message: `Diskon diterapkan: Rp ${formatNumber(discountAmount)}`
-                    };
-                    
-                    messageEl.innerHTML = `<span class="text-green-600">${discountApplied.message}</span>`;
-                }
-            } else {
-                discountApplied = null;
-                messageEl.innerHTML = `<span class="text-red-600">Kode diskon tidak valid</span>`;
-            }
-            
-            updateOrderSummary();
-        }
-        
-        async function submitOrder(event) {
-            event.preventDefault();
-            
-            const btn = document.getElementById('submitOrderBtn');
-            const loading = document.getElementById('orderLoading');
-            
-            // Validate form
-            const customerName = document.getElementById('customerName').value;
-            const customerPhone = document.getElementById('customerPhone').value;
-            
-            if (!customerName || !customerPhone) {
-                showAlert('error', 'Nama dan WhatsApp harus diisi');
-                return;
-            }
-            
-            // Disable button and show loading
-            btn.disabled = true;
-            loading.classList.remove('hidden');
-            
+        async function submitOrder(orderData) {
             try {
-                // Generate order data
-                const orderId = generateOrderId();
-                const receiptNumber = generateReceiptNumber();
-                const subtotal = currentOrder.items.reduce((sum, item) => sum + item.harga_jual, 0);
-                const discount = discountApplied ? discountApplied.discount_amount : 0;
-                const additional = parseInt(document.getElementById('additionalFees').value || 0);
-                const total = Math.max(0, subtotal - discount + additional);
+                const response = await callAPI('create_order', { order: orderData, token: currentToken });
                 
-                const orderData = {
-                    id: orderId,
-                    receipt: receiptNumber,
-                    timestamp: new Date().toISOString(),
-                    customer: {
-                        name: customerName,
-                        phone: customerPhone,
-                        address: document.getElementById('customerAddress').value || ''
-                    },
-                    service: currentOrder.service,
-                    subtotal: subtotal,
-                    discount: discount,
-                    additional_fees: additional,
-                    total: total,
-                    status: 'Pending',
-                    payment_status: 'Belum_Bayar',
-                    notes: document.getElementById('orderNotes').value || ''
-                };
-                
-                // Try to save to backend first
-                try {
-                    const apiResponse = await callAPI('create_order', {
-                        order: orderData,
-                        discount: discount,
-                        additional_fees: additional
-                    });
+                if (response.success) {
+                    showAlert(null, 'success', `Order berhasil dibuat! ID: ${response.order_id}`);
+                    document.querySelector('.modal').remove();
                     
-                    if (apiResponse.success) {
-                        console.log('Order saved to backend:', apiResponse);
-                        showAlert('success', `Order berhasil dibuat! Order ID: ${apiResponse.order_id || orderId}`);
-                    } else {
-                        // Fallback to local storage
-                        console.log('Backend failed, using local storage');
-                        allOrders.push(orderData);
-                        saveOrdersToStorage();
-                        showAlert('success', `Order berhasil dibuat! Order ID: ${orderId} (Disimpan lokal)`);
-                    }
-                } catch (apiError) {
-                    console.error('API error, using local storage:', apiError);
-                    // Fallback to local storage
-                    allOrders.push(orderData);
-                    saveOrdersToStorage();
-                    showAlert('success', `Order berhasil dibuat! Order ID: ${orderId} (Disimpan lokal)`);
+                    // Show order details
+                    showSection('track');
+                    document.getElementById('trackInput').value = response.order_id;
+                    setTimeout(() => trackOrder(), 500);
+                    
+                } else {
+                    showAlert(null, 'error', response.message);
                 }
-                
-                // Close modal
-                closeOrderModal();
-                
-                // Auto track order
-                showSection('track');
-                document.getElementById('trackInput').value = orderId;
-                setTimeout(() => trackOrder(), 500);
-                
             } catch (error) {
+                showAlert(null, 'error', 'Gagal membuat order');
                 console.error('Order error:', error);
-                showAlert('error', 'Gagal membuat order: ' + error.message);
-            } finally {
-                btn.disabled = false;
-                loading.classList.add('hidden');
             }
-        }
-        
-        function generateOrderId() {
-            const now = new Date();
-            const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
-            return `ORD${now.getFullYear()}${(now.getMonth()+1).toString().padStart(2,'0')}${now.getDate().toString().padStart(2,'0')}${random}`;
-        }
-        
-        function generateReceiptNumber() {
-            const now = new Date();
-            const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
-            return `MSC${now.getFullYear()}${(now.getMonth()+1).toString().padStart(2,'0')}${now.getDate().toString().padStart(2,'0')}${random}`;
         }
         
         // ==========================================
         // TRACK ORDER
         // ==========================================
-        
-        function trackOrder() {
+        async function trackOrder() {
             const orderId = document.getElementById('trackInput').value.trim();
+            const resultDiv = document.getElementById('trackResult');
+            
             if (!orderId) {
-                showAlert('error', 'Masukkan Order ID terlebih dahulu');
+                showAlert(resultDiv, 'error', 'Masukkan Order ID terlebih dahulu');
                 return;
             }
             
-            const order = allOrders.find(o => o.id === orderId);
-            if (!order) {
-                displayTrackError('Order tidak ditemukan. Pastikan Order ID benar.');
-                return;
-            }
-            
-            displayTrackResult(order);
-        }
-        
-        function displayTrackResult(order) {
-            const resultEl = document.getElementById('trackResult');
-            
-            const statusClass = {
-                'Pending': 'status-pending',
-                'Dikonfirmasi': 'status-dikonfirmasi',
-                'Diproses': 'status-diproses',
-                'Selesai': 'status-selesai',
-                'Dibatalkan': 'status-dibatalkan'
-            }[order.status] || 'status-pending';
-            
-            resultEl.innerHTML = `
-                <div class="card">
-                    <div class="card-body">
-                        <div class="flex justify-between items-start mb-6">
-                            <div>
-                                <h3 class="text-xl font-bold mb-2">Order #${order.id}</h3>
-                                <p class="text-gray-600">${formatDate(order.timestamp)}</p>
-                            </div>
-                            <span class="status-badge ${statusClass}">${order.status}</span>
-                        </div>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                            <div>
-                                <h4 class="font-bold mb-3">Informasi Pelanggan</h4>
-                                <p><strong>Nama:</strong> ${order.customer.name}</p>
-                                <p><strong>WhatsApp:</strong> ${order.customer.phone}</p>
-                                <p><strong>Alamat:</strong> ${order.customer.address || '-'}</p>
-                            </div>
-                            <div>
-                                <h4 class="font-bold mb-3">Informasi Order</h4>
-                                <p><strong>Status Bayar:</strong> ${order.payment_status}</p>
-                                <p><strong>No. Resi:</strong> ${order.receipt || '-'}</p>
-                                <p><strong>Layanan:</strong> ${order.service.nama}</p>
-                            </div>
-                        </div>
-                        
-                        <div class="receipt mb-6">
-                            <div class="receipt-header">
-                                <h4 class="font-bold text-lg">Ringkasan Pembayaran</h4>
-                            </div>
-                            <div class="receipt-details">
-                                <div class="receipt-item">
-                                    <span>Subtotal:</span>
-                                    <span>Rp ${formatNumber(order.subtotal)}</span>
-                                </div>
-                                ${order.discount > 0 ? `
-                                <div class="receipt-item">
-                                    <span>Diskon:</span>
-                                    <span>- Rp ${formatNumber(order.discount)}</span>
-                                </div>
-                                ` : ''}
-                                ${order.additional_fees > 0 ? `
-                                <div class="receipt-item">
-                                    <span>Biaya Tambahan:</span>
-                                    <span>+ Rp ${formatNumber(order.additional_fees)}</span>
-                                </div>
-                                ` : ''}
-                                <div class="receipt-item receipt-total">
-                                    <span>TOTAL:</span>
-                                    <span>Rp ${formatNumber(order.total)}</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        ${order.notes ? `
-                        <div class="bg-blue-50 p-4 rounded-lg">
-                            <h4 class="font-bold mb-2">Catatan:</h4>
-                            <p>${order.notes}</p>
-                        </div>
-                        ` : ''}
-                    </div>
+            resultDiv.innerHTML = `
+                <div style="text-align: center; padding: 20px;">
+                    <div class="loading"></div>
+                    <p>Mencari order...</p>
                 </div>
             `;
+            
+            try {
+                const response = await callAPI('get_orders', { 
+                    filter: { search: orderId },
+                    token: currentToken 
+                });
+                
+                if (response.success && response.data.length > 0) {
+                    const order = response.data[0];
+                    displayOrderDetails(order);
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="alert alert-error">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Order tidak ditemukan. Pastikan Order ID benar.
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="alert alert-error">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Gagal mencari order. Coba lagi nanti.
+                    </div>
+                `;
+            }
         }
         
-        function displayTrackError(message) {
-            const resultEl = document.getElementById('trackResult');
-            resultEl.innerHTML = `
-                <div class="alert alert-error">
-                    <i class="fas fa-exclamation-triangle mr-2"></i>
-                    <strong>Order Tidak Ditemukan</strong>
-                    <p class="mt-1">${message}</p>
+        function displayOrderDetails(order) {
+            const statusColors = {
+                'Pending': '#f59e0b',
+                'Diproses': '#3b82f6',
+                'Selesai': '#10b981',
+                'Dibatalkan': '#ef4444'
+            };
+            
+            const resultDiv = document.getElementById('trackResult');
+            resultDiv.innerHTML = `
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <div>
+                            <h3>Order #${order.Order_ID}</h3>
+                            <p style="color: #6b7280;">${formatDate(order.Created_At)}</p>
+                        </div>
+                        <span class="badge" style="background: ${statusColors[order.Status] || '#6b7280'}; color: white;">
+                            ${order.Status}
+                        </span>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                        <div>
+                            <h4>Informasi Pelanggan</h4>
+                            <p><strong>Nama:</strong> ${order.Nama_Pelanggan}</p>
+                            <p><strong>WhatsApp:</strong> ${order.WhatsApp}</p>
+                            <p><strong>Alamat:</strong> ${order.Alamat || '-'}</p>
+                        </div>
+                        <div>
+                            <h4>Informasi Order</h4>
+                            <p><strong>Status Bayar:</strong> ${order.Status_Bayar}</p>
+                            <p><strong>No. Resi:</strong> ${order.Receipt_Number || '-'}</p>
+                            <p><strong>Metode Bayar:</strong> ${order.Metode_Bayar || '-'}</p>
+                        </div>
+                    </div>
+                    
+                    <div style="background: #f3f4f6; padding: 15px; border-radius: 6px;">
+                        <h4 style="margin-bottom: 10px;">Rincian Biaya</h4>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span>Subtotal:</span>
+                            <span>Rp ${formatNumber(order.Subtotal)}</span>
+                        </div>
+                        ${order.Diskon > 0 ? `
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span>Diskon:</span>
+                            <span>- Rp ${formatNumber(order.Diskon)}</span>
+                        </div>
+                        ` : ''}
+                        ${order.Biaya_Tambahan > 0 ? `
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span>Biaya Tambahan:</span>
+                            <span>+ Rp ${formatNumber(order.Biaya_Tambahan)}</span>
+                        </div>
+                        ` : ''}
+                        <div style="display: flex; justify-content: space-between; font-weight: bold; padding-top: 10px; border-top: 2px solid #d1d5db;">
+                            <span>TOTAL:</span>
+                            <span>Rp ${formatNumber(order.Total_Bayar)}</span>
+                        </div>
+                    </div>
+                    
+                    ${order.Catatan ? `
+                    <div style="margin-top: 20px; padding: 15px; background: #dbeafe; border-radius: 6px;">
+                        <h4>Catatan:</h4>
+                        <p>${order.Catatan}</p>
+                    </div>
+                    ` : ''}
                 </div>
             `;
         }
@@ -2096,578 +1426,471 @@
         // ==========================================
         // ADMIN FUNCTIONS
         // ==========================================
+        function showAdminDashboard() {
+            showSection('admin');
+        }
         
         function showAdminTab(tabName) {
             // Hide all tabs
-            document.querySelectorAll('.admin-tab-content').forEach(tab => {
-                tab.classList.add('hidden');
-            });
-            
-            // Remove active class from all tab buttons
             document.querySelectorAll('.admin-tab').forEach(tab => {
-                tab.classList.remove('border-blue-500', 'text-blue-600');
+                tab.style.display = 'none';
             });
             
             // Show selected tab
-            document.getElementById(`admin${capitalizeFirst(tabName)}Tab`).classList.remove('hidden');
-            
-            // Add active class to clicked tab
-            event.target.classList.add('border-blue-500', 'text-blue-600');
+            document.getElementById(`admin${capitalize(tabName)}Tab`).style.display = 'block';
             
             // Load tab data
             switch(tabName) {
                 case 'dashboard':
-                    loadDashboardData();
-                    break;
-                case 'orders':
-                    loadOrdersData();
+                    loadDashboard();
                     break;
                 case 'services':
-                    loadServicesData();
+                    loadAdminServices();
+                    break;
+                case 'orders':
+                    loadAdminOrders();
+                    break;
+                case 'users':
+                    loadAdminUsers();
                     break;
             }
         }
         
-        function loadDashboardData() {
-            // Update stats
-            document.getElementById('statTotalOrders').textContent = allOrders.length;
-            
-            const completedOrders = allOrders.filter(o => o.status === 'Selesai');
-            const revenue = completedOrders.reduce((sum, o) => sum + (o.total || 0), 0);
-            document.getElementById('statRevenue').textContent = `Rp ${formatNumber(revenue)}`;
-            
-            const pendingOrders = allOrders.filter(o => o.status === 'Pending');
-            document.getElementById('statPending').textContent = pendingOrders.length;
-            
-            document.getElementById('statServices').textContent = allServices.filter(s => s.status === 'active').length;
-            
-            // Update recent orders
-            const recentOrdersEl = document.getElementById('recentOrders');
-            if (allOrders.length === 0) {
-                recentOrdersEl.innerHTML = '<p class="text-gray-500">Belum ada order</p>';
-            } else {
-                const recent = allOrders.slice(-5).reverse();
-                let html = '';
-                recent.forEach(order => {
-                    const statusClass = {
-                        'Pending': 'status-pending',
-                        'Dikonfirmasi': 'status-dikonfirmasi',
-                        'Diproses': 'status-diproses',
-                        'Selesai': 'status-selesai',
-                        'Dibatalkan': 'status-dibatalkan'
-                    }[order.status] || 'status-pending';
+        async function loadDashboard() {
+            try {
+                const response = await callAPI('get_dashboard', { token: currentToken });
+                
+                if (response.success) {
+                    // Update stats
+                    document.getElementById('statTotalOrders').textContent = response.stats.total_orders;
+                    document.getElementById('statRevenue').textContent = `Rp ${formatNumber(response.stats.total_revenue)}`;
+                    document.getElementById('statPending').textContent = response.stats.pending_orders;
+                    document.getElementById('statServices').textContent = response.stats.active_services;
                     
-                    html += `
-                        <div class="border-b py-3 last:border-b-0">
-                            <div class="flex justify-between items-center">
-                                <div>
-                                    <p class="font-medium">${order.customer.name}</p>
-                                    <p class="text-sm text-gray-500">${order.id}</p>
+                    // Update recent orders
+                    const recentDiv = document.getElementById('recentOrders');
+                    if (response.stats.recent_orders.length > 0) {
+                        let html = '';
+                        response.stats.recent_orders.forEach(order => {
+                            html += `
+                                <div style="padding: 10px 0; border-bottom: 1px solid #e5e7eb; display: flex; justify-content: space-between;">
+                                    <div>
+                                        <div style="font-weight: 500;">${order.customer}</div>
+                                        <div style="font-size: 0.9rem; color: #6b7280;">${order.id}</div>
+                                    </div>
+                                    <div style="text-align: right;">
+                                        <div style="font-weight: 500;">Rp ${formatNumber(order.total)}</div>
+                                        <div style="font-size: 0.8rem; color: #6b7280;">${formatDate(order.date)}</div>
+                                    </div>
                                 </div>
-                                <div class="text-right">
-                                    <span class="status-badge ${statusClass}">${order.status}</span>
-                                    <p class="text-sm font-bold mt-1">Rp ${formatNumber(order.total)}</p>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                });
-                recentOrdersEl.innerHTML = html;
-            }
-            
-            // Create sample chart
-            createSampleChart();
-        }
-        
-        function createSampleChart() {
-            const ctx = document.getElementById('orderChart');
-            if (!ctx) return;
-            
-            // Destroy existing chart
-            if (charts.orderChart) {
-                charts.orderChart.destroy();
-            }
-            
-            // Sample data
-            const labels = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
-            const data = [3, 5, 2, 8, 6, 4, 7];
-            
-            charts.orderChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Order per Hari',
-                        data: data,
-                        borderColor: '#3b82f6',
-                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                        fill: true,
-                        tension: 0.4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
+                            `;
+                        });
+                        recentDiv.innerHTML = html;
+                    } else {
+                        recentDiv.innerHTML = '<p style="color: #6b7280; text-align: center;">Belum ada order</p>';
                     }
                 }
-            });
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+            }
         }
         
-        function loadOrdersData() {
-            const table = document.getElementById('ordersTable');
+        async function loadAdminServices() {
+            const container = document.getElementById('adminServicesList');
             
-            if (allOrders.length === 0) {
-                table.innerHTML = `
-                    <tr>
-                        <td colspan="6" class="text-center py-8">
-                            <div class="empty-state">
-                                <i class="fas fa-clipboard-list"></i>
-                                <p>Belum ada order</p>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
-            
-            let html = '';
-            allOrders.forEach(order => {
-                const statusClass = {
-                    'Pending': 'status-pending',
-                    'Dikonfirmasi': 'status-dikonfirmasi',
-                    'Diproses': 'status-diproses',
-                    'Selesai': 'status-selesai',
-                    'Dibatalkan': 'status-dibatalkan'
-                }[order.status] || 'status-pending';
+            try {
+                const response = await callAPI('get_services', { token: currentToken });
                 
-                html += `
-                    <tr>
-                        <td>
-                            <div class="font-medium">${order.id}</div>
-                            <div class="text-sm text-gray-500">${order.receipt || '-'}</div>
-                        </td>
-                        <td>
-                            <div class="font-medium">${order.customer.name}</div>
-                            <div class="text-sm text-gray-500">${order.customer.phone}</div>
-                        </td>
-                        <td class="font-bold">Rp ${formatNumber(order.total)}</td>
-                        <td><span class="status-badge ${statusClass}">${order.status}</span></td>
-                        <td>${formatDate(order.timestamp)}</td>
-                        <td>
-                            <div class="action-buttons">
-                                <button onclick="viewOrderDetails('${order.id}')" class="btn btn-outline btn-sm">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                                <button onclick="updateOrderStatus('${order.id}')" class="btn btn-outline btn-sm">
-                                    <i class="fas fa-edit"></i>
-                                </button>
+                if (response.success) {
+                    let html = '<div class="grid grid-cols-2" style="gap: 20px;">';
+                    
+                    response.data.forEach(service => {
+                        html += `
+                            <div class="card">
+                                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
+                                    <div>
+                                        <h3>${service.nama}</h3>
+                                        <p style="color: #6b7280;">${service.kategori} • ${service.tipe}</p>
+                                    </div>
+                                    <span class="badge ${service.status === 'active' ? 'badge-success' : 'badge-danger'}">
+                                        ${service.status === 'active' ? 'Aktif' : 'Nonaktif'}
+                                    </span>
+                                </div>
+                                
+                                <p style="color: #4b5563; margin-bottom: 15px;">${service.deskripsi}</p>
+                                
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <div>
+                                        <div style="font-weight: bold; color: #1e3a8a;">Rp ${formatNumber(service.harga_jual)}</div>
+                                        <div style="color: #6b7280; font-size: 0.9rem;">${service.estimasi}</div>
+                                    </div>
+                                    <div style="display: flex; gap: 5px;">
+                                        <button class="btn btn-outline" onclick="editService('${service.id}')">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        ${currentUser.role === 'superadmin' ? `
+                                        <button class="btn btn-outline" onclick="deleteService('${service.id}')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                        ` : ''}
+                                    </div>
+                                </div>
                             </div>
-                        </td>
-                    </tr>
+                        `;
+                    });
+                    
+                    html += '</div>';
+                    container.innerHTML = html;
+                }
+            } catch (error) {
+                container.innerHTML = `
+                    <div class="alert alert-error">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Gagal memuat data layanan
+                    </div>
                 `;
-            });
-            
-            table.innerHTML = html;
+            }
         }
         
-        function searchOrders() {
-            const searchTerm = document.getElementById('orderSearch').value.toLowerCase();
-            const statusFilter = document.getElementById('orderStatusFilter').value;
+        async function loadAdminOrders() {
+            const container = document.getElementById('adminOrdersList');
             
-            let filtered = allOrders;
-            
-            if (searchTerm) {
-                filtered = filtered.filter(order => 
-                    order.id.toLowerCase().includes(searchTerm) ||
-                    order.customer.name.toLowerCase().includes(searchTerm) ||
-                    order.customer.phone.includes(searchTerm)
-                );
-            }
-            
-            if (statusFilter) {
-                filtered = filtered.filter(order => order.status === statusFilter);
-            }
-            
-            // Update table display
-            const table = document.getElementById('ordersTable');
-            if (filtered.length === 0) {
-                table.innerHTML = `
-                    <tr>
-                        <td colspan="6" class="text-center py-8">
-                            <p class="text-gray-500">Tidak ada order yang sesuai</p>
-                        </td>
-                    </tr>
-                `;
-            } else {
-                let html = '';
-                filtered.forEach(order => {
-                    const statusClass = {
-                        'Pending': 'status-pending',
-                        'Dikonfirmasi': 'status-dikonfirmasi',
-                        'Diproses': 'status-diproses',
-                        'Selesai': 'status-selesai',
-                        'Dibatalkan': 'status-dibatalkan'
-                    }[order.status] || 'status-pending';
+            try {
+                const response = await callAPI('get_orders', { token: currentToken });
+                
+                if (response.success) {
+                    let html = '';
                     
-                    html += `
-                        <tr>
-                            <td>
-                                <div class="font-medium">${order.id}</div>
-                                <div class="text-sm text-gray-500">${order.receipt || '-'}</div>
-                            </td>
-                            <td>
-                                <div class="font-medium">${order.customer.name}</div>
-                                <div class="text-sm text-gray-500">${order.customer.phone}</div>
-                            </td>
-                            <td class="font-bold">Rp ${formatNumber(order.total)}</td>
-                            <td><span class="status-badge ${statusClass}">${order.status}</span></td>
-                            <td>${formatDate(order.timestamp)}</td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button onclick="viewOrderDetails('${order.id}')" class="btn btn-outline btn-sm">
+                    response.data.forEach(order => {
+                        const statusColor = order.Status === 'Selesai' ? 'badge-success' :
+                                          order.Status === 'Pending' ? 'badge-warning' :
+                                          order.Status === 'Diproses' ? 'badge-info' : 'badge-danger';
+                        
+                        html += `
+                            <tr>
+                                <td>${order.Order_ID}</td>
+                                <td>
+                                    <div>${order.Nama_Pelanggan}</div>
+                                    <div style="font-size: 0.9rem; color: #6b7280;">${order.WhatsApp}</div>
+                                </td>
+                                <td style="font-weight: bold;">Rp ${formatNumber(order.Total_Bayar)}</td>
+                                <td><span class="badge ${statusColor}">${order.Status}</span></td>
+                                <td>${formatDate(order.Created_At)}</td>
+                                <td>
+                                    <button class="btn btn-outline" onclick="viewOrder('${order.Order_ID}')">
                                         <i class="fas fa-eye"></i>
                                     </button>
-                                    <button onclick="updateOrderStatus('${order.id}')" class="btn btn-outline btn-sm">
+                                    <button class="btn btn-outline" onclick="updateOrderStatus('${order.Order_ID}')">
                                         <i class="fas fa-edit"></i>
                                     </button>
-                                </div>
-                            </td>
-                        </tr>
-                    `;
-                });
-                table.innerHTML = html;
-            }
-        }
-        
-        function filterOrders() {
-            searchOrders(); // Reuse search function for filtering
-        }
-        
-        function viewOrderDetails(orderId) {
-            const order = allOrders.find(o => o.id === orderId);
-            if (!order) {
-                showAlert('error', 'Order tidak ditemukan');
-                return;
-            }
-            
-            const statusClass = {
-                'Pending': 'status-pending',
-                'Dikonfirmasi': 'status-dikonfirmasi',
-                'Diproses': 'status-diproses',
-                'Selesai': 'status-selesai',
-                'Dibatalkan': 'status-dibatalkan'
-            }[order.status] || 'status-pending';
-            
-            const modalHTML = `
-                <div class="modal" onclick="if(event.target===this) this.remove()">
-                    <div class="modal-content" style="max-width: 800px;">
-                        <div class="modal-header">
-                            <h3 class="text-xl font-bold">Detail Order #${order.id}</h3>
-                            <button onclick="this.closest('.modal').remove()" class="btn btn-outline btn-sm">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                                <div>
-                                    <h4 class="font-bold mb-3">Informasi Pelanggan</h4>
-                                    <p><strong>Nama:</strong> ${order.customer.name}</p>
-                                    <p><strong>WhatsApp:</strong> ${order.customer.phone}</p>
-                                    <p><strong>Alamat:</strong> ${order.customer.address || '-'}</p>
-                                    <p><strong>Catatan:</strong> ${order.notes || '-'}</p>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold mb-3">Informasi Order</h4>
-                                    <p><strong>Status:</strong> <span class="status-badge ${statusClass}">${order.status}</span></p>
-                                    <p><strong>Status Bayar:</strong> ${order.payment_status}</p>
-                                    <p><strong>No. Resi:</strong> ${order.receipt || '-'}</p>
-                                    <p><strong>Tanggal:</strong> ${formatDate(order.timestamp)}</p>
-                                </div>
-                            </div>
-                            
-                            <div class="mb-6">
-                                <h4 class="font-bold mb-3">Detail Layanan</h4>
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="flex justify-between items-center">
-                                            <div>
-                                                <h5 class="font-bold">${order.service.nama}</h5>
-                                                <p class="text-gray-600">${order.service.kategori} - ${order.service.tipe}</p>
-                                            </div>
-                                            <div class="text-right">
-                                                <div class="price-tag">Rp ${formatNumber(order.service.harga_jual)}</div>
-                                                <div class="estimate-time">${order.service.estimasi}</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="receipt">
-                                <div class="receipt-header">
-                                    <h4 class="font-bold text-lg">Ringkasan Pembayaran</h4>
-                                </div>
-                                <div class="receipt-details">
-                                    <div class="receipt-item">
-                                        <span>Subtotal:</span>
-                                        <span>Rp ${formatNumber(order.subtotal)}</span>
-                                    </div>
-                                    ${order.discount > 0 ? `
-                                    <div class="receipt-item">
-                                        <span>Diskon:</span>
-                                        <span>- Rp ${formatNumber(order.discount)}</span>
-                                    </div>
-                                    ` : ''}
-                                    ${order.additional_fees > 0 ? `
-                                    <div class="receipt-item">
-                                        <span>Biaya Tambahan:</span>
-                                        <span>+ Rp ${formatNumber(order.additional_fees)}</span>
-                                    </div>
-                                    ` : ''}
-                                    <div class="receipt-item receipt-total">
-                                        <span>TOTAL:</span>
-                                        <span>Rp ${formatNumber(order.total)}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button onclick="printReceipt('${order.id}')" class="btn btn-primary">
-                                <i class="fas fa-print mr-2"></i>Cetak Nota
-                            </button>
-                            <button onclick="this.closest('.modal').remove()" class="btn btn-outline">
-                                Tutup
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            document.body.insertAdjacentHTML('beforeend', modalHTML);
-        }
-        
-        function updateOrderStatus(orderId) {
-            const newStatus = prompt('Masukkan status baru (Pending/Dikonfirmasi/Diproses/Selesai/Dibatalkan):');
-            if (!newStatus || !['Pending', 'Dikonfirmasi', 'Diproses', 'Selesai', 'Dibatalkan'].includes(newStatus)) {
-                showAlert('error', 'Status tidak valid');
-                return;
-            }
-            
-            const orderIndex = allOrders.findIndex(o => o.id === orderId);
-            if (orderIndex === -1) {
-                showAlert('error', 'Order tidak ditemukan');
-                return;
-            }
-            
-            allOrders[orderIndex].status = newStatus;
-            saveOrdersToStorage();
-            
-            showAlert('success', 'Status order berhasil diperbarui');
-            loadOrdersData();
-        }
-        
-        function printReceipt(orderId) {
-            const order = allOrders.find(o => o.id === orderId);
-            if (!order) {
-                showAlert('error', 'Order tidak ditemukan');
-                return;
-            }
-            
-            const printWindow = window.open('', '_blank');
-            const receiptHTML = generateReceiptHTML(order);
-            printWindow.document.write(receiptHTML);
-            printWindow.document.close();
-            printWindow.focus();
-            
-            // Auto print after a short delay
-            setTimeout(() => {
-                printWindow.print();
-                printWindow.close();
-            }, 500);
-        }
-        
-        function generateReceiptHTML(order) {
-            return `
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <title>Receipt ${order.receipt}</title>
-                    <style>
-                        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
-                        .receipt { max-width: 400px; margin: 0 auto; }
-                        .header { text-align: center; margin-bottom: 20px; border-bottom: 2px solid #1e3a8a; padding-bottom: 10px; }
-                        .header h2 { margin: 0; color: #1e3a8a; }
-                        .order-info { margin-bottom: 20px; }
-                        .order-info table { width: 100%; }
-                        .order-info td { padding: 3px 0; }
-                        .items { margin-bottom: 20px; }
-                        .items table { width: 100%; border-collapse: collapse; }
-                        .items th, .items td { border: 1px solid #ddd; padding: 8px; }
-                        .items th { background-color: #f2f2f2; }
-                        .footer { text-align: center; margin-top: 30px; font-size: 0.9em; color: #666; }
-                        @media print { button { display: none; } }
-                    </style>
-                </head>
-                <body>
-                    <div class="receipt">
-                        <div class="header">
-                            <h2>MALIK SERVICE CENTER</h2>
-                            <p>Jl.Untung Suropati Semarang</p>
-                            <p>Telp: 0857-1308-7659</p>
-                        </div>
-                        
-                        <div class="order-info">
-                            <table>
-                                <tr><td><strong>Receipt No:</strong></td><td>${order.receipt}</td></tr>
-                                <tr><td><strong>Order ID:</strong></td><td>${order.id}</td></tr>
-                                <tr><td><strong>Tanggal:</strong></td><td>${formatDate(order.timestamp)}</td></tr>
-                                <tr><td><strong>Pelanggan:</strong></td><td>${order.customer.name}</td></tr>
-                                <tr><td><strong>Status:</strong></td><td>${order.status}</td></tr>
-                            </table>
-                        </div>
-                        
-                        <div class="items">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Layanan</th>
-                                        <th>Harga</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>${order.service.nama}</td>
-                                        <td style="text-align: right;">Rp ${formatNumber(order.service.harga_jual)}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        
-                        <div style="background: #f9f9f9; padding: 15px; border-radius: 5px;">
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                                <span>Subtotal:</span>
-                                <span>Rp ${formatNumber(order.subtotal)}</span>
-                            </div>
-                            ${order.discount > 0 ? `
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                                <span>Diskon:</span>
-                                <span>- Rp ${formatNumber(order.discount)}</span>
-                            </div>
-                            ` : ''}
-                            ${order.additional_fees > 0 ? `
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                                <span>Biaya Tambahan:</span>
-                                <span>+ Rp ${formatNumber(order.additional_fees)}</span>
-                            </div>
-                            ` : ''}
-                            <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 1.1em; padding-top: 10px; border-top: 2px solid #333;">
-                                <span>TOTAL:</span>
-                                <span>Rp ${formatNumber(order.total)}</span>
-                            </div>
-                        </div>
-                        
-                        <div class="footer">
-                            <p>Terima kasih atas kepercayaan Anda</p>
-                            <p>*** STRUK INI SAH ***</p>
-                        </div>
-                        
-                        <button onclick="window.print()" style="margin-top: 20px; padding: 10px 20px; background: #1e3a8a; color: white; border: none; border-radius: 5px; cursor: pointer;">
-                            Cetak Nota
-                        </button>
-                    </div>
-                </body>
-                </html>
-            `;
-        }
-        
-        function loadServicesData() {
-            const grid = document.getElementById('adminServicesGrid');
-            
-            if (allServices.length === 0) {
-                grid.innerHTML = `
-                    <div class="empty-state col-span-3">
-                        <i class="fas fa-concierge-bell"></i>
-                        <p>Belum ada layanan</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            let html = '';
-            allServices.forEach(service => {
-                const typeClass = service.tipe === 'Ringan' ? 'light' : 
-                                service.tipe === 'Sedang' ? 'medium' : 'heavy';
-                
-                html += `
-                    <div class="card service-card ${typeClass}">
-                        <div class="card-body">
-                            <div class="flex justify-between items-start mb-4">
-                                <div>
-                                    <span class="status-badge status-${service.tipe.toLowerCase()}">
-                                        ${service.tipe}
-                                    </span>
-                                    <h3 class="font-bold text-lg mt-2">${service.nama}</h3>
-                                    <p class="text-gray-600 text-sm">${service.kategori}</p>
-                                </div>
-                                <div class="text-right">
-                                    <div class="price-tag">Rp ${formatNumber(service.harga_jual)}</div>
-                                </div>
-                            </div>
-                            <p class="text-gray-700 mb-4">${service.deskripsi}</p>
-                            <div class="flex justify-between items-center">
-                                <span class="estimate-time">${service.estimasi}</span>
-                                <div class="action-buttons">
-                                    <button onclick="editService(${service.id})" class="btn btn-outline btn-sm">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button onclick="deleteService(${service.id})" class="btn btn-outline btn-sm">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-            
-            grid.innerHTML = html;
-        }
-        
-        function showNewOrderModal() {
-            showAlert('info', 'Fitur order manual akan segera tersedia');
-        }
-        
-        function showNewServiceModal() {
-            showAlert('info', 'Fitur tambah layanan akan segera tersedia');
-        }
-        
-        function editService(serviceId) {
-            showAlert('info', 'Fitur edit layanan akan segera tersedia');
-        }
-        
-        function deleteService(serviceId) {
-            if (confirm('Apakah Anda yakin ingin menghapus layanan ini?')) {
-                const index = allServices.findIndex(s => s.id === serviceId);
-                if (index !== -1) {
-                    allServices.splice(index, 1);
-                    localStorage.setItem(STORAGE_KEYS.SERVICES, JSON.stringify(allServices));
-                    loadServicesData();
-                    showAlert('success', 'Layanan berhasil dihapus');
+                                </td>
+                            </tr>
+                        `;
+                    });
+                    
+                    container.innerHTML = html || '<tr><td colspan="6" style="text-align: center; padding: 20px;">Belum ada order</td></tr>';
                 }
+            } catch (error) {
+                container.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 20px; color: #ef4444;">Gagal memuat data order</td></tr>';
             }
+        }
+        
+        async function loadAdminUsers() {
+            // This would require a separate API endpoint
+            // For now, show message
+            document.getElementById('adminUsersList').innerHTML = `
+                <tr>
+                    <td colspan="7" style="text-align: center; padding: 20px;">
+                        <p>Fitur manajemen user akan segera tersedia</p>
+                        <p class="text-sm text-gray-500">Untuk saat ini, user dapat register sendiri melalui form registrasi</p>
+                    </td>
+                </tr>
+            `;
+        }
+        
+        function searchAdminOrders() {
+            const searchTerm = document.getElementById('searchOrders').value.toLowerCase();
+            const rows = document.querySelectorAll('#adminOrdersList tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        }
+        
+        function filterAdminOrders() {
+            const status = document.getElementById('filterOrderStatus').value;
+            const rows = document.querySelectorAll('#adminOrdersList tr');
+            
+            rows.forEach(row => {
+                if (!status) {
+                    row.style.display = '';
+                    return;
+                }
+                
+                const statusCell = row.querySelector('.badge');
+                if (statusCell && statusCell.textContent === status) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+        
+        function viewOrder(orderId) {
+            // Open order details in track section
+            showSection('track');
+            document.getElementById('trackInput').value = orderId;
+            setTimeout(() => trackOrder(), 500);
+        }
+        
+        async function updateOrderStatus(orderId) {
+            const newStatus = prompt('Masukkan status baru (Pending/Diproses/Selesai/Dibatalkan):');
+            if (!newStatus) return;
+            
+            try {
+                const response = await callAPI('update_order', {
+                    orderId: orderId,
+                    updates: { Status: newStatus },
+                    token: currentToken
+                });
+                
+                if (response.success) {
+                    showAlert(null, 'success', 'Status order berhasil diperbarui');
+                    loadAdminOrders();
+                } else {
+                    showAlert(null, 'error', response.message);
+                }
+            } catch (error) {
+                showAlert(null, 'error', 'Gagal update status');
+            }
+        }
+        
+        // ==========================================
+        // SERVICE MODAL FUNCTIONS
+        // ==========================================
+        function showServiceModal(service = null) {
+            const modal = document.getElementById('serviceModal');
+            const form = document.getElementById('serviceForm');
+            
+            if (service) {
+                // Edit mode
+                document.getElementById('modalServiceId').value = service.id;
+                document.getElementById('modalKategori').value = service.kategori;
+                document.getElementById('modalTipe').value = service.tipe;
+                document.getElementById('modalNama').value = service.nama;
+                document.getElementById('modalJenisBiaya').value = service.jenis_biaya;
+                document.getElementById('modalHargaDasar').value = service.harga_dasar;
+                document.getElementById('modalHargaJual').value = service.harga_jual;
+                document.getElementById('modalEstimasi').value = service.estimasi;
+                document.getElementById('modalDeskripsi').value = service.deskripsi;
+                document.getElementById('modalStatus').value = service.status;
+            } else {
+                // Add mode
+                form.reset();
+                document.getElementById('modalServiceId').value = '';
+            }
+            
+            modal.style.display = 'flex';
+        }
+        
+        function hideServiceModal() {
+            document.getElementById('serviceModal').style.display = 'none';
+        }
+        
+        async function saveService(e) {
+            e.preventDefault();
+            
+            const serviceData = {
+                kategori: document.getElementById('modalKategori').value,
+                tipe: document.getElementById('modalTipe').value,
+                nama: document.getElementById('modalNama').value,
+                jenis_biaya: document.getElementById('modalJenisBiaya').value,
+                harga_dasar: document.getElementById('modalHargaDasar').value,
+                harga_jual: document.getElementById('modalHargaJual').value,
+                estimasi: document.getElementById('modalEstimasi').value,
+                deskripsi: document.getElementById('modalDeskripsi').value,
+                status: document.getElementById('modalStatus').value
+            };
+            
+            const serviceId = document.getElementById('modalServiceId').value;
+            
+            try {
+                let response;
+                if (serviceId) {
+                    serviceData.id = serviceId;
+                    response = await callAPI('update_service', { service: serviceData, token: currentToken });
+                } else {
+                    response = await callAPI('create_service', { service: serviceData, token: currentToken });
+                }
+                
+                if (response.success) {
+                    showAlert(null, 'success', response.message);
+                    hideServiceModal();
+                    loadAdminServices();
+                    loadServices(); // Refresh public services
+                } else {
+                    showAlert(null, 'error', response.message);
+                }
+            } catch (error) {
+                showAlert(null, 'error', 'Gagal menyimpan layanan');
+            }
+        }
+        
+        async function editService(serviceId) {
+            const service = allServices.find(s => s.id === serviceId);
+            if (service) {
+                showServiceModal(service);
+            }
+        }
+        
+        async function deleteService(serviceId) {
+            if (!confirm('Apakah Anda yakin ingin menghapus layanan ini?')) return;
+            
+            try {
+                const response = await callAPI('delete_service', { serviceId, token: currentToken });
+                
+                if (response.success) {
+                    showAlert(null, 'success', response.message);
+                    loadAdminServices();
+                    loadServices();
+                } else {
+                    showAlert(null, 'error', response.message);
+                }
+            } catch (error) {
+                showAlert(null, 'error', 'Gagal menghapus layanan');
+            }
+        }
+        
+        // ==========================================
+        // IMPORT/EXPORT FUNCTIONS
+        // ==========================================
+        async function importCSV() {
+            const fileInput = document.getElementById('csvFile');
+            const resultDiv = document.getElementById('importResult');
+            
+            if (!fileInput.files.length) {
+                showAlert(resultDiv, 'error', 'Pilih file terlebih dahulu');
+                return;
+            }
+            
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            
+            reader.onload = async function(e) {
+                const text = e.target.result;
+                const lines = text.split('\n');
+                const services = [];
+                
+                // Skip header row
+                for (let i = 1; i < lines.length; i++) {
+                    const line = lines[i].trim();
+                    if (!line) continue;
+                    
+                    const parts = line.split(',');
+                    if (parts.length >= 8) {
+                        services.push({
+                            kategori: parts[0].trim(),
+                            tipe: parts[1].trim(),
+                            nama: parts[2].trim(),
+                            jenis_biaya: parts[3].trim(),
+                            harga_dasar: Number(parts[4]) || 0,
+                            harga_jual: Number(parts[5]) || 0,
+                            estimasi: parts[6].trim(),
+                            deskripsi: parts[7].trim(),
+                            status: parts[8] ? parts[8].trim() : 'active'
+                        });
+                    }
+                }
+                
+                if (services.length === 0) {
+                    showAlert(resultDiv, 'error', 'Tidak ada data yang valid ditemukan');
+                    return;
+                }
+                
+                try {
+                    const response = await callAPI('bulk_upload', { services, token: currentToken });
+                    
+                    if (response.success) {
+                        showAlert(resultDiv, 'success', 
+                            `Berhasil mengimport ${response.stats.success} layanan. ${response.stats.failed} gagal.`);
+                        
+                        // Refresh services
+                        setTimeout(() => {
+                            loadAdminServices();
+                            loadServices();
+                        }, 2000);
+                    } else {
+                        showAlert(resultDiv, 'error', response.message);
+                    }
+                } catch (error) {
+                    showAlert(resultDiv, 'error', 'Gagal mengimport data');
+                }
+            };
+            
+            reader.readAsText(file);
+        }
+        
+        async function exportData() {
+            try {
+                const response = await callAPI('export_data', { 
+                    format: 'csv', 
+                    sheet: 'DataHarga',
+                    token: currentToken 
+                });
+                
+                if (response.success) {
+                    // Create download link
+                    const blob = new Blob([response.content], { type: 'text/csv' });
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = response.filename;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);
+                    
+                    showAlert(null, 'success', 'Data berhasil diexport');
+                } else {
+                    showAlert(null, 'error', response.message);
+                }
+            } catch (error) {
+                showAlert(null, 'error', 'Gagal export data');
+            }
+        }
+        
+        function refreshDashboard() {
+            loadDashboard();
+            showAlert(null, 'info', 'Data diperbarui');
         }
         
         // ==========================================
         // UTILITY FUNCTIONS
         // ==========================================
+        async function callAPI(action, data = {}) {
+            try {
+                console.log(`API Call: ${action}`, data);
+                
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action, ...data })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                console.log('API Response:', result);
+                return result;
+                
+            } catch (error) {
+                console.error('API Error:', error);
+                throw error;
+            }
+        }
         
         function formatNumber(num) {
             return new Intl.NumberFormat('id-ID').format(num);
@@ -2676,45 +1899,44 @@
         function formatDate(dateString) {
             const date = new Date(dateString);
             return date.toLocaleDateString('id-ID', {
-                year: 'numeric',
+                day: '2-digit',
                 month: 'long',
-                day: 'numeric'
+                year: 'numeric'
             });
         }
         
-        function capitalizeFirst(string) {
-            return string.charAt(0).toUpperCase() + string.slice(1);
+        function capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
         }
         
-        function showAlert(type, message) {
-            // Remove existing alerts
-            const existingAlerts = document.querySelectorAll('.global-alert');
-            existingAlerts.forEach(alert => alert.remove());
-            
-            // Create alert element
+        function showAlert(container, type, message) {
             const alertDiv = document.createElement('div');
-            alertDiv.className = `global-alert alert alert-${type} fixed top-4 right-4 z-50 max-w-md`;
+            alertDiv.className = `alert alert-${type}`;
             alertDiv.innerHTML = `
-                <div class="flex justify-between items-start">
-                    <div class="flex-1">
-                        <i class="fas fa-${getAlertIcon(type)} mr-2"></i>
-                        ${message}
-                    </div>
-                    <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-gray-500 hover:text-gray-700">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
+                <i class="fas fa-${getAlertIcon(type)}"></i>
+                ${message}
             `;
             
-            // Add to body
-            document.body.appendChild(alertDiv);
-            
-            // Auto remove after 5 seconds
-            setTimeout(() => {
-                if (alertDiv.parentElement) {
+            if (container) {
+                container.innerHTML = '';
+                container.appendChild(alertDiv);
+                container.style.display = 'block';
+            } else {
+                // Show as toast
+                alertDiv.style.position = 'fixed';
+                alertDiv.style.top = '20px';
+                alertDiv.style.right = '20px';
+                alertDiv.style.zIndex = '3000';
+                alertDiv.style.minWidth = '300px';
+                alertDiv.style.maxWidth = '500px';
+                alertDiv.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
+                
+                document.body.appendChild(alertDiv);
+                
+                setTimeout(() => {
                     alertDiv.remove();
-                }
-            }, 5000);
+                }, 5000);
+            }
         }
         
         function getAlertIcon(type) {
@@ -2728,199 +1950,21 @@
         }
         
         // ==========================================
-        // API INTEGRATION
+        // FIRST RUN INSTRUCTIONS
         // ==========================================
-        
-        async function callAPI(action, data = {}) {
-            console.log(`API Call: ${action}`, data);
-            
-            // Untuk testing, cek dulu apakah Apps Script merespon
-            try {
-                const payload = {
-                    action: action,
-                    ...data
-                };
-                
-                if (adminToken && action !== 'login_admin') {
-                    payload.token = adminToken;
-                }
-                
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    mode: 'cors',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(payload)
-                });
-                
-                console.log('API Response status:', response.status);
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const result = await response.json();
-                console.log('API Response:', result);
-                return result;
-                
-            } catch (error) {
-                console.error('API Error:', error);
-                console.log('Falling back to demo mode');
-                
-                // Fallback to demo mode
-                return await simulateAPI(action, data);
-            }
-        }
-        
-        async function simulateAPI(action, data) {
-            // Simulate network delay
-            await new Promise(resolve => setTimeout(resolve, 500));
-            
-            switch(action) {
-                case 'login_admin':
-                    // Note: In production, password validation happens in backend only
-                    // For demo, accept any non-empty password
-                    if (data.username && data.password) {
-                        let userData;
-                        switch(data.username.toLowerCase()) {
-                            case 'admin':
-                                userData = {
-                                    username: 'admin',
-                                    name: 'Administrator Utama',
-                                    role: 'superadmin',
-                                    permissions: 'all'
-                                };
-                                break;
-                            case 'manager':
-                                userData = {
-                                    username: 'manager',
-                                    name: 'Manager Operasional',
-                                    role: 'manager',
-                                    permissions: 'view,edit,orders'
-                                };
-                                break;
-                            case 'teknisi':
-                                userData = {
-                                    username: 'teknisi',
-                                    name: 'Teknisi Lapangan',
-                                    role: 'teknisi',
-                                    permissions: 'view,orders'
-                                };
-                                break;
-                            default:
-                                return { success: false, message: 'Username tidak dikenali. Coba: admin, manager, teknisi' };
-                        }
-                        
-                        const token = btoa(JSON.stringify({
-                            ...userData,
-                            iat: Date.now(),
-                            exp: Date.now() + (3600 * 1000)
-                        }));
-                        
-                        return {
-                            success: true,
-                            token: token,
-                            user: userData,
-                            message: 'Login demo berhasil (Mode Offline)'
-                        };
-                    } else {
-                        return { success: false, message: 'Username dan password harus diisi' };
-                    }
-                    
-                case 'get_services':
-                    return { success: true, data: allServices, message: 'Data dari local storage' };
-                    
-                case 'create_order':
-                    // Generate order data
-                    const orderId = generateOrderId();
-                    const receiptNumber = generateReceiptNumber();
-                    const subtotal = data.order.items.reduce((sum, item) => sum + item.harga_jual, 0);
-                    const discount = data.discount || 0;
-                    const additional = data.additional_fees || 0;
-                    const total = Math.max(0, subtotal - discount + additional);
-                    
-                    const orderData = {
-                        id: orderId,
-                        receipt: receiptNumber,
-                        timestamp: new Date().toISOString(),
-                        customer: data.order.customer,
-                        service: data.order.items[0],
-                        subtotal: subtotal,
-                        discount: discount,
-                        additional_fees: additional,
-                        total: total,
-                        status: 'Pending',
-                        payment_status: 'Belum_Bayar',
-                        notes: data.order.notes || ''
-                    };
-                    
-                    // Save order locally
-                    allOrders.push(orderData);
-                    saveOrdersToStorage();
-                    
-                    return {
-                        success: true,
-                        order_id: orderId,
-                        receipt_number: receiptNumber,
-                        calculation: {
-                            subtotal: subtotal,
-                            discount: discount,
-                            additional_fees: additional,
-                            total: total
-                        },
-                        message: 'Order disimpan di local storage (Mode Offline)'
-                    };
-                    
-                case 'get_all_orders':
-                    return { success: true, data: allOrders, message: 'Data dari local storage' };
-                    
-                default:
-                    return { 
-                        success: false, 
-                        message: 'Action tidak didukung. Sistem menggunakan mode demo.' 
-                    };
-            }
-        }
-        
-        // ==========================================
-        // INSTRUKSI UNTUK USER
-        // ==========================================
-        
-        function showSetupInstructions() {
-            showAlert('info', `
-                <strong>SISTEM READY!</strong><br>
-                API URL: ${API_URL}<br>
-                Fitur:<br>
-                1. Pemesanan layanan<br>
-                2. Lacak order<br>
-                3. Dashboard admin (demo)<br>
-                4. Cetak nota<br>
-                <br>
-                <small>Untuk login admin: username: admin, password: (kosongkan untuk demo)</small>
-            `);
-        }
-        
-        // Show instructions on first visit
         window.addEventListener('load', function() {
-            if (!localStorage.getItem('malik_service_instructions_shown')) {
-                setTimeout(showSetupInstructions, 2000);
-                localStorage.setItem('malik_service_instructions_shown', 'true');
-            }
-            
-            // Cek koneksi API
-            console.log('Testing API connection...');
-            fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'test' }) })
-                .then(response => {
-                    console.log('API Connection Test:', response.status);
-                    if (response.ok) {
-                        showAlert('success', '✅ Koneksi ke Apps Script berhasil!');
+            // Test API connection
+            setTimeout(() => {
+                callAPI('test').then(response => {
+                    if (response.success) {
+                        console.log('✅ API connected:', response.message);
                     }
-                })
-                .catch(error => {
-                    console.log('API Test Failed:', error);
-                    showAlert('warning', '⚠️ Mode Offline aktif. Data disimpan di browser.');
+                }).catch(error => {
+                    console.log('⚠️ API test failed:', error);
+                    showAlert(null, 'warning', 
+                        'Sistem dalam mode offline. Data akan disimpan di browser.');
                 });
+            }, 1000);
         });
     </script>
 </body>
