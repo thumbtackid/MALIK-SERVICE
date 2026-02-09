@@ -270,11 +270,15 @@
             right: 0;
             bottom: 0;
             background: rgba(0,0,0,0.5);
-            display: flex;
+            display: none;
             align-items: center;
             justify-content: center;
             z-index: 2000;
             padding: 20px;
+        }
+        
+        .modal.show {
+            display: flex;
         }
         
         .modal-content {
@@ -433,6 +437,17 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #a1a1a1;
         }
+        
+        /* ADMIN TAB BUTTONS */
+        .admin-tab-btn {
+            transition: all 0.3s;
+        }
+        
+        .admin-tab-btn.active {
+            background: #3b82f6 !important;
+            color: white !important;
+            border-color: #3b82f6 !important;
+        }
     </style>
 </head>
 <body>
@@ -539,7 +554,6 @@
                 </div>
                 
                 <div id="servicesList">
-                    <!-- Services will be loaded here -->
                     <div style="text-align: center; padding: 40px;">
                         <div class="loading"></div>
                         <p style="margin-top: 10px;">Memuat layanan...</p>
@@ -649,7 +663,7 @@
                 
                 <!-- ADMIN TABS -->
                 <div style="border-bottom: 2px solid #e5e7eb; margin-bottom: 20px; display: flex; gap: 5px; flex-wrap: wrap;">
-                    <button class="btn btn-outline admin-tab-btn" onclick="showAdminTab('dashboard')" id="tabDashboard">Dashboard</button>
+                    <button class="btn btn-outline admin-tab-btn active" onclick="showAdminTab('dashboard')" id="tabDashboard">Dashboard</button>
                     <button class="btn btn-outline admin-tab-btn" onclick="showAdminTab('services')" id="tabServices">Layanan</button>
                     <button class="btn btn-outline admin-tab-btn" onclick="showAdminTab('orders')" id="tabOrders">Orders</button>
                     <button class="btn btn-outline admin-tab-btn" onclick="showAdminTab('users')" id="tabUsers">Users</button>
@@ -857,7 +871,7 @@
     </footer>
 
     <!-- SERVICE MODAL -->
-    <div id="serviceModal" class="modal" style="display: none;">
+    <div id="serviceModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h3>Tambah/Edit Layanan</h3>
@@ -937,22 +951,37 @@
         // ==========================================
         // CONFIGURATION
         // ==========================================
-        const API_URL = 'https://script.google.com/macros/s/AKfycbz81o_lQkx86r6nJuAdNoGTiSkC9dVMiVLgWfhEWEx5PKEoIOCDDLV5ewvJ-hIt5SGL/exec';
+        const API_URL = 'https://script.google.com/macros/s/AKfycbwGDF8VEXfMx3r_CY0An4jSekr6uI1HBF135j9lbRRrW83ci-vWejb9Ffb-PelhliYT/exec';
         const STORAGE_KEYS = {
             TOKEN: 'malik_token',
-            USER: 'malik_user'
+            USER: 'malik_user',
+            SERVICES: 'malik_services_cache',
+            OFFLINE: 'malik_offline_mode'
         };
         
         let currentUser = null;
         let currentToken = null;
         let allServices = [];
         let allOrders = [];
+        let isOfflineMode = false;
         
         // ==========================================
         // INITIALIZATION
         // ==========================================
         document.addEventListener('DOMContentLoaded', function() {
             console.log('Malik Service Center v1.0 - Initialized');
+            
+            // Initialize event listeners
+            const serviceForm = document.getElementById('serviceForm');
+            if (serviceForm) {
+                serviceForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    saveService(e);
+                });
+            }
+            
+            // Check offline mode
+            isOfflineMode = localStorage.getItem(STORAGE_KEYS.OFFLINE) === 'true';
             
             // Check authentication
             checkAuth();
@@ -963,21 +992,8 @@
             // Check URL parameters
             checkUrlParams();
             
-            // Initialize event listeners
-            const serviceForm = document.getElementById('serviceForm');
-            if (serviceForm) {
-                serviceForm.addEventListener('submit', saveService);
-            }
-            
-            // Add CSS for admin tab buttons
-            const style = document.createElement('style');
-            style.textContent = `
-                .admin-tab-btn.active {
-                    background: #3b82f6;
-                    color: white;
-                }
-            `;
-            document.head.appendChild(style);
+            // Test connection
+            testConnection();
         });
         
         function checkUrlParams() {
@@ -1006,10 +1022,6 @@
                     currentToken = token;
                     currentUser = JSON.parse(user);
                     updateAuthUI();
-                    
-                    if (['admin', 'superadmin'].includes(currentUser.role)) {
-                        // Don't auto-show admin dashboard, let user navigate
-                    }
                 } catch (e) {
                     console.error('Error parsing user data:', e);
                     logout();
@@ -1028,7 +1040,7 @@
                 document.getElementById('mobileLogout').style.display = 'block';
                 
                 document.getElementById('adminWelcome').innerHTML = 
-                    `Selamat datang, <strong>${currentUser.name}</strong>`;
+                    `Selamat datang, <strong>${currentUser.name || currentUser.username}</strong>`;
             } else {
                 document.getElementById('loginNav').style.display = 'block';
                 document.getElementById('adminNav').style.display = 'none';
@@ -1043,7 +1055,7 @@
         }
         
         async function login() {
-            const username = document.getElementById('username').value;
+            const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value;
             const btn = document.getElementById('loginText');
             const loading = document.getElementById('loginLoading');
@@ -1062,7 +1074,6 @@
                 const response = await callAPI('login', { username, password });
                 
                 if (response.success) {
-                    // Save token and user
                     localStorage.setItem(STORAGE_KEYS.TOKEN, response.token);
                     localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(response.user));
                     
@@ -1082,7 +1093,7 @@
                     }, 1000);
                     
                 } else {
-                    showAlert(message, 'error', response.message);
+                    showAlert(message, 'error', response.message || 'Login gagal');
                 }
             } catch (error) {
                 showAlert(message, 'error', 'Koneksi gagal. Coba lagi.');
@@ -1094,11 +1105,11 @@
         }
         
         async function register() {
-            const username = document.getElementById('regUsername').value;
+            const username = document.getElementById('regUsername').value.trim();
             const password = document.getElementById('regPassword').value;
-            const name = document.getElementById('regName').value;
-            const phone = document.getElementById('regPhone').value;
-            const email = document.getElementById('regEmail').value;
+            const name = document.getElementById('regName').value.trim();
+            const phone = document.getElementById('regPhone').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
             const btn = document.getElementById('registerText');
             const loading = document.getElementById('registerLoading');
             const message = document.getElementById('registerMessage');
@@ -1118,7 +1129,7 @@
                     password,
                     name,
                     phone,
-                    email,
+                    email: email || '',
                     role: 'customer'
                 });
                 
@@ -1126,7 +1137,7 @@
                     showAlert(message, 'success', 'Registrasi berhasil! Silakan login.');
                     showLoginForm();
                 } else {
-                    showAlert(message, 'error', response.message);
+                    showAlert(message, 'error', response.message || 'Registrasi gagal');
                 }
             } catch (error) {
                 showAlert(message, 'error', 'Registrasi gagal. Coba lagi.');
@@ -1165,23 +1176,19 @@
         // NAVIGATION
         // ==========================================
         function showSection(sectionId) {
-            // Hide all sections
             document.querySelectorAll('.section').forEach(section => {
                 section.classList.remove('active');
             });
             
-            // Show selected section
             const targetSection = document.getElementById(sectionId);
             if (targetSection) {
                 targetSection.classList.add('active');
             }
             
-            // Update active nav
             document.querySelectorAll('.nav-link').forEach(link => {
                 link.classList.remove('active');
             });
             
-            // Handle section-specific actions
             switch(sectionId) {
                 case 'services':
                     loadServices();
@@ -1196,7 +1203,6 @@
                     break;
             }
             
-            // Close mobile menu if open
             const mobileMenu = document.getElementById('mobileMenu');
             if (mobileMenu && mobileMenu.classList.contains('show')) {
                 toggleMobileMenu();
@@ -1219,25 +1225,35 @@
                 const response = await callAPI('get_services');
                 
                 if (response.success) {
-                    allServices = response.data;
+                    allServices = response.data || [];
+                    localStorage.setItem(STORAGE_KEYS.SERVICES, JSON.stringify(allServices));
                     displayServices(allServices);
-                    updateCategoryFilter(response.categories);
+                    
+                    const categories = response.categories || [...new Set(allServices.map(s => s.kategori))];
+                    updateCategoryFilter(categories);
+                } else {
+                    throw new Error(response.message || 'Gagal memuat layanan');
+                }
+            } catch (error) {
+                console.error('Error loading services:', error);
+                
+                const cached = localStorage.getItem(STORAGE_KEYS.SERVICES);
+                if (cached) {
+                    allServices = JSON.parse(cached);
+                    displayServices(allServices);
+                    
+                    const categories = [...new Set(allServices.map(s => s.kategori))];
+                    updateCategoryFilter(categories);
+                    
+                    showAlert(container, 'warning', 'Menggunakan data cache');
                 } else {
                     container.innerHTML = `
                         <div class="alert alert-error">
                             <i class="fas fa-exclamation-triangle"></i>
-                            Gagal memuat layanan: ${response.message}
+                            Tidak dapat memuat layanan
                         </div>
                     `;
                 }
-            } catch (error) {
-                console.error('Error loading services:', error);
-                container.innerHTML = `
-                    <div class="alert alert-error">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        Tidak dapat terhubung ke server
-                    </div>
-                `;
             }
         }
         
@@ -1245,7 +1261,7 @@
             const container = document.getElementById('servicesList');
             if (!container) return;
             
-            if (services.length === 0) {
+            if (!services || services.length === 0) {
                 container.innerHTML = `
                     <div style="text-align: center; padding: 40px;">
                         <i class="fas fa-concierge-bell" style="font-size: 3rem; color: #d1d5db;"></i>
@@ -1258,6 +1274,8 @@
             let html = '<div class="grid grid-cols-3" style="gap: 20px;">';
             
             services.forEach(service => {
+                if (!service) return;
+                
                 const typeColor = service.tipe === 'Ringan' ? '#10b981' : 
                                 service.tipe === 'Sedang' ? '#f59e0b' : '#ef4444';
                 
@@ -1266,20 +1284,20 @@
                         <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
                             <div>
                                 <span class="badge" style="background: ${typeColor}20; color: ${typeColor}; border: 1px solid ${typeColor}30;">
-                                    ${service.tipe}
+                                    ${service.tipe || 'Umum'}
                                 </span>
-                                <h3 style="margin-top: 10px;">${service.nama}</h3>
-                                <p style="color: #6b7280; font-size: 0.9rem;">${service.kategori}</p>
+                                <h3 style="margin-top: 10px;">${service.nama || 'Layanan'}</h3>
+                                <p style="color: #6b7280; font-size: 0.9rem;">${service.kategori || 'Umum'}</p>
                             </div>
                             <div style="text-align: right;">
                                 <div style="font-size: 1.5rem; font-weight: bold; color: #1e3a8a;">
-                                    Rp ${formatNumber(service.harga_jual)}
+                                    Rp ${formatNumber(service.harga_jual || 0)}
                                 </div>
-                                <div style="color: #6b7280; font-size: 0.9rem;">${service.estimasi}</div>
+                                <div style="color: #6b7280; font-size: 0.9rem;">${service.estimasi || '1-2 Jam'}</div>
                             </div>
                         </div>
                         
-                        <p style="color: #4b5563; margin-bottom: 20px;">${service.deskripsi}</p>
+                        <p style="color: #4b5563; margin-bottom: 20px;">${service.deskripsi || 'Tidak ada deskripsi'}</p>
                         
                         <button class="btn btn-primary" onclick="orderService('${service.id}')" style="width: 100%;">
                             <i class="fas fa-shopping-cart"></i> Pesan Sekarang
@@ -1299,19 +1317,23 @@
             filter.innerHTML = '<option value="">Semua Kategori</option>';
             
             categories.forEach(category => {
-                const option = document.createElement('option');
-                option.value = category;
-                option.textContent = category;
-                filter.appendChild(option);
+                if (category) {
+                    const option = document.createElement('option');
+                    option.value = category;
+                    option.textContent = category;
+                    filter.appendChild(option);
+                }
             });
         }
         
         function searchServices() {
             const searchTerm = document.getElementById('searchServices')?.value.toLowerCase() || '';
             const filtered = allServices.filter(service => 
-                service.nama.toLowerCase().includes(searchTerm) ||
-                service.deskripsi.toLowerCase().includes(searchTerm) ||
-                service.kategori.toLowerCase().includes(searchTerm)
+                service && (
+                    (service.nama && service.nama.toLowerCase().includes(searchTerm)) ||
+                    (service.deskripsi && service.deskripsi.toLowerCase().includes(searchTerm)) ||
+                    (service.kategori && service.kategori.toLowerCase().includes(searchTerm))
+                )
             );
             displayServices(filtered);
         }
@@ -1323,19 +1345,22 @@
             let filtered = allServices;
             
             if (category) {
-                filtered = filtered.filter(s => s.kategori === category);
+                filtered = filtered.filter(s => s && s.kategori === category);
             }
             
             if (type) {
-                filtered = filtered.filter(s => s.tipe === type);
+                filtered = filtered.filter(s => s && s.tipe === type);
             }
             
             displayServices(filtered);
         }
         
         function orderService(serviceId) {
-            const service = allServices.find(s => s.id === serviceId);
-            if (!service) return;
+            const service = allServices.find(s => s && s.id === serviceId);
+            if (!service) {
+                showAlert(null, 'error', 'Layanan tidak ditemukan');
+                return;
+            }
             
             if (!currentUser) {
                 showSection('login');
@@ -1343,12 +1368,11 @@
                 return;
             }
             
-            // Create order
             const orderData = {
-                customer_name: currentUser.name,
-                customer_phone: currentUser.phone,
+                customer_name: currentUser.name || currentUser.username,
+                customer_phone: currentUser.phone || '',
                 customer_id: currentUser.username,
-                subtotal: service.harga_jual,
+                subtotal: service.harga_jual || 0,
                 discount: 0,
                 additional_fees: 0,
                 service_details: service,
@@ -1361,8 +1385,6 @@
         function showConfirmOrderModal(service, orderData) {
             const modal = document.createElement('div');
             modal.className = 'modal';
-            modal.style.display = 'flex';
-            
             modal.innerHTML = `
                 <div class="modal-content">
                     <div class="modal-header">
@@ -1374,21 +1396,21 @@
                     <div class="modal-body">
                         <div style="margin-bottom: 20px;">
                             <h4>${service.nama}</h4>
-                            <p>${service.deskripsi}</p>
+                            <p>${service.deskripsi || 'Tidak ada deskripsi'}</p>
                             <div style="margin-top: 10px;">
                                 <strong>Harga:</strong> Rp ${formatNumber(service.harga_jual)}<br>
-                                <strong>Estimasi:</strong> ${service.estimasi}
+                                <strong>Estimasi:</strong> ${service.estimasi || '1-2 Jam'}
                             </div>
                         </div>
                         
                         <div style="background: #f3f4f6; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
                             <p><strong>Pelanggan:</strong> ${orderData.customer_name}</p>
-                            <p><strong>Telepon:</strong> ${orderData.customer_phone}</p>
+                            <p><strong>Telepon:</strong> ${orderData.customer_phone || '-'}</p>
                         </div>
                         
                         <div style="display: flex; gap: 10px;">
                             <button class="btn btn-outline" onclick="this.closest('.modal').remove()">Batal</button>
-                            <button class="btn btn-primary" onclick="submitOrder(${JSON.stringify(orderData).replace(/"/g, '&quot;')})">
+                            <button class="btn btn-primary" onclick="submitOrder('${service.id}')">
                                 Konfirmasi Order
                             </button>
                         </div>
@@ -1397,28 +1419,33 @@
             `;
             
             document.body.appendChild(modal);
-        }
-        
-        async function submitOrder(orderData) {
-            try {
-                const response = await callAPI('create_order', { order: orderData, token: currentToken });
+            modal.classList.add('show');
+            
+            window.submitOrder = async function(serviceId) {
+                const service = allServices.find(s => s.id === serviceId);
+                if (!service) return;
                 
-                if (response.success) {
-                    showAlert(null, 'success', `Order berhasil dibuat! ID: ${response.order_id}`);
-                    document.querySelector('.modal')?.remove();
+                try {
+                    const response = await callAPI('create_order', { 
+                        order: orderData, 
+                        token: currentToken 
+                    });
                     
-                    // Show order details
-                    showSection('track');
-                    document.getElementById('trackInput').value = response.order_id;
-                    setTimeout(() => trackOrder(), 500);
-                    
-                } else {
-                    showAlert(null, 'error', response.message);
+                    if (response.success) {
+                        showAlert(null, 'success', `Order berhasil dibuat! ID: ${response.order_id}`);
+                        modal.remove();
+                        
+                        showSection('track');
+                        document.getElementById('trackInput').value = response.order_id;
+                        setTimeout(() => trackOrder(), 500);
+                    } else {
+                        showAlert(null, 'error', response.message || 'Gagal membuat order');
+                    }
+                } catch (error) {
+                    showAlert(null, 'error', 'Gagal membuat order');
+                    console.error('Order error:', error);
                 }
-            } catch (error) {
-                showAlert(null, 'error', 'Gagal membuat order');
-                console.error('Order error:', error);
-            }
+            };
         }
         
         // ==========================================
@@ -1446,14 +1473,14 @@
                     token: currentToken 
                 });
                 
-                if (response.success && response.data.length > 0) {
+                if (response.success && response.data && response.data.length > 0) {
                     const order = response.data[0];
                     displayOrderDetails(order);
                 } else {
                     resultDiv.innerHTML = `
                         <div class="alert alert-error">
                             <i class="fas fa-exclamation-triangle"></i>
-                            Order tidak ditemukan. Pastikan Order ID benar.
+                            Order tidak ditemukan
                         </div>
                     `;
                 }
@@ -1461,7 +1488,7 @@
                 resultDiv.innerHTML = `
                     <div class="alert alert-error">
                         <i class="fas fa-exclamation-triangle"></i>
-                        Gagal mencari order. Coba lagi nanti.
+                        Gagal mencari order
                     </div>
                 `;
             }
@@ -1484,24 +1511,24 @@
                 <div class="card">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                         <div>
-                            <h3>Order #${order.Order_ID}</h3>
-                            <p style="color: #6b7280;">${formatDate(order.Created_At)}</p>
+                            <h3>Order #${order.Order_ID || order.id}</h3>
+                            <p style="color: #6b7280;">${formatDate(order.Created_At || order.created_at)}</p>
                         </div>
                         <span class="badge" style="background: ${statusColor}; color: white;">
-                            ${order.Status}
+                            ${order.Status || 'Pending'}
                         </span>
                     </div>
                     
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
                         <div>
                             <h4>Informasi Pelanggan</h4>
-                            <p><strong>Nama:</strong> ${order.Nama_Pelanggan}</p>
-                            <p><strong>WhatsApp:</strong> ${order.WhatsApp}</p>
+                            <p><strong>Nama:</strong> ${order.Nama_Pelanggan || order.customer_name}</p>
+                            <p><strong>WhatsApp:</strong> ${order.WhatsApp || order.customer_phone}</p>
                             <p><strong>Alamat:</strong> ${order.Alamat || '-'}</p>
                         </div>
                         <div>
                             <h4>Informasi Order</h4>
-                            <p><strong>Status Bayar:</strong> ${order.Status_Bayar}</p>
+                            <p><strong>Status Bayar:</strong> ${order.Status_Bayar || 'Belum Bayar'}</p>
                             <p><strong>No. Resi:</strong> ${order.Receipt_Number || '-'}</p>
                             <p><strong>Metode Bayar:</strong> ${order.Metode_Bayar || '-'}</p>
                         </div>
@@ -1511,30 +1538,30 @@
                         <h4 style="margin-bottom: 10px;">Rincian Biaya</h4>
                         <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
                             <span>Subtotal:</span>
-                            <span>Rp ${formatNumber(order.Subtotal)}</span>
+                            <span>Rp ${formatNumber(order.Subtotal || order.subtotal || 0)}</span>
                         </div>
-                        ${order.Diskon > 0 ? `
+                        ${(order.Diskon || order.discount) > 0 ? `
                         <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
                             <span>Diskon:</span>
-                            <span>- Rp ${formatNumber(order.Diskon)}</span>
+                            <span>- Rp ${formatNumber(order.Diskon || order.discount)}</span>
                         </div>
                         ` : ''}
-                        ${order.Biaya_Tambahan > 0 ? `
+                        ${(order.Biaya_Tambahan || order.additional_fees) > 0 ? `
                         <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
                             <span>Biaya Tambahan:</span>
-                            <span>+ Rp ${formatNumber(order.Biaya_Tambahan)}</span>
+                            <span>+ Rp ${formatNumber(order.Biaya_Tambahan || order.additional_fees)}</span>
                         </div>
                         ` : ''}
                         <div style="display: flex; justify-content: space-between; font-weight: bold; padding-top: 10px; border-top: 2px solid #d1d5db;">
                             <span>TOTAL:</span>
-                            <span>Rp ${formatNumber(order.Total_Bayar)}</span>
+                            <span>Rp ${formatNumber(order.Total_Bayar || order.total || 0)}</span>
                         </div>
                     </div>
                     
-                    ${order.Catatan ? `
+                    ${order.Catatan || order.notes ? `
                     <div style="margin-top: 20px; padding: 15px; background: #dbeafe; border-radius: 6px;">
                         <h4>Catatan:</h4>
-                        <p>${order.Catatan}</p>
+                        <p>${order.Catatan || order.notes}</p>
                     </div>
                     ` : ''}
                 </div>
@@ -1545,31 +1572,27 @@
         // ADMIN FUNCTIONS
         // ==========================================
         function showAdminTab(tabName) {
-            // Hide all tabs
             document.querySelectorAll('.admin-tab').forEach(tab => {
                 tab.classList.remove('active');
                 tab.style.display = 'none';
             });
             
-            // Update tab buttons
             document.querySelectorAll('.admin-tab-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
             
-            // Show selected tab
             const tabElement = document.getElementById(`admin${capitalize(tabName)}Tab`);
+            const tabBtn = document.getElementById(`tab${capitalize(tabName)}`);
+            
             if (tabElement) {
                 tabElement.style.display = 'block';
                 tabElement.classList.add('active');
             }
             
-            // Update tab button
-            const tabBtn = document.getElementById(`tab${capitalize(tabName)}`);
             if (tabBtn) {
                 tabBtn.classList.add('active');
             }
             
-            // Load tab data
             switch(tabName) {
                 case 'dashboard':
                     loadDashboard();
@@ -1591,14 +1614,12 @@
                 const response = await callAPI('get_dashboard', { token: currentToken });
                 
                 if (response.success) {
-                    // Update stats
                     const stats = response.stats || {};
                     document.getElementById('statTotalOrders').textContent = stats.total_orders || 0;
                     document.getElementById('statRevenue').textContent = `Rp ${formatNumber(stats.total_revenue || 0)}`;
                     document.getElementById('statPending').textContent = stats.pending_orders || 0;
                     document.getElementById('statServices').textContent = stats.active_services || 0;
                     
-                    // Update recent orders
                     const recentDiv = document.getElementById('recentOrders');
                     if (recentDiv && stats.recent_orders && stats.recent_orders.length > 0) {
                         let html = '';
@@ -1637,6 +1658,8 @@
                     let html = '<div class="grid grid-cols-2" style="gap: 20px;">';
                     
                     response.data.forEach(service => {
+                        if (!service) return;
+                        
                         html += `
                             <div class="card">
                                 <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
@@ -1649,12 +1672,12 @@
                                     </span>
                                 </div>
                                 
-                                <p style="color: #4b5563; margin-bottom: 15px;">${service.deskripsi}</p>
+                                <p style="color: #4b5563; margin-bottom: 15px;">${service.deskripsi || 'Tidak ada deskripsi'}</p>
                                 
                                 <div style="display: flex; justify-content: space-between; align-items: center;">
                                     <div>
                                         <div style="font-weight: bold; color: #1e3a8a;">Rp ${formatNumber(service.harga_jual)}</div>
-                                        <div style="color: #6b7280; font-size: 0.9rem;">${service.estimasi}</div>
+                                        <div style="color: #6b7280; font-size: 0.9rem;">${service.estimasi || '1-2 Jam'}</div>
                                     </div>
                                     <div style="display: flex; gap: 5px;">
                                         <button class="btn btn-outline" onclick="editService('${service.id}')">
@@ -1695,25 +1718,27 @@
                     let html = '';
                     
                     response.data.forEach(order => {
+                        if (!order) return;
+                        
                         const statusColor = order.Status === 'Selesai' ? 'badge-success' :
                                           order.Status === 'Pending' ? 'badge-warning' :
                                           order.Status === 'Diproses' ? 'badge-info' : 'badge-danger';
                         
                         html += `
                             <tr>
-                                <td>${order.Order_ID}</td>
+                                <td>${order.Order_ID || order.id}</td>
                                 <td>
-                                    <div>${order.Nama_Pelanggan}</div>
-                                    <div style="font-size: 0.9rem; color: #6b7280;">${order.WhatsApp}</div>
+                                    <div>${order.Nama_Pelanggan || order.customer_name}</div>
+                                    <div style="font-size: 0.9rem; color: #6b7280;">${order.WhatsApp || order.customer_phone}</div>
                                 </td>
-                                <td style="font-weight: bold;">Rp ${formatNumber(order.Total_Bayar)}</td>
+                                <td style="font-weight: bold;">Rp ${formatNumber(order.Total_Bayar || order.total)}</td>
                                 <td><span class="badge ${statusColor}">${order.Status}</span></td>
-                                <td>${formatDate(order.Created_At)}</td>
+                                <td>${formatDate(order.Created_At || order.created_at)}</td>
                                 <td>
-                                    <button class="btn btn-outline" onclick="viewOrder('${order.Order_ID}')">
+                                    <button class="btn btn-outline" onclick="viewOrder('${order.Order_ID || order.id}')">
                                         <i class="fas fa-eye"></i>
                                     </button>
-                                    <button class="btn btn-outline" onclick="updateOrderStatus('${order.Order_ID}')">
+                                    <button class="btn btn-outline" onclick="updateOrderStatus('${order.Order_ID || order.id}')">
                                         <i class="fas fa-edit"></i>
                                     </button>
                                 </td>
@@ -1732,8 +1757,6 @@
             const container = document.getElementById('adminUsersList');
             if (!container) return;
             
-            // This would require a separate API endpoint
-            // For now, show message
             container.innerHTML = `
                 <tr>
                     <td colspan="7" style="text-align: center; padding: 20px;">
@@ -1774,7 +1797,6 @@
         }
         
         function viewOrder(orderId) {
-            // Open order details in track section
             showSection('track');
             document.getElementById('trackInput').value = orderId;
             setTimeout(() => trackOrder(), 500);
@@ -1807,35 +1829,34 @@
         // ==========================================
         function showServiceModal(service = null) {
             const modal = document.getElementById('serviceModal');
-            const form = document.getElementById('serviceForm');
-            
-            if (!modal || !form) return;
+            if (!modal) return;
             
             if (service) {
-                // Edit mode
-                document.getElementById('modalServiceId').value = service.id;
-                document.getElementById('modalKategori').value = service.kategori;
-                document.getElementById('modalTipe').value = service.tipe;
-                document.getElementById('modalNama').value = service.nama;
-                document.getElementById('modalJenisBiaya').value = service.jenis_biaya;
-                document.getElementById('modalHargaDasar').value = service.harga_dasar;
-                document.getElementById('modalHargaJual').value = service.harga_jual;
-                document.getElementById('modalEstimasi').value = service.estimasi;
-                document.getElementById('modalDeskripsi').value = service.deskripsi;
-                document.getElementById('modalStatus').value = service.status;
+                document.getElementById('modalServiceId').value = service.id || '';
+                document.getElementById('modalKategori').value = service.kategori || '';
+                document.getElementById('modalTipe').value = service.tipe || 'Ringan';
+                document.getElementById('modalNama').value = service.nama || '';
+                document.getElementById('modalJenisBiaya').value = service.jenis_biaya || 'Sparepart + Jasa';
+                document.getElementById('modalHargaDasar').value = service.harga_dasar || 0;
+                document.getElementById('modalHargaJual').value = service.harga_jual || 0;
+                document.getElementById('modalEstimasi').value = service.estimasi || '1-2 Jam';
+                document.getElementById('modalDeskripsi').value = service.deskripsi || '';
+                document.getElementById('modalStatus').value = service.status || 'active';
             } else {
-                // Add mode
-                form.reset();
+                document.getElementById('serviceForm').reset();
                 document.getElementById('modalServiceId').value = '';
+                document.getElementById('modalJenisBiaya').value = 'Sparepart + Jasa';
+                document.getElementById('modalEstimasi').value = '1-2 Jam';
+                document.getElementById('modalStatus').value = 'active';
             }
             
-            modal.style.display = 'flex';
+            modal.classList.add('show');
         }
         
         function hideServiceModal() {
             const modal = document.getElementById('serviceModal');
             if (modal) {
-                modal.style.display = 'none';
+                modal.classList.remove('show');
             }
         }
         
@@ -1847,8 +1868,8 @@
                 tipe: document.getElementById('modalTipe').value,
                 nama: document.getElementById('modalNama').value,
                 jenis_biaya: document.getElementById('modalJenisBiaya').value,
-                harga_dasar: document.getElementById('modalHargaDasar').value,
-                harga_jual: document.getElementById('modalHargaJual').value,
+                harga_dasar: Number(document.getElementById('modalHargaDasar').value) || 0,
+                harga_jual: Number(document.getElementById('modalHargaJual').value) || 0,
                 estimasi: document.getElementById('modalEstimasi').value,
                 deskripsi: document.getElementById('modalDeskripsi').value,
                 status: document.getElementById('modalStatus').value
@@ -1866,12 +1887,12 @@
                 }
                 
                 if (response.success) {
-                    showAlert(null, 'success', response.message);
+                    showAlert(null, 'success', response.message || 'Layanan berhasil disimpan');
                     hideServiceModal();
                     loadAdminServices();
-                    loadServices(); // Refresh public services
+                    loadServices();
                 } else {
-                    showAlert(null, 'error', response.message);
+                    showAlert(null, 'error', response.message || 'Gagal menyimpan layanan');
                 }
             } catch (error) {
                 showAlert(null, 'error', 'Gagal menyimpan layanan');
@@ -1879,7 +1900,7 @@
         }
         
         async function editService(serviceId) {
-            const service = allServices.find(s => s.id === serviceId);
+            const service = allServices.find(s => s && s.id === serviceId);
             if (service) {
                 showServiceModal(service);
             }
@@ -1892,11 +1913,11 @@
                 const response = await callAPI('delete_service', { serviceId, token: currentToken });
                 
                 if (response.success) {
-                    showAlert(null, 'success', response.message);
+                    showAlert(null, 'success', response.message || 'Layanan berhasil dihapus');
                     loadAdminServices();
                     loadServices();
                 } else {
-                    showAlert(null, 'error', response.message);
+                    showAlert(null, 'error', response.message || 'Gagal menghapus layanan');
                 }
             } catch (error) {
                 showAlert(null, 'error', 'Gagal menghapus layanan');
@@ -1923,27 +1944,11 @@
                 const lines = text.split('\n');
                 const services = [];
                 
-                // Skip header row
                 for (let i = 1; i < lines.length; i++) {
                     const line = lines[i].trim();
                     if (!line) continue;
                     
-                    // Handle CSV with quotes
-                    const parts = [];
-                    let inQuotes = false;
-                    let currentPart = '';
-                    
-                    for (let char of line) {
-                        if (char === '"') {
-                            inQuotes = !inQuotes;
-                        } else if (char === ',' && !inQuotes) {
-                            parts.push(currentPart.trim());
-                            currentPart = '';
-                        } else {
-                            currentPart += char;
-                        }
-                    }
-                    parts.push(currentPart.trim());
+                    const parts = line.split(',').map(p => p.trim().replace(/^"|"$/g, ''));
                     
                     if (parts.length >= 8) {
                         services.push({
@@ -1955,7 +1960,7 @@
                             harga_jual: Number(parts[5]) || 0,
                             estimasi: parts[6],
                             deskripsi: parts[7],
-                            status: parts[8] ? parts[8] : 'active'
+                            status: parts[8] || 'active'
                         });
                     }
                 }
@@ -1972,7 +1977,6 @@
                         showAlert(resultDiv, 'success', 
                             `Berhasil mengimport ${response.stats?.success || 0} layanan. ${response.stats?.failed || 0} gagal.`);
                         
-                        // Refresh services
                         setTimeout(() => {
                             loadAdminServices();
                             loadServices();
@@ -1997,7 +2001,6 @@
                 });
                 
                 if (response.success) {
-                    // Create download link
                     const blob = new Blob([response.content], { type: 'text/csv' });
                     const url = window.URL.createObjectURL(blob);
                     const a = document.createElement('a');
@@ -2027,26 +2030,51 @@
         // ==========================================
         async function callAPI(action, data = {}) {
             try {
-                console.log(`API Call: ${action}`, data);
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 10000);
                 
                 const response = await fetch(API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ action, ...data })
+                    body: JSON.stringify({ action, ...data }),
+                    signal: controller.signal
                 });
+                
+                clearTimeout(timeoutId);
                 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 
                 const result = await response.json();
-                console.log('API Response:', result);
                 return result;
                 
             } catch (error) {
                 console.error('API Error:', error);
-                throw error;
+                
+                if (error.name === 'AbortError') {
+                    throw new Error('Request timeout. Server tidak merespon.');
+                }
+                
+                isOfflineMode = true;
+                localStorage.setItem(STORAGE_KEYS.OFFLINE, 'true');
+                throw new Error('Tidak dapat terhubung ke server');
             }
+        }
+        
+        async function testConnection() {
+            try {
+                const response = await callAPI('test');
+                if (response && response.success) {
+                    console.log('✅ API connected');
+                    isOfflineMode = false;
+                    localStorage.removeItem(STORAGE_KEYS.OFFLINE);
+                    return true;
+                }
+            } catch (error) {
+                console.log('⚠️ API test failed');
+            }
+            return false;
         }
         
         function formatNumber(num) {
@@ -2056,6 +2084,8 @@
         function formatDate(dateString) {
             try {
                 const date = new Date(dateString);
+                if (isNaN(date.getTime())) return dateString;
+                
                 return date.toLocaleDateString('id-ID', {
                     day: '2-digit',
                     month: 'long',
@@ -2083,12 +2113,12 @@
                 container.appendChild(alertDiv);
                 container.style.display = 'block';
                 
-                // Auto-hide after 5 seconds
                 setTimeout(() => {
-                    container.style.display = 'none';
+                    if (container.contains(alertDiv)) {
+                        container.style.display = 'none';
+                    }
                 }, 5000);
             } else {
-                // Show as toast
                 alertDiv.style.position = 'fixed';
                 alertDiv.style.top = '20px';
                 alertDiv.style.right = '20px';
@@ -2100,7 +2130,9 @@
                 document.body.appendChild(alertDiv);
                 
                 setTimeout(() => {
-                    alertDiv.remove();
+                    if (alertDiv.parentNode) {
+                        alertDiv.remove();
+                    }
                 }, 5000);
             }
         }
@@ -2114,25 +2146,6 @@
                 default: return 'info-circle';
             }
         }
-        
-        // ==========================================
-        // FIRST RUN INSTRUCTIONS
-        // ==========================================
-        window.addEventListener('load', function() {
-            // Test API connection
-            setTimeout(() => {
-                callAPI('test').then(response => {
-                    if (response && response.success) {
-                        console.log('✅ API connected:', response.message);
-                    }
-                }).catch(error => {
-                    console.log('⚠️ API test failed:', error);
-                    showAlert(null, 'warning', 
-                        'Sistem dalam mode offline. Data akan disimpan di browser.');
-                });
-            }, 1000);
-        });
     </script>
 </body>
 </html>
-
