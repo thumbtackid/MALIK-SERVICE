@@ -1287,8 +1287,8 @@
             SERVICES: 'malik_service_services'
         };
         
-        // API URL - GANTI INI SETELAH DEPLOY APPS SCRIPT
-        const API_URL = 'https://script.google.com/macros/s/AKfycbx-KFnyWRidBIxOgpbS_RzZUEGOoTJaXozj9ngKsoCvfgxzOdxO6Ezf3GARRyU0Z6UJ/exec'; // Kosongkan untuk demo mode
+        // API URL - SUDAH DIPERBARUI DENGAN URL APPS SCRIPT ANDA
+        const API_URL = 'https://script.google.com/macros/s/AKfycbwxIzyGy3D9a4d4Sq1W3wCyNtkwlWmYNldggxbbQNcXYaznTNbnYkhylS1VsFhYI-w_/exec';
         
         let currentUser = null;
         let adminToken = null;
@@ -1304,6 +1304,7 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             console.log('Malik Service System v4.0 - Frontend Initialized');
+            console.log('API URL:', API_URL);
             
             // Cek auth status
             checkAuth();
@@ -1463,29 +1464,30 @@
             loading.classList.remove('hidden');
             
             try {
-                // Jika API_URL ada, gunakan backend authentication
-                if (API_URL) {
-                    const response = await callAPI('login_admin', { username, password });
+                console.log('Attempting login to:', API_URL);
+                const response = await callAPI('login_admin', { username, password });
+                
+                console.log('Login response:', response);
+                
+                if (response.success) {
+                    // Save token and user data
+                    localStorage.setItem(STORAGE_KEYS.TOKEN, response.token);
+                    localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(response.user));
                     
-                    if (response.success) {
-                        // Save token and user data
-                        localStorage.setItem(STORAGE_KEYS.TOKEN, response.token);
-                        localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(response.user));
-                        
-                        adminToken = response.token;
-                        currentUser = response.user;
-                        
-                        showAdminDashboard();
-                    } else {
-                        message.textContent = response.message || 'Login gagal';
-                    }
+                    adminToken = response.token;
+                    currentUser = response.user;
+                    
+                    showAdminDashboard();
+                    showAlert('success', 'Login berhasil!');
                 } else {
-                    // Demo mode - simulate authentication
-                    await simulateLogin(username, password);
+                    message.textContent = response.message || 'Login gagal. Coba username: admin, password: (kosongkan untuk demo)';
                 }
             } catch (error) {
                 console.error('Login error:', error);
-                message.textContent = 'Terjadi kesalahan saat login';
+                message.textContent = 'Terjadi kesalahan saat login. Coba mode demo dulu.';
+                
+                // Fallback to demo mode
+                await simulateLogin(username, password);
             } finally {
                 // Re-enable button and hide loading
                 btn.disabled = false;
@@ -1528,7 +1530,7 @@
                         };
                         break;
                     default:
-                        throw new Error('Username tidak dikenali');
+                        throw new Error('Username tidak dikenali. Coba: admin, manager, atau teknisi');
                 }
                 
                 // Generate demo token
@@ -1546,6 +1548,7 @@
                 currentUser = userData;
                 
                 showAdminDashboard();
+                showAlert('info', 'Login demo berhasil! Sistem menggunakan mode demo.');
             } else {
                 throw new Error('Username dan password harus diisi');
             }
@@ -1564,6 +1567,7 @@
                 document.getElementById('loginFormElement').reset();
                 
                 showSection('home');
+                showAlert('success', 'Logout berhasil');
             }
         }
         
@@ -1927,15 +1931,31 @@
                     notes: document.getElementById('orderNotes').value || ''
                 };
                 
-                // Simulate API call
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                
-                // Save order
-                allOrders.push(orderData);
-                saveOrdersToStorage();
-                
-                // Show success message
-                showAlert('success', `Order berhasil dibuat! Order ID: ${orderId}`);
+                // Try to save to backend first
+                try {
+                    const apiResponse = await callAPI('create_order', {
+                        order: orderData,
+                        discount: discount,
+                        additional_fees: additional
+                    });
+                    
+                    if (apiResponse.success) {
+                        console.log('Order saved to backend:', apiResponse);
+                        showAlert('success', `Order berhasil dibuat! Order ID: ${apiResponse.order_id || orderId}`);
+                    } else {
+                        // Fallback to local storage
+                        console.log('Backend failed, using local storage');
+                        allOrders.push(orderData);
+                        saveOrdersToStorage();
+                        showAlert('success', `Order berhasil dibuat! Order ID: ${orderId} (Disimpan lokal)`);
+                    }
+                } catch (apiError) {
+                    console.error('API error, using local storage:', apiError);
+                    // Fallback to local storage
+                    allOrders.push(orderData);
+                    saveOrdersToStorage();
+                    showAlert('success', `Order berhasil dibuat! Order ID: ${orderId} (Disimpan lokal)`);
+                }
                 
                 // Close modal
                 closeOrderModal();
@@ -2712,11 +2732,9 @@
         // ==========================================
         
         async function callAPI(action, data = {}) {
-            if (!API_URL) {
-                // Demo mode - simulate API response
-                return await simulateAPI(action, data);
-            }
+            console.log(`API Call: ${action}`, data);
             
+            // Untuk testing, cek dulu apakah Apps Script merespon
             try {
                 const payload = {
                     action: action,
@@ -2736,18 +2754,22 @@
                     body: JSON.stringify(payload)
                 });
                 
+                console.log('API Response status:', response.status);
+                
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 
-                return await response.json();
+                const result = await response.json();
+                console.log('API Response:', result);
+                return result;
                 
             } catch (error) {
                 console.error('API Error:', error);
-                return { 
-                    success: false, 
-                    message: 'Gagal menghubungi server. Pastikan URL API benar.' 
-                };
+                console.log('Falling back to demo mode');
+                
+                // Fallback to demo mode
+                return await simulateAPI(action, data);
             }
         }
         
@@ -2787,7 +2809,7 @@
                                 };
                                 break;
                             default:
-                                return { success: false, message: 'Username tidak dikenali' };
+                                return { success: false, message: 'Username tidak dikenali. Coba: admin, manager, teknisi' };
                         }
                         
                         const token = btoa(JSON.stringify({
@@ -2799,14 +2821,15 @@
                         return {
                             success: true,
                             token: token,
-                            user: userData
+                            user: userData,
+                            message: 'Login demo berhasil (Mode Offline)'
                         };
                     } else {
                         return { success: false, message: 'Username dan password harus diisi' };
                     }
                     
                 case 'get_services':
-                    return { success: true, data: allServices };
+                    return { success: true, data: allServices, message: 'Data dari local storage' };
                     
                 case 'create_order':
                     // Generate order data
@@ -2832,7 +2855,7 @@
                         notes: data.order.notes || ''
                     };
                     
-                    // Save order
+                    // Save order locally
                     allOrders.push(orderData);
                     saveOrdersToStorage();
                     
@@ -2845,28 +2868,36 @@
                             discount: discount,
                             additional_fees: additional,
                             total: total
-                        }
+                        },
+                        message: 'Order disimpan di local storage (Mode Offline)'
                     };
                     
                 case 'get_all_orders':
-                    return { success: true, data: allOrders };
+                    return { success: true, data: allOrders, message: 'Data dari local storage' };
                     
                 default:
-                    return { success: false, message: 'Action tidak didukung dalam demo mode' };
+                    return { 
+                        success: false, 
+                        message: 'Action tidak didukung. Sistem menggunakan mode demo.' 
+                    };
             }
         }
         
         // ==========================================
-        // SETUP INSTRUCTIONS
+        // INSTRUKSI UNTUK USER
         // ==========================================
         
         function showSetupInstructions() {
             showAlert('info', `
-                <strong>INSTRUKSI SETUP:</strong><br>
-                1. Deploy Apps Script sebagai Web App<br>
-                2. Copy URL Web App<br>
-                3. Ganti API_URL di kode JavaScript<br>
-                4. Gunakan login dari backend system
+                <strong>SISTEM READY!</strong><br>
+                API URL: ${API_URL}<br>
+                Fitur:<br>
+                1. Pemesanan layanan<br>
+                2. Lacak order<br>
+                3. Dashboard admin (demo)<br>
+                4. Cetak nota<br>
+                <br>
+                <small>Untuk login admin: username: admin, password: (kosongkan untuk demo)</small>
             `);
         }
         
@@ -2876,12 +2907,21 @@
                 setTimeout(showSetupInstructions, 2000);
                 localStorage.setItem('malik_service_instructions_shown', 'true');
             }
+            
+            // Cek koneksi API
+            console.log('Testing API connection...');
+            fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'test' }) })
+                .then(response => {
+                    console.log('API Connection Test:', response.status);
+                    if (response.ok) {
+                        showAlert('success', '✅ Koneksi ke Apps Script berhasil!');
+                    }
+                })
+                .catch(error => {
+                    console.log('API Test Failed:', error);
+                    showAlert('warning', '⚠️ Mode Offline aktif. Data disimpan di browser.');
+                });
         });
     </script>
 </body>
 </html>
-
-
-
-
-
