@@ -8,23 +8,272 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
+    <!-- Tailwind CSS (Local) -->
     <style>
+        /* Tailwind CSS Core - Custom Implementation */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f3f4f6;
+            min-height: 100vh;
+        }
+        
+        /* Utility Classes */
+        .container {
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        
+        @media (min-width: 640px) {
+            .container {
+                max-width: 640px;
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .container {
+                max-width: 768px;
+                padding-left: 2rem;
+                padding-right: 2rem;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .container {
+                max-width: 1024px;
+                padding-left: 2rem;
+                padding-right: 2rem;
+            }
+        }
+        
+        @media (min-width: 1280px) {
+            .container {
+                max-width: 1280px;
+                padding-left: 2rem;
+                padding-right: 2rem;
+            }
+        }
+        
+        /* Flexbox */
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .flex-wrap { flex-wrap: wrap; }
+        .flex-nowrap { flex-wrap: nowrap; }
+        .items-center { align-items: center; }
+        .items-start { align-items: flex-start; }
+        .items-end { align-items: flex-end; }
+        .justify-between { justify-content: space-between; }
+        .justify-center { justify-content: center; }
+        .justify-end { justify-content: flex-end; }
+        .justify-start { justify-content: flex-start; }
+        .flex-grow { flex-grow: 1; }
+        .flex-shrink { flex-shrink: 1; }
+        
+        /* Grid */
+        .grid { display: grid; }
+        .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+        .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        .gap-2 { gap: 0.5rem; }
+        .gap-4 { gap: 1rem; }
+        .gap-6 { gap: 1.5rem; }
+        .gap-8 { gap: 2rem; }
+        
+        /* Spacing */
+        .m-0 { margin: 0; }
+        .m-2 { margin: 0.5rem; }
+        .m-4 { margin: 1rem; }
+        .mx-auto { margin-left: auto; margin-right: auto; }
+        .my-2 { margin-top: 0.5rem; margin-bottom: 0.5rem; }
+        .my-4 { margin-top: 1rem; margin-bottom: 1rem; }
+        .my-8 { margin-top: 2rem; margin-bottom: 2rem; }
+        .mt-2 { margin-top: 0.5rem; }
+        .mt-4 { margin-top: 1rem; }
+        .mt-8 { margin-top: 2rem; }
+        .mt-12 { margin-top: 3rem; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-6 { margin-bottom: 1.5rem; }
+        .mb-8 { margin-bottom: 2rem; }
+        .mb-12 { margin-bottom: 3rem; }
+        .mr-1 { margin-right: 0.25rem; }
+        .mr-2 { margin-right: 0.5rem; }
+        .mr-4 { margin-right: 1rem; }
+        .ml-2 { margin-left: 0.5rem; }
+        
+        .p-0 { padding: 0; }
+        .p-2 { padding: 0.5rem; }
+        .p-3 { padding: 0.75rem; }
+        .p-4 { padding: 1rem; }
+        .p-6 { padding: 1.5rem; }
+        .p-8 { padding: 2rem; }
+        .px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
+        .px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
+        .px-4 { padding-left: 1rem; padding-right: 1rem; }
+        .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+        .py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+        .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+        .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+        .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+        .py-6 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+        .py-8 { padding-top: 2rem; padding-bottom: 2rem; }
+        .pt-2 { padding-top: 0.5rem; }
+        .pt-8 { padding-top: 2rem; }
+        .pb-2 { padding-bottom: 0.5rem; }
+        .pb-10 { padding-bottom: 2.5rem; }
+        
+        /* Typography */
+        .text-xs { font-size: 0.75rem; }
+        .text-sm { font-size: 0.875rem; }
+        .text-base { font-size: 1rem; }
+        .text-lg { font-size: 1.125rem; }
+        .text-xl { font-size: 1.25rem; }
+        .text-2xl { font-size: 1.5rem; }
+        .text-3xl { font-size: 1.875rem; }
+        .text-4xl { font-size: 2.25rem; }
+        .text-5xl { font-size: 3rem; }
+        
+        .font-light { font-weight: 300; }
+        .font-normal { font-weight: 400; }
+        .font-medium { font-weight: 500; }
+        .font-semibold { font-weight: 600; }
+        .font-bold { font-weight: 700; }
+        .font-extrabold { font-weight: 800; }
+        
+        .text-left { text-align: left; }
+        .text-center { text-align: center; }
+        .text-right { text-align: right; }
+        
+        /* Colors */
+        .text-white { color: #ffffff; }
+        .text-gray-500 { color: #6b7280; }
+        .text-gray-600 { color: #4b5563; }
+        .text-gray-700 { color: #374151; }
+        .text-gray-800 { color: #1f2937; }
+        .text-blue-200 { color: #bfdbfe; }
+        .text-blue-600 { color: #2563eb; }
+        .text-blue-900 { color: #1e3a8a; }
+        .text-green-600 { color: #059669; }
+        .text-green-800 { color: #065f46; }
+        .text-yellow-800 { color: #92400e; }
+        .text-red-500 { color: #ef4444; }
+        .text-red-600 { color: #dc2626; }
+        .text-red-700 { color: #b91c1c; }
+        .text-purple-600 { color: #7c3aed; }
+        
+        .bg-white { background-color: #ffffff; }
+        .bg-gray-50 { background-color: #f9fafb; }
+        .bg-gray-100 { background-color: #f3f4f6; }
+        .bg-gray-200 { background-color: #e5e7eb; }
+        .bg-blue-50 { background-color: #eff6ff; }
+        .bg-blue-100 { background-color: #dbeafe; }
+        .bg-blue-200 { background-color: #bfdbfe; }
+        .bg-blue-500 { background-color: #3b82f6; }
+        .bg-blue-600 { background-color: #2563eb; }
+        .bg-blue-800 { background-color: #1e40af; }
+        .bg-blue-900 { background-color: #1e3a8a; }
+        .bg-green-50 { background-color: #f0fdf4; }
+        .bg-green-100 { background-color: #dcfce7; }
+        .bg-green-500 { background-color: #10b981; }
+        .bg-yellow-100 { background-color: #fef3c7; }
+        .bg-red-50 { background-color: #fef2f2; }
+        .bg-red-100 { background-color: #fee2e2; }
+        .bg-red-500 { background-color: #ef4444; }
+        .bg-purple-50 { background-color: #faf5ff; }
+        .bg-purple-100 { background-color: #f3e8ff; }
+        .bg-purple-500 { background-color: #8b5cf6; }
+        .bg-black { background-color: #000000; }
+        
+        /* Borders */
+        .border { border-width: 1px; border-style: solid; }
+        .border-0 { border-width: 0; }
+        .border-2 { border-width: 2px; }
+        .border-t { border-top-width: 1px; border-top-style: solid; }
+        .border-b { border-bottom-width: 1px; border-bottom-style: solid; }
+        .border-l-2 { border-left-width: 2px; border-left-style: solid; }
+        .border-l-4 { border-left-width: 4px; border-left-style: solid; }
+        .border-blue-200 { border-color: #bfdbfe; }
+        .border-blue-500 { border-color: #3b82f6; }
+        .border-gray-200 { border-color: #e5e7eb; }
+        .border-gray-300 { border-color: #d1d5db; }
+        .border-green-200 { border-color: #bbf7d0; }
+        .border-purple-200 { border-color: #e9d5ff; }
+        .border-red-200 { border-color: #fecaca; }
+        
+        .rounded { border-radius: 0.25rem; }
+        .rounded-lg { border-radius: 0.5rem; }
+        .rounded-xl { border-radius: 0.75rem; }
+        .rounded-full { border-radius: 9999px; }
+        .rounded-l-lg { border-top-left-radius: 0.5rem; border-bottom-left-radius: 0.5rem; }
+        .rounded-r-lg { border-top-right-radius: 0.5rem; border-bottom-right-radius: 0.5rem; }
+        
+        /* Shadows */
+        .shadow { box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); }
+        .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+        .shadow-xl { box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+        .shadow-2xl { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
+        
+        /* Display */
+        .block { display: block; }
+        .inline-block { display: inline-block; }
+        .hidden { display: none; }
+        
+        /* Position */
+        .fixed { position: fixed; }
+        .relative { position: relative; }
+        .absolute { position: absolute; }
+        .sticky { position: sticky; }
+        
+        /* Z-index */
+        .z-50 { z-index: 50; }
+        
+        /* Overflow */
+        .overflow-hidden { overflow: hidden; }
+        .overflow-y-auto { overflow-y: auto; }
+        .overflow-x-auto { overflow-x: auto; }
+        
+        /* Sizing */
+        .w-full { width: 100%; }
+        .w-auto { width: auto; }
+        .h-4 { height: 1rem; }
+        .h-8 { height: 2rem; }
+        .h-16 { height: 4rem; }
+        .min-h-screen { min-height: 100vh; }
+        .max-w-md { max-width: 28rem; }
+        .max-w-lg { max-width: 32rem; }
+        .max-w-xl { max-width: 36rem; }
+        .max-w-2xl { max-width: 42rem; }
+        .max-w-3xl { max-width: 48rem; }
+        .max-w-4xl { max-width: 56rem; }
+        .max-w-5xl { max-width: 64rem; }
+        
+        /* Cursor */
+        .cursor-pointer { cursor: pointer; }
+        
+        /* Transition */
+        .transition { transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+        
+        /* Custom Styles */
         :root {
             --primary: #1e3a8a;
             --secondary: #3b82f6;
             --success: #10b981;
             --warning: #f59e0b;
             --danger: #ef4444;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         .nav-link.active {
@@ -81,12 +330,37 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+        
+        /* Responsive Utilities */
+        @media (min-width: 768px) {
+            .md\:flex { display: flex; }
+            .md\:hidden { display: none; }
+            .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .md\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+            .md\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+            .md\:col-span-2 { grid-column: span 2; }
+        }
+        
+        @media (min-width: 1024px) {
+            .lg\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .lg\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+            .lg\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        }
+        
+        /* Custom adjustments */
+        .space-y-2 > * + * { margin-top: 0.5rem; }
+        .space-y-4 > * + * { margin-top: 1rem; }
+        .space-x-2 > * + * { margin-left: 0.5rem; }
+        .space-x-4 > * + * { margin-left: 1rem; }
+        .space-x-6 > * + * { margin-left: 1.5rem; }
+        
+        .border-collapse { border-collapse: collapse; }
     </style>
 </head>
 <body class="bg-gray-100 min-h-screen">
     <!-- Navigation -->
     <nav class="bg-blue-900 text-white shadow-lg">
-        <div class="container mx-auto px-4">
+        <div class="container">
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center space-x-2">
                     <i class="fas fa-tools text-2xl"></i>
@@ -132,7 +406,7 @@
     </nav>
 
     <!-- Main Content -->
-    <main class="container mx-auto px-4 py-8">
+    <main class="container py-8">
         <!-- Home Section -->
         <section id="home" class="section">
             <div class="text-center mb-12">
@@ -222,9 +496,9 @@
 
         <!-- Services Section -->
         <section id="services" class="section hidden">
-            <div class="flex justify-between items-center mb-8">
-                <h2 class="text-3xl font-bold text-blue-900">Daftar Layanan Perbaikan</h2>
-                <div class="flex space-x-4">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+                <h2 class="text-3xl font-bold text-blue-900 mb-4 md:mb-0">Daftar Layanan Perbaikan</h2>
+                <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 w-full md:w-auto">
                     <select id="categoryFilter" class="border rounded-lg px-4 py-2" onchange="filterServices()">
                         <option value="">Semua Kategori</option>
                     </select>
@@ -240,6 +514,10 @@
             <!-- Services Grid -->
             <div id="servicesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Services will be loaded here -->
+                <div class="text-center py-12">
+                    <div class="loading" style="border-top-color: #1e3a8a; margin: 0 auto;"></div>
+                    <p class="text-gray-500 mt-4">Memuat layanan...</p>
+                </div>
             </div>
             
             <!-- Order Modal -->
@@ -413,8 +691,8 @@
             <!-- Admin Dashboard -->
             <div id="adminDashboard" class="hidden">
                 <!-- Admin Header -->
-                <div class="flex justify-between items-center mb-8">
-                    <div>
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+                    <div class="mb-4 md:mb-0">
                         <h2 class="text-3xl font-bold text-blue-900">Admin Dashboard</h2>
                         <p class="text-gray-600" id="adminWelcome">Selamat datang, Admin!</p>
                     </div>
@@ -478,7 +756,10 @@
                                 <div class="bg-white p-6 rounded-xl shadow">
                                     <h4 class="text-xl font-bold mb-4">Order Terbaru</h4>
                                     <div id="recentOrders">
-                                        <!-- Recent orders will be loaded here -->
+                                        <div class="text-center py-8">
+                                            <div class="loading" style="border-top-color: #1e3a8a; margin: 0 auto;"></div>
+                                            <p class="text-gray-500 mt-4">Memuat data...</p>
+                                        </div>
                                     </div>
                                 </div>
                                 
@@ -491,17 +772,17 @@
                         
                         <!-- Orders Tab -->
                         <div id="adminOrdersTab" class="admin-tab-content hidden">
-                            <div class="flex justify-between items-center mb-6">
-                                <h3 class="text-2xl font-bold">Manajemen Order</h3>
+                            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+                                <h3 class="text-2xl font-bold mb-4 md:mb-0">Manajemen Order</h3>
                                 <button onclick="showNewOrderModal()"
                                         class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">
                                     <i class="fas fa-plus mr-2"></i> Order Manual
                                 </button>
                             </div>
                             
-                            <div class="mb-6 flex flex-wrap gap-4">
+                            <div class="mb-6 flex flex-col md:flex-row flex-wrap gap-4">
                                 <input type="text" id="orderSearch" placeholder="Cari order..."
-                                       class="border rounded-lg px-4 py-2" onkeyup="searchOrders()">
+                                       class="border rounded-lg px-4 py-2 flex-grow" onkeyup="searchOrders()">
                                 <select id="orderStatusFilter" class="border rounded-lg px-4 py-2" onchange="filterOrders()">
                                     <option value="">Semua Status</option>
                                     <option value="Pending">Pending</option>
@@ -527,7 +808,12 @@
                                         </tr>
                                     </thead>
                                     <tbody id="ordersTable">
-                                        <!-- Orders will be loaded here -->
+                                        <tr>
+                                            <td colspan="6" class="p-8 text-center">
+                                                <div class="loading" style="border-top-color: #1e3a8a; margin: 0 auto;"></div>
+                                                <p class="text-gray-500 mt-4">Memuat data order...</p>
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -535,8 +821,8 @@
                         
                         <!-- Services Tab -->
                         <div id="adminServicesTab" class="admin-tab-content hidden">
-                            <div class="flex justify-between items-center mb-6">
-                                <h3 class="text-2xl font-bold">Manajemen Layanan</h3>
+                            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+                                <h3 class="text-2xl font-bold mb-4 md:mb-0">Manajemen Layanan</h3>
                                 <button onclick="showNewServiceModal()"
                                         class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
                                     <i class="fas fa-plus mr-2"></i> Tambah Layanan
@@ -544,7 +830,10 @@
                             </div>
                             
                             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="adminServicesGrid">
-                                <!-- Admin services will be loaded here -->
+                                <div class="text-center py-12 col-span-3">
+                                    <div class="loading" style="border-top-color: #1e3a8a; margin: 0 auto;"></div>
+                                    <p class="text-gray-500 mt-4">Memuat layanan...</p>
+                                </div>
                             </div>
                         </div>
                         
@@ -582,8 +871,8 @@
                         
                         <!-- Discounts Tab -->
                         <div id="adminDiscountsTab" class="admin-tab-content hidden">
-                            <div class="flex justify-between items-center mb-6">
-                                <h3 class="text-2xl font-bold">Manajemen Diskon</h3>
+                            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+                                <h3 class="text-2xl font-bold mb-4 md:mb-0">Manajemen Diskon</h3>
                                 <button onclick="showNewDiscountModal()"
                                         class="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600">
                                     <i class="fas fa-plus mr-2"></i> Tambah Diskon
@@ -591,7 +880,10 @@
                             </div>
                             
                             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="discountsGrid">
-                                <!-- Discounts will be loaded here -->
+                                <div class="text-center py-12 col-span-3">
+                                    <div class="loading" style="border-top-color: #1e3a8a; margin: 0 auto;"></div>
+                                    <p class="text-gray-500 mt-4">Memuat diskon...</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -602,7 +894,7 @@
 
     <!-- Footer -->
     <footer class="bg-blue-900 text-white py-8 mt-12">
-        <div class="container mx-auto px-4">
+        <div class="container">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div>
                     <h3 class="text-xl font-bold mb-4">Malik Service Center</h3>
@@ -635,12 +927,17 @@
 
     <!-- JavaScript -->
     <script>
-        // Konfigurasi
-        const CONFIG = {
-            API_URL: 'https://script.google.com/macros/s/AKfycbxhMbUMZ8SLoDM2ceo9U-Tve5LNg1eJU6XX3fUXmQG9VUZtMdt4h1etJZy1bwfUKau1/exec', // Ganti dengan URL Web App Anda
-            TOKEN_KEY: 'malik_service_token',
-            USER_KEY: 'malik_service_user'
-        };
+        // ==========================================
+        // KONFIGURASI SISTEM
+        // ==========================================
+        
+        // URL Apps Script Web App Anda
+        // GANTI INI DENGAN URL ANDA SETELAH DEPLOY
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxhMbUMZ8SLoDM2ceo9U-Tve5LNg1eJU6XX3fUXmQG9VUZtMdt4h1etJZy1bwfUKau1/exec';
+        
+        // Konstanta untuk localStorage
+        const TOKEN_KEY = 'malik_service_admin_token';
+        const USER_KEY = 'malik_service_admin_user';
         
         // State aplikasi
         let currentUser = null;
@@ -649,44 +946,69 @@
         let allOrders = [];
         let currentOrder = null;
         let discountApplied = null;
+        let charts = {};
         
-        // Initialize
+        // ==========================================
+        // FUNGSI UTAMA - INISIALISASI
+        // ==========================================
+        
         document.addEventListener('DOMContentLoaded', function() {
-            checkAuth();
-            loadServices();
-            loadCategories();
-            updateActiveNav();
+            console.log('Malik Service System v4.0 diinisialisasi');
             
-            // Set default dates for filter
-            const today = new Date().toISOString().split('T')[0];
+            // Cek status login
+            checkAuth();
+            
+            // Tampilkan home section
+            showSection('home');
+            
+            // Set default dates untuk filter
+            const today = new Date();
             const weekAgo = new Date();
             weekAgo.setDate(weekAgo.getDate() - 7);
-            document.getElementById('orderDateFrom').value = weekAgo.toISOString().split('T')[0];
-            document.getElementById('orderDateTo').value = today;
+            
+            document.getElementById('orderDateFrom').value = formatDate(weekAgo);
+            document.getElementById('orderDateTo').value = formatDate(today);
+            
+            // Load sample services jika belum ada data
+            setTimeout(loadSampleServices, 1000);
         });
         
-        // Navigation
+        function formatDate(date) {
+            return date.toISOString().split('T')[0];
+        }
+        
+        // ==========================================
+        // FUNGSI NAVIGASI
+        // ==========================================
+        
         function showSection(sectionId) {
-            // Hide all sections
+            // Sembunyikan semua section
             document.querySelectorAll('.section').forEach(section => {
                 section.classList.add('hidden');
             });
             
-            // Show selected section
+            // Tampilkan section yang dipilih
             document.getElementById(sectionId).classList.remove('hidden');
             
-            // Update active nav
-            updateActiveNav();
+            // Update active nav link
+            updateActiveNav(sectionId);
             
-            // Load data if needed
-            if (sectionId === 'admin' && isLoggedIn()) {
+            // Load data khusus section
+            if (sectionId === 'services') {
+                loadSampleServices();
+            } else if (sectionId === 'admin' && isLoggedIn()) {
                 showAdminDashboard();
             }
         }
         
-        function updateActiveNav() {
-            document.querySelectorAll('.nav-link').forEach(link => {
+        function updateActiveNav(sectionId) {
+            // Update active class pada nav links
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
                 link.classList.remove('active');
+                if (link.getAttribute('href') === `#${sectionId}`) {
+                    link.classList.add('active');
+                }
             });
         }
         
@@ -695,53 +1017,314 @@
             menu.classList.toggle('hidden');
         }
         
-        // API Functions
-        async function callAPI(action, data = {}, token = null) {
-            const payload = {
-                action: action,
-                ...data
-            };
+        // ==========================================
+        // FUNGSI AUTHENTIKASI
+        // ==========================================
+        
+        function isLoggedIn() {
+            return localStorage.getItem(TOKEN_KEY) !== null;
+        }
+        
+        function checkAuth() {
+            const token = localStorage.getItem(TOKEN_KEY);
+            const user = localStorage.getItem(USER_KEY);
             
-            if (token) {
-                payload.token = token;
-            }
-            
-            try {
-                const response = await fetch(CONFIG.API_URL, {
-                    method: 'POST',
-                    body: JSON.stringify(payload)
-                });
-                
-                return await response.json();
-            } catch (error) {
-                console.error('API Error:', error);
-                return { success: false, message: 'Network error' };
+            if (token && user) {
+                adminToken = token;
+                currentUser = JSON.parse(user);
             }
         }
         
-        // Services
-        async function loadServices() {
-            const response = await callAPI('get_services');
+        async function loginAdmin(event) {
+            if (event) event.preventDefault();
             
-            if (response.success) {
-                allServices = response.data;
-                displayServices(allServices);
-                
-                // Update category filter
-                const categoryFilter = document.getElementById('categoryFilter');
-                const categories = [...new Set(allServices.map(s => s.kategori))];
-                
-                categories.forEach(category => {
-                    const option = document.createElement('option');
-                    option.value = category;
-                    option.textContent = category;
-                    categoryFilter.appendChild(option);
-                });
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const btn = document.getElementById('loginBtn');
+            const loading = document.getElementById('loginLoading');
+            const message = document.getElementById('loginMessage');
+            
+            // Validasi input
+            if (!username || !password) {
+                message.textContent = 'Username dan password harus diisi';
+                return;
             }
+            
+            btn.disabled = true;
+            loading.classList.remove('hidden');
+            message.textContent = '';
+            
+            try {
+                // Simulasi login - di production ini akan panggil API
+                // Default login: admin / 123456
+                if (username === 'admin' && password === '123456') {
+                    // Simpan token dan user data
+                    const userData = {
+                        username: 'admin',
+                        name: 'Administrator Utama',
+                        role: 'superadmin',
+                        permissions: 'all'
+                    };
+                    
+                    const token = btoa(JSON.stringify({
+                        ...userData,
+                        exp: Date.now() + (3600 * 1000)
+                    }));
+                    
+                    localStorage.setItem(TOKEN_KEY, token);
+                    localStorage.setItem(USER_KEY, JSON.stringify(userData));
+                    
+                    adminToken = token;
+                    currentUser = userData;
+                    
+                    // Show admin dashboard
+                    showAdminDashboard();
+                } else if (username === 'manager' && password === '123456') {
+                    const userData = {
+                        username: 'manager',
+                        name: 'Manager Operasional',
+                        role: 'manager',
+                        permissions: 'view,edit,orders'
+                    };
+                    
+                    const token = btoa(JSON.stringify({
+                        ...userData,
+                        exp: Date.now() + (3600 * 1000)
+                    }));
+                    
+                    localStorage.setItem(TOKEN_KEY, token);
+                    localStorage.setItem(USER_KEY, JSON.stringify(userData));
+                    
+                    adminToken = token;
+                    currentUser = userData;
+                    
+                    showAdminDashboard();
+                } else if (username === 'teknisi' && password === '123456') {
+                    const userData = {
+                        username: 'teknisi',
+                        name: 'Teknisi Lapangan',
+                        role: 'teknisi',
+                        permissions: 'view,orders'
+                    };
+                    
+                    const token = btoa(JSON.stringify({
+                        ...userData,
+                        exp: Date.now() + (3600 * 1000)
+                    }));
+                    
+                    localStorage.setItem(TOKEN_KEY, token);
+                    localStorage.setItem(USER_KEY, JSON.stringify(userData));
+                    
+                    adminToken = token;
+                    currentUser = userData;
+                    
+                    showAdminDashboard();
+                } else {
+                    message.textContent = 'Username atau password salah';
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                message.textContent = 'Terjadi kesalahan saat login';
+            } finally {
+                btn.disabled = false;
+                loading.classList.add('hidden');
+            }
+        }
+        
+        function logoutAdmin() {
+            if (confirm('Anda yakin ingin logout?')) {
+                localStorage.removeItem(TOKEN_KEY);
+                localStorage.removeItem(USER_KEY);
+                adminToken = null;
+                currentUser = null;
+                
+                document.getElementById('loginForm').classList.remove('hidden');
+                document.getElementById('adminDashboard').classList.add('hidden');
+                document.getElementById('loginFormElement').reset();
+                
+                showSection('home');
+            }
+        }
+        
+        function showLoginForm() {
+            document.getElementById('loginForm').classList.remove('hidden');
+            document.getElementById('adminDashboard').classList.add('hidden');
+        }
+        
+        // ==========================================
+        // FUNGSI ADMIN DASHBOARD
+        // ==========================================
+        
+        function showAdminDashboard() {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('adminDashboard').classList.remove('hidden');
+            document.getElementById('adminWelcome').textContent = `Selamat datang, ${currentUser.name}!`;
+            
+            showAdminTab('dashboard');
+        }
+        
+        function showAdminTab(tabName) {
+            // Sembunyikan semua tab
+            document.querySelectorAll('.admin-tab-content').forEach(tab => {
+                tab.classList.add('hidden');
+            });
+            
+            // Hapus active class dari semua tab buttons
+            document.querySelectorAll('.admin-tab').forEach(tab => {
+                tab.classList.remove('border-blue-500', 'text-blue-600');
+            });
+            
+            // Tampilkan tab yang dipilih
+            document.getElementById(`admin${capitalizeFirst(tabName)}Tab`).classList.remove('hidden');
+            
+            // Tambah active class pada tab button yang diklik
+            event.target.classList.add('border-blue-500', 'text-blue-600');
+            
+            // Load data tab
+            switch(tabName) {
+                case 'dashboard':
+                    loadDashboardData();
+                    break;
+                case 'orders':
+                    loadOrdersData();
+                    break;
+                case 'services':
+                    loadServicesData();
+                    break;
+                case 'reports':
+                    loadReportsData();
+                    break;
+                case 'discounts':
+                    loadDiscountsData();
+                    break;
+            }
+        }
+        
+        function capitalizeFirst(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+        
+        // ==========================================
+        // FUNGSI DATA SAMPLE (UNTUK DEMO)
+        // ==========================================
+        
+        function loadSampleServices() {
+            const sampleServices = [
+                {
+                    id: 1,
+                    kategori: "Smartphone & Tablet",
+                    tipe: "Ringan",
+                    nama: "Ganti Battery",
+                    jenis_biaya: "Sparepart + Jasa",
+                    harga_dasar: 100000,
+                    harga_jual: 150000,
+                    estimasi: "1-3 Jam",
+                    deskripsi: "Harga tergantung model dan kapasitas",
+                    status: "active"
+                },
+                {
+                    id: 2,
+                    kategori: "Smartphone & Tablet",
+                    tipe: "Ringan",
+                    nama: "Ganti LCD/Layar",
+                    jenis_biaya: "Sparepart + Jasa",
+                    harga_dasar: 200000,
+                    harga_jual: 300000,
+                    estimasi: "2-4 Jam",
+                    deskripsi: "Original/AMOLED/IPS",
+                    status: "active"
+                },
+                {
+                    id: 3,
+                    kategori: "Smartphone & Tablet",
+                    tipe: "Ringan",
+                    nama: "Ganti Kaca (Glass Only)",
+                    jenis_biaya: "Jasa",
+                    harga_dasar: 100000,
+                    harga_jual: 200000,
+                    estimasi: "2-3 Jam",
+                    deskripsi: "Tanpa ganti LCD",
+                    status: "active"
+                },
+                {
+                    id: 4,
+                    kategori: "Smartphone & Tablet",
+                    tipe: "Sedang",
+                    nama: "Ganti Port Charging",
+                    jenis_biaya: "Sparepart + Jasa",
+                    harga_dasar: 100000,
+                    harga_jual: 150000,
+                    estimasi: "1-2 Jam",
+                    deskripsi: "USB-C/Lightning/Micro USB",
+                    status: "active"
+                },
+                {
+                    id: 5,
+                    kategori: "Smartphone & Tablet",
+                    tipe: "Berat",
+                    nama: "Motherboard Repair",
+                    jenis_biaya: "Jasa",
+                    harga_dasar: 300000,
+                    harga_jual: 500000,
+                    estimasi: "1-3 Hari",
+                    deskripsi: "Microsoldering IC/Resetore Data",
+                    status: "active"
+                },
+                {
+                    id: 6,
+                    kategori: "Laptop & PC",
+                    tipe: "Ringan",
+                    nama: "Instalasi OS & Driver",
+                    jenis_biaya: "Jasa",
+                    harga_dasar: 100000,
+                    harga_jual: 150000,
+                    estimasi: "1-3 Jam",
+                    deskripsi: "Windows/macOS/Linux",
+                    status: "active"
+                },
+                {
+                    id: 7,
+                    kategori: "Laptop & PC",
+                    tipe: "Ringan",
+                    nama: "Pembersihan & Thermal Paste",
+                    jenis_biaya: "Jasa",
+                    harga_dasar: 50000,
+                    harga_jual: 100000,
+                    estimasi: "1-2 Jam",
+                    deskripsi: "Termasuk blower dan pasta baru",
+                    status: "active"
+                }
+            ];
+            
+            allServices = sampleServices;
+            displayServices(sampleServices);
+            
+            // Update category filter
+            const categoryFilter = document.getElementById('categoryFilter');
+            categoryFilter.innerHTML = '<option value="">Semua Kategori</option>';
+            
+            const categories = [...new Set(sampleServices.map(s => s.kategori))];
+            categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category;
+                categoryFilter.appendChild(option);
+            });
         }
         
         function displayServices(services) {
             const grid = document.getElementById('servicesGrid');
+            
+            if (services.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-3 text-center py-12">
+                        <i class="fas fa-concierge-bell text-4xl text-gray-300 mb-4"></i>
+                        <p class="text-gray-500">Tidak ada layanan tersedia</p>
+                    </div>
+                `;
+                return;
+            }
+            
             grid.innerHTML = '';
             
             services.forEach(service => {
@@ -773,6 +1356,15 @@
             });
         }
         
+        function getTypeColor(type) {
+            switch(type) {
+                case 'Ringan': return 'bg-green-100 text-green-800';
+                case 'Sedang': return 'bg-yellow-100 text-yellow-800';
+                case 'Berat': return 'bg-red-100 text-red-800';
+                default: return 'bg-gray-100 text-gray-800';
+            }
+        }
+        
         function filterServices() {
             const category = document.getElementById('categoryFilter').value;
             const type = document.getElementById('typeFilter').value;
@@ -790,21 +1382,10 @@
             displayServices(filtered);
         }
         
-        function getTypeColor(type) {
-            switch(type) {
-                case 'Ringan': return 'bg-green-100 text-green-800';
-                case 'Sedang': return 'bg-yellow-100 text-yellow-800';
-                case 'Berat': return 'bg-red-100 text-red-800';
-                default: return 'bg-gray-100 text-gray-800';
-            }
-        }
+        // ==========================================
+        // FUNGSI ORDER PELANGGAN
+        // ==========================================
         
-        async function loadCategories() {
-            const response = await callAPI('get_categories');
-            // Categories are already loaded in loadServices
-        }
-        
-        // Order Modal
         function openOrderModal(serviceId) {
             const service = allServices.find(s => s.id === serviceId);
             if (!service) return;
@@ -862,21 +1443,50 @@
             document.getElementById('orderTotal').textContent = `Rp ${formatNumber(total)}`;
         }
         
-        async function checkDiscount() {
+        function checkDiscount() {
             const code = document.getElementById('discountCode').value;
             if (!code) return;
             
             const subtotal = currentOrder.items.reduce((sum, item) => sum + item.harga_jual, 0);
-            const response = await callAPI('check_discount', { code, total: subtotal });
-            
             const messageEl = document.getElementById('discountMessage');
             
-            if (response.valid) {
-                discountApplied = response;
-                messageEl.innerHTML = `<span class="text-green-600">${response.message}</span>`;
+            // Sample discount codes for demo
+            const discountCodes = {
+                'WELCOME10': { type: 'persen', value: 10, min_order: 100000, max_discount: 50000 },
+                'GRANDOPENING': { type: 'nominal', value: 50000, min_order: 200000, max_discount: 50000 },
+                'LOYAL20': { type: 'persen', value: 20, min_order: 500000, max_discount: 100000 }
+            };
+            
+            if (discountCodes[code]) {
+                const discount = discountCodes[code];
+                
+                if (subtotal < discount.min_order) {
+                    messageEl.innerHTML = `<span class="text-red-600">Minimal order Rp ${formatNumber(discount.min_order)}</span>`;
+                    discountApplied = null;
+                } else {
+                    let discountAmount = 0;
+                    
+                    if (discount.type === 'persen') {
+                        discountAmount = subtotal * (discount.value / 100);
+                    } else {
+                        discountAmount = discount.value;
+                    }
+                    
+                    if (discount.max_discount && discountAmount > discount.max_discount) {
+                        discountAmount = discount.max_discount;
+                    }
+                    
+                    discountApplied = {
+                        code: code,
+                        discount_amount: discountAmount,
+                        message: `Diskon diterapkan: Rp ${formatNumber(discountAmount)}`
+                    };
+                    
+                    messageEl.innerHTML = `<span class="text-green-600">${discountApplied.message}</span>`;
+                }
             } else {
                 discountApplied = null;
-                messageEl.innerHTML = `<span class="text-red-600">${response.message}</span>`;
+                messageEl.innerHTML = `<span class="text-red-600">Kode diskon tidak valid</span>`;
             }
             
             updateOrderSummary();
@@ -890,415 +1500,314 @@
             btn.disabled = true;
             loading.classList.remove('hidden');
             
+            // Generate order ID
+            const orderId = generateOrderId();
+            const receiptNumber = generateReceiptNumber();
+            
+            // Calculate total
+            const subtotal = currentOrder.items.reduce((sum, item) => sum + item.harga_jual, 0);
+            const discount = discountApplied ? discountApplied.discount_amount : 0;
+            const additional = parseInt(document.getElementById('additionalFees').value) || 0;
+            const total = Math.max(0, subtotal - discount + additional);
+            
+            // Simpan order ke localStorage untuk demo
             const orderData = {
+                order_id: orderId,
+                receipt_number: receiptNumber,
+                timestamp: new Date().toISOString(),
                 customer_name: document.getElementById('customerName').value,
                 customer_phone: document.getElementById('customerPhone').value,
                 customer_address: document.getElementById('customerAddress').value,
-                discount_code: document.getElementById('discountCode').value || null,
-                additional_fees: parseInt(document.getElementById('additionalFees').value) || 0,
-                notes: document.getElementById('orderNotes').value,
-                items: currentOrder.items
+                service: currentOrder.service,
+                subtotal: subtotal,
+                discount: discount,
+                additional_fees: additional,
+                total: total,
+                status: 'Pending',
+                payment_status: 'Belum_Bayar',
+                notes: document.getElementById('orderNotes').value
             };
             
-            const response = await callAPI('create_order', { order: orderData });
+            // Simpan ke localStorage
+            const existingOrders = JSON.parse(localStorage.getItem('malik_service_orders') || '[]');
+            existingOrders.push(orderData);
+            localStorage.setItem('malik_service_orders', JSON.stringify(existingOrders));
             
-            btn.disabled = false;
-            loading.classList.add('hidden');
-            
-            if (response.success) {
-                alert(`Order berhasil dibuat!\nOrder ID: ${response.order_id}\nTotal: Rp ${formatNumber(response.calculation.total)}`);
+            // Simulasi delay
+            setTimeout(() => {
+                btn.disabled = false;
+                loading.classList.add('hidden');
+                
+                alert(`Order berhasil dibuat!\n\nOrder ID: ${orderId}\nTotal: Rp ${formatNumber(total)}\n\nSimpan Order ID untuk melacak status perbaikan.`);
+                
                 closeOrderModal();
                 showSection('track');
-                document.getElementById('trackInput').value = response.order_id;
-                trackOrder();
-            } else {
-                alert('Gagal membuat order: ' + response.message);
-            }
+                document.getElementById('trackInput').value = orderId;
+                
+                // Auto track order
+                setTimeout(() => {
+                    const order = existingOrders.find(o => o.order_id === orderId);
+                    if (order) {
+                        displayTrackResult(order);
+                    }
+                }, 500);
+                
+            }, 1500);
         }
         
-        // Track Order
-        async function trackOrder() {
+        function generateOrderId() {
+            const now = new Date();
+            const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+            return `ORD${now.getFullYear()}${(now.getMonth()+1).toString().padStart(2,'0')}${now.getDate().toString().padStart(2,'0')}${random}`;
+        }
+        
+        function generateReceiptNumber() {
+            const now = new Date();
+            const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+            return `MSC${now.getFullYear()}${(now.getMonth()+1).toString().padStart(2,'0')}${now.getDate().toString().padStart(2,'0')}${random}`;
+        }
+        
+        // ==========================================
+        // FUNGSI TRACK ORDER
+        // ==========================================
+        
+        function trackOrder() {
             const orderId = document.getElementById('trackInput').value.trim();
             if (!orderId) {
                 alert('Masukkan Order ID terlebih dahulu');
                 return;
             }
             
-            const response = await callAPI('track_order', { orderId });
+            // Cari order di localStorage
+            const existingOrders = JSON.parse(localStorage.getItem('malik_service_orders') || '[]');
+            const order = existingOrders.find(o => o.order_id === orderId);
+            
+            if (order) {
+                displayTrackResult(order);
+            } else {
+                displayTrackError('Order tidak ditemukan. Pastikan Order ID benar.');
+            }
+        }
+        
+        function displayTrackResult(order) {
             const resultEl = document.getElementById('trackResult');
             
-            if (response.success) {
-                const order = response.order;
-                const details = order.details || {};
-                const items = details.items || [];
-                
-                let itemsHTML = '';
-                if (items.length > 0) {
-                    itemsHTML = items.map(item => `
-                        <tr>
-                            <td class="p-2">${item.name || item.nama}</td>
-                            <td class="p-2 text-right">Rp ${formatNumber(item.price || item.harga_jual || 0)}</td>
-                        </tr>
-                    `).join('');
-                }
-                
-                resultEl.innerHTML = `
-                    <div class="bg-white rounded-xl shadow p-6">
-                        <div class="flex justify-between items-start mb-6">
-                            <div>
-                                <h3 class="text-2xl font-bold mb-2">Order #${order.Order_ID}</h3>
-                                <p class="text-gray-600">${new Date(order.Timestamp).toLocaleDateString('id-ID')}</p>
-                            </div>
-                            <span class="order-status status-${order.Status.toLowerCase()}">
-                                ${order.Status}
-                            </span>
+            resultEl.innerHTML = `
+                <div class="bg-white rounded-xl shadow p-6">
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <h3 class="text-2xl font-bold mb-2">Order #${order.order_id}</h3>
+                            <p class="text-gray-600">${new Date(order.timestamp).toLocaleDateString('id-ID')}</p>
                         </div>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                            <div>
-                                <h4 class="font-bold mb-2">Informasi Pelanggan</h4>
-                                <p><strong>Nama:</strong> ${order.Nama_Pelanggan}</p>
-                                <p><strong>WhatsApp:</strong> ${order.WhatsApp}</p>
-                                <p><strong>Alamat:</strong> ${order.Alamat || '-'}</p>
-                            </div>
-                            <div>
-                                <h4 class="font-bold mb-2">Informasi Order</h4>
-                                <p><strong>Status Bayar:</strong> ${order.Status_Bayar}</p>
-                                <p><strong>Teknisi:</strong> ${order.Teknisi || 'Belum ditentukan'}</p>
-                                <p><strong>No. Resi:</strong> ${order.Resi_Number || '-'}</p>
-                            </div>
+                        <span class="order-status status-${order.status.toLowerCase()}">
+                            ${order.status}
+                        </span>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <h4 class="font-bold mb-2">Informasi Pelanggan</h4>
+                            <p><strong>Nama:</strong> ${order.customer_name}</p>
+                            <p><strong>WhatsApp:</strong> ${order.customer_phone}</p>
+                            <p><strong>Alamat:</strong> ${order.customer_address || '-'}</p>
                         </div>
-                        
-                        ${items.length > 0 ? `
-                        <div class="mb-6">
-                            <h4 class="font-bold mb-2">Detail Layanan</h4>
-                            <table class="w-full border-collapse">
-                                <thead class="bg-gray-50">
-                                    <tr>
-                                        <th class="p-2 text-left">Layanan</th>
-                                        <th class="p-2 text-right">Harga</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${itemsHTML}
-                                </tbody>
-                            </table>
+                        <div>
+                            <h4 class="font-bold mb-2">Informasi Order</h4>
+                            <p><strong>Status Bayar:</strong> ${order.payment_status}</p>
+                            <p><strong>No. Resi:</strong> ${order.receipt_number || '-'}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2">Detail Layanan</h4>
+                        <table class="w-full border-collapse">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="p-2 text-left">Layanan</th>
+                                    <th class="p-2 text-right">Harga</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="p-2">${order.service.nama}</td>
+                                    <td class="p-2 text-right">Rp ${formatNumber(order.service.harga_jual)}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <div class="flex justify-between mb-2">
+                            <span>Subtotal:</span>
+                            <span>Rp ${formatNumber(order.subtotal)}</span>
+                        </div>
+                        ${order.discount > 0 ? `
+                        <div class="flex justify-between mb-2">
+                            <span>Diskon:</span>
+                            <span>- Rp ${formatNumber(order.discount)}</span>
                         </div>
                         ` : ''}
-                        
-                        <div class="bg-gray-50 p-4 rounded-lg">
-                            <div class="flex justify-between mb-2">
-                                <span>Subtotal:</span>
-                                <span>Rp ${formatNumber(order.Subtotal || 0)}</span>
-                            </div>
-                            ${(order.Diskon || 0) > 0 ? `
-                            <div class="flex justify-between mb-2">
-                                <span>Diskon:</span>
-                                <span>- Rp ${formatNumber(order.Diskon || 0)}</span>
-                            </div>
-                            ` : ''}
-                            ${(order.Biaya_Tambahan || 0) > 0 ? `
-                            <div class="flex justify-between mb-2">
-                                <span>Biaya Tambahan:</span>
-                                <span>+ Rp ${formatNumber(order.Biaya_Tambahan || 0)}</span>
-                            </div>
-                            ` : ''}
-                            <div class="flex justify-between font-bold text-lg pt-2 border-t">
-                                <span>TOTAL:</span>
-                                <span>Rp ${formatNumber(order.Total_Bayar || 0)}</span>
-                            </div>
+                        ${order.additional_fees > 0 ? `
+                        <div class="flex justify-between mb-2">
+                            <span>Biaya Tambahan:</span>
+                            <span>+ Rp ${formatNumber(order.additional_fees)}</span>
+                        </div>
+                        ` : ''}
+                        <div class="flex justify-between font-bold text-lg pt-2 border-t">
+                            <span>TOTAL:</span>
+                            <span>Rp ${formatNumber(order.total)}</span>
                         </div>
                     </div>
-                `;
-                resultEl.classList.remove('hidden');
-            } else {
-                resultEl.innerHTML = `
-                    <div class="bg-red-50 border border-red-200 rounded-xl p-6 text-center">
-                        <i class="fas fa-exclamation-triangle text-red-500 text-4xl mb-4"></i>
-                        <h4 class="text-xl font-bold text-red-700 mb-2">Order Tidak Ditemukan</h4>
-                        <p class="text-red-600">${response.message}</p>
+                    
+                    ${order.notes ? `
+                    <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+                        <h4 class="font-bold mb-2">Catatan:</h4>
+                        <p>${order.notes}</p>
                     </div>
-                `;
-                resultEl.classList.remove('hidden');
-            }
+                    ` : ''}
+                </div>
+            `;
+            resultEl.classList.remove('hidden');
         }
         
-        // Admin Functions
-        function isLoggedIn() {
-            return localStorage.getItem(CONFIG.TOKEN_KEY) !== null;
+        function displayTrackError(message) {
+            const resultEl = document.getElementById('trackResult');
+            resultEl.innerHTML = `
+                <div class="bg-red-50 border border-red-200 rounded-xl p-6 text-center">
+                    <i class="fas fa-exclamation-triangle text-red-500 text-4xl mb-4"></i>
+                    <h4 class="text-xl font-bold text-red-700 mb-2">Order Tidak Ditemukan</h4>
+                    <p class="text-red-600">${message}</p>
+                </div>
+            `;
+            resultEl.classList.remove('hidden');
         }
         
-        function checkAuth() {
-            if (isLoggedIn()) {
-                adminToken = localStorage.getItem(CONFIG.TOKEN_KEY);
-                currentUser = JSON.parse(localStorage.getItem(CONFIG.USER_KEY));
-                
-                // Show admin dashboard if on admin section
-                if (window.location.hash === '#admin') {
-                    showAdminDashboard();
-                }
-            }
-        }
+        // ==========================================
+        // FUNGSI ADMIN DASHBOARD DATA
+        // ==========================================
         
-        async function loginAdmin(event) {
-            event.preventDefault();
+        function loadDashboardData() {
+            // Load orders from localStorage
+            const orders = JSON.parse(localStorage.getItem('malik_service_orders') || '[]');
+            allOrders = orders;
             
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const btn = document.getElementById('loginBtn');
-            const loading = document.getElementById('loginLoading');
-            const message = document.getElementById('loginMessage');
+            // Update stats
+            document.getElementById('statTotalOrders').textContent = orders.length;
             
-            btn.disabled = true;
-            loading.classList.remove('hidden');
-            message.textContent = '';
+            const completedOrders = orders.filter(o => o.status === 'Selesai');
+            const revenue = completedOrders.reduce((sum, o) => sum + (o.total || 0), 0);
+            document.getElementById('statRevenue').textContent = `Rp ${formatNumber(revenue)}`;
             
-            const response = await callAPI('login_admin', { username, password });
+            const pendingOrders = orders.filter(o => o.status === 'Pending');
+            document.getElementById('statPending').textContent = pendingOrders.length;
             
-            btn.disabled = false;
-            loading.classList.add('hidden');
+            document.getElementById('statServices').textContent = allServices.length;
             
-            if (response.success) {
-                localStorage.setItem(CONFIG.TOKEN_KEY, response.token);
-                localStorage.setItem(CONFIG.USER_KEY, JSON.stringify(response.user));
-                
-                adminToken = response.token;
-                currentUser = response.user;
-                
-                showAdminDashboard();
+            // Update recent orders
+            const recentOrdersEl = document.getElementById('recentOrders');
+            recentOrdersEl.innerHTML = '';
+            
+            if (orders.length === 0) {
+                recentOrdersEl.innerHTML = '<p class="text-gray-500 text-center py-4">Belum ada order</p>';
             } else {
-                message.textContent = response.message;
-            }
-        }
-        
-        function logoutAdmin() {
-            localStorage.removeItem(CONFIG.TOKEN_KEY);
-            localStorage.removeItem(CONFIG.USER_KEY);
-            adminToken = null;
-            currentUser = null;
-            
-            document.getElementById('loginForm').classList.remove('hidden');
-            document.getElementById('adminDashboard').classList.add('hidden');
-            document.getElementById('loginFormElement').reset();
-        }
-        
-        function showAdminDashboard() {
-            document.getElementById('loginForm').classList.add('hidden');
-            document.getElementById('adminDashboard').classList.remove('hidden');
-            document.getElementById('adminWelcome').textContent = `Selamat datang, ${currentUser.name}!`;
-            
-            showAdminTab('dashboard');
-        }
-        
-        function showAdminTab(tabName) {
-            // Hide all tabs
-            document.querySelectorAll('.admin-tab-content').forEach(tab => {
-                tab.classList.add('hidden');
-            });
-            
-            // Remove active class from all tabs
-            document.querySelectorAll('.admin-tab').forEach(tab => {
-                tab.classList.remove('border-blue-500', 'text-blue-600');
-            });
-            
-            // Show selected tab
-            document.getElementById(`admin${capitalizeFirst(tabName)}Tab`).classList.remove('hidden');
-            
-            // Add active class to clicked tab
-            event.target.classList.add('border-blue-500', 'text-blue-600');
-            
-            // Load tab data
-            switch(tabName) {
-                case 'dashboard':
-                    loadDashboardStats();
-                    break;
-                case 'orders':
-                    loadAdminOrders();
-                    break;
-                case 'services':
-                    loadAdminServices();
-                    break;
-                case 'reports':
-                    loadReports();
-                    break;
-                case 'discounts':
-                    loadDiscounts();
-                    break;
-            }
-        }
-        
-        function capitalizeFirst(string) {
-            return string.charAt(0).toUpperCase() + string.slice(1);
-        }
-        
-        // Dashboard Stats
-        async function loadDashboardStats() {
-            const response = await callAPI('get_stats', {}, adminToken);
-            
-            if (response.success) {
-                const stats = response.stats;
+                const recent = orders.slice(-5).reverse();
                 
-                document.getElementById('statTotalOrders').textContent = stats.total_orders;
-                document.getElementById('statRevenue').textContent = `Rp ${formatNumber(stats.total_revenue)}`;
-                document.getElementById('statPending').textContent = stats.pending_orders;
-                document.getElementById('statServices').textContent = stats.total_services;
-                
-                // Recent orders
-                const recentOrdersEl = document.getElementById('recentOrders');
-                recentOrdersEl.innerHTML = '';
-                
-                if (stats.daily_stats && stats.daily_stats.length > 0) {
-                    const latestOrders = stats.daily_stats[stats.daily_stats.length - 1].orders || 0;
-                    recentOrdersEl.innerHTML = `
-                        <p class="text-gray-600 mb-4">Hari ini: ${latestOrders} order baru</p>
+                recent.forEach(order => {
+                    const orderEl = document.createElement('div');
+                    orderEl.className = 'border-b py-3 last:border-b-0';
+                    orderEl.innerHTML = `
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="font-medium">${order.customer_name}</p>
+                                <p class="text-sm text-gray-500">${order.order_id}</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="order-status status-${order.status.toLowerCase()}">
+                                    ${order.status}
+                                </span>
+                                <p class="text-sm font-bold mt-1">Rp ${formatNumber(order.total)}</p>
+                            </div>
+                        </div>
                     `;
-                }
-                
-                // Charts
-                createOrderChart(stats.daily_stats);
-                createRevenueChart(stats.daily_stats);
+                    recentOrdersEl.appendChild(orderEl);
+                });
             }
+            
+            // Create sample chart
+            createSampleCharts();
         }
         
-        function createOrderChart(dailyStats) {
-            const ctx = document.getElementById('orderChart').getContext('2d');
-            
-            if (window.orderChartInstance) {
-                window.orderChartInstance.destroy();
-            }
-            
-            const labels = dailyStats.map(day => day.date.split('-')[2]);
-            const orderData = dailyStats.map(day => day.orders);
-            
-            window.orderChartInstance = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Order per Hari',
-                        data: orderData,
-                        borderColor: '#3b82f6',
-                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                        fill: true,
-                        tension: 0.4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    }
-                }
-            });
-        }
-        
-        function createRevenueChart(dailyStats) {
-            const ctx = document.getElementById('revenueChart').getContext('2d');
-            
-            if (window.revenueChartInstance) {
-                window.revenueChartInstance.destroy();
-            }
-            
-            const labels = dailyStats.map(day => day.date.split('-')[2]);
-            const revenueData = dailyStats.map(day => day.revenue);
-            
-            window.revenueChartInstance = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Pendapatan (Rp)',
-                        data: revenueData,
-                        backgroundColor: '#10b981',
-                        borderColor: '#059669',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                callback: function(value) {
-                                    return 'Rp ' + formatNumber(value);
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        }
-        
-        // Admin Orders
-        async function loadAdminOrders() {
-            const response = await callAPI('get_all_orders', {}, adminToken);
-            
-            if (response.success) {
-                allOrders = response.data;
-                displayAdminOrders(allOrders);
-            }
+        function loadOrdersData() {
+            const orders = JSON.parse(localStorage.getItem('malik_service_orders') || '[]');
+            displayAdminOrders(orders);
         }
         
         function displayAdminOrders(orders) {
             const table = document.getElementById('ordersTable');
-            table.innerHTML = '';
             
-            orders.forEach(order => {
-                const row = document.createElement('tr');
-                row.className = 'border-b hover:bg-gray-50';
-                row.innerHTML = `
-                    <td class="p-3">
-                        <div class="font-medium">${order.Order_ID}</div>
-                        <div class="text-sm text-gray-500">${order.Resi_Number || 'No resi'}</div>
-                    </td>
-                    <td class="p-3">
-                        <div class="font-medium">${order.Nama_Pelanggan}</div>
-                        <div class="text-sm text-gray-500">${order.WhatsApp}</div>
-                    </td>
-                    <td class="p-3 font-bold">Rp ${formatNumber(order.Total_Bayar || 0)}</td>
-                    <td class="p-3">
-                        <span class="order-status status-${order.Status.toLowerCase()}">
-                            ${order.Status}
-                        </span>
-                    </td>
-                    <td class="p-3">${new Date(order.Timestamp).toLocaleDateString('id-ID')}</td>
-                    <td class="p-3">
-                        <div class="flex space-x-2">
-                            <button onclick="viewOrderDetails('${order.Order_ID}')" 
-                                    class="px-3 py-1 bg-blue-100 text-blue-600 rounded hover:bg-blue-200">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                            <button onclick="updateOrderStatus('${order.Order_ID}')" 
-                                    class="px-3 py-1 bg-green-100 text-green-600 rounded hover:bg-green-200">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                        </div>
-                    </td>
+            if (orders.length === 0) {
+                table.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="p-8 text-center">
+                            <i class="fas fa-clipboard-list text-4xl text-gray-300 mb-4"></i>
+                            <p class="text-gray-500">Belum ada order</p>
+                        </td>
+                    </tr>
                 `;
-                table.appendChild(row);
+                return;
+            }
+            
+            let html = '';
+            orders.forEach(order => {
+                html += `
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="p-3">
+                            <div class="font-medium">${order.order_id}</div>
+                            <div class="text-sm text-gray-500">${order.receipt_number || 'No resi'}</div>
+                        </td>
+                        <td class="p-3">
+                            <div class="font-medium">${order.customer_name}</div>
+                            <div class="text-sm text-gray-500">${order.customer_phone}</div>
+                        </td>
+                        <td class="p-3 font-bold">Rp ${formatNumber(order.total || 0)}</td>
+                        <td class="p-3">
+                            <span class="order-status status-${order.status.toLowerCase()}">
+                                ${order.status}
+                            </span>
+                        </td>
+                        <td class="p-3">${new Date(order.timestamp).toLocaleDateString('id-ID')}</td>
+                        <td class="p-3">
+                            <div class="flex space-x-2">
+                                <button onclick="viewOrderDetails('${order.order_id}')" 
+                                        class="px-3 py-1 bg-blue-100 text-blue-600 rounded hover:bg-blue-200">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button onclick="updateOrderStatus('${order.order_id}')" 
+                                        class="px-3 py-1 bg-green-100 text-green-600 rounded hover:bg-green-200">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
             });
+            
+            table.innerHTML = html;
         }
         
         function searchOrders() {
             const searchTerm = document.getElementById('orderSearch').value.toLowerCase();
+            const orders = JSON.parse(localStorage.getItem('malik_service_orders') || '[]');
             
             if (!searchTerm) {
-                displayAdminOrders(allOrders);
+                displayAdminOrders(orders);
                 return;
             }
             
-            const filtered = allOrders.filter(order => 
-                order.Order_ID.toLowerCase().includes(searchTerm) ||
-                order.Nama_Pelanggan.toLowerCase().includes(searchTerm) ||
-                order.WhatsApp.includes(searchTerm)
+            const filtered = orders.filter(order => 
+                order.order_id.toLowerCase().includes(searchTerm) ||
+                order.customer_name.toLowerCase().includes(searchTerm) ||
+                order.customer_phone.includes(searchTerm)
             );
             
             displayAdminOrders(filtered);
@@ -1309,350 +1818,577 @@
             const dateFrom = document.getElementById('orderDateFrom').value;
             const dateTo = document.getElementById('orderDateTo').value;
             
-            let filtered = allOrders;
+            let orders = JSON.parse(localStorage.getItem('malik_service_orders') || '[]');
+            let filtered = orders;
             
             if (status) {
-                filtered = filtered.filter(order => order.Status === status);
+                filtered = filtered.filter(order => order.status === status);
             }
             
             if (dateFrom) {
                 const fromDate = new Date(dateFrom);
-                filtered = filtered.filter(order => new Date(order.Timestamp) >= fromDate);
+                filtered = filtered.filter(order => new Date(order.timestamp) >= fromDate);
             }
             
             if (dateTo) {
                 const toDate = new Date(dateTo);
                 toDate.setHours(23, 59, 59);
-                filtered = filtered.filter(order => new Date(order.Timestamp) <= toDate);
+                filtered = filtered.filter(order => new Date(order.timestamp) <= toDate);
             }
             
             displayAdminOrders(filtered);
         }
         
-        async function viewOrderDetails(orderId) {
-            const response = await callAPI('track_order', { orderId }, adminToken);
+        function viewOrderDetails(orderId) {
+            const orders = JSON.parse(localStorage.getItem('malik_service_orders') || '[]');
+            const order = orders.find(o => o.order_id === orderId);
             
-            if (response.success) {
-                const order = response.order;
-                const details = order.details || {};
-                
-                let itemsHTML = '';
-                if (details.items && details.items.length > 0) {
-                    itemsHTML = details.items.map(item => `
-                        <tr>
-                            <td class="p-2">${item.name || item.nama}</td>
-                            <td class="p-2 text-right">Rp ${formatNumber(item.price || item.harga || 0)}</td>
-                        </tr>
-                    `).join('');
-                }
-                
-                const modalHTML = `
-                    <div class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-                        <div class="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-                            <div class="flex justify-between items-center p-6 border-b">
-                                <h3 class="text-2xl font-bold">Detail Order #${order.Order_ID}</h3>
-                                <button onclick="this.closest('.fixed').remove()" 
-                                        class="text-gray-500 hover:text-gray-700 text-2xl">
-                                    <i class="fas fa-times"></i>
-                                </button>
+            if (!order) {
+                alert('Order tidak ditemukan');
+                return;
+            }
+            
+            const modalHTML = `
+                <div class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+                    <div class="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+                        <div class="flex justify-between items-center p-6 border-b">
+                            <h3 class="text-2xl font-bold">Detail Order #${order.order_id}</h3>
+                            <button onclick="this.closest('.fixed').remove()" 
+                                    class="text-gray-500 hover:text-gray-700 text-2xl">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="p-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                <div>
+                                    <h4 class="font-bold mb-3 text-lg">Informasi Pelanggan</h4>
+                                    <div class="space-y-2">
+                                        <p><strong>Nama:</strong> ${order.customer_name}</p>
+                                        <p><strong>WhatsApp:</strong> ${order.customer_phone}</p>
+                                        <p><strong>Alamat:</strong> ${order.customer_address || '-'}</p>
+                                        <p><strong>Catatan:</strong> ${order.notes || '-'}</p>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <h4 class="font-bold mb-3 text-lg">Informasi Order</h4>
+                                    <div class="space-y-2">
+                                        <p><strong>Status:</strong> <span class="order-status status-${order.status.toLowerCase()}">${order.status}</span></p>
+                                        <p><strong>Status Bayar:</strong> ${order.payment_status}</p>
+                                        <p><strong>No. Resi:</strong> ${order.receipt_number || '-'}</p>
+                                        <p><strong>Tgl Order:</strong> ${new Date(order.timestamp).toLocaleDateString('id-ID')}</p>
+                                    </div>
+                                </div>
                             </div>
                             
-                            <div class="p-6">
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                                    <div>
-                                        <h4 class="font-bold mb-3 text-lg">Informasi Pelanggan</h4>
-                                        <div class="space-y-2">
-                                            <p><strong>Nama:</strong> ${order.Nama_Pelanggan}</p>
-                                            <p><strong>WhatsApp:</strong> ${order.WhatsApp}</p>
-                                            <p><strong>Alamat:</strong> ${order.Alamat || '-'}</p>
-                                            <p><strong>Catatan:</strong> ${order.Catatan_Pelanggan || '-'}</p>
-                                        </div>
+                            <div class="mb-6">
+                                <h4 class="font-bold mb-3 text-lg">Detail Layanan</h4>
+                                <table class="w-full border-collapse">
+                                    <thead class="bg-gray-50">
+                                        <tr>
+                                            <th class="p-3 text-left">Layanan</th>
+                                            <th class="p-3 text-left">Kategori</th>
+                                            <th class="p-3 text-left">Tipe</th>
+                                            <th class="p-3 text-right">Harga</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="p-3">${order.service.nama}</td>
+                                            <td class="p-3">${order.service.kategori}</td>
+                                            <td class="p-3">${order.service.tipe}</td>
+                                            <td class="p-3 text-right">Rp ${formatNumber(order.service.harga_jual)}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <div class="bg-gray-50 p-4 rounded-lg mb-6">
+                                <h4 class="font-bold mb-3">Ringkasan Pembayaran</h4>
+                                <div class="space-y-2">
+                                    <div class="flex justify-between">
+                                        <span>Subtotal:</span>
+                                        <span>Rp ${formatNumber(order.subtotal)}</span>
                                     </div>
-                                    
-                                    <div>
-                                        <h4 class="font-bold mb-3 text-lg">Informasi Order</h4>
-                                        <div class="space-y-2">
-                                            <p><strong>Status:</strong> <span class="order-status status-${order.Status.toLowerCase()}">${order.Status}</span></p>
-                                            <p><strong>Status Bayar:</strong> ${order.Status_Bayar}</p>
-                                            <p><strong>Metode Bayar:</strong> ${order.Metode_Bayar || '-'}</p>
-                                            <p><strong>Teknisi:</strong> ${order.Teknisi || '-'}</p>
-                                            <p><strong>Tgl Selesai:</strong> ${order.Selesai_Pada ? new Date(order.Selesai_Pada).toLocaleDateString('id-ID') : '-'}</p>
-                                        </div>
+                                    ${order.discount > 0 ? `
+                                    <div class="flex justify-between">
+                                        <span>Diskon:</span>
+                                        <span>- Rp ${formatNumber(order.discount)}</span>
                                     </div>
-                                </div>
-                                
-                                ${itemsHTML ? `
-                                <div class="mb-6">
-                                    <h4 class="font-bold mb-3 text-lg">Detail Layanan</h4>
-                                    <table class="w-full border-collapse">
-                                        <thead class="bg-gray-50">
-                                            <tr>
-                                                <th class="p-3 text-left">Layanan</th>
-                                                <th class="p-3 text-right">Harga</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            ${itemsHTML}
-                                        </tbody>
-                                    </table>
-                                </div>
-                                ` : ''}
-                                
-                                <div class="bg-gray-50 p-4 rounded-lg mb-6">
-                                    <h4 class="font-bold mb-3">Ringkasan Pembayaran</h4>
-                                    <div class="space-y-2">
-                                        <div class="flex justify-between">
-                                            <span>Subtotal:</span>
-                                            <span>Rp ${formatNumber(order.Subtotal || 0)}</span>
-                                        </div>
-                                        ${(order.Diskon || 0) > 0 ? `
-                                        <div class="flex justify-between">
-                                            <span>Diskon:</span>
-                                            <span>- Rp ${formatNumber(order.Diskon || 0)}</span>
-                                        </div>
-                                        ` : ''}
-                                        ${(order.Biaya_Tambahan || 0) > 0 ? `
-                                        <div class="flex justify-between">
-                                            <span>Biaya Tambahan:</span>
-                                            <span>+ Rp ${formatNumber(order.Biaya_Tambahan || 0)}</span>
-                                        </div>
-                                        ` : ''}
-                                        <div class="flex justify-between font-bold text-lg pt-2 border-t">
-                                            <span>TOTAL:</span>
-                                            <span>Rp ${formatNumber(order.Total_Bayar || 0)}</span>
-                                        </div>
+                                    ` : ''}
+                                    ${order.additional_fees > 0 ? `
+                                    <div class="flex justify-between">
+                                        <span>Biaya Tambahan:</span>
+                                        <span>+ Rp ${formatNumber(order.additional_fees)}</span>
+                                    </div>
+                                    ` : ''}
+                                    <div class="flex justify-between font-bold text-lg pt-2 border-t">
+                                        <span>TOTAL:</span>
+                                        <span>Rp ${formatNumber(order.total)}</span>
                                     </div>
                                 </div>
-                                
-                                <div class="mb-6">
-                                    <h4 class="font-bold mb-3 text-lg">Catatan Admin</h4>
-                                    <div class="bg-blue-50 p-4 rounded-lg">
-                                        <p>${order.Catatan_Admin || 'Tidak ada catatan'}</p>
-                                    </div>
-                                </div>
-                                
-                                <div class="flex justify-end">
-                                    <button onclick="printReceipt('${order.Order_ID}')"
-                                            class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 mr-2">
-                                        <i class="fas fa-print mr-2"></i> Cetak Nota
-                                    </button>
-                                    <button onclick="this.closest('.fixed').remove()"
-                                            class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
-                                        Tutup
-                                    </button>
-                                </div>
+                            </div>
+                            
+                            <div class="flex justify-end">
+                                <button onclick="printReceipt('${order.order_id}')"
+                                        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 mr-2">
+                                    <i class="fas fa-print mr-2"></i> Cetak Nota
+                                </button>
+                                <button onclick="this.closest('.fixed').remove()"
+                                        class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+                                    Tutup
+                                </button>
                             </div>
                         </div>
                     </div>
-                `;
-                
-                document.body.insertAdjacentHTML('beforeend', modalHTML);
-            }
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
         }
         
-        async function updateOrderStatus(orderId) {
-            const status = prompt('Masukkan status baru (Pending/Dikonfirmasi/Diproses/Selesai/Dibatalkan):');
-            if (!status) return;
-            
-            const notes = prompt('Tambahkan catatan (opsional):');
-            
-            const response = await callAPI('update_order_status', {
-                orderId,
-                status,
-                notes: notes || ''
-            }, adminToken);
-            
-            if (response.success) {
-                alert('Status order berhasil diperbarui');
-                loadAdminOrders();
-            } else {
-                alert('Gagal memperbarui status: ' + response.message);
+        function updateOrderStatus(orderId) {
+            const newStatus = prompt('Masukkan status baru (Pending/Dikonfirmasi/Diproses/Selesai/Dibatalkan):');
+            if (!newStatus || !['Pending', 'Dikonfirmasi', 'Diproses', 'Selesai', 'Dibatalkan'].includes(newStatus)) {
+                alert('Status tidak valid');
+                return;
             }
+            
+            const orders = JSON.parse(localStorage.getItem('malik_service_orders') || '[]');
+            const orderIndex = orders.findIndex(o => o.order_id === orderId);
+            
+            if (orderIndex === -1) {
+                alert('Order tidak ditemukan');
+                return;
+            }
+            
+            orders[orderIndex].status = newStatus;
+            localStorage.setItem('malik_service_orders', JSON.stringify(orders));
+            
+            alert('Status order berhasil diperbarui');
+            loadOrdersData();
         }
         
-        async function printReceipt(orderId) {
-            const response = await callAPI('print_receipt', { orderId }, adminToken);
+        function printReceipt(orderId) {
+            const orders = JSON.parse(localStorage.getItem('malik_service_orders') || '[]');
+            const order = orders.find(o => o.order_id === orderId);
             
-            if (response.success) {
-                const printWindow = window.open('', '_blank');
-                printWindow.document.write(response.html_receipt);
-                printWindow.document.close();
-                printWindow.focus();
-                printWindow.print();
-            } else {
-                alert('Gagal mencetak nota: ' + response.message);
+            if (!order) {
+                alert('Order tidak ditemukan');
+                return;
             }
+            
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Receipt ${order.receipt_number}</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+                        .receipt { max-width: 400px; margin: 0 auto; }
+                        .header { text-align: center; margin-bottom: 20px; border-bottom: 2px solid #000; padding-bottom: 10px; }
+                        .header h2 { margin: 0; color: #1e3a8a; }
+                        .order-info { margin-bottom: 20px; }
+                        .order-info table { width: 100%; }
+                        .order-info td { padding: 3px 0; }
+                        .items table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+                        .items th, .items td { border: 1px solid #ddd; padding: 8px; }
+                        .items th { background-color: #f2f2f2; }
+                        .footer { text-align: center; margin-top: 30px; font-size: 0.9em; color: #666; }
+                        @media print { button { display: none; } }
+                    </style>
+                </head>
+                <body>
+                    <div class="receipt">
+                        <div class="header">
+                            <h2>MALIK SERVICE CENTER</h2>
+                            <p>Jl. Contoh No. 123, Jakarta</p>
+                            <p>Telp: 0812-3456-7890</p>
+                        </div>
+                        
+                        <div class="order-info">
+                            <table>
+                                <tr><td><strong>Receipt No:</strong></td><td>${order.receipt_number}</td></tr>
+                                <tr><td><strong>Order ID:</strong></td><td>${order.order_id}</td></tr>
+                                <tr><td><strong>Tanggal:</strong></td><td>${new Date(order.timestamp).toLocaleDateString('id-ID')}</td></tr>
+                                <tr><td><strong>Pelanggan:</strong></td><td>${order.customer_name}</td></tr>
+                                <tr><td><strong>Status:</strong></td><td>${order.status}</td></tr>
+                            </table>
+                        </div>
+                        
+                        <div class="items">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Layanan</th>
+                                        <th>Harga</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>${order.service.nama}</td>
+                                        <td style="text-align: right;">Rp ${formatNumber(order.service.harga_jual)}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div style="background: #f9f9f9; padding: 15px; border-radius: 5px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span>Subtotal:</span>
+                                <span>Rp ${formatNumber(order.subtotal)}</span>
+                            </div>
+                            ${order.discount > 0 ? `
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span>Diskon:</span>
+                                <span>- Rp ${formatNumber(order.discount)}</span>
+                            </div>
+                            ` : ''}
+                            ${order.additional_fees > 0 ? `
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span>Biaya Tambahan:</span>
+                                <span>+ Rp ${formatNumber(order.additional_fees)}</span>
+                            </div>
+                            ` : ''}
+                            <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 1.1em; padding-top: 10px; border-top: 2px solid #333;">
+                                <span>TOTAL:</span>
+                                <span>Rp ${formatNumber(order.total)}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="footer">
+                            <p>Terima kasih atas kepercayaan Anda</p>
+                            <p>*** STRUK INI SAH ***</p>
+                        </div>
+                        
+                        <button onclick="window.print()" style="margin-top: 20px; padding: 10px 20px; background: #1e3a8a; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                            Cetak Nota
+                        </button>
+                    </div>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
         }
         
         function showNewOrderModal() {
-            // Implementation for manual order creation
-            alert('Fitur order manual akan segera tersedia!');
+            alert('Fitur order manual akan segera tersedia di versi berikutnya!');
         }
         
-        // Admin Services
-        async function loadAdminServices() {
-            const response = await callAPI('get_all_services', {}, adminToken);
-            
-            if (response.success) {
-                displayAdminServices(response.data);
-            }
+        function loadServicesData() {
+            displayAdminServices(allServices);
         }
         
         function displayAdminServices(services) {
             const grid = document.getElementById('adminServicesGrid');
-            grid.innerHTML = '';
             
+            if (services.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-3 text-center py-12">
+                        <i class="fas fa-concierge-bell text-4xl text-gray-300 mb-4"></i>
+                        <p class="text-gray-500">Belum ada layanan</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
             services.forEach(service => {
-                const card = document.createElement('div');
-                card.className = 'bg-white rounded-xl shadow-lg p-6';
-                card.innerHTML = `
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <span class="inline-block px-3 py-1 rounded-full text-sm ${getTypeColor(service.tipe)}">
-                                ${service.tipe}
-                            </span>
-                            <h3 class="text-xl font-bold mt-2">${service.nama}</h3>
-                            <p class="text-gray-600 text-sm mt-1">${service.kategori}</p>
+                html += `
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <span class="inline-block px-3 py-1 rounded-full text-sm ${getTypeColor(service.tipe)}">
+                                    ${service.tipe}
+                                </span>
+                                <h3 class="text-xl font-bold mt-2">${service.nama}</h3>
+                                <p class="text-gray-600 text-sm mt-1">${service.kategori}</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-2xl font-bold text-blue-900">Rp ${formatNumber(service.harga_jual)}</div>
+                                <div class="text-sm text-gray-500">Harga dasar: Rp ${formatNumber(service.harga_dasar)}</div>
+                            </div>
                         </div>
-                        <div class="text-right">
-                            <div class="text-2xl font-bold text-blue-900">Rp ${formatNumber(service.harga_jual)}</div>
-                            <div class="text-sm text-gray-500">Harga dasar: Rp ${formatNumber(service.harga_dasar)}</div>
+                        
+                        <p class="text-gray-600 mb-4">${service.deskripsi || 'Tidak ada deskripsi'}</p>
+                        
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-500">${service.estimasi}</span>
+                            <div class="flex space-x-2">
+                                <button onclick="editService(${service.id})"
+                                        class="px-3 py-1 bg-blue-100 text-blue-600 rounded hover:bg-blue-200">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button onclick="deleteService(${service.id})"
+                                        class="px-3 py-1 bg-red-100 text-red-600 rounded hover:bg-red-200">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    
-                    <p class="text-gray-600 mb-4">${service.deskripsi || 'Tidak ada deskripsi'}</p>
-                    
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-500">${service.estimasi}</span>
-                        <div class="flex space-x-2">
-                            <button onclick="editService(${service.id})"
+                `;
+            });
+            
+            grid.innerHTML = html;
+        }
+        
+        function showNewServiceModal() {
+            alert('Fitur tambah layanan akan segera tersedia di versi berikutnya!');
+        }
+        
+        function editService(serviceId) {
+            alert('Fitur edit layanan akan segera tersedia di versi berikutnya!');
+        }
+        
+        function deleteService(serviceId) {
+            if (confirm('Apakah Anda yakin ingin menghapus layanan ini?')) {
+                // Simulasi hapus service
+                const index = allServices.findIndex(s => s.id === serviceId);
+                if (index !== -1) {
+                    allServices.splice(index, 1);
+                    displayAdminServices(allServices);
+                    alert('Layanan berhasil dihapus');
+                }
+            }
+        }
+        
+        function loadReportsData() {
+            createSampleCharts();
+        }
+        
+        function createSampleCharts() {
+            // Sample data untuk chart
+            const ctx1 = document.getElementById('orderChart');
+            const ctx2 = document.getElementById('revenueChart');
+            const ctx3 = document.getElementById('popularServicesChart');
+            
+            if (ctx1) {
+                // Destroy existing chart
+                if (charts.orderChart) {
+                    charts.orderChart.destroy();
+                }
+                
+                charts.orderChart = new Chart(ctx1, {
+                    type: 'line',
+                    data: {
+                        labels: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'],
+                        datasets: [{
+                            label: 'Order per Hari',
+                            data: [3, 5, 2, 8, 6, 4, 7],
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        }
+                    }
+                });
+            }
+            
+            if (ctx2) {
+                if (charts.revenueChart) {
+                    charts.revenueChart.destroy();
+                }
+                
+                charts.revenueChart = new Chart(ctx2, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'],
+                        datasets: [{
+                            label: 'Pendapatan (Rp)',
+                            data: [450000, 750000, 300000, 1200000, 900000, 600000, 1050000],
+                            backgroundColor: '#10b981',
+                            borderColor: '#059669',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return 'Rp ' + formatNumber(value);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            if (ctx3) {
+                if (charts.popularServicesChart) {
+                    charts.popularServicesChart.destroy();
+                }
+                
+                charts.popularServicesChart = new Chart(ctx3, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Ganti LCD', 'Ganti Battery', 'Instal OS', 'Cleaning', 'Motherboard'],
+                        datasets: [{
+                            data: [12, 8, 5, 3, 2],
+                            backgroundColor: [
+                                '#3b82f6',
+                                '#10b981',
+                                '#f59e0b',
+                                '#ef4444',
+                                '#8b5cf6'
+                            ]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            }
+                        }
+                    }
+                });
+            }
+        }
+        
+        function loadDiscountsData() {
+            const sampleDiscounts = [
+                {
+                    code: 'WELCOME10',
+                    type: 'persen',
+                    value: 10,
+                    min_order: 100000,
+                    max_discount: 50000,
+                    start_date: '2024-01-01',
+                    end_date: '2024-12-31',
+                    status: 'active',
+                    used: 3
+                },
+                {
+                    code: 'GRANDOPENING',
+                    type: 'nominal',
+                    value: 50000,
+                    min_order: 200000,
+                    max_discount: 50000,
+                    start_date: '2024-01-01',
+                    end_date: '2024-06-30',
+                    status: 'active',
+                    used: 1
+                },
+                {
+                    code: 'LOYAL20',
+                    type: 'persen',
+                    value: 20,
+                    min_order: 500000,
+                    max_discount: 100000,
+                    start_date: '2024-03-01',
+                    end_date: '2024-05-31',
+                    status: 'expired',
+                    used: 0
+                }
+            ];
+            
+            displayDiscounts(sampleDiscounts);
+        }
+        
+        function displayDiscounts(discounts) {
+            const grid = document.getElementById('discountsGrid');
+            
+            let html = '';
+            discounts.forEach(discount => {
+                let valueText = '';
+                if (discount.type === 'persen') {
+                    valueText = `${discount.value}%`;
+                } else {
+                    valueText = `Rp ${formatNumber(discount.value)}`;
+                }
+                
+                html += `
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold">${discount.code}</h3>
+                                <p class="text-gray-600">${valueText}</p>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-sm ${discount.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
+                                ${discount.status}
+                            </span>
+                        </div>
+                        
+                        <div class="space-y-2 mb-4">
+                            <p><strong>Min. Order:</strong> Rp ${formatNumber(discount.min_order || 0)}</p>
+                            <p><strong>Maks. Diskon:</strong> Rp ${formatNumber(discount.max_discount || 0)}</p>
+                            <p><strong>Berlaku:</strong> ${discount.start_date} - ${discount.end_date}</p>
+                            <p><strong>Digunakan:</strong> ${discount.used || 0} kali</p>
+                        </div>
+                        
+                        <div class="flex justify-end">
+                            <button onclick="editDiscount('${discount.code}')"
                                     class="px-3 py-1 bg-blue-100 text-blue-600 rounded hover:bg-blue-200">
                                 <i class="fas fa-edit"></i>
-                            </button>
-                            <button onclick="deleteService(${service.id})"
-                                    class="px-3 py-1 bg-red-100 text-red-600 rounded hover:bg-red-200">
-                                <i class="fas fa-trash"></i>
                             </button>
                         </div>
                     </div>
                 `;
-                grid.appendChild(card);
             });
-        }
-        
-        function showNewServiceModal() {
-            // Implementation for new service creation
-            alert('Fitur tambah layanan akan segera tersedia!');
-        }
-        
-        async function editService(serviceId) {
-            // Implementation for service editing
-            alert('Fitur edit layanan akan segera tersedia!');
-        }
-        
-        async function deleteService(serviceId) {
-            if (confirm('Apakah Anda yakin ingin menghapus layanan ini?')) {
-                const response = await callAPI('delete_service', { id: serviceId }, adminToken);
-                
-                if (response.success) {
-                    alert('Layanan berhasil dihapus');
-                    loadAdminServices();
-                } else {
-                    alert('Gagal menghapus layanan: ' + response.message);
-                }
-            }
-        }
-        
-        // Reports
-        async function loadReports() {
-            // Load charts
-            const statsResponse = await callAPI('get_stats', {}, adminToken);
-            if (statsResponse.success) {
-                createPopularServicesChart(statsResponse.stats.top_services);
-            }
-        }
-        
-        function createPopularServicesChart(topServices) {
-            const ctx = document.getElementById('popularServicesChart').getContext('2d');
             
-            if (window.popularServicesChartInstance) {
-                window.popularServicesChartInstance.destroy();
-            }
-            
-            const labels = topServices.map(service => service.name);
-            const data = topServices.map(service => service.count);
-            
-            window.popularServicesChartInstance = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        data: data,
-                        backgroundColor: [
-                            '#3b82f6',
-                            '#10b981',
-                            '#f59e0b',
-                            '#ef4444',
-                            '#8b5cf6'
-                        ]
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'bottom'
-                        }
-                    }
-                }
-            });
+            grid.innerHTML = html;
         }
         
-        async function generateDailyReport() {
+        function showNewDiscountModal() {
+            alert('Fitur tambah diskon akan segera tersedia di versi berikutnya!');
+        }
+        
+        function editDiscount(discountCode) {
+            alert('Fitur edit diskon akan segera tersedia di versi berikutnya!');
+        }
+        
+        function generateDailyReport() {
+            const orders = JSON.parse(localStorage.getItem('malik_service_orders') || '[]');
             const today = new Date().toISOString().split('T')[0];
-            const response = await callAPI('get_all_orders', {
-                filter: {
-                    date_from: today,
-                    date_to: today
-                }
-            }, adminToken);
+            const todayOrders = orders.filter(order => order.timestamp.split('T')[0] === today);
             
-            if (response.success) {
-                displayReport('Laporan Harian - ' + today, response.data);
-            }
+            displayReport('Laporan Harian - ' + today, todayOrders);
         }
         
-        async function generateMonthlyReport() {
-            const today = new Date();
-            const firstDay = new Date(today.getFullYear(), today.getMonth(), 1).toISOString().split('T')[0];
+        function generateMonthlyReport() {
+            const orders = JSON.parse(localStorage.getItem('malik_service_orders') || '[]');
+            const now = new Date();
+            const month = now.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
             
-            const response = await callAPI('get_all_orders', {
-                filter: {
-                    date_from: firstDay,
-                    date_to: today.toISOString().split('T')[0]
-                }
-            }, adminToken);
-            
-            if (response.success) {
-                displayReport('Laporan Bulanan - ' + today.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' }), response.data);
-            }
+            displayReport('Laporan Bulanan - ' + month, orders);
         }
         
         function displayReport(title, orders) {
-            const completedOrders = orders.filter(o => o.Status === 'Selesai');
-            const revenue = completedOrders.reduce((sum, o) => sum + (o.Total_Bayar || 0), 0);
+            const completedOrders = orders.filter(o => o.status === 'Selesai');
+            const revenue = completedOrders.reduce((sum, o) => sum + (o.total || 0), 0);
             
             let ordersHTML = '';
             if (completedOrders.length > 0) {
-                ordersHTML = completedOrders.map(order => `
-                    <tr class="border-b">
-                        <td class="p-2">${order.Order_ID}</td>
-                        <td class="p-2">${order.Nama_Pelanggan}</td>
-                        <td class="p-2">${order.WhatsApp}</td>
-                        <td class="p-2">${new Date(order.Timestamp).toLocaleDateString('id-ID')}</td>
-                        <td class="p-2 text-right">Rp ${formatNumber(order.Total_Bayar || 0)}</td>
-                    </tr>
-                `).join('');
+                completedOrders.forEach(order => {
+                    ordersHTML += `
+                        <tr class="border-b">
+                            <td class="p-2">${order.order_id}</td>
+                            <td class="p-2">${order.customer_name}</td>
+                            <td class="p-2">${order.customer_phone}</td>
+                            <td class="p-2">${new Date(order.timestamp).toLocaleDateString('id-ID')}</td>
+                            <td class="p-2 text-right">Rp ${formatNumber(order.total || 0)}</td>
+                        </tr>
+                    `;
+                });
             }
             
             document.getElementById('reportContent').innerHTML = `
@@ -1704,74 +2440,113 @@
             `;
         }
         
-        // Discounts
-        async function loadDiscounts() {
-            const response = await callAPI('get_discounts', {}, adminToken);
-            
-            if (response.success) {
-                displayDiscounts(response.data);
-            }
-        }
+        // ==========================================
+        // FUNGSI UTILITY
+        // ==========================================
         
-        function displayDiscounts(discounts) {
-            const grid = document.getElementById('discountsGrid');
-            grid.innerHTML = '';
-            
-            discounts.forEach(discount => {
-                const card = document.createElement('div');
-                card.className = 'bg-white rounded-xl shadow-lg p-6';
-                
-                let valueText = '';
-                if (discount.Tipe === 'persen') {
-                    valueText = `${discount.Nilai}%`;
-                } else {
-                    valueText = `Rp ${formatNumber(discount.Nilai)}`;
-                }
-                
-                card.innerHTML = `
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <h3 class="text-xl font-bold">${discount.Kode}</h3>
-                            <p class="text-gray-600">${valueText}</p>
-                        </div>
-                        <span class="px-3 py-1 rounded-full text-sm ${discount.Status === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
-                            ${discount.Status}
-                        </span>
-                    </div>
-                    
-                    <div class="space-y-2 mb-4">
-                        <p><strong>Min. Order:</strong> Rp ${formatNumber(discount.Min_Order || 0)}</p>
-                        <p><strong>Maks. Diskon:</strong> Rp ${formatNumber(discount.Maks_Diskon || 0)}</p>
-                        <p><strong>Berlaku:</strong> ${new Date(discount.Berlaku_Mulai).toLocaleDateString('id-ID')} - ${new Date(discount.Berlaku_Hingga).toLocaleDateString('id-ID')}</p>
-                        <p><strong>Digunakan:</strong> ${discount.Digunakan || 0} kali</p>
-                    </div>
-                    
-                    <div class="flex justify-end">
-                        <button onclick="editDiscount('${discount.Kode}')"
-                                class="px-3 py-1 bg-blue-100 text-blue-600 rounded hover:bg-blue-200">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-        }
-        
-        function showNewDiscountModal() {
-            // Implementation for new discount creation
-            alert('Fitur tambah diskon akan segera tersedia!');
-        }
-        
-        function editDiscount(discountCode) {
-            // Implementation for discount editing
-            alert('Fitur edit diskon akan segera tersedia!');
-        }
-        
-        // Utility Functions
         function formatNumber(num) {
             return new Intl.NumberFormat('id-ID').format(num);
         }
+        
+        // ==========================================
+        // FUNGSI UNTUK INTEGRASI DENGAN APPS SCRIPT
+        // ==========================================
+        
+        async function callAPI(action, data = {}) {
+            if (!APPS_SCRIPT_URL.includes('AKfycb')) {
+                console.log('API URL belum diset. Menggunakan data lokal untuk demo.');
+                
+                // Return sample response based on action
+                switch(action) {
+                    case 'get_services':
+                        return { success: true, data: allServices };
+                    case 'get_categories':
+                        const categories = [...new Set(allServices.map(s => s.kategori))];
+                        return { success: true, categories: categories };
+                    default:
+                        return { success: false, message: 'API URL belum dikonfigurasi' };
+                }
+            }
+            
+            try {
+                const payload = {
+                    action: action,
+                    ...data
+                };
+                
+                if (adminToken && action !== 'login_admin') {
+                    payload.token = adminToken;
+                }
+                
+                const response = await fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload)
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                return result;
+                
+            } catch (error) {
+                console.error('API Error:', error);
+                return { 
+                    success: false, 
+                    message: 'Gagal menghubungi server. Pastikan URL API benar dan CORS diaktifkan.' 
+                };
+            }
+        }
+        
+        // ==========================================
+        // INSTRUKSI DEPLOY
+        // ==========================================
+        
+        function showDeployInstructions() {
+            alert(`INSTRUKSI DEPLOY MALIK SERVICE SYSTEM:
+
+1. APPS SCRIPT:
+   - Buka Google Sheets baru
+   - Extensions > Apps Script
+   - Hapus kode default, paste kode Apps Script yang diberikan
+   - Klik Deploy > New deployment
+   - Pilih type: Web app
+   - Execute as: Me
+   - Who has access: Anyone
+   - Klik Deploy
+   - Copy Web App URL
+
+2. HTML:
+   - Ganti APPS_SCRIPT_URL di kode JavaScript dengan URL Web App Anda
+   - Line: const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxhMbUMZ8SLoDM2ceo9U-Tve5LNg1eJU6XX3fUXmQG9VUZtMdt4h1etJZy1bwfUKau1/exec';
+
+3. TESTING:
+   - Login admin: admin / 123456
+   - Login manager: manager / 123456
+   - Login teknisi: teknisi / 123456
+
+4. FITUR:
+   - Pelanggan bisa pesan layanan & lacak order
+   - Admin bisa manage order, layanan, diskon, laporan
+   - Semua data disimpan di Google Sheets
+
+Sistem siap digunakan!`);
+        }
+        
+        // Tampilkan instruksi deploy saat pertama kali load
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                if (!localStorage.getItem('malik_service_shown_instructions')) {
+                    showDeployInstructions();
+                    localStorage.setItem('malik_service_shown_instructions', 'true');
+                }
+            }, 2000);
+        });
     </script>
 </body>
 </html>
-
