@@ -3,2049 +3,1147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Malik Service Center</title>
-    
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <title>Dashboard - Malik Service</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* RESET & BASE STYLES */
+        :root {
+            --primary: #2196F3;
+            --primary-dark: #1976D2;
+            --secondary: #4CAF50;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --gray: #6c757d;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
-            background-color: #f3f4f6;
+            background-color: #f5f7fa;
             color: #333;
-            line-height: 1.6;
         }
-        
+
         .container {
-            width: 100%;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 15px;
+            padding: 20px;
         }
-        
-        /* NAVIGATION */
-        nav {
-            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        
-        .nav-container {
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            height: 64px;
         }
-        
-        .logo {
+
+        .header-info h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .header-info p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .btn-logout {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+        }
+
+        .btn-logout:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Navigation */
+        .nav {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .nav-item {
+            background: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
             display: flex;
             align-items: center;
             gap: 10px;
-            color: white;
+            font-weight: 500;
+            color: var(--dark);
             text-decoration: none;
-            font-size: 1.25rem;
-            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: all 0.3s;
         }
-        
-        .nav-links {
-            display: flex;
-            gap: 20px;
+
+        .nav-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
-        
-        .nav-link {
+
+        .nav-item.active {
+            background: var(--primary);
             color: white;
-            text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 4px;
-            transition: background 0.3s;
         }
-        
-        .nav-link:hover, .nav-link.active {
-            background: rgba(255,255,255,0.2);
-        }
-        
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-        
-        /* SECTIONS */
+
+        /* Content Sections */
         .section {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
             display: none;
-            padding: 40px 0;
         }
-        
+
         .section.active {
             display: block;
-            animation: fadeIn 0.5s;
         }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* CARDS */
-        .card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            padding: 25px;
+
+        .section-header {
             margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
         }
-        
-        /* FORMS */
-        .form-group {
-            margin-bottom: 20px;
+
+        .section-header h2 {
+            font-size: 20px;
+            color: var(--dark);
         }
-        
-        .form-label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: #374151;
-        }
-        
-        .form-input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #d1d5db;
-            border-radius: 6px;
-            font-size: 16px;
-        }
-        
-        .form-input:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
-        }
-        
-        /* BUTTONS */
+
         .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 12px 24px;
+            background: var(--primary);
+            color: white;
             border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 5px;
             cursor: pointer;
-            transition: all 0.3s;
-            text-decoration: none;
+            display: flex;
+            align-items: center;
             gap: 8px;
+            font-size: 14px;
         }
-        
-        .btn-primary {
-            background: #3b82f6;
-            color: white;
+
+        .btn:hover {
+            opacity: 0.9;
         }
-        
-        .btn-primary:hover {
-            background: #2563eb;
+
+        .btn-secondary {
+            background: var(--secondary) !important;
         }
-        
-        .btn-success {
-            background: #10b981;
-            color: white;
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
         }
-        
-        .btn-danger {
-            background: #ef4444;
-            color: white;
-        }
-        
-        .btn-outline {
-            background: transparent;
-            border: 1px solid #d1d5db;
-            color: #374151;
-        }
-        
-        /* TABLES */
-        .table-container {
-            overflow-x: auto;
-            background: white;
+
+        .stat-card {
+            background: #f8f9fa;
             border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 20px;
+            text-align: center;
+            border-left: 4px solid var(--primary);
         }
-        
+
+        .stat-card h3 {
+            font-size: 24px;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .stat-card p {
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        /* Tables */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
         }
-        
-        th {
-            background: #f9fafb;
-            padding: 12px;
+
+        table th {
+            background: #f8f9fa;
+            padding: 12px 15px;
             text-align: left;
             font-weight: 600;
-            border-bottom: 2px solid #e5e7eb;
+            color: var(--dark);
+            border-bottom: 2px solid #dee2e6;
         }
-        
-        td {
-            padding: 12px;
-            border-bottom: 1px solid #e5e7eb;
+
+        table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #dee2e6;
         }
-        
-        tr:hover {
-            background: #f9fafb;
+
+        table tr:hover {
+            background: #f8f9fa;
         }
-        
-        /* STATUS BADGES */
+
         .badge {
-            display: inline-block;
-            padding: 4px 12px;
+            padding: 5px 10px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: 600;
+            display: inline-block;
         }
-        
-        .badge-success { background: #d1fae5; color: #065f46; }
-        .badge-warning { background: #fef3c7; color: #92400e; }
-        .badge-danger { background: #fee2e2; color: #991b1b; }
-        .badge-info { background: #dbeafe; color: #1e40af; }
-        
-        /* ALERTS */
+
+        .badge-pending { background: #fff3cd; color: #856404; }
+        .badge-proses { background: #cce5ff; color: #004085; }
+        .badge-selesai { background: #d4edda; color: #155724; }
+
+        /* Alert */
         .alert {
             padding: 15px;
-            border-radius: 6px;
+            border-radius: 5px;
             margin-bottom: 20px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
-        
+
         .alert-success {
-            background: #d1fae5;
-            border: 1px solid #a7f3d0;
-            color: #065f46;
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
         }
-        
+
         .alert-error {
-            background: #fee2e2;
-            border: 1px solid #fecaca;
-            color: #991b1b;
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
         }
-        
-        .alert-info {
-            background: #dbeafe;
-            border: 1px solid #bfdbfe;
-            color: #1e40af;
+
+        .alert i {
+            font-size: 20px;
         }
-        
-        .alert-warning {
-            background: #fef3c7;
-            border: 1px solid #fde68a;
-            color: #92400e;
-        }
-        
-        /* MODAL */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            padding: 20px;
-        }
-        
-        .modal.active {
-            display: flex;
-        }
-        
-        .modal-content {
-            background: white;
-            border-radius: 12px;
-            max-width: 600px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-        
-        .modal-header {
-            padding: 20px;
-            border-bottom: 1px solid #e5e7eb;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .modal-body {
-            padding: 20px;
-        }
-        
-        /* LOADING */
+
+        /* Loading */
         .loading {
             display: inline-block;
             width: 20px;
             height: 20px;
-            border: 2px solid #f3f4f6;
-            border-top: 2px solid #3b82f6;
+            border: 3px solid #f3f3f3;
             border-radius: 50%;
+            border-top-color: var(--primary);
             animation: spin 1s linear infinite;
         }
-        
+
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            to { transform: rotate(360deg); }
         }
-        
-        /* FOOTER */
-        footer {
-            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
-            color: white;
-            padding: 40px 0;
-            margin-top: 60px;
-        }
-        
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-        }
-        
-        /* RESPONSIVE */
+
+        /* Responsive */
         @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-            
-            .mobile-menu-btn {
-                display: block;
-            }
-            
-            .mobile-menu {
-                display: none;
-                background: #1e40af;
+            .container {
                 padding: 15px;
-                position: absolute;
-                top: 64px;
-                left: 0;
-                right: 0;
-                z-index: 1000;
             }
             
-            .mobile-menu.show {
-                display: block;
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
             }
-        }
-        
-        /* GRID */
-        .grid {
-            display: grid;
-            gap: 20px;
-        }
-        
-        .grid-cols-1 { grid-template-columns: 1fr; }
-        .grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
-        .grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
-        .grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
-        
-        @media (max-width: 768px) {
-            .grid-cols-2,
-            .grid-cols-3,
-            .grid-cols-4 {
+            
+            .nav {
+                justify-content: center;
+            }
+            
+            .stats-grid {
                 grid-template-columns: 1fr;
             }
-        }
-        
-        /* ADMIN TABS */
-        .admin-tab {
-            display: none;
-        }
-        
-        .admin-tab.active {
-            display: block;
+            
+            .section {
+                padding: 15px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- NAVIGATION -->
-    <nav>
-        <div class="container nav-container">
-            <a href="#" class="logo" onclick="showSection('home')">
-                <i class="fas fa-tools"></i>
-                <span>Malik Service Center</span>
-            </a>
-            
-            <div class="nav-links">
-                <a href="#" class="nav-link active" onclick="showSection('home')">Beranda</a>
-                <a href="#" class="nav-link" onclick="showSection('services')">Layanan</a>
-                <a href="#" class="nav-link" onclick="showSection('track')">Lacak</a>
-                <a href="#" class="nav-link" onclick="showSection('login')" id="loginNav">Login</a>
-                <a href="#" class="nav-link" onclick="showSection('admin')" id="adminNav" style="display:none">Admin</a>
-                <a href="#" class="nav-link" onclick="logout()" id="logoutNav" style="display:none">Logout</a>
-            </div>
-            
-            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
-        
-        <div class="mobile-menu" id="mobileMenu">
-            <a href="#" class="nav-link" onclick="showSection('home'); toggleMobileMenu()">Beranda</a>
-            <a href="#" class="nav-link" onclick="showSection('services'); toggleMobileMenu()">Layanan</a>
-            <a href="#" class="nav-link" onclick="showSection('track'); toggleMobileMenu()">Lacak</a>
-            <a href="#" class="nav-link" onclick="showSection('login'); toggleMobileMenu()" id="mobileLogin">Login</a>
-            <a href="#" class="nav-link" onclick="showSection('admin'); toggleMobileMenu()" id="mobileAdmin" style="display:none">Admin</a>
-            <a href="#" class="nav-link" onclick="logout(); toggleMobileMenu()" id="mobileLogout" style="display:none">Logout</a>
-        </div>
-    </nav>
-
-    <!-- MAIN CONTENT -->
-    <main class="container">
-        <!-- HOME SECTION -->
-        <section id="home" class="section active">
-            <div class="card">
-                <h1 style="font-size: 2.5rem; color: #1e3a8a; margin-bottom: 20px;">Selamat Datang di Malik Service Center</h1>
-                <p style="font-size: 1.2rem; color: #4b5563; margin-bottom: 30px;">
-                    Solusi terpercaya untuk perbaikan smartphone, laptop, PC, dan perangkat elektronik lainnya.
-                    Layanan profesional dengan harga terjangkau.
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-info">
+                <h1>Malik Service</h1>
+                <p>Servis HP Android & Laptop + Penjualan Sparepart</p>
+                <p style="font-size: 12px; margin-top: 5px;">
+                    <i class="fas fa-map-marker-alt"></i> Jamalsari Mijen, Jl. Untung Suropati, Kota Semarang
                 </p>
-                
-                <div class="grid grid-cols-3" style="gap: 20px; margin: 40px 0;">
-                    <div class="card">
-                        <div style="text-align: center;">
-                            <i class="fas fa-mobile-alt" style="font-size: 3rem; color: #3b82f6; margin-bottom: 15px;"></i>
-                            <h3>Smartphone & Tablet</h3>
-                            <p>Ganti LCD, baterai, port charging, motherboard</p>
-                        </div>
-                    </div>
-                    
-                    <div class="card">
-                        <div style="text-align: center;">
-                            <i class="fas fa-laptop" style="font-size: 3rem; color: #10b981; margin-bottom: 15px;"></i>
-                            <h3>Laptop & PC</h3>
-                            <p>Install OS, upgrade hardware, perbaikan motherboard</p>
-                        </div>
-                    </div>
-                    
-                    <div class="card">
-                        <div style="text-align: center;">
-                            <i class="fas fa-print" style="font-size: 3rem; color: #8b5cf6; margin-bottom: 15px;"></i>
-                            <h3>Printer & Scanner</h3>
-                            <p>Refill tinta, ganti printhead, perawatan berkala</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div style="text-align: center; margin-top: 40px;">
-                    <button class="btn btn-primary" onclick="showSection('services')">
-                        <i class="fas fa-search"></i> Cari Layanan
-                    </button>
-                    <button class="btn btn-outline" onclick="showSection('track')" style="margin-left: 10px;">
-                        <i class="fas fa-shipping-fast"></i> Lacak Order
-                    </button>
-                </div>
             </div>
-        </section>
-
-        <!-- SERVICES SECTION -->
-        <section id="services" class="section">
-            <div class="card">
-                <h2 style="font-size: 2rem; color: #1e3a8a; margin-bottom: 20px;">Daftar Layanan</h2>
-                
-                <div style="margin-bottom: 20px;">
-                    <input type="text" id="searchServices" class="form-input" placeholder="Cari layanan..." 
-                           onkeyup="searchServices()" style="margin-bottom: 10px;">
-                    
-                    <div class="grid grid-cols-2" style="gap: 10px;">
-                        <select id="filterCategory" class="form-input" onchange="filterServices()">
-                            <option value="">Semua Kategori</option>
-                        </select>
-                        <select id="filterType" class="form-input" onchange="filterServices()">
-                            <option value="">Semua Tipe</option>
-                            <option value="Ringan">Ringan</option>
-                            <option value="Sedang">Sedang</option>
-                            <option value="Berat">Berat</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div id="servicesList">
-                    <div style="text-align: center; padding: 40px;">
-                        <div class="loading"></div>
-                        <p style="margin-top: 10px;">Memuat layanan...</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- TRACK ORDER SECTION -->
-        <section id="track" class="section">
-            <div class="card">
-                <h2 style="font-size: 2rem; color: #1e3a8a; margin-bottom: 20px;">Lacak Order</h2>
-                
-                <div class="form-group">
-                    <label class="form-label">Masukkan Order ID atau Nomor Resi</label>
-                    <div style="display: flex;">
-                        <input type="text" id="trackInput" class="form-input" placeholder="Contoh: ORD20241215001"
-                               style="border-top-right-radius: 0; border-bottom-right-radius: 0;">
-                        <button class="btn btn-primary" onclick="trackOrder()"
-                                style="border-top-left-radius: 0; border-bottom-left-radius: 0;">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                </div>
-                
-                <div id="trackResult">
-                    <!-- Track result will appear here -->
-                </div>
-            </div>
-        </section>
-
-        <!-- LOGIN SECTION -->
-        <section id="login" class="section">
-            <div class="card" style="max-width: 400px; margin: 0 auto;">
-                <h2 style="font-size: 2rem; color: #1e3a8a; text-align: center; margin-bottom: 30px;">Login</h2>
-                
-                <div id="loginForm">
-                    <div class="form-group">
-                        <label class="form-label">Username</label>
-                        <input type="text" id="username" class="form-input" placeholder="Masukkan username">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Password</label>
-                        <input type="password" id="password" class="form-input" placeholder="Masukkan password">
-                    </div>
-                    
-                    <div id="loginMessage" class="alert" style="display: none;"></div>
-                    
-                    <button class="btn btn-primary" onclick="login()" style="width: 100%;">
-                        <span id="loginText">Login</span>
-                        <span id="loginLoading" class="loading" style="display: none;"></span>
-                    </button>
-                    
-                    <div style="text-align: center; margin-top: 20px;">
-                        <p>Belum punya akun? <a href="#" onclick="showRegisterForm()" style="color: #3b82f6;">Daftar disini</a></p>
-                    </div>
-                </div>
-                
-                <div id="registerForm" style="display: none;">
-                    <div class="form-group">
-                        <label class="form-label">Username</label>
-                        <input type="text" id="regUsername" class="form-input" placeholder="Pilih username">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Password</label>
-                        <input type="password" id="regPassword" class="form-input" placeholder="Buat password">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Nama Lengkap</label>
-                        <input type="text" id="regName" class="form-input" placeholder="Nama lengkap">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Nomor WhatsApp</label>
-                        <input type="tel" id="regPhone" class="form-input" placeholder="081234567890">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Email (opsional)</label>
-                        <input type="email" id="regEmail" class="form-input" placeholder="email@contoh.com">
-                    </div>
-                    
-                    <div id="registerMessage" class="alert" style="display: none;"></div>
-                    
-                    <button class="btn btn-success" onclick="register()" style="width: 100%;">
-                        <span id="registerText">Daftar</span>
-                        <span id="registerLoading" class="loading" style="display: none;"></span>
-                    </button>
-                    
-                    <div style="text-align: center; margin-top: 20px;">
-                        <p>Sudah punya akun? <a href="#" onclick="showLoginForm()" style="color: #3b82f6;">Login disini</a></p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ADMIN SECTION -->
-        <section id="admin" class="section">
-            <div class="card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-                    <h2 style="font-size: 2rem; color: #1e3a8a;">Admin Dashboard</h2>
-                    <div id="adminWelcome" style="color: #4b5563;"></div>
-                </div>
-                
-                <!-- ADMIN TABS -->
-                <div style="border-bottom: 2px solid #e5e7eb; margin-bottom: 20px;">
-                    <button class="btn btn-outline active" onclick="showAdminTab('dashboard')" id="tabDashboard">Dashboard</button>
-                    <button class="btn btn-outline" onclick="showAdminTab('services')" id="tabServices">Layanan</button>
-                    <button class="btn btn-outline" onclick="showAdminTab('orders')" id="tabOrders">Orders</button>
-                    <button class="btn btn-outline" onclick="showAdminTab('users')" id="tabUsers">Users</button>
-                    <button class="btn btn-outline" onclick="showAdminTab('import')" id="tabImport">Import Data</button>
-                </div>
-                
-                <!-- DASHBOARD TAB -->
-                <div id="adminDashboardTab" class="admin-tab active">
-                    <div class="grid grid-cols-4" style="gap: 15px; margin-bottom: 30px;">
-                        <div class="card">
-                            <div style="text-align: center;">
-                                <div style="font-size: 2.5rem; font-weight: bold; color: #1e3a8a;" id="statTotalOrders">0</div>
-                                <div style="color: #6b7280;">Total Orders</div>
-                            </div>
-                        </div>
-                        
-                        <div class="card">
-                            <div style="text-align: center;">
-                                <div style="font-size: 2.5rem; font-weight: bold; color: #10b981;" id="statRevenue">Rp 0</div>
-                                <div style="color: #6b7280;">Total Revenue</div>
-                            </div>
-                        </div>
-                        
-                        <div class="card">
-                            <div style="text-align: center;">
-                                <div style="font-size: 2.5rem; font-weight: bold; color: #f59e0b;" id="statPending">0</div>
-                                <div style="color: #6b7280;">Pending Orders</div>
-                            </div>
-                        </div>
-                        
-                        <div class="card">
-                            <div style="text-align: center;">
-                                <div style="font-size: 2.5rem; font-weight: bold; color: #8b5cf6;" id="statServices">0</div>
-                                <div style="color: #6b7280;">Active Services</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="grid grid-cols-2" style="gap: 20px;">
-                        <div class="card">
-                            <h3 style="margin-bottom: 15px;">Order Terbaru</h3>
-                            <div id="recentOrders">
-                                <div style="text-align: center; padding: 20px;">
-                                    <div class="loading"></div>
-                                    <p style="margin-top: 10px;">Memuat data...</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="card">
-                            <h3 style="margin-bottom: 15px;">Quick Actions</h3>
-                            <div style="display: flex; flex-direction: column; gap: 10px;">
-                                <button class="btn btn-primary" onclick="showAdminTab('import')">
-                                    <i class="fas fa-file-import"></i> Import Data Harga
-                                </button>
-                                <button class="btn btn-success" onclick="exportData()">
-                                    <i class="fas fa-file-export"></i> Export Data
-                                </button>
-                                <button class="btn btn-outline" onclick="refreshDashboard()">
-                                    <i class="fas fa-sync-alt"></i> Refresh Data
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- SERVICES TAB -->
-                <div id="adminServicesTab" class="admin-tab">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                        <h3>Manajemen Layanan</h3>
-                        <button class="btn btn-primary" onclick="showServiceModal()">
-                            <i class="fas fa-plus"></i> Tambah Layanan
-                        </button>
-                    </div>
-                    
-                    <div id="adminServicesList">
-                        <div style="text-align: center; padding: 40px;">
-                            <div class="loading"></div>
-                            <p style="margin-top: 10px;">Memuat layanan...</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- ORDERS TAB -->
-                <div id="adminOrdersTab" class="admin-tab">
-                    <div style="margin-bottom: 20px;">
-                        <input type="text" id="searchOrders" class="form-input" placeholder="Cari order..." 
-                               onkeyup="searchAdminOrders()" style="margin-bottom: 10px;">
-                        
-                        <select id="filterOrderStatus" class="form-input" onchange="filterAdminOrders()">
-                            <option value="">Semua Status</option>
-                            <option value="Pending">Pending</option>
-                            <option value="Diproses">Diproses</option>
-                            <option value="Selesai">Selesai</option>
-                            <option value="Dibatalkan">Dibatalkan</option>
-                        </select>
-                    </div>
-                    
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Order ID</th>
-                                    <th>Pelanggan</th>
-                                    <th>Total</th>
-                                    <th>Status</th>
-                                    <th>Tanggal</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody id="adminOrdersList">
-                                <!-- Orders will be loaded here -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                
-                <!-- USERS TAB -->
-                <div id="adminUsersTab" class="admin-tab">
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Username</th>
-                                    <th>Nama</th>
-                                    <th>Email</th>
-                                    <th>Telepon</th>
-                                    <th>Role</th>
-                                    <th>Status</th>
-                                    <th>Tanggal Daftar</th>
-                                </tr>
-                            </thead>
-                            <tbody id="adminUsersList">
-                                <!-- Users will be loaded here -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                
-                <!-- IMPORT TAB -->
-                <div id="adminImportTab" class="admin-tab">
-                    <div class="card">
-                        <h3 style="margin-bottom: 20px;">Import Data Harga</h3>
-                        
-                        <p style="margin-bottom: 20px; color: #6b7280;">
-                            <strong>Cara cepat input data:</strong>
-                            <ol style="margin-left: 20px; margin-top: 10px;">
-                                <li>Buka Google Sheets backend</li>
-                                <li>Cari sheet "DataHarga"</li>
-                                <li>Input data langsung di spreadsheet dengan format kolom:</li>
-                            </ol>
-                            <div style="background: #f3f4f6; padding: 15px; border-radius: 6px; margin-top: 10px;">
-                                <strong>Kategori | Tipe_Masalah | Nama_Layanan | Jenis_Biaya | Harga_Dasar | Harga_Jual | Estimasi_Waktu | Deskripsi | Status</strong>
-                            </div>
-                        </p>
-                        
-                        <div style="border: 2px dashed #d1d5db; border-radius: 8px; padding: 40px; text-align: center; margin-top: 30px;">
-                            <i class="fas fa-file-excel" style="font-size: 3rem; color: #10b981; margin-bottom: 20px;"></i>
-                            <h4>Atau Import dari Excel/CSV</h4>
-                            <p style="color: #6b7280; margin-bottom: 20px;">Upload file Excel atau CSV dengan format yang sama</p>
-                            
-                            <input type="file" id="csvFile" accept=".csv,.xlsx,.xls" style="margin-bottom: 20px;">
-                            
-                            <button class="btn btn-success" onclick="importCSV()">
-                                <i class="fas fa-upload"></i> Upload dan Import
-                            </button>
-                        </div>
-                        
-                        <div id="importResult" style="margin-top: 20px;"></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- FOOTER -->
-    <footer>
-        <div class="container">
-            <div class="footer-grid">
-                <div>
-                    <h3 style="color: white; margin-bottom: 15px;">Malik Service Center</h3>
-                    <p>Solusi perbaikan elektronik terpercaya sejak 2020.</p>
-                    <p>Layanan profesional dengan harga terjangkau.</p>
-                </div>
-                
-                <div>
-                    <h3 style="color: white; margin-bottom: 15px;">Kontak</h3>
-                    <p><i class="fas fa-phone"></i> 0857-1308-7659</p>
-                    <p><i class="fas fa-envelope"></i> thumbtackid@gmail.com</p>
-                    <p><i class="fas fa-map-marker-alt"></i> Semarang, Indonesia</p>
-                </div>
-                
-                <div>
-                    <h3 style="color: white; margin-bottom: 15px;">Jam Operasional</h3>
-                    <p>Senin - Jumat: 10:00 - 17:00</p>
-                    <p>Sabtu: 10:00 - 15:00</p>
-                    <p>Minggu: 10:00 - 15:00</p>
-                </div>
-            </div>
-            
-            <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
-                <p>&copy; 2024 Malik Service Center. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- SERVICE MODAL -->
-    <div id="serviceModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Tambah/Edit Layanan</h3>
-                <button class="btn btn-outline" onclick="hideServiceModal()">
-                    <i class="fas fa-times"></i>
+            <div class="user-menu">
+                <div class="user-avatar" id="userAvatar">U</div>
+                <button class="btn-logout" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
                 </button>
             </div>
-            <div class="modal-body">
-                <form id="serviceForm">
-                    <div class="form-group">
-                        <label class="form-label">Kategori</label>
-                        <input type="text" id="modalKategori" class="form-input" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Tipe Masalah</label>
-                        <select id="modalTipe" class="form-input" required>
-                            <option value="Ringan">Ringan</option>
-                            <option value="Sedang">Sedang</option>
-                            <option value="Berat">Berat</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Nama Layanan</label>
-                        <input type="text" id="modalNama" class="form-input" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Jenis Biaya</label>
-                        <input type="text" id="modalJenisBiaya" class="form-input" value="Sparepart + Jasa" required>
-                    </div>
-                    
-                    <div class="grid grid-cols-2" style="gap: 15px;">
-                        <div class="form-group">
-                            <label class="form-label">Harga Dasar</label>
-                            <input type="number" id="modalHargaDasar" class="form-input" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">Harga Jual</label>
-                            <input type="number" id="modalHargaJual" class="form-input" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Estimasi Waktu</label>
-                        <input type="text" id="modalEstimasi" class="form-input" value="1-2 Jam" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Deskripsi</label>
-                        <textarea id="modalDeskripsi" class="form-input" rows="3"></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Status</label>
-                        <select id="modalStatus" class="form-input">
-                            <option value="active">Aktif</option>
-                            <option value="inactive">Nonaktif</option>
-                        </select>
-                    </div>
-                    
-                    <input type="hidden" id="modalServiceId">
-                    
-                    <div style="display: flex; gap: 10px; margin-top: 20px;">
-                        <button type="button" class="btn btn-outline" onclick="hideServiceModal()">Batal</button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
-                    </div>
-                </form>
+        </div>
+        
+        <!-- Navigation -->
+        <div class="nav">
+            <a href="#" class="nav-item active" onclick="showSection('dashboard')">
+                <i class="fas fa-tachometer-alt"></i> Dashboard
+            </a>
+            <a href="#" class="nav-item" onclick="showSection('order')">
+                <i class="fas fa-plus-circle"></i> Buat Order
+            </a>
+            <a href="#" class="nav-item" onclick="showSection('riwayat')">
+                <i class="fas fa-history"></i> Riwayat Servis
+            </a>
+            <a href="#" class="nav-item" onclick="showSection('profile')">
+                <i class="fas fa-user"></i> Profil
+            </a>
+        </div>
+        
+        <!-- Alert Container -->
+        <div id="alertContainer"></div>
+        
+        <!-- Dashboard Section -->
+        <div id="dashboardSection" class="section active">
+            <div class="section-header">
+                <h2>Dashboard</h2>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3 id="activeOrders">0</h3>
+                    <p>Order Aktif</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="pendingOrders">0</h3>
+                    <p>Pending</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="selesaiOrders">0</h3>
+                    <p>Selesai</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="totalOrders">0</h3>
+                    <p>Total Servis</p>
+                </div>
+            </div>
+            
+            <div class="section-header">
+                <h2>Order Terbaru</h2>
+            </div>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID Order</th>
+                            <th>Device</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Tanggal</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recentOrdersBody">
+                        <!-- Data akan diisi oleh JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Order Section -->
+        <div id="orderSection" class="section">
+            <div class="section-header">
+                <h2>Buat Order Baru</h2>
+            </div>
+            <div id="orderForm">
+                <!-- Form akan diisi oleh JavaScript -->
+            </div>
+        </div>
+        
+        <!-- Riwayat Section -->
+        <div id="riwayatSection" class="section">
+            <div class="section-header">
+                <h2>Riwayat Servis</h2>
+            </div>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID Order</th>
+                            <th>Device</th>
+                            <th>Keluhan</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Tanggal</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="riwayatBody">
+                        <!-- Data akan diisi oleh JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Profile Section -->
+        <div id="profileSection" class="section">
+            <div class="section-header">
+                <h2>Profil Saya</h2>
+            </div>
+            <div id="profileForm">
+                <!-- Form akan diisi oleh JavaScript -->
             </div>
         </div>
     </div>
 
-    <!-- JAVASCRIPT -->
     <script>
-        // ==========================================
-        // CONFIGURATION
-        // ==========================================
-        const API_URL = 'https://script.google.com/macros/s/AKfycbwWDybCVUhhef0oEVBc_1Ogd5yzy8963w-8s_ZyZxJxURMlFLEr3UvrHy7MslAm41rP/exec';
-        const STORAGE_KEYS = {
-            TOKEN: 'malik_token',
-            USER: 'malik_user'
-        };
-        
+        // Global variables
         let currentUser = null;
-        let currentToken = null;
-        let allServices = [];
-        let allOrders = [];
+        let sessionId = null;
         
-        // ==========================================
-        // INITIALIZATION
-        // ==========================================
+        // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('Malik Service Center v1.0 - Initialized');
+            // Check session
+            sessionId = localStorage.getItem('sessionId');
+            currentUser = JSON.parse(localStorage.getItem('user') || '{}');
             
-            // Check authentication
-            checkAuth();
-            
-            // Load services
-            loadServices();
-            
-            // Check URL parameters
-            checkUrlParams();
-            
-            // Initialize event listeners
-            document.getElementById('serviceForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                saveService();
-            });
+            // Validasi session server-side
+            google.script.run
+                .withSuccessHandler(function(response) {
+                    if (!response.success || response.user.role !== 'USER') {
+                        logout();
+                        return;
+                    }
+                    
+                    // Update UI dengan data valid
+                    currentUser = response.user;
+                    localStorage.setItem('user', JSON.stringify(currentUser));
+                    
+                    document.getElementById('userAvatar').textContent = currentUser.nama.charAt(0).toUpperCase();
+                    
+                    // Load dashboard data
+                    loadDashboardData();
+                    loadUserOrders();
+                })
+                .withFailureHandler(function(error) {
+                    logout();
+                })
+                .validateSession(sessionId);
         });
         
-        function checkUrlParams() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const trackId = urlParams.get('track');
-            const section = urlParams.get('section');
-            
-            if (trackId) {
-                showSection('track');
-                document.getElementById('trackInput').value = trackId;
-                setTimeout(() => trackOrder(), 500);
-            } else if (section) {
-                showSection(section);
-            }
-        }
-        
-        // ==========================================
-        // AUTHENTICATION
-        // ==========================================
-        function checkAuth() {
-            const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
-            const user = localStorage.getItem(STORAGE_KEYS.USER);
-            
-            if (token && user) {
-                try {
-                    currentToken = token;
-                    currentUser = JSON.parse(user);
-                    updateAuthUI();
-                } catch (e) {
-                    console.error('Error parsing user data:', e);
-                    logout();
-                }
-            }
-        }
-        
-        function updateAuthUI() {
-            if (currentUser) {
-                document.getElementById('loginNav').style.display = 'none';
-                document.getElementById('adminNav').style.display = 'block';
-                document.getElementById('logoutNav').style.display = 'block';
-                
-                document.getElementById('mobileLogin').style.display = 'none';
-                document.getElementById('mobileAdmin').style.display = 'block';
-                document.getElementById('mobileLogout').style.display = 'block';
-                
-                document.getElementById('adminWelcome').innerHTML = 
-                    `Selamat datang, <strong>${currentUser.name || currentUser.username}</strong>`;
-            } else {
-                document.getElementById('loginNav').style.display = 'block';
-                document.getElementById('adminNav').style.display = 'none';
-                document.getElementById('logoutNav').style.display = 'none';
-                
-                document.getElementById('mobileLogin').style.display = 'block';
-                document.getElementById('mobileAdmin').style.display = 'none';
-                document.getElementById('mobileLogout').style.display = 'none';
-                
-                document.getElementById('adminWelcome').innerHTML = '';
-            }
-        }
-        
-        async function login() {
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const btn = document.querySelector('#loginForm .btn');
-            const btnText = document.getElementById('loginText');
-            const loading = document.getElementById('loginLoading');
-            const message = document.getElementById('loginMessage');
-            
-            if (!username || !password) {
-                showAlert(message, 'error', 'Username dan password harus diisi');
-                return;
-            }
-            
-            btn.disabled = true;
-            btnText.style.display = 'none';
-            loading.style.display = 'inline-block';
-            message.style.display = 'none';
-            
-            try {
-                const response = await callAPI('login', { username, password });
-                
-                if (response.success) {
-                    // Save token and user
-                    localStorage.setItem(STORAGE_KEYS.TOKEN, response.token);
-                    localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(response.user));
-                    
-                    currentToken = response.token;
-                    currentUser = response.user;
-                    
-                    updateAuthUI();
-                    showAlert(message, 'success', 'Login berhasil!');
-                    
-                    setTimeout(() => {
-                        if (['admin', 'superadmin'].includes(currentUser.role)) {
-                            showSection('admin');
-                            showAdminTab('dashboard');
-                        } else {
-                            showSection('home');
-                        }
-                    }, 1000);
-                    
-                } else {
-                    showAlert(message, 'error', response.message);
-                }
-            } catch (error) {
-                showAlert(message, 'error', 'Koneksi gagal. Coba lagi.');
-                console.error('Login error:', error);
-            } finally {
-                btn.disabled = false;
-                btnText.style.display = 'inline';
-                loading.style.display = 'none';
-            }
-        }
-        
-        async function register() {
-            const username = document.getElementById('regUsername').value;
-            const password = document.getElementById('regPassword').value;
-            const name = document.getElementById('regName').value;
-            const phone = document.getElementById('regPhone').value;
-            const email = document.getElementById('regEmail').value;
-            const btn = document.querySelector('#registerForm .btn');
-            const btnText = document.getElementById('registerText');
-            const loading = document.getElementById('registerLoading');
-            const message = document.getElementById('registerMessage');
-            
-            if (!username || !password || !name || !phone) {
-                showAlert(message, 'error', 'Harap isi semua field yang wajib');
-                return;
-            }
-            
-            btn.disabled = true;
-            btnText.style.display = 'none';
-            loading.style.display = 'inline-block';
-            message.style.display = 'none';
-            
-            try {
-                const response = await callAPI('register', {
-                    username,
-                    password,
-                    name,
-                    phone,
-                    email,
-                    role: 'customer'
-                });
-                
-                if (response.success) {
-                    showAlert(message, 'success', 'Registrasi berhasil! Silakan login.');
-                    setTimeout(() => {
-                        showLoginForm();
-                        document.getElementById('username').value = username;
-                        document.getElementById('password').value = password;
-                    }, 1500);
-                } else {
-                    showAlert(message, 'error', response.message);
-                }
-            } catch (error) {
-                showAlert(message, 'error', 'Registrasi gagal. Coba lagi.');
-                console.error('Register error:', error);
-            } finally {
-                btn.disabled = false;
-                btnText.style.display = 'inline';
-                loading.style.display = 'none';
-            }
-        }
-        
-        function logout() {
-            if (confirm('Anda yakin ingin logout?')) {
-                localStorage.removeItem(STORAGE_KEYS.TOKEN);
-                localStorage.removeItem(STORAGE_KEYS.USER);
-                
-                currentToken = null;
-                currentUser = null;
-                
-                updateAuthUI();
-                showSection('home');
-                showAlert(null, 'success', 'Logout berhasil');
-            }
-        }
-        
-        function showLoginForm() {
-            document.getElementById('loginForm').style.display = 'block';
-            document.getElementById('registerForm').style.display = 'none';
-        }
-        
-        function showRegisterForm() {
-            document.getElementById('loginForm').style.display = 'none';
-            document.getElementById('registerForm').style.display = 'block';
-        }
-        
-        // ==========================================
-        // NAVIGATION
-        // ==========================================
-        function showSection(sectionId) {
+        // Show different sections
+        function showSection(section) {
             // Hide all sections
-            document.querySelectorAll('.section').forEach(section => {
-                section.classList.remove('active');
+            document.querySelectorAll('.section').forEach(el => {
+                el.classList.remove('active');
             });
             
-            // Update active nav
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active');
+            // Remove active class from all nav items
+            document.querySelectorAll('.nav-item').forEach(el => {
+                el.classList.remove('active');
             });
             
             // Show selected section
-            document.getElementById(sectionId).classList.add('active');
+            document.getElementById(section + 'Section').classList.add('active');
             
-            // Set active nav link
-            document.querySelectorAll('.nav-link').forEach(link => {
-                if (link.getAttribute('onclick')?.includes(sectionId)) {
-                    link.classList.add('active');
-                }
-            });
+            // Add active class to clicked nav item
+            event.target.classList.add('active');
             
-            // Handle section-specific actions
-            switch(sectionId) {
-                case 'services':
-                    loadServices();
+            // Load section data
+            switch(section) {
+                case 'order':
+                    loadOrderForm();
                     break;
-                case 'admin':
-                    if (currentUser && ['admin', 'superadmin'].includes(currentUser.role)) {
-                        showAdminTab('dashboard');
-                        loadDashboard();
-                    } else {
-                        showSection('login');
+                case 'riwayat':
+                    loadRiwayat();
+                    break;
+                case 'profile':
+                    loadProfileForm();
+                    break;
+            }
+        }
+        
+        // Show alert message
+        function showAlert(message, type) {
+            const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+            const alert = `
+                <div class="alert alert-${type}">
+                    <i class="fas ${icon}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            document.getElementById('alertContainer').innerHTML = alert;
+            
+            // Auto remove after 5 seconds
+            if (type === 'success') {
+                setTimeout(() => {
+                    document.getElementById('alertContainer').innerHTML = '';
+                }, 5000);
+            }
+        }
+        
+        // Load dashboard data
+        function loadDashboardData() {
+            google.script.run
+                .withSuccessHandler(function(response) {
+                    if (response.success) {
+                        const stats = response.data;
+                        
+                        // Hitung order aktif
+                        const activeOrders = stats.pendingOrders + stats.prosesOrders;
+                        const totalOrders = stats.pendingOrders + stats.prosesOrders + stats.selesaiOrders;
+                        
+                        document.getElementById('activeOrders').textContent = activeOrders;
+                        document.getElementById('pendingOrders').textContent = stats.pendingOrders;
+                        document.getElementById('selesaiOrders').textContent = stats.selesaiOrders;
+                        document.getElementById('totalOrders').textContent = totalOrders;
                     }
-                    break;
-            }
+                })
+                .withFailureHandler(function(error) {
+                    showAlert('Gagal memuat data dashboard: ' + error.message, 'error');
+                })
+                .getDashboardStats(sessionId);
         }
         
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobileMenu');
-            menu.classList.toggle('show');
+        // Load user orders
+        function loadUserOrders() {
+            google.script.run
+                .withSuccessHandler(function(response) {
+                    if (response.success) {
+                        const orders = response.data.slice(0, 5); // Get only 5 recent orders
+                        const tbody = document.getElementById('recentOrdersBody');
+                        tbody.innerHTML = '';
+                        
+                        orders.forEach(order => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${order.ID}</td>
+                                <td>${order.Device_Brand} ${order.Device_Model}</td>
+                                <td>${formatCurrency(order.Total_Harga)}</td>
+                                <td><span class="badge badge-${order.Status.toLowerCase()}">${order.Status}</span></td>
+                                <td>${formatDate(order.Created_At)}</td>
+                                <td>
+                                    <button class="btn" onclick="viewOrderDetail('${order.ID}')" style="padding: 5px 10px; font-size: 12px;">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </td>
+                            `;
+                            tbody.appendChild(row);
+                        });
+                    }
+                })
+                .withFailureHandler(function(error) {
+                    showAlert('Gagal memuat data order: ' + error.message, 'error');
+                })
+                .getUserOrders(sessionId);
         }
         
-        // ==========================================
-        // SERVICES MANAGEMENT
-        // ==========================================
-        async function loadServices() {
-            const container = document.getElementById('servicesList');
-            
-            try {
-                const response = await callAPI('get_services');
-                
-                if (response.success) {
-                    allServices = response.data;
-                    displayServices(allServices);
-                    updateCategoryFilter(response.categories);
-                } else {
-                    container.innerHTML = `
-                        <div class="alert alert-error">
-                            <i class="fas fa-exclamation-triangle"></i>
-                            Gagal memuat layanan: ${response.message}
-                        </div>
-                    `;
-                }
-            } catch (error) {
-                console.error('Error loading services:', error);
-                container.innerHTML = `
-                    <div class="alert alert-error">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        Tidak dapat terhubung ke server
-                    </div>
-                `;
-            }
-        }
-        
-        function displayServices(services) {
-            const container = document.getElementById('servicesList');
-            
-            if (services.length === 0) {
-                container.innerHTML = `
-                    <div style="text-align: center; padding: 40px;">
-                        <i class="fas fa-concierge-bell" style="font-size: 3rem; color: #d1d5db;"></i>
-                        <p style="margin-top: 10px; color: #6b7280;">Tidak ada layanan tersedia</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            let html = '<div class="grid grid-cols-3" style="gap: 20px;">';
-            
-            services.forEach(service => {
-                const typeColor = service.tipe === 'Ringan' ? '#10b981' : 
-                                service.tipe === 'Sedang' ? '#f59e0b' : '#ef4444';
-                
-                html += `
-                    <div class="card">
-                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
-                            <div>
-                                <span class="badge" style="background: ${typeColor}20; color: ${typeColor}; border: 1px solid ${typeColor}30;">
-                                    ${service.tipe}
-                                </span>
-                                <h3 style="margin-top: 10px;">${service.nama}</h3>
-                                <p style="color: #6b7280; font-size: 0.9rem;">${service.kategori}</p>
-                            </div>
-                            <div style="text-align: right;">
-                                <div style="font-size: 1.5rem; font-weight: bold; color: #1e3a8a;">
-                                    Rp ${formatNumber(service.harga_jual)}
+        // Load order form
+        function loadOrderForm() {
+            google.script.run
+                .withSuccessHandler(function(response) {
+                    if (response.success) {
+                        const layanan = response.data;
+                        const categories = [...new Set(layanan.map(item => item.Kategori))];
+                        
+                        let kategoriOptions = '';
+                        categories.forEach(category => {
+                            kategoriOptions += `<option value="${category}">${category}</option>`;
+                        });
+                        
+                        const form = `
+                            <div class="form-group">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 500;">Data Pelanggan</label>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                                    <div>
+                                        <label style="display: block; margin-bottom: 5px; font-size: 14px;">Nama Pelanggan</label>
+                                        <input type="text" id="namaPelanggan" class="form-control" placeholder="Nama pelanggan" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                    </div>
+                                    <div>
+                                        <label style="display: block; margin-bottom: 5px; font-size: 14px;">No HP</label>
+                                        <input type="tel" id="noHpPelanggan" class="form-control" placeholder="081234567890" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                    </div>
                                 </div>
-                                <div style="color: #6b7280; font-size: 0.9rem;">${service.estimasi}</div>
                             </div>
+                            
+                            <div class="form-group">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 500;">Data Device</label>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                                    <div>
+                                        <label style="display: block; margin-bottom: 5px; font-size: 14px;">Tipe Device</label>
+                                        <select id="deviceType" class="form-control" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                            <option value="">Pilih Tipe</option>
+                                            <option value="HP Android">HP Android</option>
+                                            <option value="Laptop">Laptop</option>
+                                            <option value="Tablet">Tablet</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label style="display: block; margin-bottom: 5px; font-size: 14px;">Merek</label>
+                                        <input type="text" id="deviceBrand" class="form-control" placeholder="Samsung, Lenovo, dll" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                    </div>
+                                    <div>
+                                        <label style="display: block; margin-bottom: 5px; font-size: 14px;">Model</label>
+                                        <input type="text" id="deviceModel" class="form-control" placeholder="Galaxy S21, ThinkPad, dll" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label style="display: block; margin-bottom: 5px; font-size: 14px;">Keluhan</label>
+                                <textarea id="keluhan" class="form-control" placeholder="Jelaskan keluhan device..." rows="3" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 20px;"></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 500;">Pilih Layanan</label>
+                                <div style="margin-bottom: 15px;">
+                                    <label style="display: block; margin-bottom: 5px; font-size: 14px;">Kategori</label>
+                                    <select id="kategoriLayanan" class="form-control" onchange="filterLayanan()" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                        <option value="">Semua Kategori</option>
+                                        ${kategoriOptions}
+                                    </select>
+                                </div>
+                                
+                                <div id="layananContainer" style="margin-bottom: 20px;">
+                                    <!-- Layanan akan ditampilkan di sini -->
+                                </div>
+                                
+                                <div id="selectedServices" style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+                                    <h4 style="margin-bottom: 10px; font-size: 16px;">Layanan Terpilih</h4>
+                                    <div id="selectedList" style="font-size: 14px; color: #666;">Belum ada layanan terpilih</div>
+                                    <div id="totalHarga" style="font-weight: bold; margin-top: 10px; font-size: 16px;">Total: Rp 0</div>
+                                </div>
+                            </div>
+                            
+                            <button class="btn btn-secondary" onclick="submitOrder()" style="width: 100%; padding: 12px;">
+                                <i class="fas fa-paper-plane"></i> Buat Order
+                            </button>
+                        `;
+                        
+                        document.getElementById('orderForm').innerHTML = form;
+                        
+                        // Simpan data layanan untuk filter
+                        window.layananData = layanan;
+                        window.selectedServices = [];
+                        
+                        // Tampilkan semua layanan awal
+                        filterLayanan();
+                    }
+                })
+                .withFailureHandler(function(error) {
+                    showAlert('Gagal memuat data layanan: ' + error.message, 'error');
+                })
+                .getLayanan();
+        }
+        
+        // Filter layanan berdasarkan kategori
+        function filterLayanan() {
+            const kategori = document.getElementById('kategoriLayanan').value;
+            const container = document.getElementById('layananContainer');
+            
+            let filteredLayanan = window.layananData;
+            if (kategori) {
+                filteredLayanan = window.layananData.filter(item => item.Kategori === kategori);
+            }
+            
+            let html = '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px;">';
+            
+            filteredLayanan.forEach(item => {
+                const isSelected = window.selectedServices.some(service => service.id === item.ID);
+                html += `
+                    <div style="border: 1px solid ${isSelected ? '#4CAF50' : '#ddd'}; border-radius: 8px; padding: 15px; background: white; ${isSelected ? 'border-left: 4px solid #4CAF50;' : ''}">
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px;">
+                            <div>
+                                <h4 style="margin: 0; font-size: 16px; color: #333;">${item.Nama_Layanan}</h4>
+                                <p style="margin: 5px 0 0 0; font-size: 12px; color: #666;">${item.Kategori} • ${item.Tipe_Masalah}</p>
+                            </div>
+                            <span style="font-weight: bold; color: #2196F3;">${formatCurrency(item.Harga_Jual)}</span>
                         </div>
-                        
-                        <p style="color: #4b5563; margin-bottom: 20px;">${service.deskripsi}</p>
-                        
-                        <button class="btn btn-primary" onclick="orderService('${service.id}')" style="width: 100%;">
-                            <i class="fas fa-shopping-cart"></i> Pesan Sekarang
-                        </button>
+                        <p style="font-size: 13px; color: #666; margin-bottom: 10px;">${item.Deskripsi}</p>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-size: 12px; color: #888;">
+                                <i class="fas fa-clock"></i> ${item.Estimasi_Waktu}
+                            </span>
+                            <button class="${isSelected ? 'btn btn-secondary' : 'btn'}" onclick="toggleService('${item.ID}', '${item.Nama_Layanan}', ${item.Harga_Jual})" style="padding: 5px 10px; font-size: 12px;">
+                                <i class="fas ${isSelected ? 'fa-check' : 'fa-plus'}"></i>
+                                ${isSelected ? 'Terpilih' : 'Pilih'}
+                            </button>
+                        </div>
                     </div>
                 `;
             });
             
             html += '</div>';
             container.innerHTML = html;
+            updateSelectedList();
         }
         
-        function updateCategoryFilter(categories) {
-            const filter = document.getElementById('filterCategory');
-            filter.innerHTML = '<option value="">Semua Kategori</option>';
+        // Toggle service selection
+        function toggleService(id, name, price) {
+            const index = window.selectedServices.findIndex(service => service.id === id);
             
-            categories.forEach(category => {
-                const option = document.createElement('option');
-                option.value = category;
-                option.textContent = category;
-                filter.appendChild(option);
-            });
-        }
-        
-        function searchServices() {
-            const searchTerm = document.getElementById('searchServices').value.toLowerCase();
-            const filtered = allServices.filter(service => 
-                service.nama.toLowerCase().includes(searchTerm) ||
-                service.deskripsi.toLowerCase().includes(searchTerm) ||
-                service.kategori.toLowerCase().includes(searchTerm)
-            );
-            displayServices(filtered);
-        }
-        
-        function filterServices() {
-            const category = document.getElementById('filterCategory').value;
-            const type = document.getElementById('filterType').value;
-            
-            let filtered = allServices;
-            
-            if (category) {
-                filtered = filtered.filter(s => s.kategori === category);
-            }
-            
-            if (type) {
-                filtered = filtered.filter(s => s.tipe === type);
-            }
-            
-            displayServices(filtered);
-        }
-        
-        function orderService(serviceId) {
-            const service = allServices.find(s => s.id === serviceId);
-            if (!service) return;
-            
-            if (!currentUser) {
-                showSection('login');
-                showAlert(null, 'info', 'Silakan login terlebih dahulu untuk memesan');
-                return;
-            }
-            
-            // Create order
-            const orderData = {
-                customer_name: currentUser.name || currentUser.username,
-                customer_phone: currentUser.phone || '081234567890',
-                customer_id: currentUser.username,
-                subtotal: service.harga_jual,
-                discount: 0,
-                additional_fees: 0,
-                service_details: service,
-                notes: `Pemesanan layanan: ${service.nama}`
-            };
-            
-            showConfirmOrderModal(service, orderData);
-        }
-        
-        function showConfirmOrderModal(service, orderData) {
-            const modal = document.createElement('div');
-            modal.className = 'modal';
-            modal.style.display = 'flex';
-            
-            modal.innerHTML = `
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h3>Konfirmasi Order</h3>
-                        <button class="btn btn-outline" onclick="this.closest('.modal').remove()">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div style="margin-bottom: 20px;">
-                            <h4>${service.nama}</h4>
-                            <p>${service.deskripsi}</p>
-                            <div style="margin-top: 10px;">
-                                <strong>Harga:</strong> Rp ${formatNumber(service.harga_jual)}<br>
-                                <strong>Estimasi:</strong> ${service.estimasi}
-                            </div>
-                        </div>
-                        
-                        <div style="background: #f3f4f6; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
-                            <p><strong>Pelanggan:</strong> ${orderData.customer_name}</p>
-                            <p><strong>Telepon:</strong> ${orderData.customer_phone}</p>
-                        </div>
-                        
-                        <div style="display: flex; gap: 10px;">
-                            <button class="btn btn-outline" onclick="this.closest('.modal').remove()">Batal</button>
-                            <button class="btn btn-primary" onclick="submitOrder(${JSON.stringify(orderData).replace(/"/g, '&quot;')})">
-                                Konfirmasi Order
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            document.body.appendChild(modal);
-        }
-        
-        async function submitOrder(orderData) {
-            try {
-                const response = await callAPI('create_order', { order: orderData, token: currentToken });
-                
-                if (response.success) {
-                    showAlert(null, 'success', `Order berhasil dibuat! ID: ${response.order_id}`);
-                    document.querySelector('.modal').remove();
-                    
-                    // Show order details
-                    showSection('track');
-                    document.getElementById('trackInput').value = response.order_id;
-                    setTimeout(() => trackOrder(), 500);
-                    
-                } else {
-                    showAlert(null, 'error', response.message);
-                }
-            } catch (error) {
-                showAlert(null, 'error', 'Gagal membuat order');
-                console.error('Order error:', error);
-            }
-        }
-        
-        // ==========================================
-        // TRACK ORDER
-        // ==========================================
-        async function trackOrder() {
-            const orderId = document.getElementById('trackInput').value.trim();
-            const resultDiv = document.getElementById('trackResult');
-            
-            if (!orderId) {
-                showAlert(resultDiv, 'error', 'Masukkan Order ID terlebih dahulu');
-                return;
-            }
-            
-            resultDiv.innerHTML = `
-                <div style="text-align: center; padding: 20px;">
-                    <div class="loading"></div>
-                    <p>Mencari order...</p>
-                </div>
-            `;
-            
-            try {
-                const response = await callAPI('get_orders', { 
-                    filter: { search: orderId },
-                    token: currentToken 
+            if (index === -1) {
+                window.selectedServices.push({
+                    id: id,
+                    name: name,
+                    price: price,
+                    quantity: 1
                 });
+            } else {
+                window.selectedServices.splice(index, 1);
+            }
+            
+            filterLayanan();
+        }
+        
+        // Update selected services list
+        function updateSelectedList() {
+            const container = document.getElementById('selectedList');
+            const totalElement = document.getElementById('totalHarga');
+            
+            if (window.selectedServices.length === 0) {
+                container.innerHTML = '<span style="color: #888;">Belum ada layanan terpilih</span>';
+                totalElement.textContent = 'Total: Rp 0';
+                return;
+            }
+            
+            let html = '';
+            let total = 0;
+            
+            window.selectedServices.forEach((service, index) => {
+                const serviceTotal = service.price * service.quantity;
+                total += serviceTotal;
                 
-                if (response.success && response.data.length > 0) {
-                    const order = response.data[0];
-                    displayOrderDetails(order);
-                } else {
-                    resultDiv.innerHTML = `
-                        <div class="alert alert-error">
-                            <i class="fas fa-exclamation-triangle"></i>
-                            Order tidak ditemukan. Pastikan Order ID benar.
+                html += `
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee;">
+                        <div>
+                            <span style="font-weight: 500;">${service.name}</span>
+                            <div style="display: flex; align-items: center; gap: 10px; margin-top: 5px;">
+                                <button onclick="changeQuantity(${index}, -1)" style="width: 24px; height: 24px; border: 1px solid #ddd; border-radius: 50%; background: white; cursor: pointer;">-</button>
+                                <span>${service.quantity}</span>
+                                <button onclick="changeQuantity(${index}, 1)" style="width: 24px; height: 24px; border: 1px solid #ddd; border-radius: 50%; background: white; cursor: pointer;">+</button>
+                                <button onclick="removeService(${index})" style="margin-left: 10px; color: #F44336; background: none; border: none; cursor: pointer; font-size: 12px;">
+                                    <i class="fas fa-trash"></i> Hapus
+                                </button>
+                            </div>
                         </div>
-                    `;
-                }
-            } catch (error) {
-                resultDiv.innerHTML = `
-                    <div class="alert alert-error">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        Gagal mencari order. Coba lagi nanti.
+                        <span style="font-weight: 500;">${formatCurrency(serviceTotal)}</span>
                     </div>
                 `;
+            });
+            
+            container.innerHTML = html;
+            totalElement.textContent = `Total: ${formatCurrency(total)}`;
+        }
+        
+        // Change service quantity
+        function changeQuantity(index, delta) {
+            const newQuantity = window.selectedServices[index].quantity + delta;
+            if (newQuantity >= 1) {
+                window.selectedServices[index].quantity = newQuantity;
+                updateSelectedList();
             }
         }
         
-        function displayOrderDetails(order) {
-            const statusColors = {
-                'Pending': '#f59e0b',
-                'Diproses': '#3b82f6',
-                'Selesai': '#10b981',
-                'Dibatalkan': '#ef4444'
+        // Remove service
+        function removeService(index) {
+            window.selectedServices.splice(index, 1);
+            filterLayanan();
+        }
+        
+        // Submit order
+        function submitOrder() {
+            // Validasi input
+            const namaPelanggan = document.getElementById('namaPelanggan').value.trim();
+            const noHpPelanggan = document.getElementById('noHpPelanggan').value.trim();
+            const deviceType = document.getElementById('deviceType').value;
+            const deviceBrand = document.getElementById('deviceBrand').value.trim();
+            const deviceModel = document.getElementById('deviceModel').value.trim();
+            const keluhan = document.getElementById('keluhan').value.trim();
+            
+            if (!namaPelanggan || !noHpPelanggan || !deviceType) {
+                showAlert('Harap isi data pelanggan dan device', 'error');
+                return;
+            }
+            
+            if (window.selectedServices.length === 0) {
+                showAlert('Pilih minimal satu layanan', 'error');
+                return;
+            }
+            
+            // Format nomor HP
+            const formattedNoHP = noHpPelanggan.replace(/[^0-9]/g, '');
+            if (formattedNoHP.length < 10) {
+                showAlert('Nomor HP tidak valid', 'error');
+                return;
+            }
+            
+            // Prepare order data
+            const orderData = {
+                nama_pelanggan: namaPelanggan,
+                no_hp: formattedNoHP,
+                device_type: deviceType,
+                device_brand: deviceBrand,
+                device_model: deviceModel,
+                keluhan: keluhan,
+                items: window.selectedServices.map(service => ({
+                    layanan_id: service.id,
+                    nama_layanan: service.name,
+                    harga: service.price,
+                    quantity: service.quantity
+                }))
             };
             
-            const resultDiv = document.getElementById('trackResult');
-            resultDiv.innerHTML = `
-                <div class="card">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                        <div>
-                            <h3>Order #${order.Order_ID}</h3>
-                            <p style="color: #6b7280;">${formatDate(order.Created_At)}</p>
-                        </div>
-                        <span class="badge" style="background: ${statusColors[order.Status] || '#6b7280'}; color: white;">
-                            ${order.Status}
-                        </span>
-                    </div>
-                    
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
-                        <div>
-                            <h4>Informasi Pelanggan</h4>
-                            <p><strong>Nama:</strong> ${order.Nama_Pelanggan}</p>
-                            <p><strong>WhatsApp:</strong> ${order.WhatsApp}</p>
-                            <p><strong>Alamat:</strong> ${order.Alamat || '-'}</p>
-                        </div>
-                        <div>
-                            <h4>Informasi Order</h4>
-                            <p><strong>Status Bayar:</strong> ${order.Status_Bayar}</p>
-                            <p><strong>No. Resi:</strong> ${order.Receipt_Number || '-'}</p>
-                            <p><strong>Metode Bayar:</strong> ${order.Metode_Bayar || '-'}</p>
-                        </div>
-                    </div>
-                    
-                    <div style="background: #f3f4f6; padding: 15px; border-radius: 6px;">
-                        <h4 style="margin-bottom: 10px;">Rincian Biaya</h4>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                            <span>Subtotal:</span>
-                            <span>Rp ${formatNumber(order.Subtotal)}</span>
-                        </div>
-                        ${order.Diskon > 0 ? `
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                            <span>Diskon:</span>
-                            <span>- Rp ${formatNumber(order.Diskon)}</span>
-                        </div>
-                        ` : ''}
-                        ${order.Biaya_Tambahan > 0 ? `
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                            <span>Biaya Tambahan:</span>
-                            <span>+ Rp ${formatNumber(order.Biaya_Tambahan)}</span>
-                        </div>
-                        ` : ''}
-                        <div style="display: flex; justify-content: space-between; font-weight: bold; padding-top: 10px; border-top: 2px solid #d1d5db;">
-                            <span>TOTAL:</span>
-                            <span>Rp ${formatNumber(order.Total_Bayar)}</span>
-                        </div>
-                    </div>
-                    
-                    ${order.Catatan ? `
-                    <div style="margin-top: 20px; padding: 15px; background: #dbeafe; border-radius: 6px;">
-                        <h4>Catatan:</h4>
-                        <p>${order.Catatan}</p>
-                    </div>
-                    ` : ''}
-                </div>
-            `;
-        }
-        
-        // ==========================================
-        // ADMIN FUNCTIONS
-        // ==========================================
-        function showAdminTab(tabName) {
-            // Hide all tabs
-            document.querySelectorAll('.admin-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Update tab buttons
-            document.querySelectorAll('[id^="tab"]').forEach(tabBtn => {
-                tabBtn.classList.remove('active');
-            });
-            
-            // Show selected tab
-            document.getElementById(`admin${capitalize(tabName)}Tab`).classList.add('active');
-            document.getElementById(`tab${capitalize(tabName)}`).classList.add('active');
-            
-            // Load tab data
-            switch(tabName) {
-                case 'dashboard':
-                    loadDashboard();
-                    break;
-                case 'services':
-                    loadAdminServices();
-                    break;
-                case 'orders':
-                    loadAdminOrders();
-                    break;
-                case 'users':
-                    loadAdminUsers();
-                    break;
-            }
-        }
-        
-        async function loadDashboard() {
-            try {
-                const response = await callAPI('get_dashboard', { token: currentToken });
-                
-                if (response.success) {
-                    // Update stats
-                    document.getElementById('statTotalOrders').textContent = response.stats.total_orders;
-                    document.getElementById('statRevenue').textContent = `Rp ${formatNumber(response.stats.total_revenue)}`;
-                    document.getElementById('statPending').textContent = response.stats.pending_orders;
-                    document.getElementById('statServices').textContent = response.stats.active_services;
-                    
-                    // Update recent orders
-                    const recentDiv = document.getElementById('recentOrders');
-                    if (response.stats.recent_orders.length > 0) {
-                        let html = '';
-                        response.stats.recent_orders.forEach(order => {
-                            html += `
-                                <div style="padding: 10px 0; border-bottom: 1px solid #e5e7eb; display: flex; justify-content: space-between;">
-                                    <div>
-                                        <div style="font-weight: 500;">${order.customer}</div>
-                                        <div style="font-size: 0.9rem; color: #6b7280;">${order.id}</div>
-                                    </div>
-                                    <div style="text-align: right;">
-                                        <div style="font-weight: 500;">Rp ${formatNumber(order.total)}</div>
-                                        <div style="font-size: 0.8rem; color: #6b7280;">${formatDate(order.date)}</div>
-                                    </div>
-                                </div>
-                            `;
-                        });
-                        recentDiv.innerHTML = html;
-                    } else {
-                        recentDiv.innerHTML = '<p style="color: #6b7280; text-align: center;">Belum ada order</p>';
-                    }
-                }
-            } catch (error) {
-                console.error('Error loading dashboard:', error);
-            }
-        }
-        
-        async function loadAdminServices() {
-            const container = document.getElementById('adminServicesList');
-            
-            try {
-                const response = await callAPI('get_services', { token: currentToken });
-                
-                if (response.success) {
-                    let html = '<div class="grid grid-cols-2" style="gap: 20px;">';
-                    
-                    response.data.forEach(service => {
-                        html += `
-                            <div class="card">
-                                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
-                                    <div>
-                                        <h3>${service.nama}</h3>
-                                        <p style="color: #6b7280;">${service.kategori} • ${service.tipe}</p>
-                                    </div>
-                                    <span class="badge ${service.status === 'active' ? 'badge-success' : 'badge-danger'}">
-                                        ${service.status === 'active' ? 'Aktif' : 'Nonaktif'}
-                                    </span>
-                                </div>
-                                
-                                <p style="color: #4b5563; margin-bottom: 15px;">${service.deskripsi}</p>
-                                
-                                <div style="display: flex; justify-content: space-between; align-items: center;">
-                                    <div>
-                                        <div style="font-weight: bold; color: #1e3a8a;">Rp ${formatNumber(service.harga_jual)}</div>
-                                        <div style="color: #6b7280; font-size: 0.9rem;">${service.estimasi}</div>
-                                    </div>
-                                    <div style="display: flex; gap: 5px;">
-                                        <button class="btn btn-outline" onclick="editService('${service.id}')">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        ${currentUser.role === 'superadmin' ? `
-                                        <button class="btn btn-outline" onclick="deleteService('${service.id}')">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                        ` : ''}
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    });
-                    
-                    html += '</div>';
-                    container.innerHTML = html;
-                }
-            } catch (error) {
-                container.innerHTML = `
-                    <div class="alert alert-error">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        Gagal memuat data layanan
-                    </div>
-                `;
-            }
-        }
-        
-        async function loadAdminOrders() {
-            const container = document.getElementById('adminOrdersList');
-            
-            try {
-                const response = await callAPI('get_orders', { token: currentToken });
-                
-                if (response.success) {
-                    let html = '';
-                    
-                    response.data.forEach(order => {
-                        const statusColor = order.Status === 'Selesai' ? 'badge-success' :
-                                          order.Status === 'Pending' ? 'badge-warning' :
-                                          order.Status === 'Diproses' ? 'badge-info' : 'badge-danger';
+            // Submit to server
+            google.script.run
+                .withSuccessHandler(function(response) {
+                    if (response.success) {
+                        showAlert('Order berhasil dibuat! ID Order: ' + response.orderId, 'success');
                         
-                        html += `
-                            <tr>
-                                <td>${order.Order_ID}</td>
-                                <td>
-                                    <div>${order.Nama_Pelanggan}</div>
-                                    <div style="font-size: 0.9rem; color: #6b7280;">${order.WhatsApp}</div>
-                                </td>
-                                <td style="font-weight: bold;">Rp ${formatNumber(order.Total_Bayar)}</td>
-                                <td><span class="badge ${statusColor}">${order.Status}</span></td>
+                        // Reset form
+                        window.selectedServices = [];
+                        document.getElementById('namaPelanggan').value = '';
+                        document.getElementById('noHpPelanggan').value = '';
+                        document.getElementById('deviceType').value = '';
+                        document.getElementById('deviceBrand').value = '';
+                        document.getElementById('deviceModel').value = '';
+                        document.getElementById('keluhan').value = '';
+                        document.getElementById('kategoriLayanan').value = '';
+                        
+                        // Refresh data
+                        filterLayanan();
+                        loadDashboardData();
+                        loadUserOrders();
+                        
+                        // Switch to dashboard
+                        showSection('dashboard');
+                    } else {
+                        showAlert(response.message, 'error');
+                    }
+                })
+                .withFailureHandler(function(error) {
+                    showAlert('Gagal membuat order: ' + error.message, 'error');
+                })
+                .createOrder(sessionId, orderData);
+        }
+        
+        // Load riwayat
+        function loadRiwayat() {
+            google.script.run
+                .withSuccessHandler(function(response) {
+                    if (response.success) {
+                        const orders = response.data;
+                        const tbody = document.getElementById('riwayatBody');
+                        tbody.innerHTML = '';
+                        
+                        orders.forEach(order => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${order.ID}</td>
+                                <td>${order.Device_Brand} ${order.Device_Model}</td>
+                                <td>${order.Keluhan || '-'}</td>
+                                <td>${formatCurrency(order.Total_Harga)}</td>
+                                <td><span class="badge badge-${order.Status.toLowerCase()}">${order.Status}</span></td>
                                 <td>${formatDate(order.Created_At)}</td>
                                 <td>
-                                    <button class="btn btn-outline" onclick="viewOrder('${order.Order_ID}')">
+                                    <button class="btn" onclick="viewOrderDetail('${order.ID}')" style="padding: 5px 10px; font-size: 12px;">
                                         <i class="fas fa-eye"></i>
                                     </button>
-                                    <button class="btn btn-outline" onclick="updateOrderStatus('${order.Order_ID}')">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
                                 </td>
-                            </tr>
+                            `;
+                            tbody.appendChild(row);
+                        });
+                    }
+                })
+                .withFailureHandler(function(error) {
+                    showAlert('Gagal memuat riwayat: ' + error.message, 'error');
+                })
+                .getUserOrders(sessionId);
+        }
+        
+        // Load profile form
+        function loadProfileForm() {
+            google.script.run
+                .withSuccessHandler(function(response) {
+                    if (response.success) {
+                        const user = response.data;
+                        
+                        const form = `
+                            <div style="max-width: 500px;">
+                                <div class="form-group" style="margin-bottom: 20px;">
+                                    <label style="display: block; margin-bottom: 8px; font-weight: 500;">Informasi Akun</label>
+                                    <div style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
+                                        <div style="margin-bottom: 10px;">
+                                            <span style="font-size: 12px; color: #666;">ID Akun</span>
+                                            <div style="font-weight: 500;">${user.id}</div>
+                                        </div>
+                                        <div style="margin-bottom: 10px;">
+                                            <span style="font-size: 12px; color: #666;">Role</span>
+                                            <div style="font-weight: 500;">${user.role}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group" style="margin-bottom: 20px;">
+                                    <label style="display: block; margin-bottom: 5px; font-size: 14px;">Nama Lengkap</label>
+                                    <input type="text" id="profileNama" value="${user.nama}" class="form-control" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                </div>
+                                
+                                <div class="form-group" style="margin-bottom: 20px;">
+                                    <label style="display: block; margin-bottom: 5px; font-size: 14px;">No HP / WhatsApp</label>
+                                    <input type="tel" id="profileNoHP" value="${user.no_hp}" class="form-control" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                </div>
+                                
+                                <div class="form-group" style="margin-bottom: 20px;">
+                                    <label style="display: block; margin-bottom: 5px; font-size: 14px;">Email (Opsional)</label>
+                                    <input type="email" id="profileEmail" value="${user.email || ''}" class="form-control" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                </div>
+                                
+                                <button class="btn btn-secondary" onclick="updateProfile()" style="padding: 12px 24px;">
+                                    <i class="fas fa-save"></i> Simpan Perubahan
+                                </button>
+                            </div>
                         `;
-                    });
-                    
-                    container.innerHTML = html || '<tr><td colspan="6" style="text-align: center; padding: 20px;">Belum ada order</td></tr>';
-                }
-            } catch (error) {
-                container.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 20px; color: #ef4444;">Gagal memuat data order</td></tr>';
-            }
+                        
+                        document.getElementById('profileForm').innerHTML = form;
+                    }
+                })
+                .withFailureHandler(function(error) {
+                    showAlert('Gagal memuat data profil: ' + error.message, 'error');
+                })
+                .getUserProfile(sessionId);
         }
         
-        async function loadAdminUsers() {
-            try {
-                const response = await callAPI('get_users', { token: currentToken });
-                const container = document.getElementById('adminUsersList');
-                
-                if (response.success) {
-                    let html = '';
-                    
-                    response.users.forEach(user => {
-                        html += `
-                            <tr>
-                                <td>${user.username}</td>
-                                <td>${user.name}</td>
-                                <td>${user.email || '-'}</td>
-                                <td>${user.phone || '-'}</td>
-                                <td>${user.role}</td>
-                                <td><span class="badge ${user.status === 'active' ? 'badge-success' : 'badge-danger'}">${user.status}</span></td>
-                                <td>${formatDate(user.created_at)}</td>
-                            </tr>
-                        `;
-                    });
-                    
-                    container.innerHTML = html || '<tr><td colspan="7" style="text-align: center; padding: 20px;">Belum ada user</td></tr>';
-                } else {
-                    container.innerHTML = `
-                        <tr>
-                            <td colspan="7" style="text-align: center; padding: 20px;">
-                                <p>Fitur manajemen user akan segera tersedia</p>
-                                <p style="color: #6b7280; font-size: 0.9rem;">Untuk saat ini, user dapat register sendiri melalui form registrasi</p>
-                            </td>
-                        </tr>
-                    `;
-                }
-            } catch (error) {
-                document.getElementById('adminUsersList').innerHTML = `
-                    <tr>
-                        <td colspan="7" style="text-align: center; padding: 20px;">
-                            <p>Fitur manajemen user akan segera tersedia</p>
-                            <p style="color: #6b7280; font-size: 0.9rem;">Untuk saat ini, user dapat register sendiri melalui form registrasi</p>
-                        </td>
-                    </tr>
-                `;
-            }
-        }
-        
-        function searchAdminOrders() {
-            const searchTerm = document.getElementById('searchOrders').value.toLowerCase();
-            const rows = document.querySelectorAll('#adminOrdersList tr');
-            
-            rows.forEach(row => {
-                const text = row.textContent.toLowerCase();
-                row.style.display = text.includes(searchTerm) ? '' : 'none';
-            });
-        }
-        
-        function filterAdminOrders() {
-            const status = document.getElementById('filterOrderStatus').value;
-            const rows = document.querySelectorAll('#adminOrdersList tr');
-            
-            rows.forEach(row => {
-                if (!status) {
-                    row.style.display = '';
-                    return;
-                }
-                
-                const statusCell = row.querySelector('.badge');
-                if (statusCell && statusCell.textContent === status) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        }
-        
-        function viewOrder(orderId) {
-            // Open order details in track section
-            showSection('track');
-            document.getElementById('trackInput').value = orderId;
-            setTimeout(() => trackOrder(), 500);
-        }
-        
-        async function updateOrderStatus(orderId) {
-            const newStatus = prompt('Masukkan status baru (Pending/Diproses/Selesai/Dibatalkan):');
-            if (!newStatus) return;
-            
-            try {
-                const response = await callAPI('update_order', {
-                    orderId: orderId,
-                    updates: { Status: newStatus },
-                    token: currentToken
-                });
-                
-                if (response.success) {
-                    showAlert(null, 'success', 'Status order berhasil diperbarui');
-                    loadAdminOrders();
-                } else {
-                    showAlert(null, 'error', response.message);
-                }
-            } catch (error) {
-                showAlert(null, 'error', 'Gagal update status');
-            }
-        }
-        
-        // ==========================================
-        // SERVICE MODAL FUNCTIONS
-        // ==========================================
-        function showServiceModal(service = null) {
-            const modal = document.getElementById('serviceModal');
-            
-            if (service) {
-                // Edit mode
-                document.getElementById('modalServiceId').value = service.id;
-                document.getElementById('modalKategori').value = service.kategori;
-                document.getElementById('modalTipe').value = service.tipe;
-                document.getElementById('modalNama').value = service.nama;
-                document.getElementById('modalJenisBiaya').value = service.jenis_biaya || 'Sparepart + Jasa';
-                document.getElementById('modalHargaDasar').value = service.harga_dasar;
-                document.getElementById('modalHargaJual').value = service.harga_jual;
-                document.getElementById('modalEstimasi').value = service.estimasi || '1-2 Jam';
-                document.getElementById('modalDeskripsi').value = service.deskripsi || '';
-                document.getElementById('modalStatus').value = service.status || 'active';
-            } else {
-                // Add mode
-                document.getElementById('serviceForm').reset();
-                document.getElementById('modalServiceId').value = '';
-                document.getElementById('modalJenisBiaya').value = 'Sparepart + Jasa';
-                document.getElementById('modalEstimasi').value = '1-2 Jam';
-                document.getElementById('modalStatus').value = 'active';
-            }
-            
-            modal.classList.add('active');
-        }
-        
-        function hideServiceModal() {
-            document.getElementById('serviceModal').classList.remove('active');
-        }
-        
-        async function saveService() {
-            const serviceData = {
-                kategori: document.getElementById('modalKategori').value,
-                tipe: document.getElementById('modalTipe').value,
-                nama: document.getElementById('modalNama').value,
-                jenis_biaya: document.getElementById('modalJenisBiaya').value,
-                harga_dasar: document.getElementById('modalHargaDasar').value,
-                harga_jual: document.getElementById('modalHargaJual').value,
-                estimasi: document.getElementById('modalEstimasi').value,
-                deskripsi: document.getElementById('modalDeskripsi').value,
-                status: document.getElementById('modalStatus').value
+        // Update profile
+        function updateProfile() {
+            const profileData = {
+                nama: document.getElementById('profileNama').value.trim(),
+                email: document.getElementById('profileEmail').value.trim()
             };
             
-            const serviceId = document.getElementById('modalServiceId').value;
-            
-            try {
-                let response;
-                if (serviceId) {
-                    serviceData.id = serviceId;
-                    response = await callAPI('update_service', { service: serviceData, token: currentToken });
-                } else {
-                    response = await callAPI('create_service', { service: serviceData, token: currentToken });
-                }
-                
-                if (response.success) {
-                    showAlert(null, 'success', response.message);
-                    hideServiceModal();
-                    loadAdminServices();
-                    loadServices(); // Refresh public services
-                } else {
-                    showAlert(null, 'error', response.message);
-                }
-            } catch (error) {
-                showAlert(null, 'error', 'Gagal menyimpan layanan');
-            }
-        }
-        
-        async function editService(serviceId) {
-            const service = allServices.find(s => s.id === serviceId);
-            if (service) {
-                showServiceModal(service);
-            }
-        }
-        
-        async function deleteService(serviceId) {
-            if (!confirm('Apakah Anda yakin ingin menghapus layanan ini?')) return;
-            
-            try {
-                const response = await callAPI('delete_service', { serviceId, token: currentToken });
-                
-                if (response.success) {
-                    showAlert(null, 'success', response.message);
-                    loadAdminServices();
-                    loadServices();
-                } else {
-                    showAlert(null, 'error', response.message);
-                }
-            } catch (error) {
-                showAlert(null, 'error', 'Gagal menghapus layanan');
-            }
-        }
-        
-        // ==========================================
-        // IMPORT/EXPORT FUNCTIONS
-        // ==========================================
-        async function importCSV() {
-            const fileInput = document.getElementById('csvFile');
-            const resultDiv = document.getElementById('importResult');
-            
-            if (!fileInput.files.length) {
-                showAlert(resultDiv, 'error', 'Pilih file terlebih dahulu');
+            if (!profileData.nama || profileData.nama.length < 3) {
+                showAlert('Nama minimal 3 karakter', 'error');
                 return;
             }
             
-            const file = fileInput.files[0];
-            const reader = new FileReader();
-            
-            reader.onload = async function(e) {
-                const text = e.target.result;
-                const lines = text.split('\n');
-                const services = [];
-                
-                // Skip header row
-                for (let i = 1; i < lines.length; i++) {
-                    const line = lines[i].trim();
-                    if (!line) continue;
-                    
-                    const parts = line.split(',');
-                    if (parts.length >= 8) {
-                        services.push({
-                            kategori: parts[0].trim(),
-                            tipe: parts[1].trim(),
-                            nama: parts[2].trim(),
-                            jenis_biaya: parts[3].trim(),
-                            harga_dasar: Number(parts[4]) || 0,
-                            harga_jual: Number(parts[5]) || 0,
-                            estimasi: parts[6].trim(),
-                            deskripsi: parts[7].trim(),
-                            status: parts[8] ? parts[8].trim() : 'active'
-                        });
-                    }
-                }
-                
-                if (services.length === 0) {
-                    showAlert(resultDiv, 'error', 'Tidak ada data yang valid ditemukan');
-                    return;
-                }
-                
-                try {
-                    const response = await callAPI('bulk_upload', { services, token: currentToken });
-                    
+            google.script.run
+                .withSuccessHandler(function(response) {
                     if (response.success) {
-                        showAlert(resultDiv, 'success', 
-                            `Berhasil mengimport ${response.stats.success} layanan. ${response.stats.failed} gagal.`);
+                        showAlert(response.message, 'success');
                         
-                        // Refresh services
-                        setTimeout(() => {
-                            loadAdminServices();
-                            loadServices();
-                        }, 2000);
+                        // Update localStorage
+                        localStorage.setItem('user', JSON.stringify(response.user));
+                        document.getElementById('userAvatar').textContent = response.user.nama.charAt(0).toUpperCase();
                     } else {
-                        showAlert(resultDiv, 'error', response.message);
+                        showAlert(response.message, 'error');
                     }
-                } catch (error) {
-                    showAlert(resultDiv, 'error', 'Gagal mengimport data');
-                }
-            };
-            
-            reader.readAsText(file);
+                })
+                .withFailureHandler(function(error) {
+                    showAlert('Gagal mengupdate profil: ' + error.message, 'error');
+                })
+                .updateUserProfile(sessionId, profileData);
         }
         
-        async function exportData() {
-            try {
-                const response = await callAPI('export_data', { 
-                    format: 'csv', 
-                    sheet: 'DataHarga',
-                    token: currentToken 
-                });
-                
-                if (response.success) {
-                    // Create download link
-                    const blob = new Blob([response.content], { type: 'text/csv' });
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = response.filename;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    window.URL.revokeObjectURL(url);
-                    
-                    showAlert(null, 'success', 'Data berhasil diexport');
-                } else {
-                    showAlert(null, 'error', response.message);
-                }
-            } catch (error) {
-                showAlert(null, 'error', 'Gagal export data');
-            }
+        // View order detail
+        function viewOrderDetail(orderId) {
+            google.script.run
+                .withSuccessHandler(function(response) {
+                    if (response.success) {
+                        const order = response.data.order;
+                        const items = response.data.items;
+                        
+                        let itemsHtml = '';
+                        items.forEach(item => {
+                            itemsHtml += `
+                                <tr>
+                                    <td style="padding: 8px; border-bottom: 1px solid #eee;">${item.Nama_Layanan}</td>
+                                    <td style="padding: 8px; border-bottom: 1px solid #eee;">${formatCurrency(item.Harga)}</td>
+                                    <td style="padding: 8px; border-bottom: 1px solid #eee;">${item.Quantity}</td>
+                                    <td style="padding: 8px; border-bottom: 1px solid #eee;">${formatCurrency(item.Harga * item.Quantity)}</td>
+                                </tr>
+                            `;
+                        });
+                        
+                        const html = `
+                            <h3 style="margin-bottom: 20px; color: var(--dark);">Detail Order</h3>
+                            <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                                <h4 style="margin-bottom: 15px; color: var(--dark);">Informasi Order</h4>
+                                <table style="width: 100%; margin-bottom: 20px; border-collapse: collapse;">
+                                    <tr>
+                                        <td style="width: 150px; padding: 8px 0; font-weight: bold;">ID Order</td>
+                                        <td style="padding: 8px 0;">${order.ID}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0; font-weight: bold;">Pelanggan</td>
+                                        <td style="padding: 8px 0;">${order.Nama_Pelanggan}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0; font-weight: bold;">No HP</td>
+                                        <td style="padding: 8px 0;">${order.No_HP}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0; font-weight: bold;">Device</td>
+                                        <td style="padding: 8px 0;">${order.Device_Brand} ${order.Device_Model} (${order.Device_Type})</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0; font-weight: bold;">Keluhan</td>
+                                        <td style="padding: 8px 0;">${order.Keluhan || '-'}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0; font-weight: bold;">Status</td>
+                                        <td style="padding: 8px 0;"><span class="badge badge-${order.Status.toLowerCase()}">${order.Status}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0; font-weight: bold;">Total</td>
+                                        <td style="padding: 8px 0; font-weight: bold;">${formatCurrency(order.Total_Harga)}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0; font-weight: bold;">Tanggal</td>
+                                        <td style="padding: 8px 0;">${formatDate(order.Created_At)}</td>
+                                    </tr>
+                                </table>
+                                
+                                <h4 style="margin-bottom: 15px; color: var(--dark);">Detail Layanan</h4>
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <thead>
+                                        <tr style="background: #f8f9fa;">
+                                            <th style="padding: 10px; text-align: left;">Layanan</th>
+                                            <th style="padding: 10px; text-align: left;">Harga</th>
+                                            <th style="padding: 10px; text-align: left;">Qty</th>
+                                            <th style="padding: 10px; text-align: left;">Subtotal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${itemsHtml}
+                                    </tbody>
+                                </table>
+                            </div>
+                        `;
+                        
+                        // Show in alert (bisa diganti modal jika mau)
+                        alertCustom(html);
+                    }
+                })
+                .withFailureHandler(function(error) {
+                    showAlert('Gagal memuat detail order: ' + error.message, 'error');
+                })
+                .getOrderDetails(sessionId, orderId);
         }
         
-        function refreshDashboard() {
-            loadDashboard();
-            showAlert(null, 'info', 'Data diperbarui');
-        }
-        
-        // ==========================================
-        // UTILITY FUNCTIONS
-        // ==========================================
-        async function callAPI(action, data = {}) {
-            try {
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ action, ...data })
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const result = await response.json();
-                return result;
-                
-            } catch (error) {
-                console.error('API Error:', error);
-                throw error;
-            }
-        }
-        
-        function formatNumber(num) {
-            return new Intl.NumberFormat('id-ID').format(num);
-        }
-        
-        function formatDate(dateString) {
-            try {
-                const date = new Date(dateString);
-                return date.toLocaleDateString('id-ID', {
-                    day: '2-digit',
-                    month: 'short',
-                    year: 'numeric'
-                });
-            } catch (e) {
-                return dateString;
-            }
-        }
-        
-        function capitalize(str) {
-            return str.charAt(0).toUpperCase() + str.slice(1);
-        }
-        
-        function showAlert(container, type, message) {
-            const alertDiv = document.createElement('div');
-            alertDiv.className = `alert alert-${type}`;
-            alertDiv.innerHTML = `
-                <i class="fas fa-${getAlertIcon(type)}"></i>
-                ${message}
+        // Custom alert untuk detail order
+        function alertCustom(html) {
+            const overlay = document.createElement('div');
+            overlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.5);
+                z-index: 1000;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 20px;
             `;
             
-            if (container) {
-                container.innerHTML = '';
-                container.appendChild(alertDiv);
-                container.style.display = 'flex';
-            } else {
-                // Show as toast
-                alertDiv.style.position = 'fixed';
-                alertDiv.style.top = '20px';
-                alertDiv.style.right = '20px';
-                alertDiv.style.zIndex = '3000';
-                alertDiv.style.minWidth = '300px';
-                alertDiv.style.maxWidth = '500px';
-                alertDiv.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
-                
-                document.body.appendChild(alertDiv);
-                
-                setTimeout(() => {
-                    alertDiv.remove();
-                }, 5000);
-            }
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                background: white;
+                border-radius: 10px;
+                padding: 30px;
+                max-width: 800px;
+                max-height: 90vh;
+                overflow-y: auto;
+                position: relative;
+            `;
+            
+            modal.innerHTML = html + `
+                <button onclick="this.parentElement.parentElement.remove()" style="position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 24px; cursor: pointer; color: #666;">&times;</button>
+            `;
+            
+            overlay.appendChild(modal);
+            document.body.appendChild(overlay);
+            
+            // Close on click outside
+            overlay.addEventListener('click', function(e) {
+                if (e.target === overlay) {
+                    overlay.remove();
+                }
+            });
         }
         
-        function getAlertIcon(type) {
-            switch(type) {
-                case 'success': return 'check-circle';
-                case 'error': return 'exclamation-circle';
-                case 'warning': return 'exclamation-triangle';
-                case 'info': return 'info-circle';
-                default: return 'info-circle';
-            }
+        // Logout
+        function logout() {
+            google.script.run
+                .withSuccessHandler(function() {
+                    localStorage.removeItem('sessionId');
+                    localStorage.removeItem('user');
+                    window.location.href = '/';
+                })
+                .withFailureHandler(function(error) {
+                    // Tetap logout meskipun ada error
+                    localStorage.removeItem('sessionId');
+                    localStorage.removeItem('user');
+                    window.location.href = '/';
+                })
+                .logoutUser(sessionId);
         }
         
-        // ==========================================
-        // FIRST RUN INSTRUCTIONS
-        // ==========================================
-        window.addEventListener('load', function() {
-            // Test API connection
-            setTimeout(() => {
-                callAPI('test').then(response => {
-                    if (response.success) {
-                        console.log('✅ API connected:', response.message);
-                    }
-                }).catch(error => {
-                    console.log('⚠️ API test failed:', error);
-                    showAlert(null, 'warning', 
-                        'Sistem dalam mode offline. Data akan disimpan di browser.');
-                });
-            }, 1000);
-        });
+        // Format currency
+        function formatCurrency(amount) {
+            amount = Number(amount) || 0;
+            return 'Rp ' + amount.toLocaleString('id-ID');
+        }
+        
+        // Format date
+        function formatDate(dateString) {
+            if (!dateString) return '-';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('id-ID', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+        }
     </script>
 </body>
 </html>
