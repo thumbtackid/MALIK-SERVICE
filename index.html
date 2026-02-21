@@ -3,13 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <title>ServisPro • Database Lengkap Semarang</title>
+  <title>Malik Service • One Stop Service Semarang</title>
   <!-- manifest PWA -->
-  <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22ServisPro%22%2C%22short_name%22%3A%22ServisPro%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23f8fafc%22%2C%22theme_color%22%3A%22%232563eb%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data:image/svg+xml%2C%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20100%20100'%20fill%3D'%232563eb'%3E%3Ctext%20x%3D'10'%20y%3D'70'%20font-size%3D'70'%3E%F0%9F%9A%99%3C%2Ftext%3E%3C%2Fsvg%3E%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%5D%7D">
+  <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22Malik%20Service%22%2C%22short_name%22%3A%22Malik%20Service%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23f8fafc%22%2C%22theme_color%22%3A%22%232563eb%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data:image/svg+xml%2C%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20100%20100'%20fill%3D'%232563eb'%3E%3Ctext%20x%3D'10'%20y%3D'70'%20font-size%3D'70'%3E%F0%9F%9A%99%3C%2Ftext%3E%3C%2Fsvg%3E%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%5D%7D">
   <!-- Font Google -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
-  <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * {
       margin: 0;
@@ -106,8 +104,8 @@
       gap: 12px;
     }
     
-    .logo i {
-      font-size: 36px;
+    .logo .emoji-icon {
+      font-size: 40px;
       filter: drop-shadow(0 4px 10px rgba(0,0,0,0.2));
     }
     
@@ -116,6 +114,7 @@
       font-weight: 800;
       letter-spacing: -0.5px;
       line-height: 1.2;
+      color: white;
     }
     
     .logo span {
@@ -124,6 +123,7 @@
       font-weight: 400;
       opacity: 0.9;
       letter-spacing: 0.3px;
+      color: #bfdbfe;
     }
     
     .badge {
@@ -139,7 +139,7 @@
       gap: 8px;
     }
     
-    .badge i {
+    .badge .emoji-icon {
       font-size: 18px;
     }
     
@@ -212,7 +212,7 @@
       margin-bottom: 20px;
     }
     
-    .section-title i {
+    .section-title .emoji-icon {
       color: #2563eb;
       font-size: 22px;
     }
@@ -284,7 +284,7 @@
       margin-bottom: 18px;
     }
     
-    .pickup-header i {
+    .pickup-header .emoji-icon {
       font-size: 24px;
     }
     
@@ -325,7 +325,7 @@
       box-shadow: 0 10px 20px -8px #2563eb;
     }
     
-    .pickup-option label i {
+    .pickup-option label .emoji-icon {
       font-size: 22px;
     }
     
@@ -358,7 +358,7 @@
       margin-left: 8px;
     }
     
-    .filter-item label i {
+    .filter-item label .emoji-icon {
       color: #2563eb;
       font-size: 16px;
     }
@@ -388,9 +388,9 @@
       box-shadow: 0 0 0 4px rgba(37,99,235,0.1);
     }
     
-    /* Item select dengan optgroup */
+    /* Item select */
     #itemSelect {
-      min-height: 250px;
+      min-height: 200px;
       height: auto;
       padding: 8px;
       background-image: none;
@@ -398,19 +398,10 @@
       font-size: 14px;
     }
     
-    #itemSelect optgroup {
-      font-weight: 700;
-      color: #2563eb;
-      background: #f0f7ff;
-      padding: 8px;
-      font-size: 15px;
-    }
-    
     #itemSelect option {
-      padding: 10px 16px;
+      padding: 8px 12px;
       border-bottom: 1px solid #f1f5f9;
       font-size: 13px;
-      background: white;
     }
     
     /* Detail card */
@@ -465,7 +456,7 @@
       gap: 6px;
     }
     
-    .detail-label i {
+    .detail-label .emoji-icon {
       color: #2563eb;
       font-size: 14px;
     }
@@ -517,7 +508,7 @@
       font-weight: 600;
     }
     
-    .total-label i {
+    .total-label .emoji-icon {
       font-size: 28px;
       color: #fbbf24;
     }
@@ -562,7 +553,7 @@
       transform: translateY(0);
     }
     
-    .wa-button i {
+    .wa-button .emoji-icon {
       font-size: 28px;
       filter: drop-shadow(0 2px 5px rgba(0,0,0,0.2));
     }
@@ -578,7 +569,7 @@
       margin-top: 10px;
     }
     
-    .footer-note i {
+    .footer-note .emoji-icon {
       color: #ef4444;
     }
     
@@ -597,8 +588,20 @@
       border: 1px solid #e2e8f0;
     }
     
-    .stats-badge i {
+    .stats-badge .emoji-icon {
       color: #2563eb;
+    }
+    
+    /* One Stop Service badge - tanpa bintang */
+    .one-stop {
+      background: #fbbf24;
+      color: #1e293b;
+      padding: 4px 12px;
+      border-radius: 40px;
+      font-size: 12px;
+      font-weight: 700;
+      display: inline-block;
+      margin-left: 10px;
     }
   </style>
 </head>
@@ -608,28 +611,28 @@
     <div class="header">
       <div class="header-top">
         <div class="logo">
-          <i class="fas fa-tools"></i>
+          <div class="emoji-icon">🔧</div>
           <div>
             <h1>Malik Service</h1>
-            <span>Semarang • 2025</span>
+            <span>One Stop Service <span class="one-stop">SEMARANG</span></span>
           </div>
         </div>
         <div class="badge">
-          <i class="fas fa-motorcycle"></i>
+          <span class="emoji-icon">🛵</span>
           <span>Pickup 7km • Rp25k</span>
         </div>
       </div>
       
       <div class="info-toko">
         <div class="info-item">
-          <div class="info-icon"><i class="fas fa-map-pin"></i></div>
+          <div class="info-icon">📍</div>
           <div class="info-text">
             <strong>Alamat</strong>
             Jl. Untung Suropati Ds.jamalsari Rt004/Rw002 No.52, Kedungpane 50211
           </div>
         </div>
         <div class="info-item">
-          <div class="info-icon"><i class="fab fa-whatsapp"></i></div>
+          <div class="info-icon">📞</div>
           <div class="info-text">
             <strong>Kontak</strong>
             0857-1308-7659 (WA)<br>
@@ -644,21 +647,21 @@
       <!-- Form Data Pelanggan -->
       <div class="form-section">
         <div class="section-title">
-          <i class="fas fa-user-circle"></i>
+          <span class="emoji-icon">👤</span>
           <span>Data Pelanggan</span>
         </div>
         
         <div class="form-grid">
           <div class="form-group">
-            <label><i class="fas fa-user"></i> Nama Lengkap</label>
+            <label><span class="emoji-icon">👤</span> Nama Lengkap</label>
             <input type="text" id="namaPelanggan" placeholder="Contoh: Budi Santoso">
           </div>
           <div class="form-group">
-            <label><i class="fas fa-phone-alt"></i> No. HP</label>
+            <label><span class="emoji-icon">📞</span> No. HP</label>
             <input type="tel" id="noHpPelanggan" placeholder="08123456789">
           </div>
           <div class="form-group">
-            <label><i class="fas fa-map-marker-alt"></i> Alamat</label>
+            <label><span class="emoji-icon">📍</span> Alamat</label>
             <input type="text" id="alamatPelanggan" placeholder="Jl. ...">
           </div>
         </div>
@@ -667,7 +670,7 @@
       <!-- Pickup Options -->
       <div class="pickup-card">
         <div class="pickup-header">
-          <i class="fas fa-motorcycle"></i>
+          <span class="emoji-icon">🛵</span>
           <span>Layanan Pick-up & Antar (max 7km)</span>
         </div>
         
@@ -675,14 +678,14 @@
           <div class="pickup-option">
             <input type="radio" name="pickupOption" id="pickupYa" value="ya" checked>
             <label for="pickupYa">
-              <i class="fas fa-check-circle"></i>
+              <span class="emoji-icon">✅</span>
               <span>Ya, pickup & antar (+Rp25.000)</span>
             </label>
           </div>
           <div class="pickup-option">
             <input type="radio" name="pickupOption" id="pickupTidak" value="tidak">
             <label for="pickupTidak">
-              <i class="fas fa-store"></i>
+              <span class="emoji-icon">🏠</span>
               <span>Saya datang ke toko</span>
             </label>
           </div>
@@ -692,7 +695,7 @@
       <!-- Filter -->
       <div class="filter-card">
         <div class="filter-item">
-          <label><i class="fas fa-mobile-alt"></i> Pilih Kategori</label>
+          <label><span class="emoji-icon">📱</span> Pilih Kategori</label>
           <select id="kategoriSelect">
             <option value="all">📱 SEMUA KATEGORI</option>
             <option value="Android">📱 ANDROID</option>
@@ -701,19 +704,19 @@
         </div>
         
         <div class="filter-item">
-          <label><i class="fas fa-tag"></i> Pilih Tipe Masalah</label>
+          <label><span class="emoji-icon">⚠️</span> Pilih Tipe Masalah</label>
           <select id="tipeSelect">
             <option value="all">🔧 SEMUA TIPE</option>
           </select>
         </div>
         
         <div class="filter-item">
-          <label><i class="fas fa-tools"></i> Pilih Item Servis</label>
+          <label><span class="emoji-icon">🔧</span> Pilih Item Servis</label>
           <select id="itemSelect" size="8"></select>
         </div>
         
         <div class="stats-badge">
-          <i class="fas fa-database"></i>
+          <span class="emoji-icon">📊</span>
           <span id="totalItems">250+ layanan & sparepart</span>
         </div>
       </div>
@@ -722,27 +725,27 @@
       <div class="detail-card">
         <div class="detail-grid">
           <div class="detail-item">
-            <span class="detail-label"><i class="fas fa-tag"></i> Kategori</span>
+            <span class="detail-label"><span class="emoji-icon">📌</span> Kategori</span>
             <span class="detail-value" id="displayKategori">-</span>
           </div>
           <div class="detail-item">
-            <span class="detail-label"><i class="fas fa-exclamation-triangle"></i> Tipe Masalah</span>
+            <span class="detail-label"><span class="emoji-icon">⚠️</span> Tipe Masalah</span>
             <span class="detail-value" id="displayTipe">-</span>
           </div>
           <div class="detail-item full-width">
-            <span class="detail-label"><i class="fas fa-cog"></i> Nama Item</span>
+            <span class="detail-label"><span class="emoji-icon">🔩</span> Nama Item</span>
             <span class="detail-value" id="displayItem">-</span>
           </div>
           <div class="detail-item">
-            <span class="detail-label"><i class="fas fa-box"></i> Jenis Biaya</span>
+            <span class="detail-label"><span class="emoji-icon">💳</span> Jenis Biaya</span>
             <span class="detail-value" id="displayJenis">-</span>
           </div>
           <div class="detail-item">
-            <span class="detail-label"><i class="fas fa-money-bill-wave"></i> Harga</span>
+            <span class="detail-label"><span class="emoji-icon">💰</span> Harga</span>
             <span class="detail-value harga" id="displayHarga">-</span>
           </div>
           <div class="detail-item">
-            <span class="detail-label"><i class="fas fa-clock"></i> Estimasi Waktu</span>
+            <span class="detail-label"><span class="emoji-icon">⏱️</span> Estimasi Waktu</span>
             <span class="detail-value estimasi" id="displayEstimasi">-</span>
           </div>
         </div>
@@ -751,7 +754,7 @@
       <!-- Total -->
       <div class="total-card">
         <div class="total-label">
-          <i class="fas fa-calculator"></i>
+          <span class="emoji-icon">💰</span>
           <span>Total Biaya</span>
         </div>
         <div class="total-value" id="totalNominal">Rp 0</div>
@@ -759,15 +762,19 @@
       
       <!-- Tombol WA -->
       <button class="wa-button" id="waButton">
-        <i class="fab fa-whatsapp"></i>
+        <span class="emoji-icon">📲</span>
         <span>Pesan via WhatsApp</span>
-        <i class="fas fa-arrow-right"></i>
+        <span class="emoji-icon">➡️</span>
       </button>
       
       <div class="footer-note">
-        <i class="fas fa-heart"></i>
+        <span class="emoji-icon">❤️</span>
         <span>Klik tombol di atas untuk mengirim pesan ke 0857-1308-7659</span>
-        <i class="fas fa-heart"></i>
+        <span class="emoji-icon">❤️</span>
+      </div>
+      
+      <div style="text-align: center; margin-top: 15px; font-size: 12px; color: #64748b;">
+        Malik Service • One Stop Service • Semarang
       </div>
     </div>
   </div>
@@ -1163,7 +1170,7 @@
         const pickup = pickupYa.checked ? 'YA (Rp 25.000)' : 'TIDAK';
         const total = currentItem.harga + (pickupYa.checked ? BIAYA_PICKUP : 0);
         
-        let pesan = `Halo Malik Service, saya ingin servis:%0A%0A`;
+        let pesan = `Halo Malik Service (One Stop Service), saya ingin servis:%0A%0A`;
         pesan += `👤 *Nama*: ${nama}%0A`;
         pesan += `📞 *No HP*: ${noHp}%0A`;
         pesan += `📍 *Alamat*: ${alamat}%0A%0A`;
