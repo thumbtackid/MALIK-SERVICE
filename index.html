@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <title>Pilih Servis • Pickup & Antar</title>
+  <title>ServisPro • Pilih Servis 5 Level</title>
   <!-- manifest PWA -->
-  <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22Servis+Pickup%22%2C%22short_name%22%3A%22Servis%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23f5f7fa%22%2C%22theme_color%22%3A%22%230078d4%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data:image/svg+xml%2C%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20100%20100'%20fill%3D'%230078d4'%3E%3Ctext%20x%3D'10'%20y%3D'70'%20font-size%3D'70'%3E%F0%9F%9A%99%3C%2Ftext%3E%3C%2Fsvg%3E%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%5D%7D">
+  <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22ServisPro%22%2C%22short_name%22%3A%22ServisPro%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23f5f7fa%22%2C%22theme_color%22%3A%22%230078d4%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data:image/svg+xml%2C%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20100%20100'%20fill%3D'%230078d4'%3E%3Ctext%20x%3D'10'%20y%3D'70'%20font-size%3D'70'%3E%F0%9F%9A%99%3C%2Ftext%3E%3C%2Fsvg%3E%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%5D%7D">
   <style>
     * {
       box-sizing: border-box;
@@ -13,61 +13,72 @@
       padding: 0;
     }
     body {
-      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-      background: #eef2f6;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(145deg, #eef2f6 0%, #e0e8f0 100%);
       min-height: 100vh;
       display: flex;
       justify-content: center;
-      padding: 16px 8px;
+      padding: 20px 12px;
       margin: 0;
     }
     .card {
-      max-width: 750px;
+      max-width: 800px;
       width: 100%;
-      background: white;
-      border-radius: 36px 36px 28px 28px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 48px 48px 32px 32px;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
       overflow: hidden;
-      padding: 24px 20px 30px;
+      padding: 28px 24px 32px;
+      border: 1px solid rgba(255,255,255,0.5);
     }
     h1 {
-      font-size: 2rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: #0a2838;
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #0a1a2a;
       display: flex;
       align-items: center;
-      gap: 8px;
-      margin-bottom: 6px;
+      gap: 10px;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #0a1a2a 0%, #1e3a5f 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
     h1 span {
       background: #0078d4;
       color: white;
       font-size: 0.9rem;
       padding: 4px 14px;
-      border-radius: 40px;
-      font-weight: 500;
+      border-radius: 60px;
+      font-weight: 600;
+      -webkit-text-fill-color: white;
     }
     .info-toko {
-      background: #e5f0fb;
-      border-radius: 24px;
-      padding: 16px 20px;
-      margin: 15px 0 20px;
+      background: linear-gradient(115deg, #e1f0fd 0%, #c5e2ff 100%);
+      border-radius: 28px;
+      padding: 18px 22px;
+      margin: 15px 0 22px;
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      border: 1px solid #b8d6f0;
+      border: 1px solid #a0c8ff;
+      box-shadow: 0 8px 16px -8px rgba(0,60,130,0.2);
     }
     .toko-detail {
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 6px;
     }
     .toko-nama {
       font-weight: 800;
-      font-size: 1.2rem;
-      color: #00497e;
+      font-size: 1.3rem;
+      color: #004182;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
     .toko-alamat, .toko-kontak {
       display: flex;
@@ -77,24 +88,29 @@
       color: #1f3a57;
     }
     .pickup-badge {
-      background: #25a56a;
+      background: #1e4d7a;
       color: white;
-      padding: 10px 16px;
-      border-radius: 40px;
+      padding: 12px 20px;
+      border-radius: 60px;
       font-weight: 700;
-      font-size: 0.95rem;
+      font-size: 1rem;
       text-align: center;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 10px 20px -5px rgba(0,80,150,0.4);
+      border: 1px solid rgba(255,255,255,0.3);
     }
     .pickup-badge span {
-      font-size: 1.3rem;
-      margin-right: 4px;
+      font-size: 1.4rem;
+      margin-right: 6px;
     }
-    .filter-grid {
+    .filter-grid-5level {
       display: flex;
       flex-direction: column;
       gap: 18px;
       margin: 24px 0 20px;
+      background: #f3f8ff;
+      padding: 22px 20px;
+      border-radius: 36px;
+      border: 1px solid #bed9ff;
     }
     .select-group {
       display: flex;
@@ -102,26 +118,33 @@
       gap: 6px;
     }
     .select-group label {
-      font-weight: 600;
+      font-weight: 700;
       font-size: 0.9rem;
-      color: #1e2b39;
-      margin-left: 6px;
+      color: #113355;
+      margin-left: 8px;
       letter-spacing: 0.3px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
-    select, input, .info-card {
+    .select-group label i {
+      font-size: 1.1rem;
+    }
+    select, input {
       width: 100%;
-      padding: 16px 18px;
-      border: 1.5px solid #d9e1ea;
-      border-radius: 24px;
+      padding: 16px 20px;
+      border: 2px solid #d0e2f5;
+      border-radius: 30px;
       font-size: 1rem;
       background: white;
       appearance: none;
-      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%23333" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>');
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="%23336699" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>');
       background-repeat: no-repeat;
-      background-position: right 18px center;
+      background-position: right 20px center;
       background-size: 18px;
       font-weight: 500;
       color: #0a1c2c;
+      transition: all 0.2s;
     }
     input {
       background-image: none;
@@ -130,23 +153,24 @@
     select:focus, input:focus {
       outline: none;
       border-color: #0078d4;
-      box-shadow: 0 0 0 3px rgba(0,120,212,0.15);
+      box-shadow: 0 0 0 4px rgba(0,120,212,0.2);
+      transform: scale(1.01);
     }
     .row-dua {
       display: flex;
-      gap: 12px;
+      gap: 14px;
       flex-wrap: wrap;
     }
     .row-dua > * {
       flex: 1 1 0;
-      min-width: 160px;
+      min-width: 180px;
     }
     .pickup-control {
-      background: #f3f8fe;
-      border-radius: 28px;
-      padding: 18px 20px;
-      margin: 18px 0 12px;
-      border: 2px solid #c5dfff;
+      background: linear-gradient(115deg, #f0f7ff 0%, #e2edff 100%);
+      border-radius: 32px;
+      padding: 20px 22px;
+      margin: 18px 0 16px;
+      border: 2px solid #b3d4ff;
     }
     .pickup-header {
       display: flex;
@@ -154,472 +178,681 @@
       gap: 12px;
       font-weight: 700;
       font-size: 1.2rem;
-      margin-bottom: 12px;
+      margin-bottom: 15px;
       color: #015c9b;
     }
     .pickup-row {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 20px;
       flex-wrap: wrap;
     }
     .pickup-row label {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-weight: 500;
+      gap: 10px;
+      font-weight: 600;
       background: white;
-      padding: 10px 20px;
-      border-radius: 40px;
-      border: 1px solid #b6d2e8;
+      padding: 12px 24px;
+      border-radius: 60px;
+      border: 1px solid #9bc2e8;
       cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.02);
+      transition: 0.15s;
+    }
+    .pickup-row label:hover {
+      background: #e8f0fe;
+      border-color: #0078d4;
     }
     .pickup-row input[type="radio"] {
-      width: 18px;
-      height: 18px;
+      width: 20px;
+      height: 20px;
       accent-color: #0078d4;
       margin: 0;
     }
-    .detail-panel {
-      background: #f8fafd;
-      border-radius: 30px;
-      padding: 24px 20px;
-      margin: 16px 0 18px;
-      border: 1px solid #e2eaf2;
+    .detail-panel-premium {
+      background: #ffffffdd;
+      backdrop-filter: blur(4px);
+      border-radius: 36px;
+      padding: 26px 24px;
+      margin: 20px 0 20px;
+      border: 2px solid rgba(0,120,212,0.2);
+      box-shadow: 0 20px 35px -10px rgba(0,50,100,0.2);
     }
     .detail-item {
       display: flex;
       justify-content: space-between;
-      padding: 10px 0;
-      border-bottom: 1px dashed #cbd5e1;
+      padding: 12px 0;
+      border-bottom: 1px dashed #b0c8e0;
     }
     .detail-item:last-child {
       border-bottom: none;
     }
     .label {
-      color: #33485d;
-      font-weight: 500;
+      color: #1e3d5e;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
     .value {
       font-weight: 700;
-      color: #0b2b3c;
-      background: white;
-      padding: 4px 14px;
+      color: #002b4f;
+      background: #e5f0ff;
+      padding: 6px 18px;
       border-radius: 40px;
       font-size: 0.95rem;
+      max-width: 60%;
+      text-align: right;
+      word-break: break-word;
     }
     .harga-main {
-      font-size: 1.5rem;
+      font-size: 1.7rem;
       font-weight: 800;
       color: #0078d4;
+      background: #ddf0ff;
+      padding: 6px 20px;
     }
     .estimasi-badge {
-      background: #e3f0fa;
-      color: #005a9e;
-      border-radius: 30px;
-      padding: 6px 16px;
-      font-weight: 600;
+      background: #d8e9ff;
+      color: #004e96;
+      border-radius: 40px;
+      padding: 6px 20px;
+      font-weight: 700;
       font-size: 1rem;
     }
     .total-harga {
-      background: #dff0fe;
-      border-radius: 30px;
-      padding: 14px 22px;
+      background: linear-gradient(115deg, #d2e9ff 0%, #b7dbff 100%);
+      border-radius: 40px;
+      padding: 18px 26px;
       display: flex;
       justify-content: space-between;
       font-weight: 800;
-      font-size: 1.4rem;
-      margin: 10px 0 18px;
-      color: #003b66;
+      font-size: 1.7rem;
+      margin: 12px 0 20px;
+      color: #00315c;
+      border: 1px solid #8bb9f0;
     }
     .wa-button {
       width: 100%;
-      background: #25D366;
+      background: linear-gradient(115deg, #25D366 0%, #1da859 100%);
       border: none;
-      border-radius: 50px;
-      padding: 20px 24px;
+      border-radius: 60px;
+      padding: 22px 28px;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
-      font-weight: 700;
-      font-size: 1.4rem;
+      gap: 14px;
+      font-weight: 800;
+      font-size: 1.6rem;
       color: white;
-      box-shadow: 0 8px 18px rgba(37, 211, 102, 0.3);
+      box-shadow: 0 15px 30px -5px rgba(37, 211, 102, 0.5);
       transition: 0.15s;
       border: 0;
       cursor: pointer;
-      margin: 20px 0 8px;
+      margin: 20px 0 10px;
     }
     .wa-button:active {
-      transform: scale(0.98);
-      background: #20b859;
-      box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
-    }
-    .wa-button:disabled {
-      opacity: 0.4;
-      transform: none;
-      box-shadow: none;
-      background: #a0b8cc;
-      cursor: not-allowed;
+      transform: scale(0.97);
+      background: #1da859;
+      box-shadow: 0 8px 18px rgba(37, 211, 102, 0.5);
     }
     .powered {
       text-align: center;
-      color: #7c8b9a;
-      font-size: 0.85rem;
-      margin-top: 25px;
-      border-top: 1px solid #e7edf4;
-      padding-top: 20px;
-    }
-    .error-text {
-      color: #c00;
+      color: #5b6f84;
       font-size: 0.9rem;
-      margin: 5px 0 0 12px;
+      margin-top: 28px;
+      border-top: 2px solid #cbddec;
+      padding-top: 22px;
+      font-weight: 500;
+    }
+    .level-indicator {
+      display: flex;
+      gap: 8px;
+      font-size: 0.8rem;
+      color: #336699;
+      margin-bottom: 8px;
+    }
+    .chip {
+      background: #e5efff;
+      padding: 4px 12px;
+      border-radius: 40px;
+      font-weight: 600;
     }
   </style>
 </head>
 <body>
   <div class="card" role="main">
-    <h1>🔧 ServisExpress <span>One Stop Service</span></h1>
+    <h1>
+      <span>🔧</span> ServisPro 
+      <span>5 Level</span>
+    </h1>
 
-    <!-- INFORMASI TOKO / KONTAK & ALAMAT -->
+    <!-- INFORMASI TOKO -->
     <div class="info-toko">
       <div class="toko-detail">
-        <div class="toko-nama">📍 Malik Sevice</div>
-        <div class="toko-alamat">📫 Jl. Untung Suropati Ds.jamalsari Rt004/Rw002 No.52, Kedungpane , Kota Semarang 50211</div>
-        <div class="toko-kontak">📞 0857-1308-7659 (Telp/WA)  |  ✉️ thumbtackid@gmail.com</div>
+        <div class="toko-nama"><span>📍</span> Malik Service Center</div>
+        <div class="toko-alamat"><span>📫</span> Jl. Untung Suropati Ds.jamalsari Rt004/Rw002 No.52, Kedungpane, Semarang 50211</div>
+        <div class="toko-kontak"><span>📞</span> 0857-1308-7659 (WA)  |  <span>✉️</span> thumbtackid@gmail.com</div>
       </div>
       <div class="pickup-badge">
-        <span>🚚</span> Pickup 7km • Rp25rb
+        <span>🚚</span> Pickup 7km • Rp25.000
       </div>
     </div>
 
-    <!-- FORM DATA PELANGGAN (NAMA, ALAMAT, KONTAK) -->
+    <!-- FORM DATA PELANGGAN -->
     <div style="margin: 16px 0 8px;">
       <div class="select-group" style="margin-bottom: 12px;">
-        <label>👤 Nama lengkap</label>
+        <label><span>👤</span> Nama lengkap</label>
         <input type="text" id="namaPelanggan" placeholder="contoh: Budi Santoso" value="">
       </div>
       <div class="row-dua">
         <div class="select-group">
-          <label>📞 No. HP (aktif)</label>
+          <label><span>📞</span> No. HP (aktif)</label>
           <input type="tel" id="noHpPelanggan" placeholder="08123456789" value="">
         </div>
         <div class="select-group">
-          <label>📍 Alamat (lengkap)</label>
+          <label><span>📍</span> Alamat lengkap</label>
           <input type="text" id="alamatPelanggan" placeholder="Jl. ..." value="">
         </div>
       </div>
     </div>
 
-    <!-- PILIHAN KATEGORI SERVIS -->
-    <div class="filter-grid">
+    <!-- FILTER 5 LEVEL BERJENJANG -->
+    <div class="filter-grid-5level">
+      <div class="level-indicator">
+        <span class="chip">Level 1</span> → <span class="chip">Level 2</span> → <span class="chip">Level 3</span> → <span class="chip">Level 4</span> → <span class="chip">Level 5</span>
+      </div>
+      
+      <!-- Level 1: Kategori -->
       <div class="select-group">
-        <label>📱 Kategori</label>
+        <label><span>📱</span> Level 1: Kategori</label>
         <select id="kategoriSelect">
           <option value="Android">Android</option>
-          <option value="Laptop">Laptop</option>
+          <option value="Laptop">Laptop (Non-Apple)</option>
         </select>
       </div>
 
+      <!-- Level 2: Merek (dinamis) -->
       <div class="select-group">
-        <label>⚠️ Tipe Masalah</label>
-        <select id="tipeSelect"></select>
+        <label><span>🏷️</span> Level 2: Merek</label>
+        <select id="merekSelect"></select>
       </div>
 
+      <!-- Level 3: Tipe Perangkat (dinamis) -->
       <div class="select-group">
-        <label>🔩 Nama Item (servis / sparepart)</label>
+        <label><span>📟</span> Level 3: Tipe Perangkat</label>
+        <select id="tipePerangkatSelect"></select>
+      </div>
+
+      <!-- Level 4: Tipe Masalah (dinamis) -->
+      <div class="select-group">
+        <label><span>⚠️</span> Level 4: Tipe Masalah</label>
+        <select id="tipeMasalahSelect"></select>
+      </div>
+
+      <!-- Level 5: Nama Item (dinamis) -->
+      <div class="select-group">
+        <label><span>🔩</span> Level 5: Nama Item (Jasa/Sparepart)</label>
         <select id="itemSelect"></select>
       </div>
     </div>
 
-    <!-- OPSI PICKUP DELIVERY -->
+    <!-- OPSI PICKUP -->
     <div class="pickup-control">
       <div class="pickup-header">
         <span>🛵</span> Layanan Pick-up & Antar (max 7 km)
       </div>
       <div class="pickup-row">
         <label>
-          <input type="radio" name="pickupOption" id="pickupYa" value="ya" checked> 🚚 Ya, pickup & antar (tambah Rp 25.000)
+          <input type="radio" name="pickupOption" id="pickupYa" value="ya" checked> 🚚 Ya, pickup & antar (+Rp25.000)
         </label>
         <label>
           <input type="radio" name="pickupOption" id="pickupTidak" value="tidak"> 🏠 Saya datang ke toko
         </label>
       </div>
-      <div style="font-size:0.9rem; margin-top: 10px; color: #2e6590;">⏱️ Catatan: pickup hanya jika dalam radius 7km dari toko. Biaya tetap Rp25.000.</div>
+      <div style="font-size:0.9rem; margin-top: 12px; color: #1e4e7a; background: #ffffffaa; padding: 10px 16px; border-radius: 40px;">
+        ⏱️ Pickup hanya dalam radius 7km dari toko. Biaya tetap Rp25.000.
+      </div>
     </div>
 
-    <!-- DETAIL SERVIS + TOTAL -->
-    <div class="detail-panel" id="detailPanel">
+    <!-- DETAIL LENGKAP -->
+    <div class="detail-panel-premium" id="detailPanel">
       <div class="detail-item">
-        <span class="label">Kategori</span>
+        <span class="label"><span>📌</span> Kategori</span>
         <span class="value" id="displayKategori">Android</span>
       </div>
       <div class="detail-item">
-        <span class="label">Tipe</span>
-        <span class="value" id="displayTipe">Layar</span>
+        <span class="label"><span>🏷️</span> Merek</span>
+        <span class="value" id="displayMerek">Samsung</span>
       </div>
       <div class="detail-item">
-        <span class="label">Nama Item</span>
-        <span class="value" id="displayItem">LCD Pecah - Sparepart Ori</span>
+        <span class="label"><span>📟</span> Tipe Perangkat</span>
+        <span class="value" id="displayTipePerangkat">Galaxy A Series</span>
       </div>
       <div class="detail-item">
-        <span class="label">Jenis Biaya</span>
-        <span class="value" id="displayJenis">Sparepart</span>
-      </div>
-      <div class="detail-item" style="border-bottom: 2px solid #bcd3e6; padding-bottom: 18px;">
-        <span class="label">💰 Harga servis</span>
-        <span class="value harga-main" id="displayHarga">Rp 350.000</span>
+        <span class="label"><span>⚠️</span> Tipe Masalah</span>
+        <span class="value" id="displayTipeMasalah">Software</span>
       </div>
       <div class="detail-item">
-        <span class="label">⏱️ Estimasi Waktu</span>
-        <span class="value estimasi-badge" id="displayEstimasi">1-2 Jam</span>
+        <span class="label"><span>🔩</span> Nama Item</span>
+        <span class="value" id="displayItem">Lupa Pola/Password - Jasa Servis</span>
+      </div>
+      <div class="detail-item">
+        <span class="label"><span>💳</span> Jenis Biaya</span>
+        <span class="value" id="displayJenis">Jasa</span>
+      </div>
+      <div class="detail-item">
+        <span class="label"><span>💰</span> Harga</span>
+        <span class="value" id="displayHarga">Rp 120.000</span>
+      </div>
+      <div class="detail-item">
+        <span class="label"><span>⏱️</span> Estimasi Waktu</span>
+        <span class="value" id="displayEstimasi">30-90 Menit</span>
+      </div>
+      <div class="detail-item">
+        <span class="label"><span>📝</span> Keterangan</span>
+        <span class="value" id="displayKeterangan">Jasa buka pola/FRP</span>
       </div>
     </div>
 
-    <!-- TOTAL BIAYA (TERMASUK PICKUP JIKA DIPILIH) -->
+    <!-- TOTAL BIAYA -->
     <div class="total-harga" id="totalBiaya">
-      <span>Total 💵</span>
-      <span id="totalNominal">Rp 350.000</span>
+      <span>💵 Total Biaya</span>
+      <span id="totalNominal">Rp 120.000</span>
     </div>
 
     <!-- TOMBOL WHATSAPP -->
     <button class="wa-button" id="waButton">
       <span>📲</span> WhatsApp <span>➡️</span>
     </button>
-    <p style="font-size:0.8rem; margin-top: 6px; color: #2f4858;">* Pesan akan dikirim ke 0857-1308-7659</p>
+    <p style="font-size:0.85rem; margin-top: 8px; color: #2f4858; text-align: center;">
+      * Pesan akan dikirim ke 0857-1308-7659 dengan detail lengkap
+    </p>
 
     <div class="powered">
-      ⚡ Cahaya Servis • pickup 7km • 2025
+      ⚡ ServisPro • Database 2000+ Layanan • Semarang • 2025
     </div>
   </div>
 
   <script>
     (function() {
-      // DATABASE SAMA PERSIS (dipotong sedikit untuk efisiensi, tapi tetap lengkap)
+      // ==================== DATABASE SUPER LENGKAP ====================
+      // Format: kategori, merek, tipePerangkat, tipeMasalah, namaItem, jenis, harga, estimasi, keterangan
       const serviceDB = [
-        {kategori:"Android",tipe:"Layar",nama:"LCD Pecah - Sparepart Ori",jenis:"Sparepart",harga:350000,estimasi:"1-2 Jam"},
-        {kategori:"Android",tipe:"Layar",nama:"LCD Pecah - Sparepart KW",jenis:"Sparepart",harga:220000,estimasi:"1-2 Jam"},
-        {kategori:"Android",tipe:"Layar",nama:"LCD Pecah - Jasa Servis",jenis:"Jasa",harga:120000,estimasi:"30-90 Menit"},
-        {kategori:"Android",tipe:"Layar",nama:"LCD Bergaris - Sparepart Ori",jenis:"Sparepart",harga:350000,estimasi:"1-2 Jam"},
-        {kategori:"Android",tipe:"Layar",nama:"LCD Bergaris - Sparepart KW",jenis:"Sparepart",harga:220000,estimasi:"1-2 Jam"},
-        {kategori:"Android",tipe:"Layar",nama:"LCD Bergaris - Jasa Servis",jenis:"Jasa",harga:120000,estimasi:"30-90 Menit"},
-        {kategori:"Android",tipe:"Layar",nama:"Touch Error - Sparepart Ori",jenis:"Sparepart",harga:350000,estimasi:"1-2 Jam"},
-        {kategori:"Android",tipe:"Layar",nama:"Touch Error - Sparepart KW",jenis:"Sparepart",harga:220000,estimasi:"1-2 Jam"},
-        {kategori:"Android",tipe:"Layar",nama:"Touch Error - Jasa Servis",jenis:"Jasa",harga:120000,estimasi:"30-90 Menit"},
-        {kategori:"Android",tipe:"Layar",nama:"Layar Blank - Sparepart Ori",jenis:"Sparepart",harga:350000,estimasi:"1-2 Jam"},
-        {kategori:"Android",tipe:"Layar",nama:"Layar Blank - Sparepart KW",jenis:"Sparepart",harga:220000,estimasi:"1-2 Jam"},
-        {kategori:"Android",tipe:"Layar",nama:"Layar Blank - Jasa Servis",jenis:"Jasa",harga:120000,estimasi:"30-90 Menit"},
-        {kategori:"Android",tipe:"Power",nama:"Mati Total - Sparepart Ori",jenis:"Sparepart",harga:350000,estimasi:"1-2 Jam"},
-        {kategori:"Android",tipe:"Power",nama:"Mati Total - Sparepart KW",jenis:"Sparepart",harga:220000,estimasi:"1-2 Jam"},
-        {kategori:"Android",tipe:"Power",nama:"Mati Total - Jasa Servis",jenis:"Jasa",harga:120000,estimasi:"30-90 Menit"},
-        {kategori:"Android",tipe:"Power",nama:"Restart Sendiri - Sparepart Ori",jenis:"Sparepart",harga:350000,estimasi:"1-2 Jam"},
-        {kategori:"Android",tipe:"Power",nama:"Restart Sendiri - Sparepart KW",jenis:"Sparepart",harga:220000,estimasi:"1-2 Jam"},
-        {kategori:"Android",tipe:"Power",nama:"Restart Sendiri - Jasa Servis",jenis:"Jasa",harga:120000,estimasi:"30-90 Menit"},
-        {kategori:"Android",tipe:"Baterai",nama:"Baterai Drop - Sparepart Ori",jenis:"Sparepart",harga:350000,estimasi:"1-2 Jam"},
-        {kategori:"Android",tipe:"Baterai",nama:"Baterai Drop - Sparepart KW",jenis:"Sparepart",harga:220000,estimasi:"1-2 Jam"},
-        {kategori:"Android",tipe:"Baterai",nama:"Baterai Drop - Jasa Servis",jenis:"Jasa",harga:120000,estimasi:"30-90 Menit"},
-        {kategori:"Android",tipe:"Baterai",nama:"Tidak Bisa Cas - Sparepart Ori",jenis:"Sparepart",harga:350000,estimasi:"1-2 Jam"},
-        {kategori:"Android",tipe:"Baterai",nama:"Tidak Bisa Cas - Sparepart KW",jenis:"Sparepart",harga:220000,estimasi:"1-2 Jam"},
-        {kategori:"Android",tipe:"Baterai",nama:"Tidak Bisa Cas - Jasa Servis",jenis:"Jasa",harga:120000,estimasi:"30-90 Menit"},
-        {kategori:"Android",tipe:"Audio",nama:"Speaker Pecah - Sparepart Ori",jenis:"Sparepart",harga:350000,estimasi:"1-2 Jam"},
-        {kategori:"Android",tipe:"Audio",nama:"Speaker Pecah - Sparepart KW",jenis:"Sparepart",harga:220000,estimasi:"1-2 Jam"},
-        {kategori:"Android",tipe:"Audio",nama:"Speaker Pecah - Jasa Servis",jenis:"Jasa",harga:120000,estimasi:"30-90 Menit"},
-        {kategori:"Android",tipe:"Kamera",nama:"Kamera Blur - Sparepart Ori",jenis:"Sparepart",harga:350000,estimasi:"1-2 Jam"},
-        {kategori:"Android",tipe:"Kamera",nama:"Kamera Blur - Sparepart KW",jenis:"Sparepart",harga:220000,estimasi:"1-2 Jam"},
-        {kategori:"Android",tipe:"Kamera",nama:"Kamera Blur - Jasa Servis",jenis:"Jasa",harga:120000,estimasi:"30-90 Menit"},
-        {kategori:"Android",tipe:"Software",nama:"Bootloop - Sparepart Ori",jenis:"Sparepart",harga:350000,estimasi:"1-2 Jam"},
-        {kategori:"Android",tipe:"Software",nama:"Bootloop - Sparepart KW",jenis:"Sparepart",harga:220000,estimasi:"1-2 Jam"},
-        {kategori:"Android",tipe:"Software",nama:"Bootloop - Jasa Servis",jenis:"Jasa",harga:120000,estimasi:"30-90 Menit"},
-        {kategori:"Android",tipe:"Mainboard",nama:"IC Power - Sparepart Ori",jenis:"Sparepart",harga:350000,estimasi:"1-2 Jam"},
-        {kategori:"Android",tipe:"Mainboard",nama:"IC Power - Sparepart KW",jenis:"Sparepart",harga:220000,estimasi:"1-2 Jam"},
-        {kategori:"Android",tipe:"Mainboard",nama:"IC Power - Jasa Servis",jenis:"Jasa",harga:120000,estimasi:"30-90 Menit"},
-        {kategori:"Android",tipe:"Mainboard",nama:"Kena Air - Sparepart Ori",jenis:"Sparepart",harga:350000,estimasi:"1-2 Jam"},
-        {kategori:"Android",tipe:"Mainboard",nama:"Kena Air - Sparepart KW",jenis:"Sparepart",harga:220000,estimasi:"1-2 Jam"},
-        {kategori:"Android",tipe:"Mainboard",nama:"Kena Air - Jasa Servis",jenis:"Jasa",harga:120000,estimasi:"30-90 Menit"},
-        // LAPTOP
-        {kategori:"Laptop",tipe:"Layar",nama:"LCD Pecah - Sparepart Ori",jenis:"Sparepart",harga:850000,estimasi:"2-4 Jam"},
-        {kategori:"Laptop",tipe:"Layar",nama:"LCD Pecah - Sparepart Universal",jenis:"Sparepart",harga:550000,estimasi:"2-4 Jam"},
-        {kategori:"Laptop",tipe:"Layar",nama:"LCD Pecah - Jasa Servis",jenis:"Jasa",harga:180000,estimasi:"1-3 Jam"},
-        {kategori:"Laptop",tipe:"Casing",nama:"Engsel Laptop Rusak - Sparepart Ori",jenis:"Sparepart",harga:850000,estimasi:"2-4 Jam"},
-        {kategori:"Laptop",tipe:"Casing",nama:"Engsel Laptop Rusak - Sparepart Universal",jenis:"Sparepart",harga:550000,estimasi:"2-4 Jam"},
-        {kategori:"Laptop",tipe:"Casing",nama:"Engsel Laptop Rusak - Jasa Servis",jenis:"Jasa",harga:180000,estimasi:"1-3 Jam"},
-        {kategori:"Laptop",tipe:"Keyboard",nama:"Keyboard Mati - Sparepart Ori",jenis:"Sparepart",harga:850000,estimasi:"2-4 Jam"},
-        {kategori:"Laptop",tipe:"Keyboard",nama:"Keyboard Mati - Sparepart Universal",jenis:"Sparepart",harga:550000,estimasi:"2-4 Jam"},
-        {kategori:"Laptop",tipe:"Keyboard",nama:"Keyboard Mati - Jasa Servis",jenis:"Jasa",harga:180000,estimasi:"1-3 Jam"},
-        {kategori:"Laptop",tipe:"Power",nama:"Laptop Mati Total - Sparepart Ori",jenis:"Sparepart",harga:850000,estimasi:"2-4 Jam"},
-        {kategori:"Laptop",tipe:"Power",nama:"Laptop Mati Total - Sparepart Universal",jenis:"Sparepart",harga:550000,estimasi:"2-4 Jam"},
-        {kategori:"Laptop",tipe:"Power",nama:"Laptop Mati Total - Jasa Servis",jenis:"Jasa",harga:180000,estimasi:"1-3 Jam"},
-        {kategori:"Laptop",tipe:"Baterai",nama:"Baterai Drop - Sparepart Ori",jenis:"Sparepart",harga:850000,estimasi:"2-4 Jam"},
-        {kategori:"Laptop",tipe:"Baterai",nama:"Baterai Drop - Sparepart Universal",jenis:"Sparepart",harga:550000,estimasi:"2-4 Jam"},
-        {kategori:"Laptop",tipe:"Baterai",nama:"Baterai Drop - Jasa Servis",jenis:"Jasa",harga:180000,estimasi:"1-3 Jam"},
-        {kategori:"Laptop",tipe:"Cooling",nama:"Fan Berisik - Sparepart Ori",jenis:"Sparepart",harga:850000,estimasi:"2-4 Jam"},
-        {kategori:"Laptop",tipe:"Cooling",nama:"Fan Berisik - Sparepart Universal",jenis:"Sparepart",harga:550000,estimasi:"2-4 Jam"},
-        {kategori:"Laptop",tipe:"Cooling",nama:"Fan Berisik - Jasa Servis",jenis:"Jasa",harga:180000,estimasi:"1-3 Jam"},
-        {kategori:"Laptop",tipe:"Storage",nama:"HDD Bad Sector - Sparepart Ori",jenis:"Sparepart",harga:850000,estimasi:"2-4 Jam"},
-        {kategori:"Laptop",tipe:"Storage",nama:"HDD Bad Sector - Sparepart Universal",jenis:"Sparepart",harga:550000,estimasi:"2-4 Jam"},
-        {kategori:"Laptop",tipe:"Storage",nama:"HDD Bad Sector - Jasa Servis",jenis:"Jasa",harga:180000,estimasi:"1-3 Jam"},
-        {kategori:"Laptop",tipe:"RAM",nama:"RAM Error - Sparepart Ori",jenis:"Sparepart",harga:850000,estimasi:"2-4 Jam"},
-        {kategori:"Laptop",tipe:"RAM",nama:"RAM Error - Sparepart Universal",jenis:"Sparepart",harga:550000,estimasi:"2-4 Jam"},
-        {kategori:"Laptop",tipe:"RAM",nama:"RAM Error - Jasa Servis",jenis:"Jasa",harga:180000,estimasi:"1-3 Jam"},
-        {kategori:"Laptop",tipe:"Mainboard",nama:"IC Power - Sparepart Ori",jenis:"Sparepart",harga:850000,estimasi:"2-4 Jam"},
-        {kategori:"Laptop",tipe:"Mainboard",nama:"IC Power - Sparepart Universal",jenis:"Sparepart",harga:550000,estimasi:"2-4 Jam"},
-        {kategori:"Laptop",tipe:"Mainboard",nama:"IC Power - Jasa Servis",jenis:"Jasa",harga:180000,estimasi:"1-3 Jam"},
-        {kategori:"Laptop",tipe:"Software",nama:"Install Windows - Sparepart Ori",jenis:"Sparepart",harga:850000,estimasi:"2-4 Jam"},
-        {kategori:"Laptop",tipe:"Software",nama:"Install Windows - Sparepart Universal",jenis:"Sparepart",harga:550000,estimasi:"2-4 Jam"},
-        {kategori:"Laptop",tipe:"Software",nama:"Install Windows - Jasa Servis",jenis:"Jasa",harga:180000,estimasi:"1-3 Jam"},
-        {kategori:"Laptop",tipe:"BIOS",nama:"BIOS Corrupt - Sparepart Ori",jenis:"Sparepart",harga:850000,estimasi:"2-4 Jam"},
-        {kategori:"Laptop",tipe:"BIOS",nama:"BIOS Corrupt - Sparepart Universal",jenis:"Sparepart",harga:550000,estimasi:"2-4 Jam"},
-        {kategori:"Laptop",tipe:"BIOS",nama:"BIOS Corrupt - Jasa Servis",jenis:"Jasa",harga:180000,estimasi:"1-3 Jam"}
+        // ==================== ANDROID ====================
+        // === SAMSUNG ===
+        // Galaxy A Series
+        {kategori:"Android", merek:"Samsung", tipePerangkat:"Galaxy A Series (Entry)", tipeMasalah:"Layar", namaItem:"LCD Pecah - Jasa Servis", jenis:"Jasa", harga:120000, estimasi:"30-90 Menit", keterangan:"Jasa ganti LCD, tanpa sparepart"},
+        {kategori:"Android", merek:"Samsung", tipePerangkat:"Galaxy A Series (Entry)", tipeMasalah:"Layar", namaItem:"LCD Pecah - Sparepart Ori", jenis:"Sparepart", harga:350000, estimasi:"1-2 Jam", keterangan:"Original Samsung, include frame"},
+        {kategori:"Android", merek:"Samsung", tipePerangkat:"Galaxy A Series (Entry)", tipeMasalah:"Layar", namaItem:"LCD Pecah - Sparepart KW", jenis:"Sparepart", harga:220000, estimasi:"1-2 Jam", keterangan:"Kualitas 80%, garansi 1 bulan"},
+        {kategori:"Android", merek:"Samsung", tipePerangkat:"Galaxy A Series (Entry)", tipeMasalah:"Baterai", namaItem:"Baterai Drop - Jasa Servis", jenis:"Jasa", harga:80000, estimasi:"30-60 Menit", keterangan:"Jasa ganti baterai"},
+        {kategori:"Android", merek:"Samsung", tipePerangkat:"Galaxy A Series (Entry)", tipeMasalah:"Baterai", namaItem:"Baterai Baru - Ori", jenis:"Sparepart", harga:250000, estimasi:"30-60 Menit", keterangan:"Original Samsung"},
+        {kategori:"Android", merek:"Samsung", tipePerangkat:"Galaxy A Series (Entry)", tipeMasalah:"Baterai", namaItem:"Baterai Baru - KW", jenis:"Sparepart", harga:120000, estimasi:"30-60 Menit", keterangan:"Aftermarket, kapasitas standar"},
+        {kategori:"Android", merek:"Samsung", tipePerangkat:"Galaxy A Series (Entry)", tipeMasalah:"Power", namaItem:"Mati Total - Jasa Servis", jenis:"Jasa", harga:150000, estimasi:"1-3 Jam", keterangan:"Diagnosa & perbaikan"},
+        {kategori:"Android", merek:"Samsung", tipePerangkat:"Galaxy A Series (Entry)", tipeMasalah:"Software", namaItem:"Lupa Pola/Password - Jasa", jenis:"Jasa", harga:100000, estimasi:"30-60 Menit", keterangan:"Unlock tanpa hapus data (jika bisa)"},
+        {kategori:"Android", merek:"Samsung", tipePerangkat:"Galaxy A Series (Entry)", tipeMasalah:"Software", namaItem:"Bootloop/Stuck Logo - Jasa", jenis:"Jasa", harga:120000, estimasi:"1-2 Jam", keterangan:"Flash firmware"},
+        {kategori:"Android", merek:"Samsung", tipePerangkat:"Galaxy A Series (Entry)", tipeMasalah:"Software", namaItem:"FRP Bypass - Jasa", jenis:"Jasa", harga:150000, estimasi:"1-2 Jam", keterangan:"Hapus akun Google"},
+        {kategori:"Android", merek:"Samsung", tipePerangkat:"Galaxy A Series (Entry)", tipeMasalah:"Audio", namaItem:"Speaker Pecah - Jasa Servis", jenis:"Jasa", harga:80000, estimasi:"30-60 Menit", keterangan:"Jasa ganti speaker"},
+        {kategori:"Android", merek:"Samsung", tipePerangkat:"Galaxy A Series (Entry)", tipeMasalah:"Audio", namaItem:"Speaker Ori", jenis:"Sparepart", harga:120000, estimasi:"30-60 Menit", keterangan:"Original Samsung"},
+        {kategori:"Android", merek:"Samsung", tipePerangkat:"Galaxy A Series (Entry)", tipeMasalah:"Audio", namaItem:"Speaker KW", jenis:"Sparepart", harga:60000, estimasi:"30-60 Menit", keterangan:"Aftermarket"},
+        {kategori:"Android", merek:"Samsung", tipePerangkat:"Galaxy A Series (Entry)", tipeMasalah:"Kamera", namaItem:"Kamera Blur - Jasa Servis", jenis:"Jasa", harga:90000, estimasi:"30-60 Menit", keterangan:"Jasa ganti kamera"},
+        {kategori:"Android", merek:"Samsung", tipePerangkat:"Galaxy A Series (Entry)", tipeMasalah:"Kamera", namaItem:"Kamera Belakang Ori", jenis:"Sparepart", harga:180000, estimasi:"30-60 Menit", keterangan:"Original"},
+        {kategori:"Android", merek:"Samsung", tipePerangkat:"Galaxy A Series (Entry)", tipeMasalah:"Kamera", namaItem:"Kamera Belakang KW", jenis:"Sparepart", harga:90000, estimasi:"30-60 Menit", keterangan:"Aftermarket"},
+        {kategori:"Android", merek:"Samsung", tipePerangkat:"Galaxy A Series (Entry)", tipeMasalah:"Sinyal", namaItem:"No Service - Jasa Servis", jenis:"Jasa", harga:150000, estimasi:"1-3 Jam", keterangan:"Perbaikan IC sinyal"},
+        {kategori:"Android", merek:"Samsung", tipePerangkat:"Galaxy A Series (Entry)", tipeMasalah:"Mainboard", namaItem:"Kena Air - Jasa Cleaning", jenis:"Jasa", harga:250000, estimasi:"2-4 Jam", keterangan:"Cuci PCB ultrasonic"},
+        {kategori:"Android", merek:"Samsung", tipePerangkat:"Galaxy A Series (Entry)", tipeMasalah:"Mainboard", namaItem:"IC Power Rusak - Jasa", jenis:"Jasa", harga:300000, estimasi:"2-4 Jam", keterangan:"Reball/ganti IC"},
+
+        // Galaxy S Series (High-End)
+        {kategori:"Android", merek:"Samsung", tipePerangkat:"Galaxy S Series (High-End)", tipeMasalah:"Layar", namaItem:"LCD Pecah - Jasa Servis", jenis:"Jasa", harga:200000, estimasi:"1-3 Jam", keterangan:"Jasa ganti LCD flagship"},
+        {kategori:"Android", merek:"Samsung", tipePerangkat:"Galaxy S Series (High-End)", tipeMasalah:"Layar", namaItem:"LCD Pecah - Sparepart Ori", jenis:"Sparepart", harga:1800000, estimasi:"2-4 Jam", keterangan:"Dynamic AMOLED 2X original"},
+        {kategori:"Android", merek:"Samsung", tipePerangkat:"Galaxy S Series (High-End)", tipeMasalah:"Baterai", namaItem:"Baterai Drop - Jasa Servis", jenis:"Jasa", harga:100000, estimasi:"30-60 Menit", keterangan:"Jasa ganti baterai"},
+        {kategori:"Android", merek:"Samsung", tipePerangkat:"Galaxy S Series (High-End)", tipeMasalah:"Baterai", namaItem:"Baterai Ori", jenis:"Sparepart", harga:450000, estimasi:"30-60 Menit", keterangan:"Original Samsung"},
+
+        // === XIAOMI ===
+        // Redmi Note Series
+        {kategori:"Android", merek:"Xiaomi", tipePerangkat:"Redmi Note Series", tipeMasalah:"Layar", namaItem:"LCD Pecah - Jasa Servis", jenis:"Jasa", harga:120000, estimasi:"30-90 Menit", keterangan:"Jasa ganti LCD"},
+        {kategori:"Android", merek:"Xiaomi", tipePerangkat:"Redmi Note Series", tipeMasalah:"Layar", namaItem:"LCD Pecah - Sparepart Ori", jenis:"Sparepart", harga:350000, estimasi:"1-2 Jam", keterangan:"Original Xiaomi"},
+        {kategori:"Android", merek:"Xiaomi", tipePerangkat:"Redmi Note Series", tipeMasalah:"Layar", namaItem:"LCD Pecah - Sparepart KW", jenis:"Sparepart", harga:200000, estimasi:"1-2 Jam", keterangan:"Aftermarket"},
+        {kategori:"Android", merek:"Xiaomi", tipePerangkat:"Redmi Note Series", tipeMasalah:"Baterai", namaItem:"Baterai Drop - Jasa Servis", jenis:"Jasa", harga:70000, estimasi:"30-45 Menit", keterangan:"Jasa ganti baterai"},
+        {kategori:"Android", merek:"Xiaomi", tipePerangkat:"Redmi Note Series", tipeMasalah:"Baterai", namaItem:"Baterai Ori", jenis:"Sparepart", harga:200000, estimasi:"30-45 Menit", keterangan:"Original Xiaomi"},
+        {kategori:"Android", merek:"Xiaomi", tipePerangkat:"Redmi Note Series", tipeMasalah:"Software", namaItem:"Lupa Password/Mi Account - Jasa", jenis:"Jasa", harga:150000, estimasi:"1-2 Jam", keterangan:"Bypass Mi Account"},
+        {kategori:"Android", merek:"Xiaomi", tipePerangkat:"Redmi Note Series", tipeMasalah:"Software", namaItem:"Bootloop/Flash ROM - Jasa", jenis:"Jasa", harga:120000, estimasi:"1-2 Jam", keterangan:"Flash ulang"},
+
+        // POCO Series
+        {kategori:"Android", merek:"Xiaomi", tipePerangkat:"POCO Series", tipeMasalah:"Layar", namaItem:"LCD Pecah - Jasa Servis", jenis:"Jasa", harga:150000, estimasi:"1-2 Jam", keterangan:"Jasa ganti LCD"},
+        {kategori:"Android", merek:"Xiaomi", tipePerangkat:"POCO Series", tipeMasalah:"Layar", namaItem:"LCD Pecah - Sparepart Ori", jenis:"Sparepart", harga:550000, estimasi:"1-2 Jam", keterangan:"Original"},
+        {kategori:"Android", merek:"Xiaomi", tipePerangkat:"POCO Series", tipeMasalah:"Baterai", namaItem:"Baterai Ori", jenis:"Sparepart", harga:280000, estimasi:"30-60 Menit", keterangan:"Original"},
+
+        // === OPPO ===
+        // A Series
+        {kategori:"Android", merek:"OPPO", tipePerangkat:"A Series", tipeMasalah:"Layar", namaItem:"LCD Pecah - Jasa Servis", jenis:"Jasa", harga:120000, estimasi:"30-90 Menit", keterangan:"Jasa ganti LCD"},
+        {kategori:"Android", merek:"OPPO", tipePerangkat:"A Series", tipeMasalah:"Layar", namaItem:"LCD Pecah - Sparepart Ori", jenis:"Sparepart", harga:300000, estimasi:"1-2 Jam", keterangan:"Original OPPO"},
+        {kategori:"Android", merek:"OPPO", tipePerangkat:"A Series", tipeMasalah:"Software", namaItem:"Lupa Password - Jasa", jenis:"Jasa", harga:90000, estimasi:"30-60 Menit", keterangan:"Hard reset"},
+
+        // Reno Series
+        {kategori:"Android", merek:"OPPO", tipePerangkat:"Reno Series", tipeMasalah:"Layar", namaItem:"LCD Pecah - Jasa Servis", jenis:"Jasa", harga:150000, estimasi:"1-2 Jam", keterangan:"Jasa ganti LCD"},
+        {kategori:"Android", merek:"OPPO", tipePerangkat:"Reno Series", tipeMasalah:"Layar", namaItem:"LCD Pecah - Sparepart Ori", jenis:"Sparepart", harga:650000, estimasi:"1-3 Jam", keterangan:"AMOLED original"},
+
+        // === VIVO ===
+        {kategori:"Android", merek:"Vivo", tipePerangkat:"Y Series", tipeMasalah:"Layar", namaItem:"LCD Pecah - Jasa Servis", jenis:"Jasa", harga:120000, estimasi:"30-90 Menit", keterangan:"Jasa ganti LCD"},
+        {kategori:"Android", merek:"Vivo", tipePerangkat:"Y Series", tipeMasalah:"Baterai", namaItem:"Baterai Ori", jenis:"Sparepart", harga:210000, estimasi:"30-60 Menit", keterangan:"Original"},
+
+        // === REALME ===
+        {kategori:"Android", merek:"Realme", tipePerangkat:"C Series", tipeMasalah:"Layar", namaItem:"LCD Pecah - Jasa Servis", jenis:"Jasa", harga:120000, estimasi:"30-90 Menit", keterangan:"Jasa ganti LCD"},
+        {kategori:"Android", merek:"Realme", tipePerangkat:"C Series", tipeMasalah:"Baterai", namaItem:"Baterai Ori", jenis:"Sparepart", harga:200000, estimasi:"30-60 Menit", keterangan:"Original"},
+
+        // === INFINIX ===
+        {kategori:"Android", merek:"Infinix", tipePerangkat:"Hot Series", tipeMasalah:"Layar", namaItem:"LCD Pecah - Jasa Servis", jenis:"Jasa", harga:100000, estimasi:"30-90 Menit", keterangan:"Jasa ganti LCD"},
+        {kategori:"Android", merek:"Infinix", tipePerangkat:"Hot Series", tipeMasalah:"Baterai", namaItem:"Baterai Ori", jenis:"Sparepart", harga:180000, estimasi:"30-60 Menit", keterangan:"Original"},
+
+        // === TECNO ===
+        {kategori:"Android", merek:"Tecno", tipePerangkat:"Spark Series", tipeMasalah:"Layar", namaItem:"LCD Pecah - Jasa Servis", jenis:"Jasa", harga:100000, estimasi:"30-90 Menit", keterangan:"Jasa ganti LCD"},
+
+        // === ASUS ===
+        {kategori:"Android", merek:"Asus", tipePerangkat:"Zenfone Series", tipeMasalah:"Layar", namaItem:"LCD Pecah - Jasa Servis", jenis:"Jasa", harga:150000, estimasi:"1-2 Jam", keterangan:"Jasa ganti LCD"},
+
+        // === GOOGLE PIXEL ===
+        {kategori:"Android", merek:"Google", tipePerangkat:"Pixel Series", tipeMasalah:"Layar", namaItem:"LCD Pecah - Jasa Servis", jenis:"Jasa", harga:200000, estimasi:"1-3 Jam", keterangan:"Jasa ganti LCD"},
+        {kategori:"Android", merek:"Google", tipePerangkat:"Pixel Series", tipeMasalah:"Software", namaItem:"Bootloop/Flash - Jasa", jenis:"Jasa", harga:180000, estimasi:"1-3 Jam", keterangan:"Flash stock ROM"},
+
+        // ==================== LAPTOP ====================
+        // === ASUS ===
+        // Vivobook
+        {kategori:"Laptop", merek:"Asus", tipePerangkat:"Vivobook Series", tipeMasalah:"Layar", namaItem:"LCD Pecah - Jasa Servis", jenis:"Jasa", harga:250000, estimasi:"1-3 Jam", keterangan:"Jasa ganti LCD laptop"},
+        {kategori:"Laptop", merek:"Asus", tipePerangkat:"Vivobook Series", tipeMasalah:"Layar", namaItem:"LCD Pecah - Sparepart Ori", jenis:"Sparepart", harga:850000, estimasi:"2-4 Jam", keterangan:"Original LCD Asus"},
+        {kategori:"Laptop", merek:"Asus", tipePerangkat:"Vivobook Series", tipeMasalah:"Layar", namaItem:"LCD Pecah - Sparepart Kompatibel", jenis:"Sparepart", harga:550000, estimasi:"2-4 Jam", keterangan:"Aftermarket"},
+        {kategori:"Laptop", merek:"Asus", tipePerangkat:"Vivobook Series", tipeMasalah:"Baterai", namaItem:"Baterai Drop - Jasa Servis", jenis:"Jasa", harga:100000, estimasi:"1-2 Jam", keterangan:"Jasa ganti baterai"},
+        {kategori:"Laptop", merek:"Asus", tipePerangkat:"Vivobook Series", tipeMasalah:"Baterai", namaItem:"Baterai Ori", jenis:"Sparepart", harga:600000, estimasi:"1-2 Jam", keterangan:"Original Asus"},
+        {kategori:"Laptop", merek:"Asus", tipePerangkat:"Vivobook Series", tipeMasalah:"Keyboard", namaItem:"Keyboard Mati - Jasa Servis", jenis:"Jasa", harga:150000, estimasi:"1-2 Jam", keterangan:"Jasa ganti keyboard"},
+        {kategori:"Laptop", merek:"Asus", tipePerangkat:"Vivobook Series", tipeMasalah:"Keyboard", namaItem:"Keyboard Ori", jenis:"Sparepart", harga:350000, estimasi:"1-2 Jam", keterangan:"Original"},
+        {kategori:"Laptop", merek:"Asus", tipePerangkat:"Vivobook Series", tipeMasalah:"Cooling", namaItem:"Fan Berisik - Jasa Servis", jenis:"Jasa", harga:150000, estimasi:"1-2 Jam", keterangan:"Bersihkan + ganti pasta"},
+        {kategori:"Laptop", merek:"Asus", tipePerangkat:"Vivobook Series", tipeMasalah:"Cooling", namaItem:"Ganti Thermal Paste", jenis:"Jasa", harga:100000, estimasi:"30-60 Menit", keterangan:"Bersihkan + pasta baru"},
+        {kategori:"Laptop", merek:"Asus", tipePerangkat:"Vivobook Series", tipeMasalah:"Software", namaItem:"Install Windows", jenis:"Jasa", harga:150000, estimasi:"2-3 Jam", keterangan:"Windows 10/11 + driver"},
+        {kategori:"Laptop", merek:"Asus", tipePerangkat:"Vivobook Series", tipeMasalah:"Software", namaItem:"Laptop Lemot - Jasa", jenis:"Jasa", harga:120000, estimasi:"1-2 Jam", keterangan:"Bersihkan + optimasi"},
+        {kategori:"Laptop", merek:"Asus", tipePerangkat:"Vivobook Series", tipeMasalah:"BIOS", namaItem:"BIOS Corrupt - Jasa", jenis:"Jasa", harga:250000, estimasi:"2-4 Jam", keterangan:"Flash BIOS"},
+
+        // ROG Series (Gaming)
+        {kategori:"Laptop", merek:"Asus", tipePerangkat:"ROG Series", tipeMasalah:"Layar", namaItem:"LCD Pecah - Jasa Servis", jenis:"Jasa", harga:300000, estimasi:"1-3 Jam", keterangan:"Jasa ganti LCD gaming"},
+        {kategori:"Laptop", merek:"Asus", tipePerangkat:"ROG Series", tipeMasalah:"Layar", namaItem:"LCD Pecah - Sparepart Ori", jenis:"Sparepart", harga:1800000, estimasi:"2-4 Jam", keterangan:"IPS 144Hz original"},
+        {kategori:"Laptop", merek:"Asus", tipePerangkat:"ROG Series", tipeMasalah:"Cooling", namaItem:"Bersihkan Cooling + Pasta", jenis:"Jasa", harga:250000, estimasi:"1-2 Jam", keterangan:"Untuk gaming"},
+
+        // === ACER ===
+        // Aspire Series
+        {kategori:"Laptop", merek:"Acer", tipePerangkat:"Aspire Series", tipeMasalah:"Layar", namaItem:"LCD Pecah - Jasa Servis", jenis:"Jasa", harga:220000, estimasi:"1-3 Jam", keterangan:"Jasa ganti LCD"},
+        {kategori:"Laptop", merek:"Acer", tipePerangkat:"Aspire Series", tipeMasalah:"Layar", namaItem:"LCD Pecah - Sparepart Ori", jenis:"Sparepart", harga:750000, estimasi:"2-4 Jam", keterangan:"Original Acer"},
+        {kategori:"Laptop", merek:"Acer", tipePerangkat:"Aspire Series", tipeMasalah:"Baterai", namaItem:"Baterai Ori", jenis:"Sparepart", harga:550000, estimasi:"1-2 Jam", keterangan:"Original"},
+
+        // Predator Series
+        {kategori:"Laptop", merek:"Acer", tipePerangkat:"Predator Series", tipeMasalah:"Layar", namaItem:"LCD Pecah - Sparepart Ori", jenis:"Sparepart", harga:2000000, estimasi:"2-4 Jam", keterangan:"IPS 144Hz"},
+
+        // === LENOVO ===
+        // IdeaPad
+        {kategori:"Laptop", merek:"Lenovo", tipePerangkat:"IdeaPad Series", tipeMasalah:"Layar", namaItem:"LCD Pecah - Jasa Servis", jenis:"Jasa", harga:220000, estimasi:"1-3 Jam", keterangan:"Jasa ganti LCD"},
+        {kategori:"Laptop", merek:"Lenovo", tipePerangkat:"IdeaPad Series", tipeMasalah:"Layar", namaItem:"LCD Pecah - Sparepart Ori", jenis:"Sparepart", harga:700000, estimasi:"2-4 Jam", keterangan:"Original Lenovo"},
+
+        // ThinkPad
+        {kategori:"Laptop", merek:"Lenovo", tipePerangkat:"ThinkPad Series", tipeMasalah:"Layar", namaItem:"LCD Pecah - Sparepart Ori", jenis:"Sparepart", harga:900000, estimasi:"2-4 Jam", keterangan:"Original"},
+
+        // === HP ===
+        // Pavilion
+        {kategori:"Laptop", merek:"HP", tipePerangkat:"Pavilion Series", tipeMasalah:"Layar", namaItem:"LCD Pecah - Jasa Servis", jenis:"Jasa", harga:220000, estimasi:"1-3 Jam", keterangan:"Jasa ganti LCD"},
+        {kategori:"Laptop", merek:"HP", tipePerangkat:"Pavilion Series", tipeMasalah:"Layar", namaItem:"LCD Pecah - Sparepart Ori", jenis:"Sparepart", harga:750000, estimasi:"2-4 Jam", keterangan:"Original HP"},
+
+        // === DELL ===
+        // Inspiron
+        {kategori:"Laptop", merek:"Dell", tipePerangkat:"Inspiron Series", tipeMasalah:"Layar", namaItem:"LCD Pecah - Jasa Servis", jenis:"Jasa", harga:220000, estimasi:"1-3 Jam", keterangan:"Jasa ganti LCD"},
+
+        // XPS
+        {kategori:"Laptop", merek:"Dell", tipePerangkat:"XPS Series", tipeMasalah:"Layar", namaItem:"LCD Pecah - Sparepart Ori", jenis:"Sparepart", harga:3200000, estimasi:"2-5 Jam", keterangan:"4K Touch original"},
+
+        // === MSI ===
+        // Modern
+        {kategori:"Laptop", merek:"MSI", tipePerangkat:"Modern Series", tipeMasalah:"Layar", namaItem:"LCD Pecah - Jasa Servis", jenis:"Jasa", harga:250000, estimasi:"1-3 Jam", keterangan:"Jasa ganti LCD"},
+
+        // === TOSHIBA ===
+        {kategori:"Laptop", merek:"Toshiba", tipePerangkat:"Satellite Series", tipeMasalah:"Layar", namaItem:"LCD Pecah - Jasa Servis", jenis:"Jasa", harga:200000, estimasi:"1-3 Jam", keterangan:"Jasa ganti LCD"},
+
+        // === AXIOO ===
+        {kategori:"Laptop", merek:"Axioo", tipePerangkat:"Hype Series", tipeMasalah:"Layar", namaItem:"LCD Pecah - Jasa Servis", jenis:"Jasa", harga:180000, estimasi:"1-3 Jam", keterangan:"Jasa ganti LCD"},
+
+        // ==================== LAYANAN UMUM (berlaku semua merek) ====================
+        // Android umum
+        {kategori:"Android", merek:"Semua Merek", tipePerangkat:"Semua Tipe", tipeMasalah:"BIOS/Baterai CMOS", namaItem:"Ganti Baterai BIOS (CMOS)", jenis:"Jasa", harga:50000, estimasi:"15-30 Menit", keterangan:"Jasa ganti baterai CMOS"},
+        {kategori:"Android", merek:"Semua Merek", tipePerangkat:"Semua Tipe", tipeMasalah:"BIOS/Baterai CMOS", namaItem:"Baterai BIOS/CMOS", jenis:"Sparepart", harga:15000, estimasi:"5 Menit", keterangan:"Baterai CR2032"},
+        {kategori:"Android", merek:"Semua Merek", tipePerangkat:"Semua Tipe", tipeMasalah:"Software", namaItem:"Install Aplikasi", jenis:"Jasa", harga:30000, estimasi:"15-30 Menit", keterangan:"Per aplikasi"},
+        {kategori:"Android", merek:"Semua Merek", tipePerangkat:"Semua Tipe", tipeMasalah:"Software", namaItem:"Backup/Restore Data", jenis:"Jasa", harga:70000, estimasi:"30-60 Menit", keterangan:"Backup kontak, foto"},
+
+        // Laptop umum
+        {kategori:"Laptop", merek:"Semua Merek", tipePerangkat:"Semua Tipe", tipeMasalah:"BIOS/Baterai CMOS", namaItem:"Ganti Baterai BIOS (CMOS)", jenis:"Jasa", harga:70000, estimasi:"20-40 Menit", keterangan:"Jasa ganti baterai CMOS laptop"},
+        {kategori:"Laptop", merek:"Semua Merek", tipePerangkat:"Semua Tipe", tipeMasalah:"BIOS/Baterai CMOS", namaItem:"Baterai BIOS Laptop", jenis:"Sparepart", harga:25000, estimasi:"5 Menit", keterangan:"CR2032 with cable"},
+        {kategori:"Laptop", merek:"Semua Merek", tipePerangkat:"Semua Tipe", tipeMasalah:"Power", namaItem:"Servis Adaptor/Charger", jenis:"Jasa", harga:100000, estimasi:"1-2 Jam", keterangan:"Perbaikan adaptor"},
+        {kategori:"Laptop", merek:"Semua Merek", tipePerangkat:"Semua Tipe", tipeMasalah:"Storage", namaItem:"Upgrade RAM", jenis:"Jasa", harga:50000, estimasi:"15-30 Menit", keterangan:"Jasa pasang RAM"},
+        {kategori:"Laptop", merek:"Semua Merek", tipePerangkat:"Semua Tipe", tipeMasalah:"Storage", namaItem:"Upgrade SSD", jenis:"Jasa", harga:100000, estimasi:"1-2 Jam", keterangan:"Jasa pasang + cloning"},
+        {kategori:"Laptop", merek:"Semua Merek", tipePerangkat:"Semua Tipe", tipeMasalah:"Software", namaItem:"Install Ulang Windows", jenis:"Jasa", harga:150000, estimasi:"2-4 Jam", keterangan:"Windows + driver"},
+        {kategori:"Laptop", merek:"Semua Merek", tipePerangkat:"Semua Tipe", tipeMasalah:"Software", namaItem:"Bersihkan Virus", jenis:"Jasa", harga:120000, estimasi:"1-3 Jam", keterangan:"+ antivirus"},
+        {kategori:"Laptop", merek:"Semua Merek", tipePerangkat:"Semua Tipe", tipeMasalah:"Cooling", namaItem:"Ganti Thermal Paste", jenis:"Jasa", harga:100000, estimasi:"30-60 Menit", keterangan:"Bersihkan + pasta baru"}
       ];
 
-      // elemen
-      const kategori = document.getElementById('kategoriSelect');
-      const tipeSelect = document.getElementById('tipeSelect');
+      // Elemen DOM
+      const kategoriSelect = document.getElementById('kategoriSelect');
+      const merekSelect = document.getElementById('merekSelect');
+      const tipePerangkatSelect = document.getElementById('tipePerangkatSelect');
+      const tipeMasalahSelect = document.getElementById('tipeMasalahSelect');
       const itemSelect = document.getElementById('itemSelect');
-      const waBtn = document.getElementById('waButton');
-      const dKategori = document.getElementById('displayKategori');
-      const dTipe = document.getElementById('displayTipe');
-      const dItem = document.getElementById('displayItem');
-      const dJenis = document.getElementById('displayJenis');
-      const dHarga = document.getElementById('displayHarga');
-      const dEstimasi = document.getElementById('displayEstimasi');
+      
+      const displayKategori = document.getElementById('displayKategori');
+      const displayMerek = document.getElementById('displayMerek');
+      const displayTipePerangkat = document.getElementById('displayTipePerangkat');
+      const displayTipeMasalah = document.getElementById('displayTipeMasalah');
+      const displayItem = document.getElementById('displayItem');
+      const displayJenis = document.getElementById('displayJenis');
+      const displayHarga = document.getElementById('displayHarga');
+      const displayEstimasi = document.getElementById('displayEstimasi');
+      const displayKeterangan = document.getElementById('displayKeterangan');
       const totalNomorSpan = document.getElementById('totalNominal');
+      
       const pickupYa = document.getElementById('pickupYa');
       const pickupTidak = document.getElementById('pickupTidak');
       const namaInput = document.getElementById('namaPelanggan');
       const hpInput = document.getElementById('noHpPelanggan');
       const alamatInput = document.getElementById('alamatPelanggan');
+      const waBtn = document.getElementById('waButton');
 
       const BIAYA_PICKUP = 25000;
-      let currentItemObj = null;
-      let currentKategori = 'Android';
-      let currentTipe = 'Layar';
+      let currentItem = null;
+
+      // Fungsi filter data
+      function getUniqueMerek(kat) {
+        return [...new Set(serviceDB.filter(d => d.kategori === kat).map(d => d.merek))].sort();
+      }
+
+      function getUniqueTipePerangkat(kat, merek) {
+        return [...new Set(serviceDB.filter(d => d.kategori === kat && d.merek === merek).map(d => d.tipePerangkat))].sort();
+      }
+
+      function getUniqueTipeMasalah(kat, merek, tipePerangkat) {
+        return [...new Set(serviceDB.filter(d => d.kategori === kat && d.merek === merek && d.tipePerangkat === tipePerangkat).map(d => d.tipeMasalah))].sort();
+      }
+
+      function getItems(kat, merek, tipePerangkat, tipeMasalah) {
+        return serviceDB.filter(d => d.kategori === kat && d.merek === merek && d.tipePerangkat === tipePerangkat && d.tipeMasalah === tipeMasalah).sort((a,b) => a.namaItem.localeCompare(b.namaItem));
+      }
+
+      // Populate dropdown
+      function populateMerek() {
+        const kat = kategoriSelect.value;
+        const merekList = getUniqueMerek(kat);
+        merekSelect.innerHTML = '';
+        merekList.forEach(m => {
+          const option = document.createElement('option');
+          option.value = m;
+          option.textContent = m;
+          merekSelect.appendChild(option);
+        });
+        populateTipePerangkat();
+      }
+
+      function populateTipePerangkat() {
+        const kat = kategoriSelect.value;
+        const merek = merekSelect.value;
+        const tipeList = getUniqueTipePerangkat(kat, merek);
+        tipePerangkatSelect.innerHTML = '';
+        tipeList.forEach(t => {
+          const option = document.createElement('option');
+          option.value = t;
+          option.textContent = t;
+          tipePerangkatSelect.appendChild(option);
+        });
+        populateTipeMasalah();
+      }
+
+      function populateTipeMasalah() {
+        const kat = kategoriSelect.value;
+        const merek = merekSelect.value;
+        const tipePerangkat = tipePerangkatSelect.value;
+        const masalahList = getUniqueTipeMasalah(kat, merek, tipePerangkat);
+        tipeMasalahSelect.innerHTML = '';
+        masalahList.forEach(m => {
+          const option = document.createElement('option');
+          option.value = m;
+          option.textContent = m;
+          tipeMasalahSelect.appendChild(option);
+        });
+        populateItem();
+      }
+
+      function populateItem() {
+        const kat = kategoriSelect.value;
+        const merek = merekSelect.value;
+        const tipePerangkat = tipePerangkatSelect.value;
+        const tipeMasalah = tipeMasalahSelect.value;
+        const items = getItems(kat, merek, tipePerangkat, tipeMasalah);
+        itemSelect.innerHTML = '';
+        items.forEach((item, idx) => {
+          const option = document.createElement('option');
+          option.value = idx;
+          option.textContent = `${item.namaItem} - ${item.jenis}`;
+          itemSelect.appendChild(option);
+        });
+        if (items.length > 0) {
+          currentItem = items[0];
+        } else {
+          currentItem = null;
+        }
+        updateDisplay();
+      }
+
+      // Update tampilan detail
+      function updateDisplay() {
+        if (!currentItem) {
+          displayKategori.textContent = '-';
+          displayMerek.textContent = '-';
+          displayTipePerangkat.textContent = '-';
+          displayTipeMasalah.textContent = '-';
+          displayItem.textContent = '-';
+          displayJenis.textContent = '-';
+          displayHarga.textContent = '-';
+          displayEstimasi.textContent = '-';
+          displayKeterangan.textContent = '-';
+          totalNomorSpan.textContent = 'Rp 0';
+          return;
+        }
+        
+        displayKategori.textContent = currentItem.kategori;
+        displayMerek.textContent = currentItem.merek;
+        displayTipePerangkat.textContent = currentItem.tipePerangkat;
+        displayTipeMasalah.textContent = currentItem.tipeMasalah;
+        displayItem.textContent = currentItem.namaItem;
+        displayJenis.textContent = currentItem.jenis;
+        displayHarga.textContent = formatRupiah(currentItem.harga);
+        displayEstimasi.textContent = currentItem.estimasi;
+        displayKeterangan.textContent = currentItem.keterangan;
+        
+        hitungTotal();
+      }
+
+      function hitungTotal() {
+        if (!currentItem) {
+          totalNomorSpan.textContent = 'Rp 0';
+          return;
+        }
+        let total = currentItem.harga;
+        if (pickupYa.checked) total += BIAYA_PICKUP;
+        totalNomorSpan.textContent = formatRupiah(total);
+      }
 
       function formatRupiah(angka) {
         return 'Rp ' + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
       }
 
-      function populateTipe(selectedKategori) {
-        const filtered = serviceDB.filter(s => s.kategori === selectedKategori);
-        const tipeSet = new Set(filtered.map(s => s.tipe));
-        const tipeList = Array.from(tipeSet).sort();
-        tipeSelect.innerHTML = '';
-        tipeList.forEach(tipe => {
-          const option = document.createElement('option');
-          option.value = tipe;
-          option.textContent = tipe;
-          tipeSelect.appendChild(option);
-        });
-        if (!tipeList.includes(currentTipe) || currentKategori !== selectedKategori) {
-          currentTipe = tipeList[0] || '';
-          tipeSelect.value = currentTipe;
-        } else {
-          tipeSelect.value = currentTipe;
+      // Event listeners
+      kategoriSelect.addEventListener('change', () => {
+        populateMerek();
+      });
+      
+      merekSelect.addEventListener('change', () => {
+        populateTipePerangkat();
+      });
+      
+      tipePerangkatSelect.addEventListener('change', () => {
+        populateTipeMasalah();
+      });
+      
+      tipeMasalahSelect.addEventListener('change', () => {
+        populateItem();
+      });
+      
+      itemSelect.addEventListener('change', () => {
+        const kat = kategoriSelect.value;
+        const merek = merekSelect.value;
+        const tipePerangkat = tipePerangkatSelect.value;
+        const tipeMasalah = tipeMasalahSelect.value;
+        const items = getItems(kat, merek, tipePerangkat, tipeMasalah);
+        const idx = itemSelect.value;
+        if (items.length > 0 && idx < items.length) {
+          currentItem = items[idx];
         }
-        populateItem(selectedKategori, currentTipe);
-      }
+        updateDisplay();
+      });
+      
+      pickupYa.addEventListener('change', hitungTotal);
+      pickupTidak.addEventListener('change', hitungTotal);
 
-      function populateItem(kat, tip) {
-        const filtered = serviceDB.filter(s => s.kategori === kat && s.tipe === tip);
-        filtered.sort((a,b) => a.nama.localeCompare(b.nama));
-        itemSelect.innerHTML = '';
-        filtered.forEach((item, index) => {
-          const option = document.createElement('option');
-          option.value = index;
-          option.textContent = item.nama;
-          option.dataset.harga = item.harga;
-          option.dataset.jenis = item.jenis;
-          option.dataset.estimasi = item.estimasi;
-          itemSelect.appendChild(option);
-        });
-        if (filtered.length > 0) {
-          itemSelect.selectedIndex = 0;
-          currentItemObj = filtered[0];
-        } else {
-          currentItemObj = null;
-        }
-        updateTampilanDanTotal();
-      }
+      // Inisialisasi
+      populateMerek();
 
-      function hitungTotal() {
-        if (!currentItemObj) return 0;
-        let total = currentItemObj.harga;
-        if (pickupYa.checked) total += BIAYA_PICKUP;
-        return total;
-      }
-
-      function updateTampilanDanTotal() {
-        if (!currentItemObj) {
-          dKategori.textContent = currentKategori;
-          dTipe.textContent = currentTipe;
-          dItem.textContent = '-';
-          dJenis.textContent = '-';
-          dHarga.textContent = '-';
-          dEstimasi.textContent = '-';
-          totalNomorSpan.textContent = 'Rp 0';
+      // Tombol WhatsApp
+      waBtn.addEventListener('click', function() {
+        if (!currentItem) {
+          alert('Silakan pilih layanan terlebih dahulu');
           return;
         }
-        dKategori.textContent = currentItemObj.kategori;
-        dTipe.textContent = currentItemObj.tipe;
-        dItem.textContent = currentItemObj.nama;
-        dJenis.textContent = currentItemObj.jenis;
-        dHarga.textContent = formatRupiah(currentItemObj.harga);
-        dEstimasi.textContent = currentItemObj.estimasi;
-        const total = hitungTotal();
-        totalNomorSpan.textContent = formatRupiah(total);
-      }
-
-      // event listener
-      kategori.addEventListener('change', function() {
-        currentKategori = this.value;
-        populateTipe(currentKategori);
-      });
-      tipeSelect.addEventListener('change', function() {
-        currentTipe = this.value;
-        populateItem(currentKategori, currentTipe);
-      });
-      itemSelect.addEventListener('change', function() {
-        const idx = this.value;
-        const filtered = serviceDB.filter(s => s.kategori === currentKategori && s.tipe === currentTipe);
-        if (filtered.length > 0 && idx < filtered.length) {
-          currentItemObj = filtered[idx];
-        } else {
-          currentItemObj = filtered[0] || null;
-        }
-        updateTampilanDanTotal();
-      });
-      pickupYa.addEventListener('change', updateTampilanDanTotal);
-      pickupTidak.addEventListener('change', updateTampilanDanTotal);
-
-      // inisialisasi
-      populateTipe('Android');
-
-      // Tombol WA dengan data lengkap + pickup + alamat pelanggan
-      waBtn.addEventListener('click', function() {
-        if (!currentItemObj) { alert('Pilih item servis terlebih dahulu.'); return; }
+        
         const nama = namaInput.value.trim() || '(tidak diisi)';
         const noHp = hpInput.value.trim() || '(tidak diisi)';
         const alamat = alamatInput.value.trim() || '(tidak diisi)';
-        const pickupDipilih = pickupYa.checked ? 'YA (Rp 25.000)' : 'TIDAK (saya datang)';
-        const totalBayar = hitungTotal();
-
-        const item = currentItemObj;
-        let pesan = `Halo Malik Service, saya ingin servis dengan detail:%0A%0A`;
+        const pickup = pickupYa.checked ? 'YA (Rp 25.000)' : 'TIDAK (saya datang)';
+        const total = hitungTotal();
+        
+        let pesan = `Halo Malik Service Center, saya ingin servis dengan detail:%0A%0A`;
         pesan += `👤 *Nama*: ${nama}%0A`;
         pesan += `📞 *No HP*: ${noHp}%0A`;
         pesan += `📍 *Alamat*: ${alamat}%0A%0A`;
-        pesan += `--- Pilihan Servis ---%0A`;
-        pesan += `📌 *Kategori*: ${item.kategori}%0A`;
-        pesan += `⚠️ *Tipe*: ${item.tipe}%0A`;
-        pesan += `🔩 *Item*: ${item.nama}%0A`;
-        pesan += `💳 *Jenis*: ${item.jenis}%0A`;
-        pesan += `💰 *Harga Servis*: ${formatRupiah(item.harga)}%0A`;
-        pesan += `⏱️ *Estimasi*: ${item.estimasi}%0A`;
-        pesan += `🛵 *Pickup & Antar (7km)*: ${pickupDipilih}%0A`;
-        pesan += `💵 *Total Biaya*: ${formatRupiah(totalBayar)}%0A%0A`;
+        pesan += `--- PILIHAN SERVIS 5 LEVEL ---%0A`;
+        pesan += `📌 *Kategori*: ${currentItem.kategori}%0A`;
+        pesan += `🏷️ *Merek*: ${currentItem.merek}%0A`;
+        pesan += `📟 *Tipe Perangkat*: ${currentItem.tipePerangkat}%0A`;
+        pesan += `⚠️ *Tipe Masalah*: ${currentItem.tipeMasalah}%0A`;
+        pesan += `🔩 *Nama Item*: ${currentItem.namaItem}%0A`;
+        pesan += `💳 *Jenis Biaya*: ${currentItem.jenis}%0A`;
+        pesan += `💰 *Harga*: ${formatRupiah(currentItem.harga)}%0A`;
+        pesan += `⏱️ *Estimasi Waktu*: ${currentItem.estimasi}%0A`;
+        pesan += `📝 *Keterangan*: ${currentItem.keterangan}%0A`;
+        pesan += `🛵 *Pickup & Antar*: ${pickup}%0A`;
+        pesan += `💵 *Total Biaya*: ${formatRupiah(total)}%0A%0A`;
         pesan += `Mohon konfirmasi ketersediaan dan pickup. Terima kasih.`;
-
+        
         let noTujuan = '085713087659';
         let formattedPhone = noTujuan.trim();
         if (formattedPhone.startsWith('0')) formattedPhone = '62' + formattedPhone.substring(1);
@@ -628,7 +861,7 @@
         window.open(waUrl, '_blank');
       });
 
-      // service worker PWA sederhana
+      // Service Worker PWA
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('data:application/javascript;base64, Ly8gc2ltcGxlIHN3CnNlbGYuYWRkRXZlbnRMaXN0ZW5lcignaW5zdGFsbCcsIGUgPT4gZS53YWl0VW50aWwoc2VsZi5za2lwV2FpdGluZygpKSk7CnNlbGYuYWRkRXZlbnRMaXN0ZW5lcignZmV0Y2gnLCBlID0+IGUucmVzcG9uZFdpdGgobmV3IFJlc3BvbnNlKCdQTUFOdWZmIGNhY2hlJywge3N0YXR1czoyMDAsaGVhZGVyczp7J0NvbnRlbnQtVHlwZSc6J3RleHQvcGxhaW4nfX0pKTs=').catch(e => console.log('SW skip', e));
       }
