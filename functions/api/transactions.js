@@ -1,12 +1,7 @@
-// ============================================
-// API untuk Transaksi - Cloudflare Worker
-// ============================================
-
 export async function onRequestGet(context) {
   const { env } = context;
   
   try {
-    // Ambil semua transaksi dari database
     const { results } = await env.DB.prepare(
       "SELECT * FROM transactions ORDER BY tanggal DESC LIMIT 100"
     ).all();
@@ -34,7 +29,6 @@ export async function onRequestPost(context) {
   try {
     const data = await request.json();
     
-    // Simpan transaksi baru
     const { success } = await env.DB.prepare(
       "INSERT INTO transactions (transaksi_id, item, total, kasir, nama_pelanggan) VALUES (?, ?, ?, ?, ?)"
     ).bind(
